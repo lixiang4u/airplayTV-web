@@ -8,6 +8,9 @@
 
 <script>
     export default {
-        name: 'HomeComponent'
+        name: 'HomeComponent',
+        mounted() {
+            console.log('[Home.getClientId]', this.$store.state.clientId);
+        }
     }
 </script>
