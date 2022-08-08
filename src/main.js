@@ -1,4 +1,6 @@
 import {createApp} from 'vue'
+import axios from 'axios'
+import VueAxios from 'vue-axios'
 import App from './App.vue'
 import store from './store/index'
 import {createRouter, createWebHistory} from "vue-router"
@@ -29,4 +31,8 @@ const route = createRouter({
     ]
 });
 
-createApp(App).use(route).use(store).mount('#app');
+createApp(App)
+    .use(route)
+    .use(store)
+    .use(VueAxios, axios)
+    .mount('#app');
