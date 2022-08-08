@@ -1,13 +1,13 @@
 <template>
-    <div class="route">
+    <div>
+        <h1>About page</h1>
         <router-link to="/">{ / }</router-link>
         <router-link to="/home">Home</router-link>
     </div>
-    <router-view></router-view>
 </template>
 
-<style scoped>
-    .route a {
-        padding: 5px 10px 5px 10px;
+<script>
+    export default {
+        name: 'AboutComponent'
     }
-</style>
+</script>
