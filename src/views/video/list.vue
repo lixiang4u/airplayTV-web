@@ -1,16 +1,17 @@
 <template>
-    <div>VideoList</div>
-    <button @click="getVideoList">GetVideoList</button>
-
-    <div class="video-list">
-        <div v-for="(v,idx) in videoList" :key="idx">
-           {{idx}}、{{ v.name }}
+    <div class="row video-list">
+        <div class="col-2 item" v-for="(v,idx) in videoList" :key="idx">
+            <span class="hd">{{v.resolution}}</span>
+            <img class="thumb" :src="v.thumb" alt="v.name">
+            <p>{{ v.name }}</p>
         </div>
     </div>
 
 </template>
 
 <script>
+    import 'quasar';
+
     export default {
         name: 'VideoList',
         data() {
@@ -19,7 +20,7 @@
             }
         },
         created() {
-            // this.getVideoList();
+            this.getVideoList();
         },
         methods: {
             getVideoList() {
@@ -35,3 +36,30 @@
 
 </script>
 
+<style scoped>
+    .video-list {
+    }
+
+    .video-list .hd {
+        display: block;
+        padding: 4px 5px;
+        color: #fff;
+        border-top-right-radius: 4px;
+        border-bottom-right-radius: 4px;
+        border-top-left-radius: 8px;
+        margin-bottom: 3px;
+        position: absolute;
+        background-color: rgba(255, 92, 138, 0.85);
+    }
+
+    .video-list .thumb {
+        width: 178px;
+        height: 253px;
+        border-radius: 8px;
+    }
+
+    .video-list .item {
+        padding: 5px 10px 5px 10px;
+        color: #333;
+    }
+</style>
