@@ -2,7 +2,9 @@
     <div class="row video-list">
         <div class="col-2 item" v-for="(v,idx) in videoList" :key="idx">
             <span class="hd">{{v.resolution}}</span>
-            <img class="thumb" :src="v.thumb" alt="v.name">
+            <router-link :to="{ name: 'video-detail', params: { id: v.id }}">
+                <img class="thumb" :src="v.thumb" alt="v.name">
+            </router-link>
             <p>{{ v.name }}</p>
         </div>
     </div>
@@ -20,13 +22,15 @@
             }
         },
         created() {
-            this.getVideoList();
+            if (this.videoList == null) {
+                this.getVideoList();
+            }
         },
         methods: {
             getVideoList() {
                 console.log('[this.videoList]', this.videoList);
 
-                this.axios.get('http://127.0.0.1:8089/api/tag').then((response) => {
+                this.axios.get('/api/tag').then((response) => {
                     console.log('[getVideoList.response]', response.data);
                     this.videoList = response.data['list']
                 });

@@ -7,28 +7,31 @@ import {createRouter, createWebHistory} from "vue-router"
 import {Quasar} from 'quasar'
 import quasarUserOptions from './quasar-user-options'
 
+axios.defaults.baseURL = 'http://127.0.0.1:8089';
+
 const route = createRouter({
     history: createWebHistory(),
     routes: [
         {
             path: '/home',
-            name: '/home',
             component: () => import('./views/home.vue')
         },
         {
             path: '/about',
-            name: '/about',
             component: () => import('./views/about.vue')
         },
         {
             path: '/qr-index',
-            name: '/qr-index',
             component: () => import('./views/qr-index.vue')
         },
         {
             path: '/video/list',
-            name: '/video/list',
             component: () => import('./views/video/list')
+        },
+        {
+            path: '/video/:id',
+            name: 'video-detail',
+            component: () => import('./views/video/detail')
         },
     ]
 });
