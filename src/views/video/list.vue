@@ -1,11 +1,24 @@
 <template>
-    <div class="row video-list">
-        <div class="col-2 item" v-for="(v,idx) in videoList" :key="idx">
-            <span class="hd">{{v.resolution}}</span>
-            <router-link :to="{ name: 'video-detail', params: { id: v.id }}">
-                <img class="thumb" :src="v.thumb" alt="v.name">
-            </router-link>
-            <p>{{ v.name }}</p>
+    <div>
+        <div class="row video-list">
+            <div class="col-2 item" v-for="(v,idx) in videoList" :key="idx">
+                <span class="hd">{{v.resolution}}</span>
+                <router-link :to="{ name: 'video-detail', params: { id: v.id }}">
+                    <img class="thumb" :src="v.thumb" alt="v.name">
+                </router-link>
+                <p>{{ v.name }}</p>
+            </div>
+            <div v-if="!videoList" class="col-12">
+                <div class="text-center flex-center text-grey-7 no-video-list">没有数据</div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="q-pa-lg flex flex-center pager">
+                    <router-link :to="{ query: { q: search,p:prev }}">« 上一页</router-link>
+                    <router-link :to="{ query: { q: search,p:next }}">下一页 »</router-link>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -18,24 +31,53 @@
         name: 'VideoList',
         data() {
             return {
-                videoList: null
+                search: '',
+                next: 1,
+                prev: 1,
+
+                videoList: null,
             }
         },
-        created() {
-            if (this.videoList == null) {
-                this.getVideoList();
+        mounted() {
+            const search = this.$route.query['q'];
+            const page = this.$route.query['p'];
+            const tag = this.$route.params['tag'] ?? 'movie_bt';
+
+            this.search = search;
+
+            if (search && search.trim() !== '') {
+                this.searchVideoList(search, page)
+            } else {
+                this.getTagVideoList(tag, page);
             }
         },
         methods: {
-            getVideoList() {
+            getTagVideoList(tagName, page) {
                 console.log('[this.videoList]', this.videoList);
+                this.axios.get('/api/video/tag/' + tagName, {params: {p: page}}).then((response) => {
+                    this.videoList = response.data['list'];
 
-                this.axios.get('/api/tag').then((response) => {
-                    console.log('[getVideoList.response]', response.data);
-                    this.videoList = response.data['list']
+                    this.updatePager(response.data['current'], response.data['total'], response.data['limit']);
                 });
-            }
-        }
+            },
+            searchVideoList(search, page) {
+                this.axios.get('/api/video/search', {params: {q: search, p: page}}).then((response) => {
+                    this.videoList = response.data['list'];
+
+                    this.updatePager(response.data['current'], response.data['total'], response.data['limit']);
+                });
+            },
+            updatePager(current, total, limit) {
+                this.prev = current - 1;
+                if (this.prev <= 0) {
+                    this.prev = 1;
+                }
+                this.next = current + 1;
+                if (this.next * limit > total + limit) {
+                    this.next = current;
+                }
+            },
+        },
     }
 
 </script>
@@ -65,5 +107,21 @@
     .video-list .item {
         padding: 5px 10px 5px 10px;
         color: #333;
+    }
+
+    .no-video-list {
+        margin-top: 200px;
+    }
+
+    .pager a {
+        padding: 5px 10px 5px 10px;
+        border-top-left-radius: 4px;
+        border-bottom-left-radius: 4px;
+        color: #337ab7;
+        text-decoration: none;
+    }
+
+    .pager a:hover {
+        text-decoration: underline;
     }
 </style>

@@ -30,6 +30,12 @@ const route = createRouter({
         },
         {
             path: '/video/list',
+            name: 'video-list',
+            component: () => import('./views/video/list')
+        },
+        {
+            path: '/video/tag/:tag',
+            name: 'video-tag-list',
             component: () => import('./views/video/list')
         },
         {

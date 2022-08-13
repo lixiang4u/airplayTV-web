@@ -64,6 +64,7 @@
                         },
                     }
                 }
+                console.log('[switchVideo]', video);
                 this.dplayer.switchVideo(video);
             }
         },
