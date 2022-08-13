@@ -64,11 +64,23 @@
                         this.updateClientInfo(msg);
                         break;
                     case 'play':
+                        //跳转到播放页面
+                        this.gotoPlay(msg);
                         break;
                     default:
                         console.log('未知类型消息');
                         break;
                 }
+            },
+            gotoPlay(msg) {
+                this.$router.push({
+                    name: '/video/play/' + msg['video']['id'] ?? null,
+                    query: {}
+                }).then(failure => {
+                    if (failure) {
+                        console.log('[failure]', failure)
+                    }
+                });
             },
             getWSUrl() {
                 if (location.protocol === 'https:') {
