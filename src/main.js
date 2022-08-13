@@ -13,6 +13,10 @@ const route = createRouter({
     history: createWebHistory(),
     routes: [
         {
+            path: '/',
+            component: () => import('./views/video/list')
+        },
+        {
             path: '/home',
             component: () => import('./views/home.vue')
         },
@@ -21,7 +25,7 @@ const route = createRouter({
             component: () => import('./views/about.vue')
         },
         {
-            path: '/qr-index',
+            path: '/qr',
             component: () => import('./views/qr-index.vue')
         },
         {
@@ -32,6 +36,11 @@ const route = createRouter({
             path: '/video/:id',
             name: 'video-detail',
             component: () => import('./views/video/detail')
+        },
+        {
+            path: '/video/play/:id',
+            name: 'video-play',
+            component: () => import('./views/video/play')
         },
     ]
 });

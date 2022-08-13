@@ -6,7 +6,7 @@
         </div>
         <div class="col-6 links">
             <router-link to="/">首页</router-link>
-            <router-link to="/qr-index">扫码</router-link>
+            <router-link to="/qr">扫码</router-link>
             <router-link to="/video/list">视频列表</router-link>
             <router-link to="/">GiMY.app</router-link>
         </div>
@@ -19,7 +19,9 @@
         </div>
     </div>
     <div class="q-mb-lg"></div>
-    <router-view class="w1200"></router-view>
+    <div class="fm">
+        <router-view class="w1200"></router-view>
+    </div>
     <div class="q-my-md flex-center text-center text-grey-8">
         本站资源均网络搜集，如有视频侵犯了您的权益，请联系邮箱(189 1248 0313#qq.com)，确认后，我们会尽快删除！
     </div>
@@ -47,6 +49,10 @@
     .w1200 {
         width: 1200px;
         margin: 0 auto;
+    }
+
+    .fm {
+        min-height: 600px;
     }
 
     .header {

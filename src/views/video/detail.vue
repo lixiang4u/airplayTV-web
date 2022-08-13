@@ -1,5 +1,5 @@
 <template>
-    <div class="row main">
+    <div class="row main" v-if="videoInfo">
         <div class="col-3">
             <img class="thumb" :src="videoInfo.thumb" :alt="videoInfo.name">
         </div>
@@ -8,11 +8,9 @@
             <p class="tips text-red">如关联了设备，则投射到设备，否则直接播放</p>
             <p class="intro"><b>介绍：</b>{{ videoInfo.intro }}</p>
             <div class="play-list">
-                <span class="item" v-for="(item,idx) in videoInfo.links" :key="idx">{{ item.name }}</span>
-                <span class="item" v-for="(item,idx) in videoInfo.links" :key="idx">{{ item.name }}</span>
-                <span class="item" v-for="(item,idx) in videoInfo.links" :key="idx">{{ item.name }}</span>
-                <span class="item" v-for="(item,idx) in videoInfo.links" :key="idx">{{ item.name }}</span>
-                <span class="item" v-for="(item,idx) in videoInfo.links" :key="idx">{{ item.name }}</span>
+                <router-link :to="{ name: 'video-play', params: { id: item.id }}" v-for="(item,idx) in videoInfo.links" :key="idx">
+                    <span class="item">{{ item.name }}</span>
+                </router-link>
             </div>
         </div>
     </div>

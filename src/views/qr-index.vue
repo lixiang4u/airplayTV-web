@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="text-center flex-center">
         <canvas id="qr-content"></canvas>
         <p class="nav">
             <span>扫码投射</span>|
@@ -98,13 +98,22 @@
                 console.log('[url]', qrUrl);
 
                 this.clientId = msg['client_id'];
-                QRCode.toCanvas(document.getElementById('qr-content'), qrUrl);
+                QRCode.toCanvas(document.getElementById('qr-content'), qrUrl, {
+                    errorCorrectionLevel: 'H',
+                    type: 'image/jpeg',
+                    quality: 0.3,
+                    width: 300
+                });
             }
         },
     }
 </script>
 
 <style scoped>
+    #qr-content {
+        margin-top: 80px;
+    }
+
     .nav span {
         padding-right: 4px;
     }
