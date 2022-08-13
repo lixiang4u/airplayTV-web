@@ -37,7 +37,8 @@
             getVideoConfig(obj) {
                 let video = {
                     url: obj.url,
-                    type: "auto"
+                    autoplay: true,
+                    type: "auto",
                 };
                 if (obj.type !== 'auto') {
                     video = {
