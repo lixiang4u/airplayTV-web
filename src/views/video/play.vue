@@ -43,6 +43,8 @@
                 });
             },
             doPlay(obj) {
+                obj.url = this.handleUrl(obj.url);
+
                 let video = {
                     url: obj.url,
                     type: "auto"
@@ -66,7 +68,16 @@
                 }
                 console.log('[switchVideo]', video);
                 this.dplayer.switchVideo(video);
-            }
+            },
+            handleUrl(url) {
+                if (url.indexOf('http://') === 0 || url.indexOf('https://') === 0) {
+                    return url;
+                }
+                if (url.indexOf('/') === 0) {
+                    url = url.substr(1);
+                }
+                return location.origin + "/" + url;
+            },
         },
         computed: {}
     }
