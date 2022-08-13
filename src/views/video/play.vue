@@ -33,6 +33,9 @@
                 theme: "#00b2c2",
                 video: {}
             });
+            this.dplayer.on('error', function (a, b, c) {
+                console.log('[play.error]', a, b, c);
+            });
         },
         methods: {
             getVideoPlayInfo(id) {
