@@ -7,7 +7,7 @@ import {createRouter, createWebHistory} from "vue-router"
 import {Quasar} from 'quasar'
 import quasarUserOptions from './quasar-user-options'
 
-axios.defaults.baseURL = 'http://127.0.0.1:8089';
+axios.defaults.baseURL = 'https://tv.artools.cc';
 
 const route = createRouter({
     history: createWebHistory(),
