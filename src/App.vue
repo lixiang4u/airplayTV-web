@@ -59,6 +59,11 @@
     }
 </script>
 
+<style>
+    body {
+        background-color: rgba(0, 0, 0, 0);
+    }
+</style>
 <style scoped>
     .w1200 {
         width: 1200px;
