@@ -98,6 +98,12 @@
         font-size: 16px;
     }
 
+    .header .links .router-link-active {
+        text-decoration: underline;
+        font-weight: bold;
+        color: #000000;
+    }
+
     .search {
         cursor: pointer;
     }
