@@ -12,7 +12,7 @@
                 <div class="text-center flex-center text-grey-7 no-video-list">没有数据</div>
             </div>
         </div>
-        <div class="row">
+        <div class="row" v-if="videoList">
             <div class="col-12">
                 <div class="q-pa-lg flex flex-center pager">
                     <router-link :to="{ query: { q: search,p:prev }}">« 上一页</router-link>
