@@ -17,25 +17,11 @@
         data() {
             return {
                 videoPlayInfo: null,
-                hls: null,
-                dplayer: null,
             }
         },
         created() {
             this.getVideoPlayInfo(this.$route.params.id);
             console.log('[id]', this.$route.params.id);
-        },
-        mounted() {
-            this.hls = new Hls();
-            this.dplayer = new DPlayer({
-                container: document.getElementById('dplayer'),
-                autoplay: true,
-                theme: "#00b2c2",
-                video: {}
-            });
-            this.dplayer.on('error', function (a, b, c) {
-                console.log('[play.error]', a, b, c);
-            });
         },
         methods: {
             getVideoPlayInfo(id) {
@@ -45,9 +31,7 @@
                     this.doPlay(this.videoPlayInfo);
                 });
             },
-            doPlay(obj) {
-                obj.url = this.handleUrl(obj.url);
-
+            getVideoConfig(obj) {
                 let video = {
                     url: obj.url,
                     type: "auto"
@@ -63,15 +47,29 @@
                                 console.log('[video]', video);
                                 console.log('[player]', player);
 
-                                const hls = this.hls;
+                                const hls = new Hls();
                                 hls.loadSource(video.src);
                                 hls.attachMedia(video);
                             },
                         },
                     }
                 }
-                console.log('[switchVideo]', video);
-                this.dplayer.switchVideo(video);
+                return video;
+            },
+            doPlay(obj) {
+                obj.url = this.handleUrl(obj.url);
+
+                const video = this.getVideoConfig(obj);
+
+                const dp2 = new DPlayer({
+                    container: document.getElementById('dplayer'),
+                    autoplay: true,
+                    theme: "#00b2c2",
+                    video: video,
+                });
+                dp2.on('error', function (a, b, c) {
+                    console.log('[play.error]', a, b, c);
+                });
             },
             handleUrl(url) {
                 if (url.indexOf('http://') === 0 || url.indexOf('https://') === 0) {
