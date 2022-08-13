@@ -8,6 +8,8 @@
             <router-link to="/">电影</router-link>
             <router-link to="/video/tag/dbtop250">豆瓣Top250</router-link>
             <router-link to="/qr">扫码</router-link>
+            <router-link to="/fullscreen">[TΞSLA 全屏]</router-link>
+            <router-link to="/about">关于</router-link>
         </div>
         <div class="col-4">
             <q-input v-model="searchText" placeholder="搜索...">

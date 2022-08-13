@@ -25,6 +25,11 @@ const route = createRouter({
             component: () => import('./views/about.vue')
         },
         {
+            path: '/fullscreen',
+            name:'fullscreen',
+            component: () => import('./views/fullscreen')
+        },
+        {
             path: '/qr',
             component: () => import('./views/qr-index.vue')
         },

@@ -1,8 +1,12 @@
 <template>
-    <div>
-        <h1>About page</h1>
-        <router-link to="/">{ / }</router-link>
-        <router-link to="/home">Home</router-link>
+    <div class="main">
+        <div class="text-center flex-center">
+
+            <p>数据采集自网络</p>
+            <p>原视频地址部分存在请求ip验证，非国内不能访问</p>
+            <p>^^</p>
+            <p></p>
+        </div>
     </div>
 </template>
 
@@ -14,3 +18,9 @@
         }
     }
 </script>
+
+<style scoped>
+    .main{
+        margin-top: 80px;
+    }
+</style>
