@@ -57,11 +57,12 @@
                         type: 'customHls',
                         customType: {
                             customHls: function (video, player) {
+                                console.log('[video]', video);
+                                console.log('[player]', player);
+
                                 const hls = this.hls;
                                 hls.loadSource(video.src);
                                 hls.attachMedia(video);
-
-                                console.log('[player]', player);
                             },
                         },
                     }
