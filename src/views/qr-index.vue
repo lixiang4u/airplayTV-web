@@ -18,7 +18,7 @@
             return {
                 clientId: '',
                 websocket: null,
-                websocketUrl: '//tv.artools.cc/ws',
+                websocketUrl: '//tv.artools.cc/api/ws',
             }
         },
         mounted() {
