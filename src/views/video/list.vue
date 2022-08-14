@@ -9,7 +9,7 @@
                 <p>{{ v.name }}</p>
             </div>
             <div v-if="!videoList" class="col-12">
-                <div class="text-center flex-center text-grey-7 no-video-list">没有数据</div>
+                <div class="text-center flex-center text-grey-7 no-video-list">加载中... | 没有数据</div>
             </div>
         </div>
         <div class="row" v-if="videoList">
