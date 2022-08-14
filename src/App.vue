@@ -61,7 +61,7 @@
 
 <style>
     body {
-        background-color: rgba(0, 0, 0, 0) !important; /** tesla全屏背景灰色问题 **/
+        background-color: #ffffff !important; /** tesla全屏背景灰色问题 **/
     }
 </style>
 <style scoped>
