@@ -35,12 +35,13 @@
                 });
             },
             getVideoConfig(obj) {
+                // auto，mp4，hls
                 let video = {
                     url: obj.url,
                     autoplay: true,
                     type: "auto",
                 };
-                if (obj.type !== 'auto') {
+                if (obj.type === 'hls') {
                     video = {
                         url: obj.url,
                         autoplay: true,
