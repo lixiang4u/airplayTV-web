@@ -9,8 +9,13 @@ import quasarUserOptions from './quasar-user-options'
 
 axios.defaults.baseURL = 'https://tv.artools.cc';
 axios.interceptors.request.use(config => {
-    config.params['_source'] = (localStorage['video_source'] ?? '');
     // console.log('[interceptors.config]', config);
+
+    // 需要检查调用方有没有传params
+    if (config.params === undefined) {
+        config.params = [];
+    }
+    config.params['_source'] = (localStorage['video_source'] ?? '');
     return config;
 }, error => {
     // console.log('[interceptors.error]', error);
