@@ -17,14 +17,68 @@
             <pre>navigator: {{ navigator }}</pre>
             <pre>location: {{ location }}</pre>
         </div>
+        <div class="q-mb-lg">
+            <p><b>选择视频源（默认由后台接口随机分配）：</b>{{ currentVideoSource }}</p>
+            <div>
+                <q-checkbox size="md" @click="changeSource('cz')" v-model="videoSource.cz"
+                            label="源1(cz)（如果效果不行请更换其他源）"/>
+            </div>
+            <div>
+                <q-checkbox size="md" @click="changeSource('nn')" v-model="videoSource.nn"
+                            label="源2(nn)（如果效果不行请更换其他源）"/>
+            </div>
+            <div>
+                <q-checkbox size="md" @click="changeSource('my')" v-model="videoSource.my"
+                            label="源3(my)（如果效果不行请更换其他源）"/>
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
+
     export default {
         name: 'AboutComponent',
+        data() {
+            return {
+                videoSource: {
+                    cz: false,
+                    nn: false,
+                    my: false,
+                },
+                currentVideoSource: '',
+            }
+        },
         mounted() {
             console.log('[About.getClientId]', this.$store.state.clientId);
+
+            this.loadVideoSourceToLS();
+        },
+        methods: {
+            changeSource: function (key) {
+                this.setVideoSourceToLS(key);
+
+                if (this.videoSource[key] === false) {
+                    return false
+                }
+                for (let k in this.videoSource) {
+                    if (k === key) {
+                        continue;
+                    }
+                    this.videoSource[k] = false;
+                }
+            },
+            setVideoSourceToLS: function (sourceKey) {
+                localStorage['video_source'] = sourceKey;
+                this.currentVideoSource = sourceKey;
+            },
+            loadVideoSourceToLS: function () {
+                let key = localStorage['video_source'];
+                for (let k in this.videoSource) {
+                    this.videoSource[k] = (k === key);
+                }
+                this.currentVideoSource = key;
+            },
         },
         computed: {
             navigator: function () {
