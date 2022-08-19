@@ -7,7 +7,15 @@ import {createRouter, createWebHistory} from "vue-router"
 import {Quasar} from 'quasar'
 import quasarUserOptions from './quasar-user-options'
 
-axios.defaults.baseURL = 'https://tv.artools.cc';
+axios.defaults.baseURL = 'http://127.0.0.1:8089';
+axios.interceptors.request.use(config => {
+    config.params['_source'] = localStorage['video_source'];
+    // console.log('[interceptors.config]', config);
+    return config;
+}, error => {
+    // console.log('[interceptors.error]', error);
+    return Promise.reject(error);
+});
 
 const route = createRouter({
     history: createWebHistory(),
@@ -26,7 +34,7 @@ const route = createRouter({
         },
         {
             path: '/fullscreen',
-            name:'fullscreen',
+            name: 'fullscreen',
             component: () => import('./views/fullscreen')
         },
         {
