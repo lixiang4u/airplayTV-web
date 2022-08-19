@@ -1,7 +1,7 @@
 <template>
     <div class="main">
-        <div class="text-center flex-center">
-
+        <div class="q-mb-lg">
+            <p class="text-h4">说明：</p>
             <p>数据采集自网络</p>
             <p>本站不存储任何视频相关数据</p>
             <p>原视频网站对非国内ip请求做了限制，导致部分视频可能无法观看</p>
@@ -14,11 +14,12 @@
             <p>^^</p>
         </div>
         <div class="q-mb-lg">
+            <p class="text-h4">调试信息：</p>
             <pre>navigator: {{ navigator }}</pre>
             <pre>location: {{ location }}</pre>
         </div>
         <div class="q-mb-lg">
-            <p><b>选择视频源（默认由后台接口随机分配）：</b>{{ currentVideoSource }}</p>
+            <p class="text-h4">选择视频源（默认由后台接口随机分配）：{{ currentVideoSource }}</p>
             <div>
                 <q-checkbox size="md" @click="changeSource('cz')" v-model="videoSource.cz"
                             label="源1(cz)（如果效果不行请更换其他源）"/>
