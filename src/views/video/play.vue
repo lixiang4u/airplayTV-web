@@ -20,11 +20,17 @@
         data() {
             return {
                 videoPlayInfo: null,
+                dp2: null,
             }
         },
         created() {
             this.getVideoPlayInfo(this.$route.params.id);
             console.log('[id]', this.$route.params.id);
+        },
+        beforeUnmount() {
+            if (this.dp2) {
+                this.dp2.destroy();
+            }
         },
         methods: {
             getVideoPlayInfo(id) {
@@ -66,13 +72,13 @@
 
                 const video = this.getVideoConfig(obj);
 
-                const dp2 = new DPlayer({
+                this.dp2 = new DPlayer({
                     container: document.getElementById('dplayer'),
                     autoplay: true,
                     theme: "#00b2c2",
                     video: video,
                 });
-                dp2.on('error', function (a, b, c) {
+                this.dp2.on('error', function (a, b, c) {
                     console.log('[play.error]', a, b, c);
                 });
             },
