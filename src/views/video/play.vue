@@ -34,7 +34,7 @@
         },
         methods: {
             getVideoPlayInfo(id) {
-                this.axios.get('/api/video/source/' + id).then((response) => {
+                this.axios.get('/api/video/source/' + id, {params: {}}).then((response) => {
                     console.log('[getVideoPlayInfo.response]', response.data);
                     this.videoPlayInfo = response.data;
                     this.doPlay(this.videoPlayInfo);

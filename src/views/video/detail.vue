@@ -32,7 +32,7 @@
         },
         methods: {
             getVideoInfo(id) {
-                this.axios.get('/api/video/detail/' + id).then((response) => {
+                this.axios.get('/api/video/detail/' + id, {params: {}}).then((response) => {
                     console.log('[getVideoInfo.response]', response.data);
                     this.videoInfo = response.data
                 });
