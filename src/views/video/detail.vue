@@ -8,9 +8,8 @@
             <p class="tips text-red">如关联了设备，则投射到设备，否则直接播放</p>
             <p class="intro"><b>介绍：</b>{{ videoInfo.intro }}</p>
             <div class="play-list">
-                <router-link
-                        :to="{ name: 'video-play', params: { id: encodeURIComponent(item.id) }, query:{'vid':videoInfo.id}}"
-                        v-for="(item,idx) in videoInfo.links" :key="idx">
+                <router-link :to="{ name: 'video-play', params: { id: item.id }, query:{vid:videoInfo.id}}"
+                             v-for="(item,idx) in videoInfo.links" :key="idx">
                     <span class="item">{{ item.name }}</span>
                 </router-link>
             </div>
@@ -33,7 +32,7 @@
         },
         methods: {
             getVideoInfo(id) {
-                this.axios.get('/api/video/detail/' + id, {params: {}}).then((response) => {
+                this.axios.get('/api/video/detail', {params: {id: id,}}).then((response) => {
                     console.log('[getVideoInfo.response]', response.data);
                     this.videoInfo = response.data
                 });

@@ -21,11 +21,12 @@
             return {
                 videoPlayInfo: null,
                 dp2: null,
+                vid: '',
             }
         },
         created() {
-            this.getVideoPlayInfo(this.$route.params.id);
-            console.log('[id]', this.$route.params.id);
+            this.getVideoPlayInfo(this.$route.params.id, this.$route.query.vid);
+            console.log('[params]', {id: this.$route.params.id, vid: this.$route.query.vid});
         },
         beforeUnmount() {
             if (this.dp2) {
@@ -33,8 +34,8 @@
             }
         },
         methods: {
-            getVideoPlayInfo(id) {
-                this.axios.get('/api/video/source/' + id, {params: {}}).then((response) => {
+            getVideoPlayInfo(id, vid) {
+                this.axios.get('/api/video/source', {params: {id: id, vid: vid,}}).then((response) => {
                     console.log('[getVideoPlayInfo.response]', response.data);
                     this.videoPlayInfo = response.data;
                     this.doPlay(this.videoPlayInfo);

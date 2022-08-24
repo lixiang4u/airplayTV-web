@@ -54,7 +54,7 @@
         methods: {
             getTagVideoList(tagName, page) {
                 console.log('[this.videoList]', this.videoList);
-                this.axios.get('/api/video/tag/' + tagName, {params: {p: page}}).then((response) => {
+                this.axios.get('/api/video/tag', {params: {tagName: tagName, p: page}}).then((response) => {
                     this.videoList = response.data['list'];
 
                     this.updatePager(response.data['current'], response.data['total'], response.data['limit']);
