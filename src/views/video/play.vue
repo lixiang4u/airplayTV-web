@@ -30,6 +30,8 @@
         },
         beforeUnmount() {
             if (this.dp2) {
+                this.dp2.pause();
+                // this.dp2.switchVideo({url: 'default.mp4',});
                 this.dp2.destroy();
             }
         },
@@ -123,5 +125,9 @@
         text-align: center;
         font-size: 14px;
         cursor: pointer;
+    }
+
+    #dplayer video {
+        max-height: 630px;
     }
 </style>
