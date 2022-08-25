@@ -128,6 +128,6 @@
     }
 
     #dplayer video {
-        max-height: 630px;
+        max-height: 630px !important;
     }
 </style>
