@@ -31,7 +31,7 @@
         beforeUnmount() {
             if (this.dp2) {
                 this.dp2.pause();
-                // this.dp2.switchVideo({url: 'default.mp4',});
+                this.dp2.switchVideo({url: 'default.mp4',});
                 this.dp2.destroy();
             }
         },
