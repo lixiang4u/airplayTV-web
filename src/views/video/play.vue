@@ -4,7 +4,7 @@
         <p v-if="videoPlayInfo" class="text-h4 text-center flex-center">{{ videoPlayInfo.name }}</p>
         <div id="dplayer"></div>
         <div class="q-my-lg" v-if="videoPlayInfo">
-            <div class="text-red-7">如果播放不了，但是下面地址可以访问，可能是服务器不在大陆导致（需要国内部署）</div>
+            <div class="text-red-7">如果播放不了，下方域名是(api.czspp.com)（需要国内部署）</div>
             <div>{{ videoPlayInfo.url }}</div>
         </div>
     </div>
