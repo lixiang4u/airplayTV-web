@@ -14,6 +14,12 @@
             <p>^^</p>
         </div>
         <div class="q-mb-lg">
+            <p class="text-h4">播放不了？</p>
+            <p>如果源是(CZ)，视频地址是(api.czspp.com)域，则播放不了，需要国内部署服务器才行</p>
+            <p>其他播放问题可先尝试刷新，或者换视频源</p>
+            <p>-_-</p>
+        </div>
+        <div class="q-mb-lg">
             <p class="text-h4">调试信息：</p>
             <pre>navigator: {{ navigator }}</pre>
             <pre>location: {{ location }}</pre>
