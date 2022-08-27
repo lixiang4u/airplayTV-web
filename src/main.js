@@ -81,7 +81,7 @@ route.beforeEach((to, from, next) => {
     }
     axios.get('/api/env/predict', {params: {t: new Date().getUTCSeconds()}}).then((response) => {
         let b = (response.data['is_tv'] || false);
-        store.commit('setJumpTv', true);
+        store.commit('setJumpTv', b);
         if (b) {
             next({path: '/qr', query: {from: 'tv-redirect'}});
         } else {

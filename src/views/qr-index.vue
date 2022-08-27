@@ -19,16 +19,21 @@
                 clientId: '',
                 websocket: null,
                 websocketUrl: '//tv.artools.cc/api/ws',
+                isTvMode: false,
             }
         },
         mounted() {
             this.websocket = this.$store.state.wss;
             this.clientId = this.$store.state.clientId;
+            this.isTvMode = this.$store.state.isJumpTv;
             if (this.websocket == null) {
                 console.log('[init websocket]');
                 this.initWebSockets();
             } else {
                 this.updateClientInfo({'client_id': this.clientId})
+            }
+            if (this.isTvMode === true) {
+                this.gotoTvMode();
             }
         },
         deactivated() {
@@ -116,7 +121,10 @@
                     quality: 0.3,
                     width: 300
                 });
-            }
+            },
+            gotoTvMode() {
+                document.getElementById('qr-content').setAttribute('style', 'margin-top: 0');
+            },
         },
     }
 </script>

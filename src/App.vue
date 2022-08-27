@@ -66,7 +66,7 @@
 </style>
 <style scoped>
     .w1200 {
-        width: 1200px;
+        max-width: 1200px;
         margin: 0 auto;
     }
 
@@ -76,6 +76,7 @@
 
     .header {
         line-height: 56px;
+        padding: 0 15px 0 15px;
     }
 
     .header a {
