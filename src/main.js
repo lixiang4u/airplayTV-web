@@ -73,11 +73,11 @@ const route = createRouter({
 route.beforeEach((to, from, next) => {
     let whiteListPath = ['/qr'];
     if (to.path in whiteListPath) {
-        next();
+        return next();
     }
     let isJumpTv = store.state.isJumpTv;
     if (isJumpTv === true || isJumpTv === false) {
-        next();
+        return next();
     }
     axios.get('/api/env/predict', {params: {t: new Date().getUTCSeconds()}}).then((response) => {
         let b = (response.data['is_tv'] || false);
