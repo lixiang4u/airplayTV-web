@@ -6,6 +6,7 @@ const store = createStore({
             count: 0,
             wss: null,
             clientId: null,
+            isJumpTv: null,
         }
     },
     mutations: {
@@ -17,6 +18,9 @@ const store = createStore({
         },
         setClientId(state, clientId) {
             state.clientId = clientId
+        },
+        setJumpTv(state, isJumpTv) {
+            state.isJumpTv = isJumpTv
         },
     }
 });

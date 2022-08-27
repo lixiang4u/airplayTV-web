@@ -69,6 +69,27 @@ const route = createRouter({
     ]
 });
 
+// 鸡肋的路由跳转方式....
+route.beforeEach((to, from, next) => {
+    let whiteListPath = ['/qr'];
+    if (to.path in whiteListPath) {
+        next();
+    }
+    let isJumpTv = store.state.isJumpTv;
+    if (isJumpTv === true || isJumpTv === false) {
+        next();
+    }
+    axios.get('/api/env/predict', {params: {t: new Date().getUTCSeconds()}}).then((response) => {
+        let b = (response.data['is_tv'] || false);
+        store.commit('setJumpTv', true);
+        if (b) {
+            next({path: '/qr', query: {from: 'tv-redirect'}});
+        } else {
+            next();
+        }
+    });
+});
+
 createApp(App)
     .use(Quasar, quasarUserOptions)
     .use(route)
