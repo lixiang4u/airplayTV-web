@@ -41,7 +41,7 @@
         mounted() {
             const search = this.$route.query['q'];
             const page = this.$route.query['p'];
-            const tag = this.$route.params['tag'] ?? 'movie_bt';
+            const tag = (this.$route.params['tag'] || 'movie_bt');
 
             this.search = search;
 

@@ -74,7 +74,7 @@
             },
             gotoPlay(msg) {
                 this.$router.push({
-                    path: '/video/play/' + msg['video']['id'] ?? null,
+                    path: '/video/play/' + (msg['video']['id'] || null),
                     query: {}
                 }).then(failure => {
                     if (failure) {
