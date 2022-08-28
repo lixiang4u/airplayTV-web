@@ -16,16 +16,11 @@
         <div class="q-mb-lg">
             <p class="text-h4">播放不了？</p>
             <p>如果源是(CZ)，视频地址是(api.czspp.com)域，则播放不了，需要国内部署服务器才行</p>
-            <p>其他播放问题可先尝试刷新，或者换视频源</p>
+            <p>其他播放问题可先尝试刷新，或者换<b>视频源</b>试试，或者关闭<b>数据缓存</b>试试？⬇️</p>
             <p>-_-</p>
         </div>
         <div class="q-mb-lg">
-            <p class="text-h4">调试信息：</p>
-            <pre>navigator: {{ navigator }}</pre>
-            <pre>location: {{ location }}</pre>
-        </div>
-        <div class="q-mb-lg">
-            <p class="text-h4">选择视频源（默认由后台接口随机分配）：{{ currentVideoSource }}</p>
+            <p class="text-h4">视频源（默认由后台接口随机分配）：{{ currentVideoSource }}</p>
             <div>
                 <q-checkbox size="md" @click="changeSource('cz')" v-model="videoSource.cz"
                             label="源1(cz)（如果效果不行请更换其他源）"/>
@@ -49,6 +44,11 @@
                 <q-checkbox size="md" @click="changeCache('Close')" v-model="cacheStatus.Close"
                             label="关闭缓存（默认开启，每天更新一次，开启后可能导致部分视频无法观看/更新不及时）"/>
             </div>
+        </div>
+        <div class="q-mb-lg">
+            <p class="text-h4">调试信息：</p>
+            <pre>navigator: {{ navigator }}</pre>
+            <pre>location: {{ location }}</pre>
         </div>
         <div class="q-mb-lg">&nbsp;</div>
     </div>

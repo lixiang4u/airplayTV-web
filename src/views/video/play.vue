@@ -3,8 +3,12 @@
         <meta name="referrer" content="no-referrer">
         <p v-if="videoPlayInfo" class="text-h4 text-center flex-center">{{ videoPlayInfo.name }}</p>
         <div id="dplayer"></div>
-        <div class="q-my-lg" v-if="videoPlayInfo">
-            <div class="text-red-7">如果播放不了，下方域名是(api.czspp.com)（需要国内部署）</div>
+        <div class="q-my-lg tips" v-if="videoPlayInfo">
+            <div class="text-red-7">如果播放不了？下方域名是(api.czspp.com)（需要国内部署）</div>
+            <div class="text-red-7">如果播放不了？可能需要关闭
+                <router-link to="/about">数据缓存</router-link>
+                试试（默认开启了数据缓存加速访问）
+            </div>
             <div>{{ videoPlayInfo.url }}</div>
         </div>
     </div>
@@ -21,6 +25,7 @@
             return {
                 videoPlayInfo: null,
                 dp2: null,
+                hls2: null,
                 vid: '',
             }
         },
@@ -29,9 +34,12 @@
             console.log('[params]', {id: this.$route.params.id, vid: this.$route.query.vid});
         },
         beforeUnmount() {
+            if (this.hls2) {
+                this.hls2.destroy();
+            }
+            // https://blog.csdn.net/NuoYan3327/article/details/121343489
             if (this.dp2) {
                 this.dp2.pause();
-                this.dp2.switchVideo({url: 'default.mp4',});
                 this.dp2.destroy();
             }
         },
@@ -45,6 +53,7 @@
             },
             getVideoConfig(obj) {
                 // auto，mp4，hls
+                let me = this;
                 let video = {
                     url: obj.url,
                     autoplay: true,
@@ -61,9 +70,9 @@
                                 console.log('[video]', video);
                                 console.log('[player]', player);
 
-                                const hls = new Hls();
-                                hls.loadSource(video.src);
-                                hls.attachMedia(video);
+                                me.hls2 = new Hls();
+                                me.hls2.loadSource(video.src);
+                                me.hls2.attachMedia(video);
                             },
                         },
                     }
@@ -129,5 +138,9 @@
 
     #dplayer video {
         max-height: 630px !important;
+    }
+
+    .tips {
+        line-height: 180%;
     }
 </style>
