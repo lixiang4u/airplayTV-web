@@ -1,5 +1,6 @@
 <template>
     <div>
+        <div class="tv_id_info q-mb-lg">关联设备: {{getTvId()}}</div>
         <div class="row justify-around video-list">
             <div class="col-sm-5 item" v-for="(v,idx) in videoList" :key="idx">
                 <span class="hd">{{v.resolution}}</span>
@@ -139,5 +140,9 @@
 
     .pager a:hover {
         text-decoration: underline;
+    }
+
+    .tv_id_info {
+        padding: 0 22px 0 22px;
     }
 </style>

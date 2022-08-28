@@ -1,20 +1,23 @@
 <template>
-    <div class="row justify-around main" v-if="videoInfo">
-        <div class="col-sm-3">
-            <img class="thumb" :src="videoInfo.thumb" :alt="videoInfo.name">
-        </div>
+    <div>
+        <div class="tv_id_info q-mb-lg">关联设备: {{getTvId()}}</div>
+        <div class="row justify-around main" v-if="videoInfo">
+            <div class="col-sm-3">
+                <img class="thumb" :src="videoInfo.thumb" :alt="videoInfo.name">
+            </div>
 
-        <div class="col-sm-9 info">
-            <p class="name text-h4">{{ videoInfo.name }}</p>
-            <p class="tips text-red">如关联了设备，则投射到设备，否则直接播放</p>
-            <p class="intro"><b>介绍：</b>{{ videoInfo.intro }}</p>
-            <div class="play-list">
-                <span hidden>{{ tmpLoopIndex=1 }}</span>
-                <div v-for="(g,idx) in videoInfo['links']" :key="idx">
-                    <div class="group-title q-my-sm"><b>资源来源{{ tmpLoopIndex++ }}</b></div>
-                    <span class="item" @click="sendPlayMessage(v.id,'')" v-for="(v,idx2) in g" :key="idx2">
+            <div class="col-sm-9 info">
+                <p class="name text-h4">{{ videoInfo.name }}</p>
+                <p class="tips text-red">如关联了设备，则投射到设备，否则直接播放</p>
+                <p class="intro"><b>介绍：</b>{{ videoInfo.intro }}</p>
+                <div class="play-list">
+                    <span hidden>{{ tmpLoopIndex=1 }}</span>
+                    <div v-for="(g,idx) in videoInfo['links']" :key="idx">
+                        <div class="group-title q-my-sm"><b>资源来源{{ tmpLoopIndex++ }}</b></div>
+                        <span class="item" @click="sendPlayMessage(v.id,'')" v-for="(v,idx2) in g" :key="idx2">
                         {{ v.name }}
                     </span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -114,5 +117,9 @@
         text-align: center;
         font-size: 14px;
         cursor: pointer;
+    }
+
+    .tv_id_info {
+        padding: 0 22px 0 22px;
     }
 </style>
