@@ -1,7 +1,5 @@
 <template>
     <div>
-        <div>TV: {{getTvId()}}</div>
-
         <div class="row justify-around video-list">
             <div class="col-sm-5 item" v-for="(v,idx) in videoList" :key="idx">
                 <span class="hd">{{v.resolution}}</span>

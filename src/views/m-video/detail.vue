@@ -1,6 +1,4 @@
 <template>
-    <div>TV: {{getTvId()}}</div>
-
     <div class="row justify-around main" v-if="videoInfo">
         <div class="col-sm-3">
             <img class="thumb" :src="videoInfo.thumb" :alt="videoInfo.name">
@@ -14,11 +12,9 @@
                 <span hidden>{{ tmpLoopIndex=1 }}</span>
                 <div v-for="(g,idx) in videoInfo['links']" :key="idx">
                     <div class="group-title q-my-sm"><b>资源来源{{ tmpLoopIndex++ }}</b></div>
-                    <router-link
-                            :to="{ name: 'video-play', params: { id: v.id }, query:{vid:videoInfo.id}}"
-                            v-for="(v,idx2) in g" :key="idx2">
-                        <span class="item">{{ v.name }}</span>
-                    </router-link>
+                    <span class="item" @click="sendPlayMessage(v.id,'')" v-for="(v,idx2) in g" :key="idx2">
+                        {{ v.name }}
+                    </span>
                 </div>
             </div>
         </div>
@@ -36,6 +32,7 @@
             }
         },
         created() {
+            console.log('[this.$route]', this.$route);
             this.getVideoInfo(this.$route.query.id);
         },
         methods: {
@@ -60,6 +57,23 @@
             },
             getTvId() {
                 return localStorage['tv_id'];
+            },
+            sendPlayMessage(id, vid) {
+                let clientId = this.getTvId();
+                if (!clientId) {
+                    alert('请重新扫码关联设备');
+                    return false;
+                }
+                this.axios.get('/api/video/airplay', {
+                    params: {
+                        id: id,
+                        vid: vid,
+                        'client_id': this.getTvId(),
+                    }
+                }).then((response) => {
+                    console.log('[sendPlayMessage.response]', response.data);
+                    alert(response.data['msg'] ?? '未知错误');
+                });
             },
         },
         computed: {}
