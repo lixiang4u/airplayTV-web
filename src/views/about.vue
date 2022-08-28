@@ -39,6 +39,18 @@
                             label="源3(my)（如果效果不行请更换其他源）"/>
             </div>
         </div>
+        <div class="q-mb-lg">
+            <p class="text-h4">数据缓存（加速访问）：{{ currentCacheStatus }}</p>
+            <div>
+                <q-checkbox size="md" @click="changeCache('Open')" v-model="cacheStatus.Open"
+                            label="开启缓存（默认开启，每天更新一次，开启后可能导致部分视频无法观看/更新不及时）"/>
+            </div>
+            <div>
+                <q-checkbox size="md" @click="changeCache('Close')" v-model="cacheStatus.Close"
+                            label="关闭缓存（默认开启，每天更新一次，开启后可能导致部分视频无法观看/更新不及时）"/>
+            </div>
+        </div>
+        <div class="q-mb-lg">&nbsp;</div>
     </div>
 </template>
 
@@ -54,12 +66,19 @@
                     my: false,
                 },
                 currentVideoSource: '',
+
+                cacheStatus: {
+                    Open: true,
+                    Close: false,
+                },
+                currentCacheStatus: '',
             }
         },
         mounted() {
             console.log('[About.getClientId]', this.$store.state.clientId);
 
             this.loadVideoSourceToLS();
+            this.loadCacheStatusToLS();
         },
         methods: {
             changeSource: function (key) {
@@ -79,12 +98,36 @@
                 localStorage['video_source'] = sourceKey;
                 this.currentVideoSource = sourceKey;
             },
+            setCacheStatusToLS: function (sourceKey) {
+                localStorage['is_cache'] = sourceKey;
+                this.currentCacheStatus = sourceKey;
+            },
             loadVideoSourceToLS: function () {
                 let key = localStorage['video_source'];
                 for (let k in this.videoSource) {
                     this.videoSource[k] = (k === key);
                 }
                 this.currentVideoSource = key;
+            },
+            loadCacheStatusToLS: function () {
+                let key = localStorage['is_cache'];
+                for (let k in this.cacheStatus) {
+                    this.cacheStatus[k] = (k === key);
+                }
+                this.currentCacheStatus = key;
+            },
+            changeCache: function (key) {
+                this.setCacheStatusToLS(key);
+
+                if (this.cacheStatus[key] === false) {
+                    return false
+                }
+                for (let k in this.cacheStatus) {
+                    if (k === key) {
+                        continue;
+                    }
+                    this.cacheStatus[k] = false;
+                }
             },
         },
         computed: {

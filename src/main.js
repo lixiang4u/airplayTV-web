@@ -16,6 +16,7 @@ axios.interceptors.request.use(config => {
         config.params = [];
     }
     config.params['_source'] = (localStorage['video_source'] || '');
+    config.params['_cache'] = (localStorage['is_cache'] || '');
     return config;
 }, error => {
     // console.log('[interceptors.error]', error);
