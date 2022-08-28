@@ -110,7 +110,7 @@
             updateClientInfo(msg) {
                 this.$store.commit('setClientId', msg['client_id']);
 
-                let qrUrl = "https://tv.artools.cc/home?tv_id=" + msg['client_id'] + "&t=" + msg['timestamp'];
+                let qrUrl = "https://tv.artools.cc/mobile/?tv_id=" + msg['client_id'] + "&t=" + msg['timestamp'];
 
                 console.log('[url]', qrUrl);
 
