@@ -40,6 +40,12 @@
                 videoList: null,
             }
         },
+        created() {
+            let tvId = this.$route.query['tv_id'] || null;
+            if (tvId) {
+                localStorage['tv_id'] = tvId;
+            }
+        },
         mounted() {
             const search = this.$route.query['q'];
             const page = this.$route.query['p'];

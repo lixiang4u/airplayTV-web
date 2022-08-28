@@ -68,18 +68,19 @@ const route = createRouter({
             component: () => import('./views/video/play')
         },
 
+        // 扫码后的界面
         {
             path: '/mobile',
             component: () => import('./views/m-video/list'),
         },
         {
+            path: '/mobile/video/list',
+            component: () => import('./views/m-video/list')
+        },
+        {
             path: '/mobile/video/detail',
             name: 'mobile-video-detail',
             component: () => import('./views/m-video/detail')
-        },
-        {
-            path: '/mobile/video/list',
-            component: () => import('./views/m-video/list')
         },
 
 

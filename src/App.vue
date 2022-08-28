@@ -21,10 +21,8 @@
             AppFrame, AppFrameMobile
         },
         created() {
+            // 这里是拿不到正确的路由信息的，只能通过location拿数据
             this.updateIsMobileUrl();
-            if (this.isMobileUrl) {
-                this.updateTvId();
-            }
         },
         methods: {
             updateIsMobileUrl() {
@@ -40,12 +38,6 @@
                     pathName = v;
                 });
                 this.isMobileUrl = pathName.toLowerCase() === 'mobile'.toLowerCase();
-            },
-            updateTvId() {
-                let tvId = this.$route.query['tv_id'] || null;
-                if (tvId) {
-                    localStorage['tv_id'] = tvId;
-                }
             },
         }
     }

@@ -39,7 +39,7 @@
         methods: {
             searchVideo() {
                 this.$router.push({
-                    path: '/video/list',
+                    path: '/mobile/video/list',
                     query: {
                         q: this.searchText,
                         p: 1,

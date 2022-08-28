@@ -1,4 +1,6 @@
 <template>
+    <div>TV: {{getTvId()}}</div>
+
     <div class="row justify-around main" v-if="videoInfo">
         <div class="col-sm-3">
             <img class="thumb" :src="videoInfo.thumb" :alt="videoInfo.name">
@@ -34,7 +36,6 @@
             }
         },
         created() {
-            console.log('[$route::M.detail]',this.$route);
             this.getVideoInfo(this.$route.query.id);
         },
         methods: {
@@ -56,6 +57,9 @@
                 });
                 return tmpGroup;
 
+            },
+            getTvId() {
+                return localStorage['tv_id'];
             },
         },
         computed: {}
