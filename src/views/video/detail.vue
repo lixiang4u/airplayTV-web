@@ -46,6 +46,9 @@
             },
             groupVideoLinks(data, keyName) {
                 let tmpGroup = {};
+                if (!data) {
+                    return tmpGroup;
+                }
                 data.forEach(function (item) {
                     if (!tmpGroup[item[keyName]]) {
                         tmpGroup[item[keyName]] = [];
