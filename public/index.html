@@ -6,6 +6,18 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
     <title><%= htmlWebpackPlugin.options.title %></title>
+    <script type="text/javascript">
+      window.onerror = function (message, source, lineno, colno, error) {
+        let m = [
+          'Message: ' + message,
+          'URL: ' + source,
+          'Line: ' + lineno,
+          'Column: ' + colno,
+          'Error object: ' + JSON.stringify(error)
+        ].join(' - ');
+        // alert('[错误]' + m);
+      };
+    </script>
   </head>
   <body>
     <noscript>
