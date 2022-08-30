@@ -23,9 +23,7 @@
         <!-- $route.fullPath 防止多次进入同一个地址，不会重新加载问题 -->
         <router-view :key="$route.fullPath" class="w1200"></router-view>
     </div>
-    <div class="q-my-md flex-center text-center text-grey-8">
-        本站资源均网络搜集，如有视频侵犯了您的权益，请联系邮箱(189 1248 0313#qq.com)，确认后，我们会尽快删除！
-    </div>
+    <div class="q-my-md flex-center text-center text-grey-8">本站资源均来源网络，侵权即删！</div>
 
 </template>
 
