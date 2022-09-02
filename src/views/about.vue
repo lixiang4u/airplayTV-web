@@ -3,7 +3,7 @@
         <div class="q-mb-lg">
             <p class="text-h4">免责声明：</p>
             <p>本软件仅作学习研究，请勿用于其它任何场景。作者不承担一切不正当使用本软件的责任。</p>
-            
+
             <p>&nbsp;</p>
         </div>
         <div class="q-mb-lg">
@@ -58,10 +58,24 @@
             <pre>location: {{ location }}</pre>
         </div>
         <div class="q-mb-lg">&nbsp;</div>
+        <div class="q-mb-lg">
+            <p class="text-h4">文件浏览器：</p>
+            <q-file filled bottom-slots v-model="fileModel" label="浏览文件" counter>
+                <template v-slot:prepend>
+                    <q-icon name="cloud_upload" @click.stop.prevent/>
+                </template>
+                <template v-slot:append>
+                    <q-icon name="close" @click.stop.prevent="fileModel = null" class="cursor-pointer"/>
+                </template>
+                <template v-slot:hint></template>
+            </q-file>
+        </div>
+        <div class="q-mb-lg">&nbsp;</div>
     </div>
 </template>
 
 <script>
+    import {ref} from 'vue';
 
     export default {
         name: 'AboutComponent',
@@ -79,6 +93,7 @@
                     Close: false,
                 },
                 currentCacheStatus: '',
+                fileModel: ref(null),
             }
         },
         mounted() {
@@ -173,5 +188,9 @@
 <style scoped>
     .main {
         margin-top: 80px;
+    }
+
+    .main .q-field {
+        max-width: 360px;
     }
 </style>
