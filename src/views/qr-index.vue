@@ -11,6 +11,7 @@
 
 <script>
     import QRCode from 'qrcode';
+    import {getCurrentSiteHost} from './../helper/url-helper';
 
     export default {
         name: 'QrIndexComponent',
@@ -18,7 +19,7 @@
             return {
                 clientId: '',
                 websocket: null,
-                websocketUrl: '//tv.artools.cc/api/ws',
+                websocketUrl: '//' + getCurrentSiteHost() + '/api/ws',
                 isTvMode: false,
             }
         },
@@ -26,6 +27,9 @@
             this.websocket = this.$store.state.wss;
             this.clientId = this.$store.state.clientId;
             this.isTvMode = this.$store.state.isJumpTv;
+
+            console.log('[getCurrentSiteHost]', getCurrentSiteHost());
+
             if (this.websocket == null) {
                 console.log('[init websocket]');
                 this.initWebSockets();
@@ -111,7 +115,7 @@
             updateClientInfo(msg) {
                 this.$store.commit('setClientId', msg['client_id']);
 
-                let qrUrl = "https://tv.artools.cc/mobile/?tv_id=" + msg['client_id'] + "&t=" + msg['timestamp'];
+                let qrUrl = "https://" + getCurrentSiteHost() + "/mobile/?tv_id=" + msg['client_id'] + "&t=" + msg['timestamp'];
 
                 console.log('[url]', qrUrl);
 
