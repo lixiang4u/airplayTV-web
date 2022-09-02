@@ -1,6 +1,12 @@
 <template>
     <div class="main">
         <div class="q-mb-lg">
+            <p class="text-h4">免责声明：</p>
+            <p>本软件仅作学习研究，请勿用于其它任何场景。作者不承担一切不正当使用本软件的责任。</p>
+            
+            <p>&nbsp;</p>
+        </div>
+        <div class="q-mb-lg">
             <p class="text-h4">说明：</p>
             <p>数据采集自网络</p>
             <p>本站不存储任何视频相关数据</p>
