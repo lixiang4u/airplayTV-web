@@ -76,6 +76,7 @@
 
 <script>
     import {ref} from 'vue';
+    import {getLocalCache, getLocalVideoSource, setLocalCache, setLocalVideoSource} from './../helper/localstorage';
 
     export default {
         name: 'AboutComponent',
@@ -117,22 +118,22 @@
                 }
             },
             setVideoSourceToLS: function (sourceKey) {
-                localStorage['video_source'] = sourceKey;
+                setLocalVideoSource(sourceKey);
                 this.currentVideoSource = sourceKey;
             },
             setCacheStatusToLS: function (sourceKey) {
-                localStorage['is_cache'] = sourceKey;
+                setLocalCache(sourceKey);
                 this.currentCacheStatus = sourceKey;
             },
             loadVideoSourceToLS: function () {
-                let key = localStorage['video_source'];
+                let key = getLocalVideoSource();
                 for (let k in this.videoSource) {
                     this.videoSource[k] = (k === key);
                 }
                 this.currentVideoSource = key;
             },
             loadCacheStatusToLS: function () {
-                let key = localStorage['is_cache'];
+                let key = getLocalCache();
                 for (let k in this.cacheStatus) {
                     this.cacheStatus[k] = (k === key);
                 }

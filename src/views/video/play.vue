@@ -29,6 +29,7 @@
     import 'quasar';
     import DPlayer from 'dplayer';
     import Hls from 'hls.js';
+    import {setLocalVideoSource} from './../../helper/localstorage';
 
     export default {
         name: 'VideoPlayInfo',
@@ -41,6 +42,9 @@
             }
         },
         created() {
+            if (this.$route.query['_source']) {
+                setLocalVideoSource(this.$route.query['_source']);
+            }
             this.getVideoPlayInfo(this.$route.params.id, this.$route.query.vid);
             console.log('[params]', {id: this.$route.params.id, vid: this.$route.query.vid});
         },

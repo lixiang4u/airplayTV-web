@@ -27,6 +27,7 @@
 
 <script>
     import 'quasar';
+    import {getLocalClientId, setLocalClientId} from './../../helper/localstorage';
 
     export default {
         name: 'VideoList',
@@ -42,7 +43,7 @@
         created() {
             let tvId = this.$route.query['tv_id'] || null;
             if (tvId) {
-                localStorage['tv_id'] = tvId;
+                setLocalClientId(tvId);
             }
         },
         mounted() {
@@ -85,7 +86,7 @@
                 }
             },
             getTvId() {
-                return localStorage['tv_id'];
+                return getLocalClientId();
             },
         },
     }

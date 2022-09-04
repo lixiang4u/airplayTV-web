@@ -6,6 +6,7 @@ import store from './store/index'
 import {createRouter, createWebHistory} from "vue-router"
 import {Quasar} from 'quasar'
 import quasarUserOptions from './quasar-user-options'
+import {getLocalCache, getLocalVideoSource} from './helper/localstorage'
 
 axios.defaults.baseURL = 'https://tv.artools.cc';
 axios.interceptors.request.use(config => {
@@ -15,8 +16,8 @@ axios.interceptors.request.use(config => {
     if (config.params === undefined) {
         config.params = [];
     }
-    config.params['_source'] = (localStorage['video_source'] || '');
-    config.params['_cache'] = (localStorage['is_cache'] || '');
+    config.params['_source'] = getLocalVideoSource();
+    config.params['_cache'] = getLocalCache();
     return config;
 }, error => {
     // console.log('[interceptors.error]', error);

@@ -12,6 +12,7 @@
 <script>
     import QRCode from 'qrcode';
     import {getCurrentSiteHost} from './../helper/url-helper';
+    import {getLocalVideoSource} from './../helper/localstorage';
 
     export default {
         name: 'QrIndexComponent',
@@ -85,7 +86,7 @@
                 this.$router.push({
                     name: 'video-play',
                     params: {id: (msg['video']['id'] || null)},
-                    query: {vid: '',}
+                    query: {vid: '', _source: getLocalVideoSource()}
                 }).then(failure => {
                     if (failure) {
                         console.log('[failure]', failure)

@@ -26,6 +26,8 @@
 
 <script>
     import 'quasar';
+    import {getLocalClientId} from "../../helper/localstorage";
+
 
     export default {
         name: 'VideoDetail',
@@ -62,7 +64,7 @@
 
             },
             getTvId() {
-                return localStorage['tv_id'];
+                return getLocalClientId();
             },
             sendPlayMessage(id, vid) {
                 let clientId = this.getTvId();
