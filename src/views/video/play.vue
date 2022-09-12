@@ -4,7 +4,7 @@
         <p v-if="videoPlayInfo" class="text-h4 text-center flex-center">{{ videoPlayInfo.name }}</p>
         <div id="dplayer"></div>
         <div class="q-my-lg tips" v-if="videoPlayInfo">
-          <div class="text-red-7">如果播放不了？优先切换片源试试吧！！！</div>
+          <div class="text-red-7">如果播放不了？优先切换<b>片源/数据源</b>试试吧！！！</div>
           <div class="text-red-7">如果播放不了？下方域名是(api.czspp.com)（需要国内部署）</div>
             <div class="text-red-7">如果播放不了？可能需要关闭
                 <router-link to="/about">数据缓存</router-link>
