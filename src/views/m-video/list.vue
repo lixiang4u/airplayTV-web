@@ -5,7 +5,7 @@
             <div class="col-sm-5 item" v-for="(v,idx) in videoList" :key="idx">
                 <span class="hd">{{v.resolution}}</span>
                 <router-link :to="{ name: 'mobile-video-detail', query: { id: v.id }}">
-                    <img class="thumb" :src="v.thumb" alt="v.name">
+                    <img referrerpolicy="no-referrer" class="thumb" :src="v.thumb" alt="v.name">
                 </router-link>
                 <p>{{ v.name }}</p>
             </div>

@@ -1,7 +1,7 @@
 <template>
     <div class="row main" v-if="videoInfo">
         <div class="col-3">
-            <img class="thumb" :src="videoInfo.thumb" :alt="videoInfo.name">
+            <img referrerpolicy="no-referrer" class="thumb" :src="videoInfo.thumb" :alt="videoInfo.name">
         </div>
         <div class="col-9 info">
             <p class="name text-h4">{{ videoInfo.name }}</p>

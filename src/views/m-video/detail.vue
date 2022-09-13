@@ -3,7 +3,7 @@
         <div class="tv_id_info q-mb-lg">关联设备: {{getTvId()}}</div>
         <div class="row justify-around main" v-if="videoInfo">
             <div class="col-sm-3">
-                <img class="thumb" :src="videoInfo.thumb" :alt="videoInfo.name">
+                <img referrerpolicy="no-referrer" class="thumb" :src="videoInfo.thumb" :alt="videoInfo.name">
             </div>
 
             <div class="col-sm-9 info">
