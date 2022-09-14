@@ -46,6 +46,7 @@ const route = createRouter({
         },
         {
             path: '/qr',
+            name: 'qr',
             component: () => import('./views/qr-index.vue')
         },
         {
