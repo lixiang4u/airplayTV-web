@@ -7,6 +7,8 @@ const store = createStore({
             wss: null,
             clientId: null,
             isJumpTv: null,
+            dp2: null,
+            hls2: null,
         }
     },
     mutations: {
@@ -21,6 +23,12 @@ const store = createStore({
         },
         setJumpTv(state, isJumpTv) {
             state.isJumpTv = isJumpTv
+        },
+        setVideoPlayer(state, dp2) {
+            state.dp2 = dp2
+        },
+        setVideoHLS(state, hsl2) {
+            state.hls2 = hsl2
         },
     }
 });

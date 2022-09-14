@@ -30,7 +30,8 @@
     import 'quasar';
     import DPlayer from 'dplayer';
     import Hls from 'hls.js';
-    import {setLocalVideoSource} from './../../helper/localstorage';
+    import {setLocalVideoSource} from '@/helper/localstorage';
+    import store from '@/store/index'
 
     export default {
         name: 'VideoPlayInfo',
@@ -109,6 +110,8 @@
                 this.dp2.on('error', function (a, b, c) {
                     console.log('[play.error]', a, b, c);
                 });
+                store.commit('setVideoPlayer', this.dp2);
+                store.commit('setVideoHLS', this.hls2);
             },
             handleUrl(url) {
                 if (url.indexOf('http://') === 0 || url.indexOf('https://') === 0) {

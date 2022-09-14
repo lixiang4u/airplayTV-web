@@ -12,6 +12,7 @@
 <script>
     import QRCode from 'qrcode';
     import {getCurrentSiteHost} from './../helper/url-helper';
+    import store from "@/store/index";
 
     export default {
         name: 'QrIndexComponent',
@@ -76,6 +77,10 @@
                         //跳转到播放页面
                         this.gotoPlay(msg);
                         break;
+                    case 'video_controls':
+                        //跳转到播放页面
+                        this.videoControls(msg);
+                        break;
                     default:
                         console.log('未知类型消息');
                         break;
@@ -129,6 +134,35 @@
             },
             gotoTvMode() {
                 document.getElementById('qr-content').setAttribute('style', 'margin-top: 0');
+            },
+            videoControls(msg) {
+              let dp2 = store.state.dp2;
+              let hls2 = store.state.hls2;
+              switch (msg['control']) {
+                case 'qr_code':
+                  if (dp2) {
+                    dp2.pause();
+                    dp2.destroy();
+                  }
+                  if (hls2) {
+                    hls2.destroy();
+                  }
+                  this.$router.push({name: 'qr',}).then(failure => {
+                    if (failure) {
+                      console.log('[failure]', failure)
+                    }
+                  });
+                  // 跳到扫码页面
+                  break;
+                case 'fullscreen':
+                  dp2.fullScreen.request('web');
+                  break;
+                case 'fullscreen_exit':
+                  dp2.fullScreen.cancel('web');
+                  break;
+                default:
+                  break;
+              }
             },
         },
     }
