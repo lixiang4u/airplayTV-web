@@ -8,9 +8,11 @@
           :disable="draggingFab"
           v-touch-pan.prevent.mouse="moveFab"
       >
-        <q-fab-action @click="onClick('fullscreen_exit')" color="primary" icon="fullscreen_exit" label="退出全屏"
+        <q-fab-action @click="onClick('fullscreen_exit')" color="primary" icon="fullscreen_exit" label="缩小"
                       :disable="draggingFab"/>
         <q-fab-action @click="onClick('fullscreen')" color="primary" icon="fullscreen" label="全屏"
+                      :disable="draggingFab"/>
+        <q-fab-action @click="onClick('play')" color="primary" icon="live_tv" label="播放/暂停"
                       :disable="draggingFab"/>
         <q-fab-action @click="onClick('qr_code')" color="primary" icon="qr_code" label="首页" :disable="draggingFab"/>
       </q-fab>

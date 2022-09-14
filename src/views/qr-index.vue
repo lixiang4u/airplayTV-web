@@ -160,6 +160,9 @@
                 case 'fullscreen_exit':
                   dp2.fullScreen.cancel('web');
                   break;
+                case 'play':
+                  dp2.toggle();
+                  break;
                 default:
                   break;
               }
