@@ -111,12 +111,6 @@
                 this.dp2.on('error', function (a, b, c) {
                     console.log('[play.error]', a, b, c);
                 });
-                this.dp2.on('play', function () {
-                    document.getElementsByClassName('dplayer-video-current')[0].play();
-                });
-                this.dp2.on('pause', function () {
-                    document.getElementsByClassName('dplayer-video-current')[0].pause();
-                });
                 store.commit('setVideoPlayer', this.dp2);
                 store.commit('setVideoHLS', this.hls2);
             },
