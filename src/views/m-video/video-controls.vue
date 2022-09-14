@@ -2,8 +2,8 @@
   <q-layout>
     <q-page-sticky position="bottom-right" :offset="fabPos">
       <q-fab
-          icon="keyboard_arrow_left"
-          direction="left"
+          icon="keyboard_arrow_up"
+          direction="up"
           color="accent"
           :disable="draggingFab"
           v-touch-pan.prevent.mouse="moveFab"
@@ -12,9 +12,11 @@
                       :disable="draggingFab"/>
         <q-fab-action @click="onClick('fullscreen')" color="primary" icon="fullscreen" label="全屏"
                       :disable="draggingFab"/>
-        <q-fab-action @click="onClick('play')" color="primary" icon="live_tv" label="播放/暂停"
+        <q-fab-action @click="onClick('pause')" color="primary" icon="pause_presentation" label="暂停"
                       :disable="draggingFab"/>
-        <q-fab-action @click="onClick('qr_code')" color="primary" icon="qr_code" label="首页" :disable="draggingFab"/>
+        <q-fab-action @click="onClick('play')" color="primary" icon="connected_tv" label="播放"
+                      :disable="draggingFab"/>
+        <q-fab-action @click="onClick('qr_code')" color="primary" icon="qr_code" label="扫码" :disable="draggingFab"/>
       </q-fab>
     </q-page-sticky>
   </q-layout>
@@ -29,7 +31,7 @@ export default {
   name: 'VideoControls',
   data() {
     return {
-      fabPos: [18, 18],
+      fabPos: [30, 30],
       draggingFab: false
     }
   },

@@ -161,7 +161,10 @@
                   dp2.fullScreen.cancel('web');
                   break;
                 case 'play':
-                  dp2.toggle();
+                  dp2.play();
+                  break;
+                case 'pause':
+                  dp2.pause();
                   break;
                 default:
                   break;
