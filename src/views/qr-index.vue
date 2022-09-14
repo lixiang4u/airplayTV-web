@@ -161,12 +161,10 @@
                   dp2.fullScreen.cancel('web');
                   break;
                 case 'play':
-                  document.getElementsByClassName('dplayer-video-current')[0].play();
-                  dp2.play();
+                  dp2.video.play();
                   break;
                 case 'pause':
-                  document.getElementsByClassName('dplayer-video-current')[0].pause();
-                  dp2.pause();
+                  dp2.video.pause();
                   break;
                 default:
                   break;
