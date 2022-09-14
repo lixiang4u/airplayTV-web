@@ -21,13 +21,14 @@
                 </div>
             </div>
         </div>
+      <VideoControls/>
     </div>
 </template>
 
 <script>
     import 'quasar';
-    import {getLocalClientId} from "../../helper/localstorage";
-
+    import {getLocalClientId} from "@/helper/localstorage";
+    import VideoControls from "@/views/m-video/video-controls";
 
     export default {
         name: 'VideoDetail',
@@ -36,6 +37,7 @@
                 videoInfo: null
             }
         },
+        components:{VideoControls},
         created() {
             console.log('[this.$route]', this.$route);
             this.getVideoInfo(this.$route.query.id);
