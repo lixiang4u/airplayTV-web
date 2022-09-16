@@ -1,7 +1,7 @@
 <template>
     <div class="">
         <meta name="referrer" content="no-referrer">
-        <p v-if="videoPlayInfo" class="text-h4 text-center flex-center">{{ videoPlayInfo.name }}</p>
+        <p v-if="videoPlayInfo" class="text-h4 text-center flex-center">{{ videoPlayInfo.name }}<sup>[{{sourceName}}]</sup></p>
         <div id="dplayer"></div>
         <div class="q-my-lg tips" v-if="videoPlayInfo">
           <div class="text-red-7">如果播放不了？优先切换<b>片源/数据源</b>试试吧！！！</div>
@@ -30,7 +30,7 @@
     import 'quasar';
     import DPlayer from 'dplayer';
     import Hls from 'hls.js';
-    import {setLocalVideoSource} from '@/helper/localstorage';
+    import {setLocalVideoSource, getLocalVideoSource} from '@/helper/localstorage';
     import store from '@/store/index'
 
     export default {
@@ -41,13 +41,14 @@
                 dp2: null,
                 hls2: null,
                 vid: '',
+                sourceName: getLocalVideoSource(),
             }
         },
         created() {
             if (this.$route.query['_source']) {
                 setLocalVideoSource(this.$route.query['_source']);
             }
-            this.getVideoPlayInfo(this.$route.params.id, this.$route.query.vid);
+            this.getVideoPlayInfo(this.$route.params.id, this.$route.query.vid, this.$route.query.title);
             console.log('[params]', {id: this.$route.params.id, vid: this.$route.query.vid});
         },
         beforeUnmount() {
@@ -61,10 +62,13 @@
             }
         },
         methods: {
-            getVideoPlayInfo(id, vid) {
+            getVideoPlayInfo(id, vid, title) {
                 this.axios.get('/api/video/source', {params: {id: id, vid: vid,}}).then((response) => {
                     console.log('[getVideoPlayInfo.response]', response.data);
                     this.videoPlayInfo = response.data;
+                    if (!this.videoPlayInfo['name']){
+                      this.videoPlayInfo['name'] = title;
+                    }
                     this.doPlay(this.videoPlayInfo);
                 });
             },

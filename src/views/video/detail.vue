@@ -12,7 +12,7 @@
                 <div v-for="(g,idx) in videoInfo['links']" :key="idx">
                     <div class="group-title q-my-sm"><b>资源来源{{ tmpLoopIndex++ }}</b></div>
                     <router-link
-                            :to="{ name: 'video-play', params: { id: v.id }, query:{vid:videoInfo.id}}"
+                            :to="{ name: 'video-play', params: { id: v.id }, query:{vid:videoInfo.id, title:videoInfo.name}}"
                             v-for="(v,idx2) in g" :key="idx2">
                         <span class="item">{{ v.name }}</span>
                     </router-link>
