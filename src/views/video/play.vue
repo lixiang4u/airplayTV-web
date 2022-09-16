@@ -5,7 +5,8 @@
         <div id="dplayer"></div>
         <div class="q-my-lg tips" v-if="videoPlayInfo">
           <div class="text-red-7">如果播放不了？优先切换<b>片源/数据源</b>试试吧！！！</div>
-          <div class="text-red-7">如果播放不了？下方域名是(api.czspp.com)（需要国内部署）</div>
+          <div class="text-red-7">如果播放不了？可能某些资源未适配（XLimit），需要（Coding）</div>
+          <div class="text-red-7">如果播放不了？服务器在海外，可能某些资源无法访问（需要国内部署）</div>
             <div class="text-red-7">如果播放不了？可能需要关闭
                 <router-link to="/about">数据缓存</router-link>
                 试试（默认开启了数据缓存加速访问）
