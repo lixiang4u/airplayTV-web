@@ -20,7 +20,11 @@
         <!-- $route.fullPath 防止多次进入同一个地址，不会重新加载问题 -->
         <router-view :key="$route.fullPath" class="w1200"></router-view>
     </div>
-    <div class="q-my-md flex-center text-center text-grey-8">本站资源均来源网络，侵权即删！</div>
+    <div class="q-my-md flex-center text-center text-grey-8">
+      本站仅作<a class="text-grey-6" target="_blank" href="https://github.com/lixiang4u/airplayTV-web">学习案例</a>展示，切勿用作任何其他用途！
+      <br />
+      本站资源均来源网络，侵权即删！
+    </div>
 
 </template>
 
