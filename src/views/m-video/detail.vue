@@ -21,6 +21,10 @@
                 </div>
             </div>
         </div>
+      <div v-if="!videoInfo" class="col-12">
+        <div class="text-center flex-center text-grey-7 no-video-list">{{statusText}}</div>
+      </div>
+
       <VideoControls/>
     </div>
 </template>
@@ -34,7 +38,8 @@
         name: 'VideoDetail',
         data() {
             return {
-                videoInfo: null
+                videoInfo: null,
+                statusText: '加载中...',
             }
         },
         components:{VideoControls},
@@ -150,5 +155,8 @@
 
     .tv_id_info {
         padding: 0 22px 0 22px;
+    }
+    .no-video-list {
+      margin-top: 200px;
     }
 </style>

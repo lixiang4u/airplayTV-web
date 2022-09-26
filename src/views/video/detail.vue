@@ -20,6 +20,9 @@
             </div>
         </div>
     </div>
+  <div v-if="!videoInfo" class="col-12">
+    <div class="text-center flex-center text-grey-7 no-video-list">{{statusText}}</div>
+  </div>
 </template>
 
 <script>
@@ -29,7 +32,8 @@
         name: 'VideoDetail',
         data() {
             return {
-                videoInfo: null
+                videoInfo: null,
+                statusText: '加载中...',
             }
         },
         created() {
@@ -112,5 +116,8 @@
         text-align: center;
         font-size: 14px;
         cursor: pointer;
+    }
+    .no-video-list {
+      margin-top: 200px;
     }
 </style>

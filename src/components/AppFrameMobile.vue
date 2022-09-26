@@ -63,7 +63,7 @@
     }
 
     .fm {
-        min-height:200px;
+        min-height:480px;
     }
 
     .header {
