@@ -60,19 +60,6 @@
             <pre>location: {{ location }}</pre>
         </div>
         <div class="q-mb-lg">&nbsp;</div>
-        <div class="q-mb-lg">
-            <p class="text-h4">文件浏览器：</p>
-            <q-file filled bottom-slots v-model="fileModel" label="浏览文件" counter>
-                <template v-slot:prepend>
-                    <q-icon name="cloud_upload" @click.stop.prevent/>
-                </template>
-                <template v-slot:append>
-                    <q-icon name="close" @click.stop.prevent="fileModel = null" class="cursor-pointer"/>
-                </template>
-                <template v-slot:hint></template>
-            </q-file>
-        </div>
-        <div class="q-mb-lg">&nbsp;</div>
     </div>
 </template>
 
@@ -191,6 +178,7 @@
 <style scoped>
     .main {
         margin-top: 80px;
+        padding: 0 20px 0 20px;
     }
 
     .main .q-field {

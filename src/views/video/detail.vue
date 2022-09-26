@@ -1,9 +1,9 @@
 <template>
-    <div class="row main" v-if="videoInfo">
-        <div class="col-3">
-            <img referrerpolicy="no-referrer" class="thumb" :src="videoInfo.thumb" :alt="videoInfo.name">
+    <div class="main" v-if="videoInfo">
+        <div class="">
+            <img referrerpolicy="no-referrer" class="thumb" :src="videoInfo.thumb" onerror="this.src='http://iph.href.lu/180x256'" :alt="videoInfo.name">
         </div>
-        <div class="col-9 info">
+        <div class="info">
             <p class="name text-h4">{{ videoInfo.name }}</p>
             <p class="tips text-red">如关联了设备，则投射到设备，否则直接播放</p>
             <p class="intro"><b>介绍：</b>{{ videoInfo.intro }}</p>
@@ -66,7 +66,29 @@
 
 <style scoped>
     .main {
-        padding-bottom: 24px;
+      display: flex;
+      padding: 0 20px 24px 20px;
+      flex-wrap: wrap;
+    }
+
+    .main > div:nth-child(1) {
+      flex: 1;
+    }
+
+    .main > div:nth-child(2) {
+      flex: 3;
+      padding: 0 0 0 20px;
+    }
+
+    @media (max-width: 700px) {
+      .main {
+        flex-direction: column;
+      }
+      .main > div:nth-child(1) {
+        padding: 0 0 20px 0;
+        display: flex;
+        justify-content: center; /**居中**/
+      }
     }
 
     .thumb {

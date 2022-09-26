@@ -67,7 +67,19 @@
     }
 
     .fm {
-        min-height: 600px;
+        min-height: 200px;
+    }
+
+    @media (max-width: 700px) {
+      .header .links a:nth-child(3) {
+        display: none;
+      }
+      .header .logo{
+        width: 118px;
+      }
+      .header .links{
+        width: auto;
+      }
     }
 
     .header {
