@@ -8,7 +8,7 @@ import {Quasar} from 'quasar'
 import quasarUserOptions from './quasar-user-options'
 import {getLocalCache, getLocalVideoSource} from './helper/localstorage'
 
-axios.defaults.baseURL = 'https://air.artools.cc';
+axios.defaults.baseURL = 'http://127.0.0.1:8089';
 axios.interceptors.request.use(config => {
     // console.log('[interceptors.config]', config);
 

@@ -1,16 +1,16 @@
 <template>
     <div>
         <div class="tv_id_info q-mb-lg">关联设备: {{getTvId()}}</div>
-        <div class="row justify-around video-list">
-            <div class="col-sm-5 item" v-for="(v,idx) in videoList" :key="idx">
+        <div class="video-list">
+            <div class="item" v-for="(v,idx) in videoList" :key="idx">
                 <span class="hd">{{v.resolution}}</span>
                 <router-link :to="{ name: 'mobile-video-detail', query: { id: v.id }}">
-                    <img referrerpolicy="no-referrer" class="thumb" :src="v.thumb" alt="v.name">
+                    <img referrerpolicy="no-referrer" class="thumb" :src="v.thumb" onerror="this.src='http://iph.href.lu/180x256'" alt="v.name">
                 </router-link>
                 <p>{{ v.name }}</p>
             </div>
             <div v-if="!videoList" class="col">
-                <div class="text-center flex-center text-grey-7 no-video-list">加载中... | 没有数据</div>
+                <div class="text-center flex-center text-grey-7 no-video-list">{{statusText}}</div>
             </div>
         </div>
         <div class="row" v-if="videoList">
@@ -38,6 +38,7 @@
                 prev: 1,
 
                 videoList: null,
+                statusText: '加载中...',
             }
         },
         created() {
@@ -61,15 +62,19 @@
         },
         methods: {
             getTagVideoList(tagName, page) {
+                this.updateStatusText(true)
                 console.log('[this.videoList]', this.videoList);
                 this.axios.get('/api/video/tag', {params: {tagName: tagName, p: page}}).then((response) => {
+                    this.updateStatusText(false)
                     this.videoList = response.data['list'];
 
                     this.updatePager(response.data['current'], response.data['total'], response.data['limit']);
                 });
             },
             searchVideoList(search, page) {
+                this.updateStatusText(true)
                 this.axios.get('/api/video/search', {params: {q: search, p: page}}).then((response) => {
+                    this.updateStatusText(false)
                     this.videoList = response.data['list'];
 
                     this.updatePager(response.data['current'], response.data['total'], response.data['limit']);
@@ -88,6 +93,13 @@
             getTvId() {
                 return getLocalClientId();
             },
+            updateStatusText(isLoading) {
+              if (isLoading) {
+                this.statusText = '加载中...';
+              } else {
+                this.statusText = '没有数据';
+              }
+            },
         },
     }
 
@@ -95,6 +107,10 @@
 
 <style scoped>
     .video-list {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center; /**居中**/
+      flex-direction: row;
     }
 
     .video-list .hd {
@@ -113,10 +129,13 @@
         width: 158px;
         height: 233px;
         border-radius: 8px;
+        align-self:center;;
     }
 
     .video-list .item {
-        /*padding: 5px 10px 5px 10px;*/
+        width: 200px;
+        height: 306px;
+        padding: 5px 12px 5px 12px;
         color: #333;
     }
 
