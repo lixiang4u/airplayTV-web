@@ -16,9 +16,9 @@
         </div>
     </div>
     <div class="q-mb-lg"></div>
-    <div class="fm">
+    <div class="fm w1200">
         <!-- $route.fullPath 防止多次进入同一个地址，不会重新加载问题 -->
-        <router-view :key="$route.fullPath" class="w1200"></router-view>
+        <router-view :key="$route.fullPath"></router-view>
     </div>
     <div class="q-my-md flex-center text-center text-grey-8">
       本站仅作<a class="text-grey-6" target="_blank" href="https://github.com/lixiang4u/airplayTV-web">学习案例</a>展示，切勿用作任何其他用途！
