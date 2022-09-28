@@ -119,6 +119,9 @@
                 });
                 store.commit('setVideoPlayer', this.dp2);
                 store.commit('setVideoHLS', this.hls2);
+
+                // 电视设备播放后暂停图标不消失
+                document.querySelector('.dplayer-mobile-play').style.display = 'none';
             },
             handleUrl(url) {
                 if (url.indexOf('http://') === 0 || url.indexOf('https://') === 0) {
