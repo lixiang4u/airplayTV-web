@@ -42,6 +42,10 @@
                 <q-checkbox size="md" @click="changeSource('my')" v-model="videoSource.my"
                             label="源3(my)（如果效果不行请更换其他源）"/>
             </div>
+            <div>
+              <q-checkbox size="md" @click="changeSource('lv')" v-model="videoSource.lv"
+                          label="源4(lv)（如果效果不行请更换其他源）"/>
+            </div>
         </div>
         <div class="q-mb-lg">
             <p class="text-h4">数据缓存（加速访问）：{{ currentCacheStatus }}</p>
@@ -75,6 +79,7 @@
                     cz: false,
                     nn: false,
                     my: false,
+                    lv: false,
                 },
                 currentVideoSource: '',
 
