@@ -44,7 +44,7 @@
             </div>
             <div>
               <q-checkbox size="md" @click="changeSource('lv')" v-model="videoSource.lv"
-                          label="源4(lv)（如果效果不行请更换其他源）"/>
+                          label="源4(lv)（如果效果不行请更换其他源）(海外)"/>
             </div>
         </div>
         <div class="q-mb-lg">
