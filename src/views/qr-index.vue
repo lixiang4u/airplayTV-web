@@ -140,6 +140,21 @@
               let hls2 = store.state.hls2;
               switch (msg['control']) {
                 case 'qr_code':
+                  console.log('[====>this.$route]', this.$route);
+                  if (this.$route['name'] === 'video-play') {
+                    this.showQrAtPlayer(this.$store.state.clientId, new Date().getTime());
+                    document.getElementById('qr-content').setAttribute('style', 'position: fixed; z-index: 9999999; top: 0; right: 0;');
+                    document.getElementById('qr-content').style.display = 'block';
+                    setTimeout(function () {
+                      console.log('[setTimeout1]', document.getElementById('qr-content'));
+                      console.log('[setTimeout2]', document.getElementById('qr-content').style);
+                      document.getElementById('qr-content').style.display = 'none';
+                    }, 1000 * 20);
+                    break;
+                  }
+                  if (this.$route['name'] === 'qr') {
+                    break;
+                  }
                   if (dp2) {
                     dp2.pause();
                     dp2.destroy();
@@ -169,6 +184,20 @@
                 default:
                   break;
               }
+            },
+            showQrAtPlayer(clientId, ts){
+
+              let qrUrl = "https://" + getCurrentSiteHost() + "/mobile/?tv_id=" + clientId + "&t=" + ts;
+
+              console.log('[url]', qrUrl);
+
+              this.clientId = clientId;
+              QRCode.toCanvas(document.getElementById('qr-content'), qrUrl, {
+                errorCorrectionLevel: 'H',
+                type: 'image/jpeg',
+                quality: 0.3,
+                width: 300
+              });
             },
         },
     }

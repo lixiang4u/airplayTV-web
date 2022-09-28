@@ -24,6 +24,7 @@
             </a>
             </div>
         </div>
+        <canvas id="qr-content" style="display: none;"></canvas>
     </div>
 </template>
 
