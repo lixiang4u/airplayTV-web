@@ -88,7 +88,7 @@ export default {
         this.$q.notify({
           message: response.data['msg'] ?? '未知错误',
           color: 'purple',
-          position: 'center',
+          position: 'top',
         })
       });
     },
