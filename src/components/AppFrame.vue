@@ -1,6 +1,6 @@
 <template>
     <div class="text-center q-py-xs bg-black text-white">
-      修复HLS.js更新导致部分视频不能播放问题 (2022-09-29 12:30)
+      修复Vue中HLS.js部分视频不能播放问题 (2022-09-29)
     </div>
     <div class="row header w1200">
         <div class="col-2 logo">
