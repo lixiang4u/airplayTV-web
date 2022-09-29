@@ -19,8 +19,8 @@
 
       <div class="flex justify-around text-center">
         <q-icon @click="onClick('fast_rewind')" name="fast_rewind" size="3em"/>
-        <q-icon @click="onClick('play_circle_outline')" name="play_circle_outline" size="3em" v-if="showPlay"/>
-        <q-icon @click="onClick('pause_circle_outline')" name="pause_circle_outline" size="3em" v-else/>
+        <q-icon @click="onClick('play')" name="play_circle_outline" size="3em" v-if="showPlay"/>
+        <q-icon @click="onClick('pause')" name="pause_circle_outline" size="3em" v-else/>
         <q-icon @click="onClick('fast_forward')" name="fast_forward" size="3em"/>
       </div>
       <div class="q-my-lg"></div>
@@ -65,7 +65,7 @@ export default {
       if (val === 'fullscreen' || val === 'fullscreen_exit') {
         this.showFullscreen = !this.showFullscreen;
       }
-      if (val === 'play_circle_outline' || val === 'pause_circle_outline') {
+      if (val === 'play' || val === 'pause') {
         this.showPlay = !this.showPlay;
       }
     },

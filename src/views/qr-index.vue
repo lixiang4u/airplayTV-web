@@ -138,6 +138,7 @@
             videoControls(msg) {
               let dp2 = store.state.dp2;
               let hls2 = store.state.hls2;
+              let newVol = 0.7;
               switch (msg['control']) {
                 case 'qr_code':
                   console.log('[====>this.$route]', this.$route);
@@ -180,6 +181,22 @@
                   break;
                 case 'pause':
                   dp2.video.pause();
+                  break;
+                case 'fast_rewind':
+                  dp2.video.currentTime = dp2.video.currentTime - 5;
+                  break;
+                case 'fast_forward':
+                  dp2.video.currentTime = dp2.video.currentTime + 5;
+                  break;
+                case 'volume_down':
+                  // eslint-disable-next-line no-case-declarations
+                  newVol = (document.querySelector(".dplayer-video").volume * 10 - 1) / 10;
+                  dp2.volume(newVol, true, false);
+                  break;
+                case 'volume_up':
+                  // eslint-disable-next-line no-case-declarations
+                  newVol = (document.querySelector(".dplayer-video").volume * 10 + 1) / 10;
+                  dp2.volume(newVol, true, false);
                   break;
                 default:
                   break;
