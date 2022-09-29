@@ -54,9 +54,6 @@
             console.log('[params]', {id: this.$route.params.id, vid: this.$route.query.vid});
         },
         beforeUnmount() {
-            if (this.hls2) {
-                this.hls2.destroy();
-            }
             // https://blog.csdn.net/NuoYan3327/article/details/121343489
             if (this.dp2) {
                 this.dp2.pause();
@@ -76,7 +73,6 @@
             },
             getVideoConfig(obj) {
                 // auto，mp4，hls
-                let me = this;
                 let video = {
                     url: obj.url,
                     autoplay: true,
@@ -93,9 +89,9 @@
                                 console.log('[video]', video);
                                 console.log('[player]', player);
 
-                                me.hls2 = new Hls();
-                                me.hls2.loadSource(video.src);
-                                me.hls2.attachMedia(video);
+                                let hls2 = new Hls();
+                                hls2.loadSource(video.src);
+                                hls2.attachMedia(video);
                             },
                         },
                     }
@@ -118,7 +114,6 @@
                     console.log('[play.error]', a, b, c);
                 });
                 store.commit('setVideoPlayer', this.dp2);
-                store.commit('setVideoHLS', this.hls2);
 
                 // 电视设备播放后暂停图标不消失
                 document.querySelector('.dplayer-mobile-play').style.display = 'none';
