@@ -1,5 +1,7 @@
 <template>
-    <div class="q-mt-md"></div>
+    <div class="text-center q-py-xs bg-black text-white">
+      修复HLS.js更新导致部分视频不能播放问题 (2022-09-29 12:30)
+    </div>
     <div class="row header w1200">
         <div class="col-sm-3 logo">
             <router-link to="/mobile">TΞSLA TV</router-link>
