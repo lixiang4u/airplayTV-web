@@ -2,7 +2,7 @@
   <div>
     <div class="tv_id_info q-mb-lg">关联设备: {{ getTvId() }}</div>
     <div class="main">
-      <div class="q-my-lg"></div>
+      <div class="q-my-lg q-pt-md"></div>
 
       <div class="flex justify-around text-center">
         <q-icon @click="goBack()" name="power_settings_new" size="3em"/>
@@ -10,12 +10,12 @@
         <q-icon @click="onClick('fullscreen_exit')" name="fullscreen_exit" size="3em" v-else/>
         <q-icon @click="onClick('qr_code')" name="qr_code" size="3em"/>
       </div>
-      <div class="q-my-lg"></div>
+      <div class="q-my-lg q-pt-md"></div>
 
       <div class="flex justify-around text-center">
         <q-icon @click="onClick('volume_up')" name="volume_up" size="3em"/>
       </div>
-      <div class="q-my-lg"></div>
+      <div class="q-my-lg q-pt-md"></div>
 
       <div class="flex justify-around text-center">
         <q-icon @click="onClick('fast_rewind')" name="fast_rewind" size="3em"/>
@@ -23,7 +23,7 @@
         <q-icon @click="onClick('pause')" name="pause_circle_outline" size="3em" v-else/>
         <q-icon @click="onClick('fast_forward')" name="fast_forward" size="3em"/>
       </div>
-      <div class="q-my-lg"></div>
+      <div class="q-my-lg q-pt-md"></div>
 
       <div class="flex justify-around text-center">
         <q-icon @click="onClick('volume_down')" name="volume_down" size="3em"/>
