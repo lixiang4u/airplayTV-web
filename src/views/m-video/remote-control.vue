@@ -1,0 +1,124 @@
+<template>
+  <div>
+    <div class="tv_id_info q-mb-lg">关联设备: {{ getTvId() }}</div>
+    <div class="main">
+      <div class="q-my-lg"></div>
+
+      <div class="flex justify-around text-center">
+        <q-icon @click="goBack()" name="power_settings_new" size="3em"/>
+        <q-icon @click="onClick('fullscreen')" name="fullscreen" size="3em" v-if="showFullscreen"/>
+        <q-icon @click="onClick('fullscreen_exit')" name="fullscreen_exit" size="3em" v-else/>
+        <q-icon @click="onClick('qr_code')" name="qr_code" size="3em"/>
+      </div>
+      <div class="q-my-lg"></div>
+
+      <div class="flex justify-around text-center">
+        <q-icon @click="onClick('volume_up')" name="volume_up" size="3em"/>
+      </div>
+      <div class="q-my-lg"></div>
+
+      <div class="flex justify-around text-center">
+        <q-icon @click="onClick('fast_rewind')" name="fast_rewind" size="3em"/>
+        <q-icon @click="onClick('play_circle_outline')" name="play_circle_outline" size="3em" v-if="showPlay"/>
+        <q-icon @click="onClick('pause_circle_outline')" name="pause_circle_outline" size="3em" v-else/>
+        <q-icon @click="onClick('fast_forward')" name="fast_forward" size="3em"/>
+      </div>
+      <div class="q-my-lg"></div>
+
+      <div class="flex justify-around text-center">
+        <q-icon @click="onClick('volume_down')" name="volume_down" size="3em"/>
+      </div>
+    </div>
+
+    <div v-if="!videoInfo" class="col-12">
+      <div class="text-center flex-center text-grey-7 no-video-list">{{ statusText }}</div>
+    </div>
+
+  </div>
+</template>
+
+<script>
+import 'quasar';
+import {getLocalClientId} from "@/helper/localstorage";
+
+export default {
+  name: 'VideoDetail',
+  data() {
+    return {
+      videoInfo: null,
+      statusText: '请扫码后使用遥控器...',
+      showFullscreen: true,
+      showPlay: true,
+    }
+  },
+  created() {
+    console.log('[this.$route]', this.$route);
+  },
+  methods: {
+    getTvId() {
+      return getLocalClientId();
+    },
+    goBack() {
+      this.$router.back();
+    },
+    transformShowStatus(val) {
+      if (val === 'fullscreen' || val === 'fullscreen_exit') {
+        this.showFullscreen = !this.showFullscreen;
+      }
+      if (val === 'play_circle_outline' || val === 'pause_circle_outline') {
+        this.showPlay = !this.showPlay;
+      }
+    },
+    onClick(val) {
+      console.log('[onClick]', val);
+      let clientId = getLocalClientId();
+
+      this.axios.get('/api/video/controls', {
+        params: {
+          client_id: clientId,
+          control: val,
+        }
+      }).then((response) => {
+        console.log('[sendPlayControlsMessage.response]', response.data);
+
+        if (response.data['code'] === 200) {
+          this.transformShowStatus(val);
+        }
+
+        this.$q.notify({
+          message: response.data['msg'] ?? '未知错误',
+          color: 'purple',
+          position: 'center',
+        })
+      });
+    },
+  },
+  computed: {}
+}
+
+</script>
+
+<style scoped>
+.main {
+  max-width: 360px;
+  margin: 0 auto;
+  padding: 0 20px 0 20px;
+}
+
+.main > div {
+  display: flex;
+  justify-content: space-around;
+}
+
+.q-icon {
+  color: #57abb8;
+}
+
+.tv_id_info {
+  padding: 0 22px 0 22px;
+}
+
+.no-video-list {
+  margin-top: 200px;
+}
+</style>

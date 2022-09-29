@@ -84,7 +84,11 @@ const route = createRouter({
             name: 'mobile-video-detail',
             component: () => import('./views/m-video/detail')
         },
-
+        {
+            path: '/mobile/remote/control',
+            name: 'mobile-remote-control',
+            component: () => import('./views/m-video/remote-control')
+        },
 
     ]
 });

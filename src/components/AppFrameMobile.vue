@@ -7,6 +7,8 @@
             <router-link to="/mobile">TΞSLA TV</router-link>
         </div>
         <div class="col-sm-6 links">
+            <router-link to="/mobile/">首页</router-link>
+            <router-link to="/mobile/remote/control">遥控</router-link>
             <router-link to="/about">关于</router-link>
         </div>
         <div class="col-sm-3">
@@ -80,6 +82,7 @@
 
     .header .logo {
         font-size: 26px;
+        display: none;
     }
 
     .header .logo a {

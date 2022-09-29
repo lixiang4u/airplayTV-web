@@ -25,14 +25,12 @@
         <div class="text-center flex-center text-grey-7 no-video-list">{{statusText}}</div>
       </div>
 
-      <VideoControls/>
     </div>
 </template>
 
 <script>
     import 'quasar';
     import {getLocalClientId} from "@/helper/localstorage";
-    import VideoControls from "@/views/m-video/video-controls";
 
     export default {
         name: 'VideoDetail',
@@ -42,7 +40,6 @@
                 statusText: '加载中...',
             }
         },
-        components:{VideoControls},
         created() {
             console.log('[this.$route]', this.$route);
             this.getVideoInfo(this.$route.query.id);
@@ -87,6 +84,15 @@
                     }
                 }).then((response) => {
                     console.log('[sendPlayMessage.response]', response.data);
+
+                    if (response.data['code'] === 200) {
+                      this.$router.push({name: 'mobile-remote-control',}).then(failure => {
+                        if (failure) {
+                          console.log('[failure]', failure)
+                        }
+                      });
+                    }
+
                     alert(response.data['msg'] ?? '未知错误');
                 });
             },
