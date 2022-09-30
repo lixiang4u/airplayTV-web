@@ -1,5 +1,7 @@
 <template>
   <div>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0">
+
     <div class="tv_id_info q-mb-lg">关联设备: {{ getTvId() }}</div>
     <div class="main">
       <div class="q-my-lg q-pt-md"></div>

@@ -113,6 +113,12 @@
       flex-direction: row;
     }
 
+    @media (max-width: 700px) {
+      .video-list .item {
+        width: 186px !important;
+      }
+    }
+
     .video-list .hd {
         display: block;
         padding: 4px 5px;
