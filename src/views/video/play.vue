@@ -57,6 +57,8 @@
         beforeUnmount() {
             // https://blog.csdn.net/NuoYan3327/article/details/121343489
             if (this.dp2) {
+                console.log('[destroy...]', this.dp2)
+                this.hls2.destroy();
                 this.dp2.pause();
                 this.dp2.destroy();
             }

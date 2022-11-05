@@ -85,9 +85,12 @@
           </q-item-section>
         </q-item>
       </q-list>
+
+      <div class="q-my-lg"></div>
+
     </div>
 
-    <div v-if="!videoInfo" class="col-12">
+    <div v-if="!getTvId()" class="col-12">
       <div class="text-center flex-center text-grey-7 no-video-list">{{ statusText }}</div>
     </div>
 
