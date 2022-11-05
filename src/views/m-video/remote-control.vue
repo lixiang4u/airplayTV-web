@@ -4,20 +4,21 @@
 
     <div class="tv_id_info q-mb-lg">关联设备: {{ getTvId() }}</div>
     <div class="main">
-      <div class="q-my-lg q-pt-md"></div>
+      <div class="q-my-lg"></div>
 
       <div class="flex justify-around text-center">
         <q-icon @click="goBack()" name="power_settings_new" size="3em"/>
         <q-icon @click="onClick('fullscreen')" name="fullscreen" size="3em" v-if="showFullscreen"/>
         <q-icon @click="onClick('fullscreen_exit')" name="fullscreen_exit" size="3em" v-else/>
         <q-icon @click="onClick('qr_code')" name="qr_code" size="3em"/>
+        <q-icon @click="onClick('show_info')" name="info" size="3em"/>
       </div>
-      <div class="q-my-lg q-pt-md"></div>
+      <div class="q-my-lg"></div>
 
       <div class="flex justify-around text-center">
         <q-icon @click="onClick('volume_up')" name="volume_up" size="3em"/>
       </div>
-      <div class="q-my-lg q-pt-md"></div>
+      <div class="q-my-lg"></div>
 
       <div class="flex justify-around text-center">
         <q-icon @click="onClick('fast_rewind')" name="fast_rewind" size="3em"/>
@@ -25,19 +26,65 @@
         <q-icon @click="onClick('pause')" name="pause_circle_outline" size="3em" v-else/>
         <q-icon @click="onClick('fast_forward')" name="fast_forward" size="3em"/>
       </div>
-      <div class="q-my-lg q-pt-md"></div>
+      <div class="q-my-lg"></div>
 
       <div class="flex justify-around text-center">
         <q-icon @click="onClick('volume_down')" name="volume_down" size="3em"/>
       </div>
 
-      <div class="q-my-lg q-pt-md"></div>
+      <div class="q-my-lg"></div>
       <div class="flex justify-around text-center">
-        <q-icon @click="onClick('show_info')" name="info" size="3em"/>
-        <q-icon @click="onClick('last_play')" name="trending_up" size="3em"/>
         <q-icon @click="onClick('volume_0')" name="volume_off" size="3em"/>
+        <q-icon @click="onClick('last_play')" name="trending_up" size="3em"/>
       </div>
 
+      <div class="q-my-lg"></div>
+
+      <q-separator inset spaced />
+
+      <div class="q-pt-md"></div>
+
+      <div>
+        <q-item>
+          <q-item-section avatar>
+            <q-icon color="secondary" name="volume_up" />
+          </q-item-section>
+          <q-item-section>
+            <q-slider
+                v-model="volume_progress"
+                :min="0"
+                :max="100"
+                label
+                :label-value="'Volume: ' + volume_progress + '%'"
+                color="secondary"
+            />
+          </q-item-section>
+          <q-item-section avatar>
+            <q-icon color="secondary" name="redo" @click="onClick('volume_progress', volume_progress)" />
+          </q-item-section>
+        </q-item>
+      </div>
+      <div class="q-pt-md"></div>
+      <div>
+        <q-item>
+          <q-item-section avatar>
+            <q-icon color="secondary" name="pause" />
+          </q-item-section>
+          <q-item-section>
+            <q-slider
+                v-model="video_progress"
+                :min="0"
+                :max="100"
+                label
+                :label-value="'Video: ' + video_progress + '%'"
+                color="secondary"
+            />
+          </q-item-section>
+          <q-item-section avatar>
+            <q-icon color="secondary" name="redo" @click="onClick('video_progress', video_progress)" />
+          </q-item-section>
+        </q-item>
+      </div>
     </div>
 
     <div v-if="!videoInfo" class="col-12">
@@ -50,9 +97,16 @@
 <script>
 import 'quasar';
 import {getLocalClientId} from "@/helper/localstorage";
+import { ref } from 'vue'
 
 export default {
   name: 'VideoDetail',
+  setup () {
+    return {
+      volume_progress: ref(0),
+      video_progress: ref(0),
+    }
+  },
   data() {
     return {
       videoInfo: null,
@@ -79,7 +133,7 @@ export default {
         this.showPlay = !this.showPlay;
       }
     },
-    onClick(val) {
+    onClick(val, value) {
       console.log('[onClick]', val);
       let clientId = getLocalClientId();
 
@@ -87,6 +141,7 @@ export default {
         params: {
           client_id: clientId,
           control: val,
+          value: value,
         }
       }).then((response) => {
         console.log('[sendPlayControlsMessage.response]', response.data);
