@@ -13,7 +13,7 @@
         <q-icon @click="onClick('qr_code')" name="qr_code" size="3em"/>
         <q-icon @click="onClick('show_info')" name="info" size="3em"/>
       </div>
-      <div class="q-my-lg"></div>
+      <div class="q-my-lg q-pt-md"></div>
 
       <div class="flex justify-around text-center">
         <q-icon @click="onClick('volume_up', 15)" name="volume_up" size="3em"/>
@@ -45,7 +45,7 @@
       <div class="q-pt-md"></div>
 
       <q-list dense>
-        <q-item>
+        <q-item flex justify-around>
           <q-item-section avatar>
             <q-icon color="secondary" name="volume_up" />
           </q-item-section>
@@ -65,7 +65,7 @@
         </q-item>
       </q-list>
       <div class="q-pt-md"></div>
-      <q-list dense>
+      <q-list flex justify-around dense>
         <q-item>
           <q-item-section avatar>
             <q-icon color="secondary" name="pause" />
