@@ -56,9 +56,12 @@
         },
         beforeUnmount() {
             // https://blog.csdn.net/NuoYan3327/article/details/121343489
+            if (this.hls2) {
+              console.log('[hls destroy...]', this.hls2)
+              this.hls2.destroy();
+            }
             if (this.dp2) {
-                console.log('[destroy...]', this.dp2)
-                this.hls2.destroy();
+                console.log('[dp destroy...]', this.dp2)
                 this.dp2.pause();
                 this.dp2.destroy();
             }
@@ -75,6 +78,7 @@
                 });
             },
             getVideoConfig(obj) {
+                let me = this
                 // auto，mp4，hls
                 let video = {
                     url: obj.url,
@@ -95,6 +99,7 @@
                                 let hls2 = new Hls();
                                 hls2.loadSource(video.src);
                                 hls2.attachMedia(video);
+                                me.hls2 = hls2;
                             },
                         },
                     }
