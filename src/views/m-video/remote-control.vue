@@ -18,7 +18,7 @@
       <div class="flex justify-around text-center">
         <q-icon @click="onClick('volume_up', 15)" name="volume_up" size="3em"/>
       </div>
-      <div class="q-my-lg"></div>
+      <div class="q-my-lg q-pt-md"></div>
 
       <div class="flex justify-around text-center">
         <q-icon @click="onClick('fast_rewind')" name="fast_rewind" size="3em"/>
@@ -26,7 +26,7 @@
         <q-icon @click="onClick('pause')" name="pause_circle_outline" size="3em" v-else/>
         <q-icon @click="onClick('fast_forward')" name="fast_forward" size="3em"/>
       </div>
-      <div class="q-my-lg"></div>
+      <div class="q-my-lg q-pt-md"></div>
 
       <div class="flex justify-around text-center">
         <q-icon @click="onClick('volume_down', 15)" name="volume_down" size="3em"/>
@@ -44,7 +44,7 @@
 
       <div class="q-pt-md"></div>
 
-      <div>
+      <q-list dense>
         <q-item>
           <q-item-section avatar>
             <q-icon color="secondary" name="volume_up" />
@@ -63,9 +63,9 @@
             <q-icon color="secondary" name="redo" @click="onClick('volume_progress', volume_progress)" />
           </q-item-section>
         </q-item>
-      </div>
+      </q-list>
       <div class="q-pt-md"></div>
-      <div>
+      <q-list dense>
         <q-item>
           <q-item-section avatar>
             <q-icon color="secondary" name="pause" />
@@ -84,7 +84,7 @@
             <q-icon color="secondary" name="redo" @click="onClick('video_progress', video_progress)" />
           </q-item-section>
         </q-item>
-      </div>
+      </q-list>
     </div>
 
     <div v-if="!videoInfo" class="col-12">
