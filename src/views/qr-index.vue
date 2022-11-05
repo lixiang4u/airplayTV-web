@@ -210,7 +210,7 @@
                   // eslint-disable-next-line no-case-declarations
                   const  showTime = 10000;
                   dp2.notice('视频名称：'+dp2.videoSource.name, showTime);
-                  dp2.notice('上次进度：'+secondsToHuman(getLocalVideoMaxTime(md5(dp2.video.url))), showTime);
+                  dp2.notice('上次进度：'+secondsToHuman(getLocalVideoMaxTime(md5(dp2.videoSource.url))), showTime);
                   dp2.notice('当前进度：'+secondsToHuman(dp2.video.currentTime), showTime);
                   dp2.notice('视频时长：'+secondsToHuman(dp2.video.duration), showTime);
                   dp2.notice('视频地址：'+dp2.videoSource.url, showTime);
