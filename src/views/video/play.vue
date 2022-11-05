@@ -35,7 +35,6 @@
     import {setLocalVideoSource, getLocalVideoSource, setLocalVideoMaxTime,getLocalVideoMaxTime} from '@/helper/localstorage';
     import store from '@/store/index'
     import md5 from 'md5/md5';
-    import {secondsToHuman} from "@/helper/time";
 
     export default {
         name: 'VideoPlayInfo',
