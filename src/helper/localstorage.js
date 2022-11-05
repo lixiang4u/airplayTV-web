@@ -89,7 +89,7 @@ function removeExpiredVideoHistory(videoList) {
             expireTime = videoList[tmpKey]['updated_at'];
         }
     }
-    if (count > 3) {
+    if (count > 20) {
         delete videoList[expireKey];
     }
     return videoList;
