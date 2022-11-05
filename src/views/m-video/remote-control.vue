@@ -49,8 +49,8 @@
           <q-item-section avatar>
             <q-icon color="secondary" name="volume_up" />
           </q-item-section>
-          <q-item-section>
-            <q-slider
+          <q-item-section class="progress100w">
+            <q-slider class="progress100w"
                 v-model="volume_progress"
                 :min="0"
                 :max="100"
@@ -70,8 +70,8 @@
           <q-item-section avatar>
             <q-icon color="secondary" name="pause" />
           </q-item-section>
-          <q-item-section>
-            <q-slider
+          <q-item-section class="progress100w">
+            <q-slider class="progress100w"
                 v-model="video_progress"
                 :min="0"
                 :max="100"
@@ -185,5 +185,9 @@ export default {
 
 .no-video-list {
   margin-top: 200px;
+}
+
+.progress100w {
+  width: 200px !important; /** TODO FIXME 这里有个bug，进度条不能自动显示 **/
 }
 </style>
