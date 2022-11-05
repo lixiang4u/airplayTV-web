@@ -186,10 +186,18 @@
                   dp2.video.pause();
                   break;
                 case 'fast_rewind':
-                  dp2.video.currentTime = dp2.video.currentTime - 5;
+                  if (msg['value'] > 0) {
+                    dp2.video.currentTime = dp2.video.currentTime - msg['value'];
+                  } else {
+                    dp2.video.currentTime = dp2.video.currentTime - 5;
+                  }
                   break;
                 case 'fast_forward':
-                  dp2.video.currentTime = dp2.video.currentTime + 5;
+                  if (msg['value'] > 0) {
+                    dp2.video.currentTime = dp2.video.currentTime + msg['value'];
+                  } else {
+                    dp2.video.currentTime = dp2.video.currentTime + 5;
+                  }
                   break;
                 case 'volume_down':
                   // eslint-disable-next-line no-case-declarations
@@ -218,6 +226,14 @@
                 case 'volume_0':
                   // eslint-disable-next-line no-case-declarations
                   dp2.volume(0, true, false);
+                  break;
+                case 'volume_progress':
+                  // eslint-disable-next-line no-case-declarations
+                  dp2.volume((msg['value'] / 100), true, false);
+                  break;
+                case 'video_progress':
+                  // eslint-disable-next-line no-case-declarations
+                  dp2.seek(Math.floor(dp2.video.duration * msg['value'] / 100));
                   break;
                 default:
                   break;

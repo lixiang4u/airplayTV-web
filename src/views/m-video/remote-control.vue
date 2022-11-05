@@ -16,7 +16,7 @@
       <div class="q-my-lg"></div>
 
       <div class="flex justify-around text-center">
-        <q-icon @click="onClick('volume_up')" name="volume_up" size="3em"/>
+        <q-icon @click="onClick('volume_up', 15)" name="volume_up" size="3em"/>
       </div>
       <div class="q-my-lg"></div>
 
@@ -29,7 +29,7 @@
       <div class="q-my-lg"></div>
 
       <div class="flex justify-around text-center">
-        <q-icon @click="onClick('volume_down')" name="volume_down" size="3em"/>
+        <q-icon @click="onClick('volume_down', 15)" name="volume_down" size="3em"/>
       </div>
 
       <div class="q-my-lg"></div>
