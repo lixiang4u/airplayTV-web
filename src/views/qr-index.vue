@@ -203,7 +203,7 @@
                   break;
                 case 'last_play':
                   // eslint-disable-next-line no-case-declarations
-                  let maxVideoTime=getLocalVideoMaxTime(md5(dp2.video.url));
+                  let maxVideoTime=getLocalVideoMaxTime(md5(dp2.videoSource.url));
                   dp2.seek(maxVideoTime);
                   break;
                 case 'show_info':
