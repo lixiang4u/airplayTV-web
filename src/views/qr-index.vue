@@ -12,7 +12,10 @@
 <script>
     import QRCode from 'qrcode';
     import {getCurrentSiteHost} from './../helper/url-helper';
+    import {getLocalVideoMaxTime} from "@/helper/localstorage";
     import store from "@/store/index";
+    import md5 from "md5/md5";
+    import {secondsToHuman} from "@/helper/time";
 
     export default {
         name: 'QrIndexComponent',
@@ -197,6 +200,20 @@
                   // eslint-disable-next-line no-case-declarations
                   newVol = (document.querySelector(".dplayer-video").volume * 100 + 2) / 100;
                   dp2.volume(newVol, true, false);
+                  break;
+                case 'last_play':
+                  // eslint-disable-next-line no-case-declarations
+                  let maxVideoTime=getLocalVideoMaxTime(md5(dp2.video.url));
+                  dp2.seek(maxVideoTime);
+                  break;
+                case 'show_info':
+                  // eslint-disable-next-line no-case-declarations
+                  const  showTime = 10000;
+                  dp2.notice('视频名称：'+dp2.videoSource.name, showTime);
+                  dp2.notice('上次进度：'+secondsToHuman(getLocalVideoMaxTime(md5(dp2.video.url))), showTime);
+                  dp2.notice('当前进度：'+secondsToHuman(dp2.video.currentTime), showTime);
+                  dp2.notice('视频时长：'+secondsToHuman(dp2.video.duration), showTime);
+                  dp2.notice('视频地址：'+dp2.videoSource.url, showTime);
                   break;
                 default:
                   break;

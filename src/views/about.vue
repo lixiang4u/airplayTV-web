@@ -63,13 +63,17 @@
             <pre>navigator: {{ navigator }}</pre>
             <pre>location: {{ location }}</pre>
         </div>
+        <div class="q-mb-lg">
+          <p class="text-h4">播放历史：</p>
+          <pre>{{ videoHistoryList }}</pre>
+        </div>
         <div class="q-mb-lg">&nbsp;</div>
     </div>
 </template>
 
 <script>
     import {ref} from 'vue';
-    import {getLocalCache, getLocalVideoSource, setLocalCache, setLocalVideoSource} from './../helper/localstorage';
+    import {getLocalCache, getLocalVideoSource, setLocalCache, setLocalVideoSource, getLocalVideoList} from './../helper/localstorage';
 
     export default {
         name: 'AboutComponent',
@@ -89,6 +93,7 @@
                 },
                 currentCacheStatus: '',
                 fileModel: ref(null),
+                videoHistoryList: {},
             }
         },
         mounted() {
@@ -96,6 +101,7 @@
 
             this.loadVideoSourceToLS();
             this.loadCacheStatusToLS();
+            this.loadLocalVideoHistory();
         },
         methods: {
             changeSource: function (key) {
@@ -146,6 +152,9 @@
                     this.cacheStatus[k] = false;
                 }
             },
+            loadLocalVideoHistory:function () {
+              this.videoHistoryList = getLocalVideoList();
+            }
         },
         computed: {
             navigator: function () {

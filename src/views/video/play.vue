@@ -32,8 +32,10 @@
     import 'quasar';
     import DPlayer from 'dplayer';
     import Hls from 'hls.js';
-    import {setLocalVideoSource, getLocalVideoSource} from '@/helper/localstorage';
+    import {setLocalVideoSource, getLocalVideoSource, setLocalVideoMaxTime,getLocalVideoMaxTime} from '@/helper/localstorage';
     import store from '@/store/index'
+    import md5 from 'md5/md5';
+    import {secondsToHuman} from "@/helper/time";
 
     export default {
         name: 'VideoPlayInfo',
@@ -114,6 +116,33 @@
                     console.log('[play.error]', a, b, c);
                 });
                 store.commit('setVideoPlayer', this.dp2);
+
+                // 设置附加属性
+                this.dp2.videoSource = obj;
+
+                console.log('[getLocalVideoMaxTime]',getLocalVideoMaxTime(md5(obj.url)));
+
+                // dp.seek(time: number)
+                // dp.notice(text: string, time: number): 显示通知，时间的单位为毫秒，默认时间 2000 毫秒，默认透明度 0.8
+
+                let prevTime = 0;
+                let tmpVideo = this.dp2;
+
+                this.dp2.on('timeupdate',function (){
+                  if (tmpVideo.video.currentTime - 5 >= prevTime){
+                    prevTime = tmpVideo.video.currentTime;
+
+                    // 记录播放时间
+                    setLocalVideoMaxTime(md5(obj.url), {
+                      maxTime:tmpVideo.video.currentTime,
+                      duration:tmpVideo.video.duration,
+                      id:obj.id,
+                      name:obj.name,
+                      url:obj.url,
+                      thumb:obj.thumb,
+                    });
+                  }
+                });
 
                 // 电视设备播放后暂停图标不消失
                 document.querySelector('.dplayer-mobile-play').style.display = 'none';

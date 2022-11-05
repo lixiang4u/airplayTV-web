@@ -9,6 +9,7 @@ const store = createStore({
             isJumpTv: null,
             dp2: null,
             hls2: null,
+            maxTime: null,
         }
     },
     mutations: {

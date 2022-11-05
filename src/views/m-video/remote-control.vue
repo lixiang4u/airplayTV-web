@@ -30,6 +30,13 @@
       <div class="flex justify-around text-center">
         <q-icon @click="onClick('volume_down')" name="volume_down" size="3em"/>
       </div>
+
+      <div class="q-my-lg q-pt-md"></div>
+      <div class="flex justify-around text-center">
+        <q-icon @click="onClick('show_info')" name="info" size="3em"/>
+        <q-icon @click="onClick('last_play')" name="trending_up" size="3em"/>
+      </div>
+
     </div>
 
     <div v-if="!videoInfo" class="col-12">
