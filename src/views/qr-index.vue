@@ -215,6 +215,10 @@
                   dp2.notice('视频时长：'+secondsToHuman(dp2.video.duration), showTime);
                   dp2.notice('视频地址：'+dp2.videoSource.url, showTime);
                   break;
+                case 'volume_0':
+                  // eslint-disable-next-line no-case-declarations
+                  dp2.volume(0, true, false);
+                  break;
                 default:
                   break;
               }

@@ -35,6 +35,7 @@
       <div class="flex justify-around text-center">
         <q-icon @click="onClick('show_info')" name="info" size="3em"/>
         <q-icon @click="onClick('last_play')" name="trending_up" size="3em"/>
+        <q-icon @click="onClick('volume_0')" name="volume_off" size="3em"/>
       </div>
 
     </div>
