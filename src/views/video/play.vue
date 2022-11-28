@@ -24,6 +24,9 @@
             </a>
             </div>
         </div>
+        <div class="text-center flex-center text-grey-7 no-video-list" v-else>
+          {{statusText}}
+        </div>
         <canvas id="qr-content" style="display: none;"></canvas>
     </div>
 </template>
@@ -45,6 +48,7 @@
                 hls2: null,
                 vid: '',
                 sourceName: getLocalVideoSource(),
+                statusText: '加载中...',
             }
         },
         created() {
@@ -205,5 +209,8 @@
 
     .link a {
         color: #c3c3c3;
+    }
+    .no-video-list {
+      margin-top: 200px;
     }
 </style>
