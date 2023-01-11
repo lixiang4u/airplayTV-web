@@ -118,7 +118,7 @@
                 this.dp2 = new DPlayer({
                     container: document.getElementById('dplayer'),
                     autoplay: true,
-                    screenshot: true,
+                    screenshot: false,
                     theme: "#00b2c2",
                     video: video,
                 });
