@@ -64,6 +64,10 @@
             </div>
         </div>
         <div class="q-mb-lg">
+          <p class="text-h4">客户端ID：</p>
+          <pre>ID: {{ clientId }}</pre>
+        </div>
+        <div class="q-mb-lg">
             <p class="text-h4">调试信息：</p>
             <pre>navigator: {{ navigator }}</pre>
             <pre>location: {{ location }}</pre>
@@ -78,7 +82,14 @@
 
 <script>
     import {ref} from 'vue';
-    import {getLocalCache, getLocalVideoSource, setLocalCache, setLocalVideoSource, getLocalVideoList} from './../helper/localstorage';
+    import {
+      getLocalCache,
+      getLocalVideoSource,
+      setLocalCache,
+      setLocalVideoSource,
+      getLocalVideoList,
+      getLocalClientId
+    } from '@/helper/localstorage';
 
     export default {
         name: 'AboutComponent',
@@ -100,10 +111,11 @@
                 currentCacheStatus: '',
                 fileModel: ref(null),
                 videoHistoryList: {},
+                clientId: '',
             }
         },
         mounted() {
-            console.log('[About.getClientId]', this.$store.state.clientId);
+            this.clientId = getLocalClientId();
 
             this.loadVideoSourceToLS();
             this.loadCacheStatusToLS();
