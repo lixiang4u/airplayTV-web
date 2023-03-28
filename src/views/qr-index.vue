@@ -153,7 +153,7 @@
                       console.log('[setTimeout1]', document.getElementById('qr-content'));
                       console.log('[setTimeout2]', document.getElementById('qr-content').style);
                       document.getElementById('qr-content').style.display = 'none';
-                    }, 1000 * 20);
+                    }, 1000 * 30);
                     break;
                   }
                   if (this.$route['name'] === 'qr') {
@@ -216,7 +216,7 @@
                   break;
                 case 'show_info':
                   // eslint-disable-next-line no-case-declarations
-                  const  showTime = 10000;
+                  const  showTime = 1000 * 30;
                   dp2.notice('视频名称：'+dp2.videoSource.name, showTime);
                   dp2.notice('上次进度：'+secondsToHuman(getLocalVideoMaxTime(md5(dp2.videoSource.url))), showTime);
                   dp2.notice('当前进度：'+secondsToHuman(dp2.video.currentTime), showTime);

@@ -86,6 +86,25 @@
                     console.log('[sendPlayMessage.response]', response.data);
 
                     if (response.data['code'] === 200) {
+                      this.axios.get('/api/video/controls', {
+                        params: {
+                          client_id: clientId,
+                          control: 'fullscreen',
+                          value: '',
+                        }
+                      }).then((response) => {
+                        console.log('[sendPlayControlsMessage.response]', response.data);
+                      });
+                      this.axios.get('/api/video/controls', {
+                        params: {
+                          client_id: clientId,
+                          control: 'show_info',
+                          value: '',
+                        }
+                      }).then((response) => {
+                        console.log('[sendPlayControlsMessage.response]', response.data);
+                      });
+
                       this.$router.push({name: 'mobile-remote-control',}).then(failure => {
                         if (failure) {
                           console.log('[failure]', failure)
