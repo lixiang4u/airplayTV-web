@@ -154,6 +154,10 @@
                   }
                 });
 
+                setTimeout(function (){
+                  this.dp2.fullScreen.request('web');
+                }, 2000);
+
                 // 电视设备播放后暂停图标不消失
                 document.querySelector('.dplayer-mobile-play').style.display = 'none';
             },
