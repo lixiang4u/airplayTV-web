@@ -92,8 +92,8 @@
             gotoPlay(msg) {
                 this.$router.push({
                     name: 'video-play',
-                    params: {id: (msg['video']['id'] || null)},
-                    query: {vid: '', _source: msg['_source']}
+                    params: {id: (msg['video']['id'])},
+                    query: {vid: msg['video']['vid'], _source: msg['_source']}
                 }).then(failure => {
                     if (failure) {
                         console.log('[failure]', failure)
