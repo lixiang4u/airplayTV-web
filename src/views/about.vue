@@ -37,7 +37,7 @@
           </div>
             <div>
                 <q-checkbox size="md" @click="changeSource('cz')" v-model="videoSource.cz"
-                            label="源1(cz)（如果效果不行请更换其他源）"/>
+                            label="源1(cz)（废弃/需要GPU绕过CF验证）"/>
             </div>
             <div>
                 <q-checkbox size="md" @click="changeSource('nn')" v-model="videoSource.nn"
