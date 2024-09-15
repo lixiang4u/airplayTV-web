@@ -31,6 +31,10 @@
         </div>
         <div class="q-mb-lg">
             <p class="text-h4">视频源（默认由后台接口随机分配）：{{ currentVideoSource }}</p>
+          <div>
+            <q-checkbox size="md" @click="changeSource('ys')" v-model="videoSource.ys"
+                        label="源6(ys)（如果效果不行请更换其他源）"/>
+          </div>
             <div>
                 <q-checkbox size="md" @click="changeSource('cz')" v-model="videoSource.cz"
                             label="源1(cz)（如果效果不行请更换其他源）"/>
@@ -101,6 +105,7 @@
                     my: false,
                     lv: false,
                     five: false,
+                    ys: false,
                 },
                 currentVideoSource: '',
 
