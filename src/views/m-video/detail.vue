@@ -14,7 +14,7 @@
                     <span hidden>{{ tmpLoopIndex=1 }}</span>
                     <div v-for="(g,idx) in videoInfo['links']" :key="idx">
                         <div class="group-title q-my-sm"><b>资源来源{{ tmpLoopIndex++ }}</b></div>
-                        <span class="item" @click="sendPlayMessage(v.id,'')" v-for="(v,idx2) in g" :key="idx2">
+                        <span class="item" @click="sendPlayMessage(v.id,videoInfo.id)" v-for="(v,idx2) in g" :key="idx2">
                         {{ v.name }}
                     </span>
                     </div>
