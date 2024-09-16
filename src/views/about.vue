@@ -35,6 +35,10 @@
             <q-checkbox size="md" @click="changeSource('ys')" v-model="videoSource.ys"
                         label="源6(ys)（如果效果不行请更换其他源）"/>
           </div>
+          <div>
+            <q-checkbox size="md" @click="changeSource('xk')" v-model="videoSource.xk"
+                        label="源7(xk)（如果效果不行请更换其他源）"/>
+          </div>
             <div>
                 <q-checkbox size="md" @click="changeSource('cz')" v-model="videoSource.cz"
                             label="源1(cz)（废弃/需要显卡模拟绕过CF验证）"/>
@@ -106,6 +110,7 @@
                     lv: false,
                     five: false,
                     ys: false,
+                    xk: false,
                 },
                 currentVideoSource: '',
 
