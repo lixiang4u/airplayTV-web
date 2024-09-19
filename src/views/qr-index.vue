@@ -93,7 +93,7 @@ export default {
       this.$router.push({
         name: 'video-play',
         params: {id: (msg['video']['id'])},
-        query: {vid: msg['video']['vid'], _source: msg['_source']}
+        query: {vid: msg['video']['vid'], _source: msg['_source'], _m3u8p: msg['_m3u8p']}
       }).then(failure => {
         if (failure) {
           console.log('[failure]', failure)

@@ -42,7 +42,8 @@ import {
   getLocalVideoMaxTime,
   getLocalVideoSource,
   setLocalVideoMaxTime,
-  setLocalVideoSource
+  setLocalVideoSource,
+  setM3u8pCache
 } from '@/helper/localstorage';
 import store from '@/store/index'
 import md5 from 'md5/md5';
@@ -62,6 +63,9 @@ export default {
   created() {
     if (this.$route.query['_source']) {
       setLocalVideoSource(this.$route.query['_source']);
+    }
+    if (this.$route.query['_m3u8p']) {
+      setM3u8pCache(this.$route.query['_m3u8p']);
     }
     this.getVideoPlayInfo(this.$route.params.id, this.$route.query.vid, this.$route.query.title);
     console.log('[params]', {id: this.$route.params.id, vid: this.$route.query.vid});
