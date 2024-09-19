@@ -61,6 +61,13 @@
       </div>
     </div>
     <div class="q-mb-lg">
+      <p class="text-h4">服务器加速：{{ m3u8pStatus }}</p>
+      <div>
+        <q-checkbox size="md" @click="setM3u8pToLS(m3u8pStatus)" v-model="m3u8pStatus"
+                    label="服务器加速是将视频流通过服务器代理访问(如果服务器不在大陆，访问大陆外的视频流有加速效果)"/>
+      </div>
+    </div>
+    <div class="q-mb-lg">
       <p class="text-h4">数据缓存（加速访问）：{{ currentCacheStatus }}</p>
       <div>
         <q-checkbox size="md" @click="changeCache('Open')" v-model="cacheStatus.Open"
@@ -95,8 +102,10 @@ import {
   getLocalClientId,
   getLocalVideoList,
   getLocalVideoSource,
+  getM3u8pCache,
   setLocalCache,
-  setLocalVideoSource
+  setLocalVideoSource,
+  setM3u8pCache
 } from '@/helper/localstorage';
 
 export default {
@@ -118,6 +127,7 @@ export default {
         Open: true,
         Close: false,
       },
+      m3u8pStatus: ref(false),
       currentCacheStatus: '',
       fileModel: ref(null),
       videoHistoryList: {},
@@ -130,6 +140,7 @@ export default {
     this.loadVideoSourceToLS();
     this.loadCacheStatusToLS();
     this.loadLocalVideoHistory();
+    this.loadM3u8pToLS();
   },
   methods: {
     changeSource: function (key) {
@@ -152,6 +163,14 @@ export default {
     setCacheStatusToLS: function (sourceKey) {
       setLocalCache(sourceKey);
       this.currentCacheStatus = sourceKey;
+    },
+    setM3u8pToLS: function (sourceKey) {
+      sourceKey = !!sourceKey
+      setM3u8pCache(sourceKey);
+      this.m3u8pStatus = sourceKey;
+    },
+    loadM3u8pToLS: function () {
+      this.m3u8pStatus = getM3u8pCache();
     },
     loadVideoSourceToLS: function () {
       let key = getLocalVideoSource();

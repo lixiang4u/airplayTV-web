@@ -18,6 +18,7 @@ axios.interceptors.request.use(config => {
     }
     config.params['_source'] = getLocalVideoSource();
     config.params['_cache'] = getLocalCache();
+    config.params['_m3u8p'] = getM3u8pCache();
     return config;
 }, error => {
     // console.log('[interceptors.error]', error);

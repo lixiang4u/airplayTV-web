@@ -16,6 +16,14 @@ export function setLocalCache(value) {
   return localStorage['is_cache'] = value;
 }
 
+export function setM3u8pCache(value) {
+  return localStorage['m3u8p'] = value;
+}
+
+export function getM3u8pCache() {
+  return (localStorage['m3u8p'] || false);
+}
+
 //操作客户端id
 export function getLocalClientId() {
   return (localStorage['tv_id'] || '');
