@@ -40,27 +40,27 @@
 
       <div class="q-my-lg"></div>
 
-      <q-separator inset spaced />
+      <q-separator inset spaced/>
 
       <div class="q-pt-md"></div>
 
       <q-list dense>
         <q-item flex justify-around>
           <q-item-section avatar>
-            <q-icon color="secondary" name="volume_up" />
+            <q-icon color="secondary" name="volume_up"/>
           </q-item-section>
           <q-item-section class="progress100w">
             <q-slider class="progress100w"
-                v-model="volume_progress"
-                :min="0"
-                :max="100"
-                label
-                :label-value="'Volume: ' + volume_progress + '%'"
-                color="secondary"
+                      v-model="volume_progress"
+                      :min="0"
+                      :max="100"
+                      label
+                      :label-value="'Volume: ' + volume_progress + '%'"
+                      color="secondary"
             />
           </q-item-section>
           <q-item-section avatar>
-            <q-icon color="secondary" name="redo" @click="onClick('volume_progress', volume_progress)" />
+            <q-icon color="secondary" name="redo" @click="onClick('volume_progress', volume_progress)"/>
           </q-item-section>
         </q-item>
       </q-list>
@@ -68,20 +68,20 @@
       <q-list flex justify-around dense>
         <q-item>
           <q-item-section avatar>
-            <q-icon color="secondary" name="pause" />
+            <q-icon color="secondary" name="pause"/>
           </q-item-section>
           <q-item-section class="progress100w">
             <q-slider class="progress100w"
-                v-model="video_progress"
-                :min="0"
-                :max="100"
-                label
-                :label-value="'Video: ' + video_progress + '%'"
-                color="secondary"
+                      v-model="video_progress"
+                      :min="0"
+                      :max="100"
+                      label
+                      :label-value="'Video: ' + video_progress + '%'"
+                      color="secondary"
             />
           </q-item-section>
           <q-item-section avatar>
-            <q-icon color="secondary" name="redo" @click="onClick('video_progress', video_progress)" />
+            <q-icon color="secondary" name="redo" @click="onClick('video_progress', video_progress)"/>
           </q-item-section>
         </q-item>
       </q-list>
@@ -100,11 +100,11 @@
 <script>
 import 'quasar';
 import {getLocalClientId} from "@/helper/localstorage";
-import { ref } from 'vue'
+import {ref} from 'vue'
 
 export default {
   name: 'VideoDetail',
-  setup () {
+  setup() {
     return {
       volume_progress: ref(0),
       video_progress: ref(0),

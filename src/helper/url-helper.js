@@ -1,3 +1,3 @@
 export function getCurrentSiteHost() {
-    return location.host;
+  return location.host;
 }
