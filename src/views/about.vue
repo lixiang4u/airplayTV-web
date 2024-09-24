@@ -59,6 +59,10 @@
         <q-checkbox size="md" @click="changeSource('five')" v-model="videoSource.five"
                     label="源5(five)（如果效果不行请更换其他源）"/>
       </div>
+      <div>
+        <q-checkbox size="md" @click="changeSource('myd')" v-model="videoSource.myd"
+                    label="源8(myd)（如果效果不行请更换其他源）"/>
+      </div>
     </div>
     <div class="q-mb-lg">
       <p class="text-h4">服务器加速：{{ m3u8pStatus }}</p>
@@ -120,6 +124,7 @@ export default {
         five: false,
         ys: false,
         xk: false,
+        myd: false,
       },
       currentVideoSource: '',
 
