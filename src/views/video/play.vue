@@ -130,7 +130,8 @@ export default {
       });
       this.dp2.on('error', (a, b, c) => {
         console.log('[play.error]', a, b, c);
-        if (video.type === 'auto' && a.target.error && a.target.error.code === 4) {
+        if (video.type === 'auto') {
+          // a.target.error && a.target.error.code === 4
           // 数据是好的，但是播放不了？？？，直接使用dplayer测试代码可以！！！
           console.log('[replay]', video)
           obj.type = 'hls'
