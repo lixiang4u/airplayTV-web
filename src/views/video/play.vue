@@ -62,7 +62,7 @@ export default {
       setM3u8pCache(this.$route.query['_m3u8p']);
     }
     this.getVideoPlayInfo(this.$route.params.id, this.$route.query.vid, this.$route.query.title);
-    console.log('[params]', {id: this.$route.params.id, vid: this.$route.query.vid});
+    console.log('[params]', { id: this.$route.params.id, vid: this.$route.query.vid });
   },
   beforeUnmount() {
     // https://blog.csdn.net/NuoYan3327/article/details/121343489
@@ -78,7 +78,7 @@ export default {
   },
   methods: {
     getVideoPlayInfo(id, vid, title) {
-      this.axios.get('/api/video/source', {params: {id: id, vid: vid,}}).then((response) => {
+      this.axios.get('/api/video/source', { params: { id: id, vid: vid, } }).then((response) => {
         console.log('[getVideoPlayInfo.response]', response.data);
         this.videoPlayInfo = response.data;
         if (!this.videoPlayInfo['name']) {
@@ -128,8 +128,14 @@ export default {
         theme: "#00b2c2",
         video: video,
       });
-      this.dp2.on('error', function (a, b, c) {
+      this.dp2.on('error', (a, b, c) => {
         console.log('[play.error]', a, b, c);
+        if (video.type === 'auto' && a.target.error && a.target.error.code === 4) {
+          // 数据是好的，但是播放不了？？？，直接使用dplayer测试代码可以！！！
+          console.log('[replay]', video)
+          obj.type = 'hls'
+          this.doPlay(obj)
+        }
       });
       store.commit('setVideoPlayer', this.dp2);
 
