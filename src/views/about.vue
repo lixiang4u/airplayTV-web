@@ -1,13 +1,13 @@
 <template>
   <div class="main">
     <div class="q-mb-lg">
-      <p class="text-h4">免责声明：</p>
+      <p class="text-h4" id="#shenming">免责声明：</p>
       <p>本软件仅作学习研究，请勿用于其它任何场景。作者不承担一切不正当使用本软件的责任。</p>
 
       <p>&nbsp;</p>
     </div>
     <div class="q-mb-lg">
-      <p class="text-h4">说明：</p>
+      <p class="text-h4" id="#info">说明：</p>
       <p>数据采集自网络</p>
       <p>本站不存储任何视频相关数据</p>
       <p>原视频网站对非国内ip请求做了限制，导致部分视频可能无法观看</p>
@@ -20,7 +20,7 @@
       <p>^^</p>
     </div>
     <div class="q-mb-lg">
-      <p class="text-h4">播放不了？</p>
+      <p class="text-h4" id="#play-intro">播放不了？</p>
       <p>如果播放不了？优先切换<b>片源/数据源</b>试试吧！！！</p>
       <p>如果播放不了？可能某些资源未适配（XLimit），需要（<b>Coding</b>）</p>
       <p>如果播放不了？服务器在海外，可能某些资源无法访问（需要<b>国内部署</b>）</p>
@@ -30,7 +30,7 @@
       <p>-_-</p>
     </div>
     <div class="q-mb-lg">
-      <p class="text-h4">视频源（默认由后台接口随机分配）：{{ currentVideoSource }}</p>
+      <p class="text-h4" id="#source">视频源（默认由后台接口随机分配）：{{ currentVideoSource }}</p>
       <div>
         <q-checkbox size="md" @click="changeSource('ys')" v-model="videoSource.ys"
                     label="源6(ys)（如果效果不行请更换其他源）"/>
@@ -65,14 +65,14 @@
       </div>
     </div>
     <div class="q-mb-lg">
-      <p class="text-h4">服务器加速：{{ m3u8pStatus }}</p>
+      <p class="text-h4" id="#m3u8p">服务器加速：{{ m3u8pStatus }}</p>
       <div>
         <q-checkbox size="md" @click="setM3u8pToLS(m3u8pStatus)" v-model="m3u8pStatus"
                     label="服务器加速是将视频流通过服务器代理访问(如果服务器不在大陆，访问大陆外的视频流有加速效果)"/>
       </div>
     </div>
     <div class="q-mb-lg">
-      <p class="text-h4">数据缓存（加速访问）：{{ currentCacheStatus }}</p>
+      <p class="text-h4" id="#cache">数据缓存（加速访问）：{{ currentCacheStatus }}</p>
       <div>
         <q-checkbox size="md" @click="changeCache('Open')" v-model="cacheStatus.Open"
                     label="开启缓存（默认开启，每天更新一次，开启后可能导致部分视频无法观看/更新不及时）"/>
@@ -83,16 +83,16 @@
       </div>
     </div>
     <div class="q-mb-lg">
-      <p class="text-h4">客户端ID：</p>
+      <p class="text-h4" id="#client">客户端ID：</p>
       <pre>ID: {{ clientId }}</pre>
     </div>
     <div class="q-mb-lg">
-      <p class="text-h4">调试信息：</p>
+      <p class="text-h4" id="#debug">调试信息：</p>
       <pre>navigator: {{ navigator }}</pre>
       <pre>location: {{ location }}</pre>
     </div>
     <div class="q-mb-lg">
-      <p class="text-h4">播放历史：</p>
+      <p class="text-h4" id="#history">播放历史：</p>
       <pre>{{ videoHistoryList }}</pre>
     </div>
     <div class="q-mb-lg">&nbsp;</div>
