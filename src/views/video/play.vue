@@ -88,33 +88,35 @@ export default {
       });
     },
     getVideoConfig(obj) {
-      let me = this
-      // auto，mp4，hls
-      let video = {
+      let tmpConfig = {
         url: obj.url,
         autoplay: true,
         type: "auto",
       };
       if (obj.type === 'hls') {
-        video = {
+        tmpConfig = {
           url: obj.url,
           autoplay: true,
           // url:'https://hll.aliyundrive.asia/vtt/movie1/m/03/神偷奶爸3.m3u8',
           type: 'customHls',
           customType: {
-            customHls: function (video, player) {
-              console.log('[video]', video);
-              console.log('[player]', player);
+            customHls: (video, player) => {
+              video.controls = true
+              video.autoplay = true
+              video.src = obj.url
 
-              let hls2 = new Hls();
+              console.log('[customType.video]', video);
+              console.log('[customType.player]', player);
+
+              let hls2 = new Hls({ debug: true, });
               hls2.loadSource(video.src);
               hls2.attachMedia(video);
-              me.hls2 = hls2;
+              this.hls2 = hls2;
             },
           },
         }
       }
-      return video;
+      return tmpConfig;
     },
     doPlay(obj) {
       obj.url = this.handleUrl(obj.url);
