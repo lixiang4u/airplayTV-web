@@ -101,7 +101,7 @@ export default {
           type: 'customHls',
           customType: {
             customHls: (video, player) => {
-              video.controls = true
+              // video.controls = true
               video.autoplay = true
               video.src = obj.url
 
