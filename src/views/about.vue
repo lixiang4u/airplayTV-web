@@ -68,7 +68,7 @@
       <p class="text-h4" id="#m3u8p">服务器加速：{{ m3u8pStatus }}</p>
       <div>
         <q-checkbox size="md" @click="setM3u8pToLS(m3u8pStatus)" v-model="m3u8pStatus"
-                    label="服务器加速是将视频流通过服务器代理访问(如果服务器不在大陆，访问大陆外的视频流有加速效果)"/>
+                    label="服务器加速是将视频流通过服务器代理访问(服务端已加入通过统计规则实现广告去除)"/>
       </div>
     </div>
     <div class="q-mb-lg">
