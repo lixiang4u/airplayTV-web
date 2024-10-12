@@ -36,6 +36,10 @@
                     label="源6(ys)（如果效果不行请更换其他源）"/>
       </div>
       <div>
+        <q-checkbox size="md" @click="changeSource('hbo')" v-model="videoSource.hbo"
+                    label="源9(hbo)（如果效果不行请更换其他源）"/>
+      </div>
+      <div>
         <q-checkbox size="md" @click="changeSource('xk')" v-model="videoSource.xk"
                     label="源7(xk)（如果效果不行请更换其他源）"/>
       </div>
@@ -118,6 +122,7 @@ export default {
     return {
       videoSource: {
         cz: false,
+        hbo: false,
         nn: false,
         my: false,
         lv: false,
