@@ -16,9 +16,17 @@
           'Column: ' + colno,
           'Error object: ' + JSON.stringify(error)
         ].join(' - ');
-        alert('[错误]' + m);
+        // alert('[错误]' + m);
+        console.error('[ERROR]', m)
       };
     </script>
+      <script src="/avp/sw.js"></script>
+      <script src="/avp/cheap-polyfill.js"></script>
+      <script src="/avp/avplayer/avplayer.js"></script>
+      <script>
+        window.avpX = AVPlayer
+        console.log('[avp]', AVPlayer)
+      </script>
   </head>
   <body>
     <noscript>

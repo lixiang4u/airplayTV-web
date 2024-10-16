@@ -1,0 +1,14 @@
+import AVFrame, { AVFrameSideData, AVFrameSideDataType } from '../struct/avframe';
+export declare function createAVFrame(): pointer<AVFrame>;
+export declare function destroyAVFrame(frame: pointer<AVFrame>): void;
+export declare function freeSideData(ptr: pointer<pointer<AVFrameSideData>>): void;
+export declare function wipeSideData(frame: pointer<AVFrame>): void;
+export declare function getAVFrameSideData(frame: pointer<AVFrame>, type: AVFrameSideDataType): pointer<AVFrameSideData>;
+export declare function getAVFrameDefault(frame: pointer<AVFrame>): void;
+export declare function getVideoBuffer(frame: pointer<AVFrame>, algin?: int32): number;
+export declare function getAudioBuffer(frame: pointer<AVFrame>, algin?: int32): number;
+export declare function getBuffer(frame: pointer<AVFrame>, algin?: int32): number;
+export declare function refAVFrame(dst: pointer<AVFrame>, src: pointer<AVFrame>): number;
+export declare function unrefAVFrame(frame: pointer<AVFrame>): void;
+export declare function copyAVFrameProps(dst: pointer<AVFrame>, src: pointer<AVFrame>): number;
+export declare function cloneAVFrame(frame: pointer<AVFrame>): pointer<AVFrame>;

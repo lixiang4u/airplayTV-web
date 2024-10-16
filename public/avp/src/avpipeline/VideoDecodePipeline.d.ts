@@ -1,0 +1,65 @@
+import Pipeline, { TaskOptions } from './Pipeline';
+import IPCPort from 'common/network/IPCPort';
+import List from 'cheap/std/collection/List';
+import { AVFrameRef } from 'avutil/struct/avframe';
+import { Mutex } from 'cheap/thread/mutex';
+import WasmVideoDecoder from 'avcodec/wasmcodec/VideoDecoder';
+import WebVideoDecoder from 'avcodec/webcodec/VideoDecoder';
+import { WebAssemblyResource } from 'cheap/webassembly/compiler';
+import AVFramePoolImpl from 'avutil/implement/AVFramePoolImpl';
+import { AVPacketPool, AVPacketRef } from 'avutil/struct/avpacket';
+import AVCodecParameters from 'avutil/struct/avcodecparameters';
+import { AVCodecID } from 'avutil/codec';
+import { Data } from 'common/types/type';
+export interface VideoDecodeTaskOptions extends TaskOptions {
+    resource: WebAssemblyResource;
+    enableHardware: boolean;
+    avpacketList: pointer<List<pointer<AVPacketRef>>>;
+    avpacketListMutex: pointer<Mutex>;
+    avframeList: pointer<List<pointer<AVFrameRef>>>;
+    avframeListMutex: pointer<Mutex>;
+    preferWebCodecs?: boolean;
+}
+type SelfTask = VideoDecodeTaskOptions & {
+    leftIPCPort: IPCPort;
+    rightIPCPort: IPCPort;
+    softwareDecoder: WasmVideoDecoder | WebVideoDecoder;
+    softwareDecoderOpened: boolean;
+    hardwareDecoder?: WebVideoDecoder;
+    targetDecoder: WasmVideoDecoder | WebVideoDecoder;
+    frameCaches: (pointer<AVFrameRef> | VideoFrame)[];
+    inputEnd: boolean;
+    openReject?: (ret: number) => void;
+    needKeyFrame: boolean;
+    parameters: pointer<AVCodecParameters>;
+    hardwareRetryCount: number;
+    lastDecodeTimestamp: number;
+    firstDecoded: boolean;
+    decoderReady: Promise<void>;
+    avframePool: AVFramePoolImpl;
+    avpacketPool: AVPacketPool;
+    wasmDecoderOptions?: Data;
+};
+export interface VideoDecodeTaskInfo {
+    codecId: AVCodecID;
+    width: int32;
+    height: int32;
+    framerate: float;
+    hardware: boolean;
+}
+export default class VideoDecodePipeline extends Pipeline {
+    tasks: Map<string, SelfTask>;
+    constructor();
+    private createWebcodecDecoder;
+    private createWasmcodecDecoder;
+    private createTask;
+    private openSoftwareDecoder;
+    reopenDecoder(taskId: string, parameters: pointer<AVCodecParameters>, resource?: WebAssemblyResource, wasmDecoderOptions?: Data): Promise<number>;
+    open(taskId: string, parameters: pointer<AVCodecParameters>, wasmDecoderOptions?: Data): Promise<number>;
+    setPlayRate(taskId: string, rate: double): Promise<void>;
+    resetTask(taskId: string): Promise<void>;
+    registerTask(options: VideoDecodeTaskOptions): Promise<number>;
+    unregisterTask(taskId: string): Promise<void>;
+    getTasksInfo(): Promise<VideoDecodeTaskInfo[]>;
+}
+export {};

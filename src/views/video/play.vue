@@ -4,9 +4,13 @@
     <p v-if="videoPlayInfo" class="text-h4 text-center flex-center">{{
         videoPlayInfo.name
       }}<sup>[{{ sourceName }}]</sup></p>
-    <div id="dplayer"></div>
+    <div v-if="isTesla" id="avplayer" ref="avplayer" :style="{width:'1200px', height: '675px'}">
+      tesla
+    </div>
+    <div v-else id="dplayer"></div>
     <div class="q-my-lg tips" v-if="videoPlayInfo">
       <div class="text-red-7">如果播放不了？优先切换<a href="/about?#source">片源/数据源</a>试试吧！！！</div>
+      <div class="text-red-7" @click="updateIsTesla()">调试-切换播放器,{{ isTesla }}</div>
       <div class="link">
         {{ videoPlayInfo.url }}
         ,<a :href="videoPlayInfo.url" target="_blank">
@@ -52,6 +56,39 @@ export default {
       vid: '',
       sourceName: getLocalVideoSource(),
       statusText: '加载中...',
+      isTesla: true,
+      avp: null,
+      statsTimer: null,
+      supportAtomic: true,
+      statsKeys: [
+        'audiocodec',
+        'videocodec',
+        'width',
+        'height',
+        'channels',
+        'sampleRate',
+        'bandwidth',
+        'audioBitrate',
+        'videoBitrate',
+        'audioPacketQueueLength',
+        'videoPacketQueueLength',
+        'videoEncodeFramerate',
+        'videoDecodeFramerate',
+        'videoRenderFramerate',
+        'keyFrameInterval',
+        'audioEncodeFramerate',
+        'audioDecodeFramerate',
+        'audioRenderFramerate',
+        'audioFrameDecodeIntervalMax',
+        'audioFrameRenderIntervalMax',
+        'videoFrameDecodeIntervalMax',
+        'videoFrameRenderIntervalMax',
+        'jitter',
+        'audioStutter',
+        'videoStutter'
+      ],
+      vW: null,
+      vH: null,
     }
   },
   created() {
@@ -84,7 +121,15 @@ export default {
         if (!this.videoPlayInfo['name']) {
           this.videoPlayInfo['name'] = title;
         }
-        this.doPlay(this.videoPlayInfo);
+
+        if (this.isTesla) {
+          this.loadAvPlayer(this.videoPlayInfo);
+        } else {
+          this.doPlay(this.videoPlayInfo);
+        }
+
+      }).catch((e) => {
+        console.log('[getVideoPlayInfo.Error]', e)
       });
     },
     getVideoConfig(obj) {
@@ -181,6 +226,188 @@ export default {
       }
       return location.origin + "/" + url;
     },
+    loadAvPlayer(playInfo) {
+      playInfo.url = this.handleUrl(playInfo.url);
+      console.log('[window]', window)
+      if (!this.avp) {
+        console.log('[AVPlayer]', window.AVPlayer)
+        this.avp = new window.AVPlayer({
+          container: this.$refs.avplayer,
+          isLive: false,
+          getWasm: (type, codecId) => {
+            switch (type) {
+              case 'decoder': {
+
+                if (codecId >= 65536 && codecId <= 65572) {
+                  return `/avp/decode/pcm${(this.supportAtomic ? '-atomic' : '')}.wasm`
+                }
+
+                switch (codecId) {
+                    // H264
+                  case 27:
+                    return `/avp/decode/h264${(this.supportAtomic ? '-atomic' : '')}.wasm`
+                    // theora
+                  case 30:
+                    return `/avp/decode/theora${(this.supportAtomic ? '-atomic' : '')}.wasm`
+                    // AAC
+                  case 86018:
+                    return `/avp/decode/aac${(this.supportAtomic ? '-atomic' : '')}.wasm`
+                    // ac3
+                  case 86019:
+                    return `/avp/decode/ac3${(this.supportAtomic ? '-atomic' : '')}.wasm`
+                    // eac3
+                  case 86056:
+                    return `/avp/decode/eac3${(this.supportAtomic ? '-atomic' : '')}.wasm`
+                    // dts
+                  case 86020:
+                    return `/avp/decode/dca${(this.supportAtomic ? '-atomic' : '')}.wasm`
+                    // MP3
+                  case 86017:
+                    return `/avp/decode/mp3${(this.supportAtomic ? '-atomic' : '')}.wasm`
+                    // HEVC
+                  case 173:
+                    return `/avp/decode/hevc${(this.supportAtomic ? '-atomic' : '')}.wasm`
+                    // VVC
+                  case 196:
+                    return `/avp/decode/vvc${(this.supportAtomic ? '-atomic' : '')}.wasm`
+                    // Mpeg4
+                  case 12:
+                    return `/avp/decode/mpeg4${(this.supportAtomic ? '-atomic' : '')}.wasm`
+                    // AV1
+                  case 225:
+                    return `/avp/decode/av1${(this.supportAtomic ? '-atomic' : '')}.wasm`
+                    // Speex
+                  case 86051:
+                    return `/avp/decode/speex${(this.supportAtomic ? '-atomic' : '')}.wasm`
+                    // Opus
+                  case 86076:
+                    return `/avp/decode/opus${(this.supportAtomic ? '-atomic' : '')}.wasm`
+                    // flac
+                  case 86028:
+                    return `/avp/decode/flac${(this.supportAtomic ? '-atomic' : '')}.wasm`
+                    // vorbis
+                  case 86021:
+                    return `/avp/decode/vorbis${(this.supportAtomic ? '-atomic' : '')}.wasm`
+                    // vp8
+                  case 139:
+                    return `/avp/decode/vp8${(this.supportAtomic ? '-atomic' : '')}.wasm`
+                    // vp9
+                  case 167:
+                    return `/avp/decode/vp9${(this.supportAtomic ? '-atomic' : '')}.wasm`
+                  default:
+                    return null
+                }
+                // break
+              }
+              case 'resampler':
+                return `/avp/resample/resample${(this.supportAtomic ? '-atomic' : '')}.wasm`
+              case 'stretchpitcher':
+                return `/avp/stretchpitch/stretchpitch${(this.supportAtomic ? '-atomic' : '')}.wasm`
+            }
+          },
+          checkUseMES: (streams) => {
+            console.log('[checkUseMES]', streams)
+            return false
+          },
+          enableHardware: true,
+          enableWebGPU: false,
+          loop: false,
+          jitterBufferMax: 4,
+          jitterBufferMin: 1,
+          lowLatency: true
+        })
+      }
+
+
+      this.avp.load(playInfo.url).then(() => {
+
+        // if (slider) {
+        //   slider.duration = Number(player.getDuration())
+        // }
+
+        Promise.all([
+          this.avp.getVideoList(),
+          this.avp.getAudioList(),
+          this.avp.getSubtitleList()
+        ]).then((data) => {
+          console.log('[Promise.all.data]', data)
+
+          // let videoList = data[0]
+          // let audioList = data[1]
+          // let subtitleList = data[2]
+
+          // player.seek(400000).then(() => {
+          this.avp.play({
+            audio: true,
+            video: true,
+            subtitle: true
+          }).then(() => {
+            // document.querySelector('#loading-mask').style.display = 'none'
+            if (!this.avp.isDash()) {
+              const audioStreams = this.avp.getStreams().filter((s => s.mediaType === 'Audio'))
+              const videoStreams = this.avp.getStreams().filter((s => s.mediaType === 'Video'))
+
+              console.log('[audioStreams]', audioStreams)
+              console.log('[videoStreams]', videoStreams)
+
+            }
+
+          })
+          // })
+        })
+      })
+
+      this.avp.on('ended', () => {
+        if (this.statsTimer) {
+          clearTimeout(this.statsTimer)
+          this.statsTimer = null
+        }
+        // if (slider) {
+        //   slider.currentTime = slider.duration
+        // }
+        // player.destroy().then(() => {
+        //   player = null
+        //   console.log('player destroy')
+        // })
+      })
+
+      this.avp.on('time', (pts) => {
+        console.log('[time.pts]', pts)
+      })
+
+      if (this.statsTimer) {
+        clearTimeout(this.statsTimer)
+      }
+      this.statsTimer = setInterval(() => {
+        this.handleStats(this.avp.getStats())
+      }, 1000)
+    },
+    handleStats(stats) {
+      // console.log('[handleStats]', stats)
+      console.log('[stats]', {
+        w: stats['width'], h: stats['height']
+      })
+
+      // if (!this.vW && stats['width'] < 0) {
+      //   this.vW = `${stats['width']}px`
+      // }
+      // if (!this.vH && stats['height'] > 0) {
+      //   this.vH = `${stats['height']}px`
+      // }
+
+      // this.statsKeys.forEach((key) => {
+      // })
+
+    },
+    isTeslaUA() {
+      if (window.navigator.userAgent.toLowerCase().includes('tesla')) {
+        return true;
+      }
+      return false;
+    },
+    updateIsTesla() {
+      this.isTesla = !this.isTesla
+    }
   },
   computed: {}
 }
