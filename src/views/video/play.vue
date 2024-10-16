@@ -351,7 +351,7 @@ export default {
               console.log('[videoStreams]', videoStreams)
               console.log('[getVolume]', this.avp.getVolume())
 
-              this.avp.setVolume(70)
+              this.avp.setVolume(3)
             }
 
           })
