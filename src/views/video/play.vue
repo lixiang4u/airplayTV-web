@@ -56,7 +56,7 @@ export default {
       vid: '',
       sourceName: getLocalVideoSource(),
       statusText: '加载中...',
-      isTesla: true,
+      isTesla: false,
       avp: null,
       statsTimer: null,
       supportAtomic: true,
