@@ -4,13 +4,17 @@
     <p v-if="videoPlayInfo" class="text-h4 text-center flex-center">{{
         videoPlayInfo.name
       }}<sup>[{{ sourceName }}]</sup></p>
-    <div v-if="isTesla" id="avplayer" ref="avplayer" :style="{width:'1200px', height: '675px'}">
-      tesla
-    </div>
-    <div v-else id="dplayer"></div>
+
+    <div v-show="isTesla" id="avplayer" ref="avplayer" :style="{width:'1200px', height: '675px'}"></div>
+    <div v-show="!isTesla" id="dplayer"></div>
+
     <div class="q-my-lg tips" v-if="videoPlayInfo">
       <div class="text-red-7">如果播放不了？优先切换<a href="/about?#source">片源/数据源</a>试试吧！！！</div>
-      <div class="text-red-7" @click="updateIsTesla()">调试-切换播放器,{{ isTesla }}</div>
+      <div class="text-red-7 xxxx" @click="updateIsTesla()">
+        <span style="background-color: bisque; padding: 5px 8px; border-radius: 4px; cursor: pointer;">
+          调试-切换播放器,{{ isTesla }}
+        </span>
+      </div>
       <div class="link">
         {{ videoPlayInfo.url }}
         ,<a :href="videoPlayInfo.url" target="_blank">
@@ -342,6 +346,7 @@ export default {
             video: true,
             subtitle: true
           }).then(() => {
+            console.log('[avp.play.ok]')
             // document.querySelector('#loading-mask').style.display = 'none'
             if (!this.avp.isDash()) {
               const audioStreams = this.avp.getStreams().filter((s => s.mediaType === 'Audio'))
@@ -354,6 +359,8 @@ export default {
               this.avp.setVolume(3)
             }
 
+          }).catch(err => {
+            console.log('[avp.play.error]', err)
           })
           // })
         })
@@ -409,6 +416,30 @@ export default {
     },
     updateIsTesla() {
       this.isTesla = !this.isTesla
+      this.clearPlayer()
+      if (this.isTesla) {
+        this.loadAvPlayer(this.videoPlayInfo);
+      } else {
+        this.doPlay(this.videoPlayInfo);
+      }
+    },
+    clearPlayer() {
+      if (this.hls2) {
+        console.log('[hls destroy...]', this.hls2)
+        this.hls2.destroy();
+      }
+      if (this.dp2) {
+        console.log('[dp destroy...]', this.dp2)
+        this.dp2.pause();
+        this.dp2.destroy();
+      }
+      if (this.avp) {
+        console.log('[avp destroy...]', this.avp)
+        this.avp.destroy().then(() => {
+          this.avp = null
+          console.log('player destroy')
+        })
+      }
     }
   },
   computed: {}
