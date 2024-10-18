@@ -380,33 +380,19 @@ export default {
         // })
       })
 
-      this.avp.on('time', (pts) => {
-        console.log('[time.pts]', pts)
-      })
+      // this.avp.on('time', (pts) => {
+      //   console.log('[time.pts]', pts)
+      // })
 
       if (this.statsTimer) {
         clearTimeout(this.statsTimer)
       }
-      this.statsTimer = setInterval(() => {
-        this.handleStats(this.avp.getStats())
-      }, 1000)
+      // this.statsTimer = setInterval(() => {
+      //   this.handleStats(this.avp.getStats())
+      // }, 1000)
     },
     handleStats(stats) {
-      // console.log('[handleStats]', stats)
-      console.log('[stats]', {
-        w: stats['width'], h: stats['height']
-      })
-
-      // if (!this.vW && stats['width'] < 0) {
-      //   this.vW = `${stats['width']}px`
-      // }
-      // if (!this.vH && stats['height'] > 0) {
-      //   this.vH = `${stats['height']}px`
-      // }
-
-      // this.statsKeys.forEach((key) => {
-      // })
-
+      console.log('[stats]', stats)
     },
     isTeslaUA() {
       if (window.navigator.userAgent.toLowerCase().includes('tesla')) {
