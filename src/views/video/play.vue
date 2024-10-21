@@ -5,32 +5,32 @@
         videoPlayInfo.name
       }}<sup>[{{ sourceName }}]</sup></p>
 
-    <div v-show="isTesla" id="avplayer" ref="avplayer" :style="{width:'1200px', height: '675px'}"></div>
-    <div v-show="!isTesla" id="dplayer"></div>
+    <avp-control v-show="libmediaPlayer" :source="videoPlayInfo" />
+    <div v-show="!libmediaPlayer" id="dplayer"></div>
 
-    <div class="q-my-lg tips" v-if="videoPlayInfo">
+    <div class="q-my-lg tips">
       <div class="text-red-7">如果播放不了？优先切换<a href="/about?#source">片源/数据源</a>试试吧！！！</div>
-      <div class="text-red-7 xxxx" @click="updateIsTesla()">
+      <div class="text-red-7 xxxx" @click="onSwitchPlayer()">
         <span style="background-color: bisque; padding: 5px 8px; border-radius: 4px; cursor: pointer;">
-          调试-切换播放器,{{ isTesla }}
+          调试-切换播放器，
+          <span v-if="libmediaPlayer">libmedia-avp</span>
+          <span v-else>dplayer</span>
         </span>
       </div>
       <div class="link">
-        {{ videoPlayInfo.url }}
-        ,<a :href="videoPlayInfo.url" target="_blank">
-        打开调试
-        <svg class="icon"
-             style="width: 1.001953125em;height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;"
-             viewBox="0 0 1026 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1347">
-          <path
-              d="M897.024 0q26.624 0 49.664 10.24t40.448 27.648 27.648 40.448 10.24 49.664l0 576.512q0 26.624-10.24 49.664t-27.648 40.448-40.448 27.648-49.664 10.24l-128 0 0-128 63.488 0q26.624 0 45.568-18.432t18.944-45.056l0-320.512q0-26.624-18.944-45.568t-45.568-18.944l-512 0q-26.624 0-45.568 18.944t-18.944 45.568l0 63.488-128 0 0-256q0-26.624 10.24-49.664t27.648-40.448 40.448-27.648 49.664-10.24l641.024 0zM576.512 448.512q26.624 0 49.664 10.24t40.448 27.648 27.648 40.448 10.24 49.664l0 256q0 26.624-10.24 49.664t-27.648 40.448-40.448 27.648-49.664 10.24l-384 0q-26.624 0-50.176-10.24t-40.96-27.648-27.648-40.448-10.24-49.664l0-256q0-26.624 10.24-49.664t27.648-40.448 40.96-27.648 50.176-10.24l384 0zM576.512 704.512q0-26.624-18.944-45.056t-45.568-18.432l-256 0q-26.624 0-45.056 18.432t-18.432 45.056l0 64.512q0 26.624 18.432 45.056t45.056 18.432l256 0q26.624 0 45.568-18.432t18.944-45.056l0-64.512z"
-              p-id="1348"></path>
-        </svg>
-      </a>
+        <span v-if="videoPlayInfo">{{ videoPlayInfo.url }},</span>
+        <span v-else>无播放地址</span>
+        <a :href="(videoPlayInfo && videoPlayInfo.url) ?? '#'" target="_blank">
+          打开调试
+          <svg class="icon"
+               style="width: 1.001953125em;height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;"
+               viewBox="0 0 1026 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1347">
+            <path
+                d="M897.024 0q26.624 0 49.664 10.24t40.448 27.648 27.648 40.448 10.24 49.664l0 576.512q0 26.624-10.24 49.664t-27.648 40.448-40.448 27.648-49.664 10.24l-128 0 0-128 63.488 0q26.624 0 45.568-18.432t18.944-45.056l0-320.512q0-26.624-18.944-45.568t-45.568-18.944l-512 0q-26.624 0-45.568 18.944t-18.944 45.568l0 63.488-128 0 0-256q0-26.624 10.24-49.664t27.648-40.448 40.448-27.648 49.664-10.24l641.024 0zM576.512 448.512q26.624 0 49.664 10.24t40.448 27.648 27.648 40.448 10.24 49.664l0 256q0 26.624-10.24 49.664t-27.648 40.448-40.448 27.648-49.664 10.24l-384 0q-26.624 0-50.176-10.24t-40.96-27.648-27.648-40.448-10.24-49.664l0-256q0-26.624 10.24-49.664t27.648-40.448 40.96-27.648 50.176-10.24l384 0zM576.512 704.512q0-26.624-18.944-45.056t-45.568-18.432l-256 0q-26.624 0-45.056 18.432t-18.432 45.056l0 64.512q0 26.624 18.432 45.056t45.056 18.432l256 0q26.624 0 45.568-18.432t18.944-45.056l0-64.512z"
+                p-id="1348"></path>
+          </svg>
+        </a>
       </div>
-    </div>
-    <div class="text-center flex-center text-grey-7 no-video-list" v-else>
-      {{ statusText }}
     </div>
     <canvas id="qr-content" style="display: none;"></canvas>
   </div>
@@ -41,17 +41,21 @@ import 'quasar';
 import DPlayer from 'dplayer';
 import Hls from 'hls.js';
 import {
+  getLocalPlayerType,
   getLocalVideoMaxTime,
   getLocalVideoSource,
+  setLocalPlayerType,
   setLocalVideoMaxTime,
   setLocalVideoSource,
   setM3u8pCache
 } from '@/helper/localstorage';
 import store from '@/store/index'
 import md5 from 'md5/md5';
+import AvpControl from "@/components/avp-control.vue";
 
 export default {
   name: 'VideoPlayInfo',
+  components: { AvpControl },
   data() {
     return {
       videoPlayInfo: null,
@@ -60,7 +64,7 @@ export default {
       vid: '',
       sourceName: getLocalVideoSource(),
       statusText: '加载中...',
-      isTesla: false,
+      libmediaPlayer: false,
       avp: null,
       statsTimer: null,
       supportAtomic: true,
@@ -102,6 +106,8 @@ export default {
     if (this.$route.query['_m3u8p']) {
       setM3u8pCache(this.$route.query['_m3u8p']);
     }
+    this.libmediaPlayer = getLocalPlayerType()
+
     this.getVideoPlayInfo(this.$route.params.id, this.$route.query.vid, this.$route.query.title);
     console.log('[params]', { id: this.$route.params.id, vid: this.$route.query.vid });
   },
@@ -126,9 +132,7 @@ export default {
           this.videoPlayInfo['name'] = title;
         }
 
-        if (this.isTesla) {
-          this.loadAvPlayer(this.videoPlayInfo);
-        } else {
+        if (this.libmediaPlayer) {
           this.doPlay(this.videoPlayInfo);
         }
 
@@ -230,182 +234,14 @@ export default {
       }
       return location.origin + "/" + url;
     },
-    loadAvPlayer(playInfo) {
-      playInfo.url = this.handleUrl(playInfo.url);
-      console.log('[window]', window)
-      if (!this.avp) {
-        console.log('[AVPlayer]', window.AVPlayer)
-        this.avp = new window.AVPlayer({
-          container: this.$refs.avplayer,
-          isLive: false,
-          getWasm: (type, codecId) => {
-            switch (type) {
-              case 'decoder': {
-
-                if (codecId >= 65536 && codecId <= 65572) {
-                  return `/avp/decode/pcm${(this.supportAtomic ? '-atomic' : '')}.wasm`
-                }
-
-                switch (codecId) {
-                    // H264
-                  case 27:
-                    return `/avp/decode/h264${(this.supportAtomic ? '-atomic' : '')}.wasm`
-                    // theora
-                  case 30:
-                    return `/avp/decode/theora${(this.supportAtomic ? '-atomic' : '')}.wasm`
-                    // AAC
-                  case 86018:
-                    return `/avp/decode/aac${(this.supportAtomic ? '-atomic' : '')}.wasm`
-                    // ac3
-                  case 86019:
-                    return `/avp/decode/ac3${(this.supportAtomic ? '-atomic' : '')}.wasm`
-                    // eac3
-                  case 86056:
-                    return `/avp/decode/eac3${(this.supportAtomic ? '-atomic' : '')}.wasm`
-                    // dts
-                  case 86020:
-                    return `/avp/decode/dca${(this.supportAtomic ? '-atomic' : '')}.wasm`
-                    // MP3
-                  case 86017:
-                    return `/avp/decode/mp3${(this.supportAtomic ? '-atomic' : '')}.wasm`
-                    // HEVC
-                  case 173:
-                    return `/avp/decode/hevc${(this.supportAtomic ? '-atomic' : '')}.wasm`
-                    // VVC
-                  case 196:
-                    return `/avp/decode/vvc${(this.supportAtomic ? '-atomic' : '')}.wasm`
-                    // Mpeg4
-                  case 12:
-                    return `/avp/decode/mpeg4${(this.supportAtomic ? '-atomic' : '')}.wasm`
-                    // AV1
-                  case 225:
-                    return `/avp/decode/av1${(this.supportAtomic ? '-atomic' : '')}.wasm`
-                    // Speex
-                  case 86051:
-                    return `/avp/decode/speex${(this.supportAtomic ? '-atomic' : '')}.wasm`
-                    // Opus
-                  case 86076:
-                    return `/avp/decode/opus${(this.supportAtomic ? '-atomic' : '')}.wasm`
-                    // flac
-                  case 86028:
-                    return `/avp/decode/flac${(this.supportAtomic ? '-atomic' : '')}.wasm`
-                    // vorbis
-                  case 86021:
-                    return `/avp/decode/vorbis${(this.supportAtomic ? '-atomic' : '')}.wasm`
-                    // vp8
-                  case 139:
-                    return `/avp/decode/vp8${(this.supportAtomic ? '-atomic' : '')}.wasm`
-                    // vp9
-                  case 167:
-                    return `/avp/decode/vp9${(this.supportAtomic ? '-atomic' : '')}.wasm`
-                  default:
-                    return null
-                }
-                // break
-              }
-              case 'resampler':
-                return `/avp/resample/resample${(this.supportAtomic ? '-atomic' : '')}.wasm`
-              case 'stretchpitcher':
-                return `/avp/stretchpitch/stretchpitch${(this.supportAtomic ? '-atomic' : '')}.wasm`
-            }
-          },
-          checkUseMES: (streams) => {
-            console.log('[checkUseMES]', streams)
-            return false
-          },
-          enableHardware: true,
-          enableWebGPU: false,
-          loop: false,
-          jitterBufferMax: 4,
-          jitterBufferMin: 1,
-          lowLatency: true
-        })
+    onSwitchPlayer() {
+      if (!this.videoPlayInfo) {
+        return
       }
-
-
-      this.avp.load(playInfo.url).then(() => {
-
-        // if (slider) {
-        //   slider.duration = Number(player.getDuration())
-        // }
-
-        Promise.all([
-          this.avp.getVideoList(),
-          this.avp.getAudioList(),
-          this.avp.getSubtitleList()
-        ]).then((data) => {
-          console.log('[Promise.all.data]', data)
-
-          // let videoList = data[0]
-          // let audioList = data[1]
-          // let subtitleList = data[2]
-
-          // player.seek(400000).then(() => {
-          this.avp.play({
-            audio: true,
-            video: true,
-            subtitle: true
-          }).then(() => {
-            console.log('[avp.play.ok]')
-            // document.querySelector('#loading-mask').style.display = 'none'
-            if (!this.avp.isDash()) {
-              const audioStreams = this.avp.getStreams().filter((s => s.mediaType === 'Audio'))
-              const videoStreams = this.avp.getStreams().filter((s => s.mediaType === 'Video'))
-
-              console.log('[audioStreams]', audioStreams)
-              console.log('[videoStreams]', videoStreams)
-              console.log('[getVolume]', this.avp.getVolume())
-
-              this.avp.setVolume(3)
-            }
-
-          }).catch(err => {
-            console.log('[avp.play.error]', err)
-          })
-          // })
-        })
-      })
-
-      this.avp.on('ended', () => {
-        if (this.statsTimer) {
-          clearTimeout(this.statsTimer)
-          this.statsTimer = null
-        }
-        // if (slider) {
-        //   slider.currentTime = slider.duration
-        // }
-        // player.destroy().then(() => {
-        //   player = null
-        //   console.log('player destroy')
-        // })
-      })
-
-      // this.avp.on('time', (pts) => {
-      //   console.log('[time.pts]', pts)
-      // })
-
-      if (this.statsTimer) {
-        clearTimeout(this.statsTimer)
-      }
-      // this.statsTimer = setInterval(() => {
-      //   this.handleStats(this.avp.getStats())
-      // }, 1000)
-    },
-    handleStats(stats) {
-      console.log('[stats]', stats)
-    },
-    isTeslaUA() {
-      if (window.navigator.userAgent.toLowerCase().includes('tesla')) {
-        return true;
-      }
-      return false;
-    },
-    updateIsTesla() {
-      this.isTesla = !this.isTesla
+      this.libmediaPlayer = !this.libmediaPlayer
       this.clearPlayer()
-      if (this.isTesla) {
-        this.loadAvPlayer(this.videoPlayInfo);
-      } else {
+      setLocalPlayerType(this.libmediaPlayer)
+      if (!this.libmediaPlayer) {
         this.doPlay(this.videoPlayInfo);
       }
     },

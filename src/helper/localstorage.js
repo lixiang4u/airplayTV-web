@@ -33,6 +33,14 @@ export function setLocalClientId(value) {
   return localStorage['tv_id'] = value;
 }
 
+export function getLocalPlayerType() {
+  return (localStorage['player_type'] || '');
+}
+
+export function setLocalPlayerType(value) {
+  return localStorage['player_type'] = value;
+}
+
 const keyPlayHistory = 'video_history_list';
 
 export function getLocalVideoList() {
