@@ -235,9 +235,6 @@ export default {
       return location.origin + "/" + url;
     },
     onSwitchPlayer() {
-      if (!this.videoPlayInfo) {
-        return
-      }
       this.libmediaPlayer = !this.libmediaPlayer
       this.clearPlayer()
       setLocalPlayerType(this.libmediaPlayer)

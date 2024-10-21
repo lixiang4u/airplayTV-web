@@ -34,7 +34,10 @@ export function setLocalClientId(value) {
 }
 
 export function getLocalPlayerType() {
-  return (localStorage['player_type'] || '');
+  if (localStorage['player_type'] === 'true') {
+    return true
+  }
+  return false
 }
 
 export function setLocalPlayerType(value) {
