@@ -5,8 +5,8 @@
         videoPlayInfo.name
       }}<sup>[{{ sourceName }}]</sup></p>
 
-    <avp-control v-if="libmediaPlayer" :source="videoPlayInfo" />
-    <div v-else id="dplayer"></div>
+    <div v-if="!libmediaPlayer" id="dplayer"></div>
+    <avp-control v-else :source="videoPlayInfo" />
 
     <div class="q-my-lg tips">
       <div class="text-red-7">如果播放不了？优先切换<a href="/about?#source">片源/数据源</a>试试吧！！！</div>
