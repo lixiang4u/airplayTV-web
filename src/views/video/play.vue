@@ -132,7 +132,7 @@ export default {
           this.videoPlayInfo['name'] = title;
         }
 
-        if (this.libmediaPlayer) {
+        if (!this.libmediaPlayer) {
           this.doPlay(this.videoPlayInfo);
         }
 
