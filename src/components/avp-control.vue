@@ -67,7 +67,7 @@
         </div>
         <div class="avp-icons avp-icons-right">
           <div class="flex-center">
-            <a target="_blank" href="https://github.com/libmedia-avp/avp">github.com/libmedia-avp</a>
+            <a target="_blank" href="https://github.com/libmedia-avp">github.com/libmedia-avp</a>
           </div>
 
           <!--
