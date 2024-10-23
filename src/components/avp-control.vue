@@ -257,6 +257,9 @@ export default {
           this.onSeeking(Math.floor(data.offsetX * this.control.duration / this.$refs.avpBarWrap.offsetWidth))
         }
       })
+      this.$refs.avpBarWrap.addEventListener('mouseleave', (data) => {
+        this.control.tmpSeeking = Math.floor(this.$refs.avpBarWrap.offsetWidth * this.control.progress / 100)
+      })
 
     },
     addEventListener() {
