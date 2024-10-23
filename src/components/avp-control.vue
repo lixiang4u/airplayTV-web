@@ -302,10 +302,6 @@ export default {
         }
       }, 1000)
 
-      setTimeout(() => {
-        this.control.show = false
-      }, 8000)
-
     },
     onTogglePlay() {
       console.log('[onTogglePlay]', this.avp)
@@ -443,6 +439,10 @@ export default {
         console.log('[资源不存在加载失败]', err)
         this.showLoading(`视频加载失败：${err}, ${this.source.url}`)
 
+      }).finally(() => {
+        setTimeout(() => {
+          this.control.show = false
+        }, 8000)
       })
     },
     videoStatCallback(/**stats**/) {
