@@ -410,6 +410,8 @@ export default {
 
       this.avp.setRenderMode(this.RenderMode.FILL)
 
+      this.addEventListener()
+
       console.log('[URLS]', { url: this.source ? this.source.url : null, source: this.source })
 
       this.avp.load(this.source.url).then(() => {
@@ -417,7 +419,6 @@ export default {
           console.log('[Promise.all.data]', data)
           this.avp.play({ audio: true, video: true, subtitle: true }).then(() => {
             console.log('[avp.play.ok]')
-            this.avp.stop()
             if (!this.avp.isDash()) {
               // const audioStreams = this.avp.getStreams().filter((s => s.mediaType === 'Audio'))
               // const videoStreams = this.avp.getStreams().filter((s => s.mediaType === 'Video'))
@@ -436,7 +437,6 @@ export default {
         this.showLoading(`视频加载失败：${err}, ${this.source.url}`)
 
       })
-      this.addEventListener()
     },
     videoStatCallback(/**stats**/) {
       // console.log('[stats]', JSON.stringify(stats))
