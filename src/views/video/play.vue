@@ -127,6 +127,7 @@ export default {
     getVideoPlayInfo(id, vid, title) {
       this.axios.get('/api/video/source', { params: { id: id, vid: vid, } }).then((response) => {
         console.log('[getVideoPlayInfo.response]', response.data);
+        response.data.url = this.handleUrl(response.data.url);
         this.videoPlayInfo = response.data;
         if (!this.videoPlayInfo['name']) {
           this.videoPlayInfo['name'] = title;
