@@ -8,7 +8,7 @@ export interface ControllerObserver {
     onFirstVideoRenderedAfterUpdateCanvas: () => void;
     onTimeUpdate: (pts: int64) => void;
     onMSESeek: (time: number) => void;
-    onGetDecoderResource: (mediaType: AVMediaType, codecId: AVCodecID) => Promise<WebAssemblyResource>;
+    onGetDecoderResource: (mediaType: AVMediaType, codecId: AVCodecID) => Promise<WebAssemblyResource | string | ArrayBuffer>;
     isPictureInPicture: () => boolean;
 }
 export default class Controller {
@@ -25,7 +25,7 @@ export default class Controller {
     private onVisibilityChange;
     private timeUpdateListenType;
     private enableAudioVideoSync;
-    constructor(observer: ControllerObserver);
+    constructor(observer: ControllerObserver, enableWorker: boolean);
     getVideoRenderControlPort(): MessagePort;
     getAudioRenderControlPort(): MessagePort;
     getMuxerControlPort(): MessagePort;

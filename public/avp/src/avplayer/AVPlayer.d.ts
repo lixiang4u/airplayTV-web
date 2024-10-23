@@ -4,7 +4,7 @@ import DemuxPipeline from 'avpipeline/DemuxPipeline';
 import AudioDecodePipeline from 'avpipeline/AudioDecodePipeline';
 import { Thread } from 'cheap/thread/thread';
 import Emitter, { EmitterOptions } from 'common/event/Emitter';
-import { WebAssemblyResource } from 'cheap/webassembly/compiler';
+import compile, { WebAssemblyResource } from 'cheap/webassembly/compiler';
 import AudioRenderPipeline from 'avpipeline/AudioRenderPipeline';
 import VideoRenderPipeline from 'avpipeline/VideoRenderPipeline';
 import { RenderMode } from 'avrender/image/ImageRender';
@@ -14,8 +14,14 @@ import Stats from 'avpipeline/struct/stats';
 import MSEPipeline from './mse/MSEPipeline';
 import { AVStreamInterface } from 'avformat/AVStream';
 import { AVFormatContextInterface } from 'avformat/AVFormatContext';
-import { Fn } from 'common/types/type';
-import { player_event_changed, player_event_changing, player_event_error, player_event_no_param, player_event_time } from './type';
+import { Data, Fn } from 'common/types/type';
+import { playerEventChanged, playerEventChanging, playerEventError, playerEventNoParam, playerEventTime } from './type';
+import FetchIOLoader from 'avnetwork/ioLoader/FetchIOLoader';
+import FileIOLoader from 'avnetwork/ioLoader/FileIOLoader';
+import CustomIOLoader from 'avnetwork/ioLoader/CustomIOLoader';
+import IODemuxPipelineProxy from './worker/IODemuxPipelineProxy';
+import AudioPipelineProxy from './worker/AudioPipelineProxy';
+import MSEPipelineProxy from './worker/MSEPipelineProxy';
 export interface ExternalSubtitle {
     /**
      * 字幕源，支持 url 和 文件
@@ -61,6 +67,10 @@ export interface AVPlayerOptions {
      */
     enableWebGPU?: boolean;
     /**
+     * 是否启用 worker
+     */
+    enableWorker?: boolean;
+    /**
      * 是否循环播放
      */
     loop?: boolean;
@@ -69,18 +79,18 @@ export interface AVPlayerOptions {
      */
     lowLatency?: boolean;
     /**
-     * jitter buffer 最大值 lowLatency 模式下影响最高延时
+     * jitter buffer 最大值 lowLatency 模式下影响最高延时（秒）
      */
     jitterBufferMax?: float;
     /**
-     * jitter buffer 最小值 lowLatency 模式下影响最低延时
+     * jitter buffer 最小值 lowLatency 模式下影响最低延时（秒）
      */
     jitterBufferMin?: float;
     /**
      * 预加载 buffer 时长（秒）
      */
     preLoadTime?: int32;
-    /***
+    /**
      * 自定义查找播放流回调
      */
     findBestStream?: (streams: AVStreamInterface[], mediaType: AVMediaType) => AVStreamInterface;
@@ -105,11 +115,24 @@ export declare const enum AVPlayerProgress {
     LOAD_VIDEO_DECODER = 3
 }
 export default class AVPlayer extends Emitter implements ControllerObserver {
+    static Util: {
+        compile: typeof compile;
+        browser: import("common/types/type").Browser;
+        os: import("common/types/type").OS;
+    };
+    static IOLoader: {
+        CustomIOLoader: typeof CustomIOLoader;
+        FetchIOLoader: typeof FetchIOLoader;
+        FileIOLoader: typeof FileIOLoader;
+    };
     static level: number;
     static DemuxThreadReady: Promise<void>;
     static AudioThreadReady: Promise<void>;
     static VideoThreadReady: Promise<void>;
     static MSEThreadReady: Promise<void>;
+    static IODemuxProxy: IODemuxPipelineProxy;
+    static AudioPipelineProxy: AudioPipelineProxy;
+    static MSEPipelineProxy: MSEPipelineProxy;
     static IOThread: Thread<IOPipeline>;
     static DemuxerThread: Thread<DemuxPipeline>;
     static AudioDecoderThread: Thread<AudioDecodePipeline>;
@@ -117,14 +140,17 @@ export default class AVPlayer extends Emitter implements ControllerObserver {
     static VideoRenderThread: Thread<VideoRenderPipeline>;
     static MSEThread: Thread<MSEPipeline>;
     static audioContext: AudioContext;
-    static Resource: Map<string, WebAssemblyResource>;
+    static Resource: Map<string, WebAssemblyResource | ArrayBuffer>;
     private VideoDecoderThread;
+    private VideoRenderThread;
+    private VideoPipelineProxy;
     private GlobalData;
     private taskId;
     private subTaskId;
     private subtitleTaskId;
     private ext;
     private source;
+    private ioIPCPort;
     private options;
     private ioloader2DemuxerChannel;
     private demuxer2VideoDecoderChannel;
@@ -151,7 +177,6 @@ export default class AVPlayer extends Emitter implements ControllerObserver {
     private videoEnded;
     private status;
     private lastStatus;
-    private stats;
     private statsController;
     private jitterBufferController;
     private selectedVideoStream;
@@ -200,7 +225,7 @@ export default class AVPlayer extends Emitter implements ControllerObserver {
      * @param source 媒体源，支持 url 和 文件
      * @param externalSubtitles 外挂字幕源
      */
-    load(source: string | File, externalSubtitles?: ExternalSubtitle[]): Promise<void>;
+    load(source: string | File | CustomIOLoader, externalSubtitles?: ExternalSubtitle[]): Promise<void>;
     /**
      * 播放
      *
@@ -244,16 +269,15 @@ export default class AVPlayer extends Emitter implements ControllerObserver {
          */
         mediaType: string;
         codecparProxy: import("../avutil/struct/avcodecparameters").default;
-        timeBaseProxy: import("../avutil/struct/rational").Rational;
         index: number;
         id: number;
         codecpar: pointer<import("../avutil/struct/avcodecparameters").default>;
         nbFrames: int64;
-        metadata: import("common/types/type").Data;
+        metadata: Data;
         duration: int64;
         startTime: int64;
         disposition: int32;
-        timeBase: pointer<import("../avutil/struct/rational").Rational>;
+        timeBase: import("../avutil/struct/rational").Rational;
     }[];
     /**
      * 获取当前选择播放的视频流 id
@@ -353,7 +377,13 @@ export default class AVPlayer extends Emitter implements ControllerObserver {
      *
      * @param delay
      */
-    setSubTitleDelay(delay: int32): void;
+    setSubtitleDelay(delay: int32): void;
+    /**
+     * 获取字幕延时（毫秒）
+     *
+     * @returns
+     */
+    getSubtitleDelay(): int32 | 0;
     /**
      * 设置是否开启字幕显示
      *
@@ -404,10 +434,10 @@ export default class AVPlayer extends Emitter implements ControllerObserver {
      */
     getStatus(): AVPlayerStatus;
     /**
-    * 是否播放了音频
-    *
-    * @returns
-    */
+     * 是否播放了音频
+     *
+     * @returns
+     */
     hasAudio(): boolean;
     /**
      * 是否播放了视频
@@ -426,7 +456,7 @@ export default class AVPlayer extends Emitter implements ControllerObserver {
      *
      * @returns
      */
-    getSource(): string | File;
+    getSource(): string | File | CustomIOLoader;
     /**
      * 获取 formatContext 对象
      *
@@ -532,7 +562,7 @@ export default class AVPlayer extends Emitter implements ControllerObserver {
     /**
      * @internal
      */
-    onGetDecoderResource(mediaType: AVMediaType, codecId: AVCodecID): Promise<WebAssemblyResource>;
+    onGetDecoderResource(mediaType: AVMediaType, codecId: AVCodecID): Promise<WebAssemblyResource | string | ArrayBuffer>;
     /**
      * @internal
      */
@@ -544,7 +574,8 @@ export default class AVPlayer extends Emitter implements ControllerObserver {
     /**
      * @internal
      */
-    onStutter(): void;
+    onAudioStutter(): void;
+    onVideoStutter(): void;
     /**
      * @internal
      */
@@ -558,14 +589,14 @@ export default class AVPlayer extends Emitter implements ControllerObserver {
      */
     onMSESeek(time: number): void;
     private createVideoDecoderThread;
-    static startDemuxPipeline(): Promise<void>;
-    static startAudioPipeline(): Promise<void>;
-    static startVideoRenderPipeline(): Promise<void>;
-    static startMSEPipeline(): Promise<void>;
+    static startDemuxPipeline(enableWorker?: boolean): Promise<void>;
+    static startAudioPipeline(enableWorker?: boolean): Promise<void>;
+    static startVideoRenderPipeline(enableWorker?: boolean): Promise<void>;
+    static startMSEPipeline(enableWorker?: boolean): Promise<void>;
     /**
      * 提前运行所有管线
      */
-    static startPipelines(): Promise<void>;
+    static startPipelines(enableWorker?: boolean): Promise<void>;
     /**
      * 停止所有管线
      */
@@ -576,24 +607,24 @@ export default class AVPlayer extends Emitter implements ControllerObserver {
      * @param level
      */
     static setLogLevel(level: number): void;
-    on(event: typeof eventType.LOADING, listener: typeof player_event_no_param, options?: Partial<EmitterOptions>): AVPlayer;
-    on(event: typeof eventType.LOADED, listener: typeof player_event_no_param, options?: Partial<EmitterOptions>): AVPlayer;
-    on(event: typeof eventType.PLAYING, listener: typeof player_event_no_param, options?: Partial<EmitterOptions>): AVPlayer;
-    on(event: typeof eventType.PLAYED, listener: typeof player_event_no_param, options?: Partial<EmitterOptions>): AVPlayer;
-    on(event: typeof eventType.PAUSED, listener: typeof player_event_no_param, options?: Partial<EmitterOptions>): AVPlayer;
-    on(event: typeof eventType.STOPPED, listener: typeof player_event_no_param, options?: Partial<EmitterOptions>): AVPlayer;
-    on(event: typeof eventType.ENDED, listener: typeof player_event_no_param, options?: Partial<EmitterOptions>): AVPlayer;
-    on(event: typeof eventType.SEEKING, listener: typeof player_event_no_param, options?: Partial<EmitterOptions>): AVPlayer;
-    on(event: typeof eventType.STOPPED, listener: typeof player_event_no_param, options?: Partial<EmitterOptions>): AVPlayer;
-    on(event: typeof eventType.CHANGING, listener: typeof player_event_changing, options?: Partial<EmitterOptions>): AVPlayer;
-    on(event: typeof eventType.CHANGED, listener: typeof player_event_changed, options?: Partial<EmitterOptions>): AVPlayer;
-    on(event: typeof eventType.RESUME, listener: typeof player_event_no_param, options?: Partial<EmitterOptions>): AVPlayer;
-    on(event: typeof eventType.TIME, listener: typeof player_event_time, options?: Partial<EmitterOptions>): AVPlayer;
-    on(event: typeof eventType.STREAM_UPDATE, listener: typeof player_event_no_param, options?: Partial<EmitterOptions>): AVPlayer;
-    on(event: typeof eventType.FIRST_AUDIO_RENDERED, listener: typeof player_event_no_param, options?: Partial<EmitterOptions>): AVPlayer;
-    on(event: typeof eventType.FIRST_VIDEO_RENDERED, listener: typeof player_event_no_param, options?: Partial<EmitterOptions>): AVPlayer;
-    on(event: typeof eventType.ERROR, listener: typeof player_event_error, options?: Partial<EmitterOptions>): AVPlayer;
-    on(event: typeof eventType.TIMEOUT, listener: typeof player_event_no_param, options?: Partial<EmitterOptions>): AVPlayer;
+    on(event: typeof eventType.LOADING, listener: typeof playerEventNoParam, options?: Partial<EmitterOptions>): AVPlayer;
+    on(event: typeof eventType.LOADED, listener: typeof playerEventNoParam, options?: Partial<EmitterOptions>): AVPlayer;
+    on(event: typeof eventType.PLAYING, listener: typeof playerEventNoParam, options?: Partial<EmitterOptions>): AVPlayer;
+    on(event: typeof eventType.PLAYED, listener: typeof playerEventNoParam, options?: Partial<EmitterOptions>): AVPlayer;
+    on(event: typeof eventType.PAUSED, listener: typeof playerEventNoParam, options?: Partial<EmitterOptions>): AVPlayer;
+    on(event: typeof eventType.STOPPED, listener: typeof playerEventNoParam, options?: Partial<EmitterOptions>): AVPlayer;
+    on(event: typeof eventType.ENDED, listener: typeof playerEventNoParam, options?: Partial<EmitterOptions>): AVPlayer;
+    on(event: typeof eventType.SEEKING, listener: typeof playerEventNoParam, options?: Partial<EmitterOptions>): AVPlayer;
+    on(event: typeof eventType.STOPPED, listener: typeof playerEventNoParam, options?: Partial<EmitterOptions>): AVPlayer;
+    on(event: typeof eventType.CHANGING, listener: typeof playerEventChanging, options?: Partial<EmitterOptions>): AVPlayer;
+    on(event: typeof eventType.CHANGED, listener: typeof playerEventChanged, options?: Partial<EmitterOptions>): AVPlayer;
+    on(event: typeof eventType.RESUME, listener: typeof playerEventNoParam, options?: Partial<EmitterOptions>): AVPlayer;
+    on(event: typeof eventType.TIME, listener: typeof playerEventTime, options?: Partial<EmitterOptions>): AVPlayer;
+    on(event: typeof eventType.STREAM_UPDATE, listener: typeof playerEventNoParam, options?: Partial<EmitterOptions>): AVPlayer;
+    on(event: typeof eventType.FIRST_AUDIO_RENDERED, listener: typeof playerEventNoParam, options?: Partial<EmitterOptions>): AVPlayer;
+    on(event: typeof eventType.FIRST_VIDEO_RENDERED, listener: typeof playerEventNoParam, options?: Partial<EmitterOptions>): AVPlayer;
+    on(event: typeof eventType.ERROR, listener: typeof playerEventError, options?: Partial<EmitterOptions>): AVPlayer;
+    on(event: typeof eventType.TIMEOUT, listener: typeof playerEventNoParam, options?: Partial<EmitterOptions>): AVPlayer;
     on(event: string, listener: Fn, options?: Partial<EmitterOptions>): AVPlayer;
     one(event: string, listener: Fn, options?: Partial<EmitterOptions>): this;
 }

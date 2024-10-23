@@ -1,5 +1,5 @@
-import { Cond } from 'cheap/thread/cond';
-import { Mutex } from 'cheap/thread/mutex';
+import { Cond } from '../thread/cond';
+import { Mutex } from '../thread/mutex';
 export declare class PthreadOnce {
     atomic: atomic_int32;
 }

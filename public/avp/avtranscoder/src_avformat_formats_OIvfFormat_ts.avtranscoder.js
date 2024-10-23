@@ -56,7 +56,7 @@ class IVFHeader {
     }
 }
 class OIVFFormat extends _OFormat__WEBPACK_IMPORTED_MODULE_3__["default"] {
-    type = 4 /* AVFormat.IVF */;
+    type = 5 /* AVFormat.IVF */;
     header;
     constructor() {
         super();

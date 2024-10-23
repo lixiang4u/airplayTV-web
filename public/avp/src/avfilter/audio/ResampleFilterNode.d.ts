@@ -3,7 +3,7 @@ import AVFilterNode, { AVFilterNodeOptions } from '../AVFilterNode';
 import AVFrame from 'avutil/struct/avframe';
 import { WebAssemblyResource } from 'cheap/webassembly/compiler';
 export interface ResampleFilterNodeOptions extends AVFilterNodeOptions {
-    resource: WebAssemblyResource;
+    resource: WebAssemblyResource | ArrayBuffer;
     output: PCMParameters;
 }
 export default class ResampleFilterNode extends AVFilterNode {

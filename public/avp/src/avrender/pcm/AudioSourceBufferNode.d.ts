@@ -1,5 +1,8 @@
 import { AudioWorkletNodeObserver } from './audioWorklet/base/AudioWorkletNodeBase';
 import { Data } from 'common/types/type';
+export interface AudioSourceBufferNodeOptions extends AudioWorkletNodeOptions {
+    isMainWorker?: boolean;
+}
 export default class AudioSourceBufferNode {
     private context;
     private observer;
@@ -15,10 +18,11 @@ export default class AudioSourceBufferNode {
     private dest;
     private queue;
     private firstRendered;
-    constructor(context: AudioContext, observer: AudioWorkletNodeObserver, options?: AudioWorkletNodeOptions);
+    constructor(context: AudioContext, observer: AudioWorkletNodeObserver, options?: AudioSourceBufferNodeOptions);
     request(method: string, params?: Data, transfer?: any[]): Promise<void>;
     private allocBuffer;
     private freeBuffer;
+    private pullInterval;
     private pull;
     private buffering;
     connect(dest: AudioNode): void;

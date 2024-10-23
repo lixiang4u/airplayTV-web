@@ -35,7 +35,7 @@ var cheap__fileName__0 = "src\\avformat\\formats\\IAssFormat.ts";
 
 
 class IAssFormat extends _IFormat__WEBPACK_IMPORTED_MODULE_4__["default"] {
-    type = 17 /* AVFormat.ASS */;
+    type = 18 /* AVFormat.ASS */;
     queue;
     index;
     constructor() {
@@ -165,7 +165,8 @@ class IAssFormat extends _IFormat__WEBPACK_IMPORTED_MODULE_4__["default"] {
             common_util_logger__WEBPACK_IMPORTED_MODULE_2__.debug(`seek in cues, found index: ${index}, pts: ${this.queue[index].startTs}, pos: ${this.queue[index].pos}`, cheap__fileName__0, 217);
             this.index = Math.max(index - 1, 0);
             while (this.index > 0) {
-                if (this.queue[this.index - 1].startTs === this.queue[this.index].startTs) {
+                if (this.queue[this.index - 1].startTs === this.queue[this.index].startTs
+                    || this.queue[this.index - 1].endTs > timestamp) {
                     this.index--;
                 }
                 else {
@@ -352,7 +353,7 @@ function parseFormat(fields, format) {
     const items = format.match(/Format\s*:\s*(.*)/i)[1].split(/\s*,\s*/);
     const result = [];
     for (let i = 0; i < items.length; i++) {
-        const field = fields.find(f => f.toLowerCase() === items[i].toLowerCase());
+        const field = fields.find((f) => f.toLowerCase() === items[i].toLowerCase());
         if (!field) {
             common_util_logger__WEBPACK_IMPORTED_MODULE_0__.warn(`not support ass field(${items[i]})`, cheap__fileName__0, 40);
         }

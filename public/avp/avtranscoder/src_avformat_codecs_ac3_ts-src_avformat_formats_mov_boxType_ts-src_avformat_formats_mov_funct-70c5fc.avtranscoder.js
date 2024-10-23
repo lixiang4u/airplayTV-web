@@ -11,8 +11,7 @@
 /* harmony export */   AC3ChannelLayout: () => (/* binding */ AC3ChannelLayout),
 /* harmony export */   parseHeader: () => (/* binding */ parseHeader)
 /* harmony export */ });
-/* harmony import */ var cheap_std_memory__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! cheap/std/memory */ "./src/cheap/std/memory.ts");
-/* harmony import */ var common_io_BitReader__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! common/io/BitReader */ "./src/common/io/BitReader.ts");
+/* harmony import */ var common_io_BitReader__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! common/io/BitReader */ "./src/common/io/BitReader.ts");
 /*
  * libmedia ac3 util
  *
@@ -37,7 +36,6 @@
  * Lesser General Public License for more details.
  *
  */
-
 
 const AC3ChannelLayout = [
     3 /* AV_CH_LAYOUT.AV_CH_LAYOUT_STEREO */,
@@ -103,9 +101,9 @@ const EAC3Blocks = [
     1, 2, 3, 6
 ];
 const AC3_HEADER_SIZE = 7;
-function parseHeader(buf, size) {
-    const bitReader = new common_io_BitReader__WEBPACK_IMPORTED_MODULE_1__["default"](size);
-    bitReader.appendBuffer((0,cheap_std_memory__WEBPACK_IMPORTED_MODULE_0__.mapUint8Array)(buf, size));
+function parseHeader(buf) {
+    const bitReader = new common_io_BitReader__WEBPACK_IMPORTED_MODULE_0__["default"](buf.length);
+    bitReader.appendBuffer(buf);
     const info = {
         syncWord: 0,
         crc1: 0,
@@ -123,7 +121,7 @@ function parseHeader(buf, size) {
         dolbySurroundMode: 0,
         srShift: 0,
         sampleRate: 0,
-        bitRate: 0,
+        bitrate: 0,
         channels: 0,
         frameSize: 0,
         channelLayout: BigInt(0),
@@ -133,7 +131,7 @@ function parseHeader(buf, size) {
     if (info.syncWord !== 0x0B77) {
         return -1;
     }
-    info.bitstreamId = bitReader.readU(29) & 0x1f;
+    info.bitstreamId = bitReader.peekU(29) & 0x1f;
     if (info.bitstreamId > 16) {
         return -2;
     }
@@ -170,7 +168,7 @@ function parseHeader(buf, size) {
         info.lfeOn = bitReader.readU(1);
         info.srShift = Math.max(info.bitstreamId, 8) - 8;
         info.sampleRate = AC3SampleRateTab[info.srCode] >> info.srShift;
-        info.bitRate = (AC3BitrateTab[info.ac3BitrateCode] * 1000) >> info.srShift;
+        info.bitrate = (AC3BitrateTab[info.ac3BitrateCode] * 1000) >> info.srShift;
         info.channels = AC3ChannelsTab[info.channelMode] + info.lfeOn;
         info.frameSize = AC3FrameSizeTab[frameSizeCode][info.srCode] * 2;
         info.frameType = 2 /* EAC3FrameType.EAC3_FRAME_TYPE_AC3_CONVERT */;
@@ -204,10 +202,10 @@ function parseHeader(buf, size) {
         }
         info.channelMode = bitReader.readU(3);
         info.lfeOn = bitReader.readU(1);
-        info.bitRate = 8 * info.frameSize * info.sampleRate / (info.numBlocks * 256);
+        info.bitrate = 8 * info.frameSize * info.sampleRate / (info.numBlocks * 256);
         info.channels = AC3ChannelsTab[info.channelMode] + info.lfeOn;
     }
-    info.channelLayout = BigInt.asUintN(64, AC3ChannelLayout[info.channelMode]);
+    info.channelLayout = BigInt(AC3ChannelLayout[info.channelMode]);
     if (info.lfeOn) {
         info.channelLayout |= BigInt(8 /* AV_CH_LAYOUT.AV_CH_LOW_FREQUENCY */);
     }

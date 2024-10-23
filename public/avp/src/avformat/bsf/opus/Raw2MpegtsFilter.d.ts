@@ -10,4 +10,5 @@ export default class Raw2MpegtsFilter extends AVBSFilter {
     destroy(): void;
     sendAVPacket(avpacket: pointer<AVPacket>): number;
     receiveAVPacket(avpacket: pointer<AVPacket>): number;
+    reset(): number;
 }

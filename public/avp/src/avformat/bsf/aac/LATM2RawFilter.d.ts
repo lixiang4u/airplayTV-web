@@ -8,7 +8,7 @@ export default class LATM2RawFilter extends AVBSFilter {
     private caches;
     private refSampleDuration;
     init(codecpar: pointer<AVCodecParameters>, timeBase: pointer<Rational>): number;
-    private getLATMValue;
     sendAVPacket(avpacket: pointer<AVPacket>): number;
     receiveAVPacket(avpacket: pointer<AVPacket>): number;
+    reset(): number;
 }

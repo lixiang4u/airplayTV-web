@@ -222,6 +222,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var common_util_array__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! common/util/array */ "./src/common/util/array.ts");
 /* harmony import */ var _mp3_id3v2__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./mp3/id3v2 */ "./src/avformat/formats/mp3/id3v2.ts");
 /* harmony import */ var _mp3_frameHeader__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./mp3/frameHeader */ "./src/avformat/formats/mp3/frameHeader.ts");
+/* harmony import */ var avutil_error__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! avutil/error */ "./src/avutil/error.ts");
 var cheap__fileName__0 = "src\\avformat\\formats\\IMp3Format.ts";
 
 
@@ -244,8 +245,9 @@ var cheap__fileName__0 = "src\\avformat\\formats\\IMp3Format.ts";
 
 
 
+
 class IMp3Format extends _IFormat__WEBPACK_IMPORTED_MODULE_7__["default"] {
-    type = 11 /* AVFormat.MP3 */;
+    type = 12 /* AVFormat.MP3 */;
     context;
     constructor() {
         super();
@@ -327,7 +329,7 @@ class IMp3Format extends _IFormat__WEBPACK_IMPORTED_MODULE_7__["default"] {
             await formatContext.ioReader.skip(1);
         }
         if (this.context.firstFramePos !== formatContext.ioReader.getPos()) {
-            common_util_logger__WEBPACK_IMPORTED_MODULE_6__.warn(`skipping ${formatContext.ioReader.getPos() - this.context.firstFramePos} bytes of junk at ${this.context.firstFramePos}`, cheap__fileName__0, 170);
+            common_util_logger__WEBPACK_IMPORTED_MODULE_6__.warn(`skipping ${formatContext.ioReader.getPos() - this.context.firstFramePos} bytes of junk at ${this.context.firstFramePos}`, cheap__fileName__0, 171);
             this.context.firstFramePos = formatContext.ioReader.getPos();
         }
         stream.codecpar.extradataSize = 4;
@@ -341,7 +343,7 @@ class IMp3Format extends _IFormat__WEBPACK_IMPORTED_MODULE_7__["default"] {
         stream.timeBase.den = stream.codecpar.sampleRate;
         const channels = mp3Context.frameHeader.mode === 3 ? 1 : 2;
         stream.codecpar.chLayout.nbChannels = channels;
-        const bitRate = BigInt(Math.floor(_codecs_mp3__WEBPACK_IMPORTED_MODULE_12__.getBitRateByVersionLayerIndex(mp3Context.frameHeader.version, mp3Context.frameHeader.layer, mp3Context.frameHeader.bitrateIndex)));
+        const bitrate = BigInt(Math.floor(_codecs_mp3__WEBPACK_IMPORTED_MODULE_12__.getBitRateByVersionLayerIndex(mp3Context.frameHeader.version, mp3Context.frameHeader.layer, mp3Context.frameHeader.bitrateIndex)));
         const frameLength = _mp3_frameHeader__WEBPACK_IMPORTED_MODULE_18__.getFrameLength(mp3Context.frameHeader, stream.codecpar.sampleRate);
         const pos = formatContext.ioReader.getPos();
         const xingOffsetTable = [[0, 9, 17], [0, 0, 0], [0, 9, 17], [0, 17, 32]];
@@ -362,13 +364,13 @@ class IMp3Format extends _IFormat__WEBPACK_IMPORTED_MODULE_7__["default"] {
                 const delta = common_util_bigint__WEBPACK_IMPORTED_MODULE_15__.max(fSize, this.context.fileSize) - min;
                 if (fSize > this.context.fileSize && delta > min >> BigInt(4)) {
                     mp3Context.nbFrame = BigInt(0);
-                    common_util_logger__WEBPACK_IMPORTED_MODULE_6__.warn('invalid concatenated file detected - using bitrate for duration', cheap__fileName__0, 223);
+                    common_util_logger__WEBPACK_IMPORTED_MODULE_6__.warn('invalid concatenated file detected - using bitrate for duration', cheap__fileName__0, 224);
                 }
                 else if (delta > min >> BigInt(4)) {
-                    common_util_logger__WEBPACK_IMPORTED_MODULE_6__.warn('filesize and duration do not match (growing file?)', cheap__fileName__0, 226);
+                    common_util_logger__WEBPACK_IMPORTED_MODULE_6__.warn('filesize and duration do not match (growing file?)', cheap__fileName__0, 227);
                 }
             }
-            stream.duration = (mp3Context.nbFrame * BigInt(stream.codecpar.frameSize >>> 0));
+            stream.duration = (mp3Context.nbFrame * BigInt(stream.codecpar.frameSize >> 0));
             if (flags & 4 /* XingFlag.TOC */) {
                 for (let i = 0; i < _mp3_mp3__WEBPACK_IMPORTED_MODULE_14__.XING_TOC_COUNT; i++) {
                     const b = await formatContext.ioReader.readUint8();
@@ -397,15 +399,15 @@ class IMp3Format extends _IFormat__WEBPACK_IMPORTED_MODULE_7__["default"] {
                     await formatContext.ioReader.skip(4);
                     this.context.fileSize = BigInt(Math.floor(await formatContext.ioReader.readUint32()));
                     mp3Context.nbFrame = BigInt(Math.floor(await formatContext.ioReader.readUint32()));
-                    stream.duration = (mp3Context.nbFrame * BigInt(stream.codecpar.frameSize >>> 0));
+                    stream.duration = (mp3Context.nbFrame * BigInt(stream.codecpar.frameSize >> 0));
                 }
                 this.context.firstFramePos += BigInt(Math.floor(frameLength));
             }
             else {
                 this.context.isVBR = false;
-                stream.codecpar.bitRate = bitRate * BigInt(1000);
+                stream.codecpar.bitrate = bitrate * BigInt(1000);
                 mp3Context.nbFrame = (fileSize - this.context.firstFramePos - BigInt(_mp3_mp3__WEBPACK_IMPORTED_MODULE_14__.ID3V1_SIZE)) / BigInt(Math.floor(frameLength));
-                stream.duration = (mp3Context.nbFrame * BigInt(stream.codecpar.frameSize >>> 0));
+                stream.duration = (mp3Context.nbFrame * BigInt(stream.codecpar.frameSize >> 0));
                 mp3Context.frameLength = frameLength;
                 this.context.fileSize = fileSize;
             }
@@ -419,7 +421,7 @@ class IMp3Format extends _IFormat__WEBPACK_IMPORTED_MODULE_7__["default"] {
             await formatContext.ioReader.skip(1);
         }
         if (this.context.firstFramePos !== formatContext.ioReader.getPos()) {
-            common_util_logger__WEBPACK_IMPORTED_MODULE_6__.warn(`skipping ${formatContext.ioReader.getPos() - this.context.firstFramePos} bytes of junk at ${this.context.firstFramePos}`, cheap__fileName__0, 286);
+            common_util_logger__WEBPACK_IMPORTED_MODULE_6__.warn(`skipping ${formatContext.ioReader.getPos() - this.context.firstFramePos} bytes of junk at ${this.context.firstFramePos}`, cheap__fileName__0, 287);
             this.context.firstFramePos = formatContext.ioReader.getPos();
         }
         if (mp3Context.tocIndexes.length) {
@@ -443,10 +445,10 @@ class IMp3Format extends _IFormat__WEBPACK_IMPORTED_MODULE_7__["default"] {
             cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_3__.CTypeEnumWrite[17](avpacket + 56, pos);
             cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_3__.CTypeEnumWrite[15](avpacket + 32, stream.index);
             (0,cheap_std_memory__WEBPACK_IMPORTED_MODULE_0__.memcpy)(avpacket + 72, stream.timeBase[cheap_symbol__WEBPACK_IMPORTED_MODULE_1__.symbolStructAddress], 8);
-            cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_3__.CTypeEnumWrite[17](avpacket + 48, BigInt(stream.codecpar.frameSize >>> 0));
+            cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_3__.CTypeEnumWrite[17](avpacket + 48, BigInt(stream.codecpar.frameSize >> 0));
             cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_3__.CTypeEnumWrite[17](avpacket + 16, mp3Context.nextDTS), cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_3__.CTypeEnumWrite[17](avpacket + 8, mp3Context.nextDTS);
             cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_3__.CTypeEnumWrite[15](avpacket + 36, cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_2__.CTypeEnumRead[15](avpacket + 36) | 1 /* AVPacketFlags.AV_PKT_FLAG_KEY */);
-            mp3Context.nextDTS += BigInt(stream.codecpar.frameSize >>> 0);
+            mp3Context.nextDTS += BigInt(stream.codecpar.frameSize >> 0);
             const data = (0,avutil_util_mem__WEBPACK_IMPORTED_MODULE_8__.avMalloc)(frameLength);
             (0,avutil_util_avpacket__WEBPACK_IMPORTED_MODULE_9__.addAVPacketData)(avpacket, data, frameLength);
             await formatContext.ioReader.readBuffer(frameLength, (0,cheap_std_memory__WEBPACK_IMPORTED_MODULE_0__.mapSafeUint8Array)(data, frameLength));
@@ -454,7 +456,7 @@ class IMp3Format extends _IFormat__WEBPACK_IMPORTED_MODULE_7__["default"] {
         }
         catch (error) {
             if (formatContext.ioReader.error !== -1048576 /* IOError.END */) {
-                common_util_logger__WEBPACK_IMPORTED_MODULE_6__.error(error.message, cheap__fileName__0, 333);
+                common_util_logger__WEBPACK_IMPORTED_MODULE_6__.error(error.message, cheap__fileName__0, 334);
             }
             return formatContext.ioReader.error;
         }
@@ -514,57 +516,79 @@ class IMp3Format extends _IFormat__WEBPACK_IMPORTED_MODULE_7__["default"] {
     async seek(formatContext, stream, timestamp, flags) {
         const now = formatContext.ioReader.getPos();
         const mp3Context = stream.privData;
-        if (stream.sampleIndexes.length) {
-            let index = common_util_array__WEBPACK_IMPORTED_MODULE_16__.binarySearch(stream.sampleIndexes, (item) => {
-                if (item.pts > timestamp) {
-                    return -1;
-                }
-                return 1;
-            });
-            if (index > 0 && (0,avutil_util_rational__WEBPACK_IMPORTED_MODULE_13__.avRescaleQ)(timestamp - stream.sampleIndexes[index - 1].pts, stream.timeBase, avutil_constant__WEBPACK_IMPORTED_MODULE_10__.AV_MILLI_TIME_BASE_Q) < BigInt(10000)) {
-                common_util_logger__WEBPACK_IMPORTED_MODULE_6__.debug(`seek in sampleIndexes, found index: ${index}, pts: ${stream.sampleIndexes[index - 1].pts}, pos: ${stream.sampleIndexes[index - 1].pos}`, cheap__fileName__0, 416);
-                await formatContext.ioReader.seek(stream.sampleIndexes[index - 1].pos);
-                mp3Context.nextDTS = stream.sampleIndexes[index - 1].dts;
-                return now;
+        if (flags & 2 /* AVSeekFlags.BYTE */) {
+            const size = await formatContext.ioReader.fileSize();
+            if (size <= BigInt(0)) {
+                return BigInt(avutil_error__WEBPACK_IMPORTED_MODULE_19__.FORMAT_NOT_SUPPORT);
             }
-        }
-        if (timestamp === BigInt(0)) {
-            await formatContext.ioReader.seek(this.context.firstFramePos);
+            if (timestamp < BigInt(0)) {
+                timestamp = BigInt(0);
+            }
+            else if (timestamp > size) {
+                timestamp = size;
+            }
+            await formatContext.ioReader.seek(timestamp);
+            if (!(flags & 4 /* AVSeekFlags.ANY */)) {
+                await this.syncToFrame(formatContext);
+                if (stream.duration && size) {
+                    mp3Context.nextDTS = timestamp / size * stream.duration;
+                }
+            }
             return now;
         }
-        if (this.context.isVBR) {
-            if (mp3Context.tocIndexes.length) {
-                const sample = mp3Context.tocIndexes[(Number(timestamp / (stream.duration / BigInt(_mp3_mp3__WEBPACK_IMPORTED_MODULE_14__.XING_TOC_COUNT)) & 0xffffffffn) >> 0)];
-                if (sample) {
-                    common_util_logger__WEBPACK_IMPORTED_MODULE_6__.debug(`seek in xing toc indexes, pts: ${sample.dts}, pos: ${sample.pos}`, cheap__fileName__0, 432);
-                    await formatContext.ioReader.seek(sample.pos);
-                    mp3Context.nextDTS = sample.dts;
+        else {
+            if (stream.sampleIndexes.length) {
+                let index = common_util_array__WEBPACK_IMPORTED_MODULE_16__.binarySearch(stream.sampleIndexes, (item) => {
+                    if (item.pts > timestamp) {
+                        return -1;
+                    }
+                    return 1;
+                });
+                if (index > 0 && (0,avutil_util_rational__WEBPACK_IMPORTED_MODULE_13__.avRescaleQ)(timestamp - stream.sampleIndexes[index - 1].pts, stream.timeBase, avutil_constant__WEBPACK_IMPORTED_MODULE_10__.AV_MILLI_TIME_BASE_Q) < BigInt(10000)) {
+                    common_util_logger__WEBPACK_IMPORTED_MODULE_6__.debug(`seek in sampleIndexes, found index: ${index}, pts: ${stream.sampleIndexes[index - 1].pts}, pos: ${stream.sampleIndexes[index - 1].pos}`, cheap__fileName__0, 443);
+                    await formatContext.ioReader.seek(stream.sampleIndexes[index - 1].pos);
+                    mp3Context.nextDTS = stream.sampleIndexes[index - 1].dts;
+                    return now;
+                }
+            }
+            if (timestamp === BigInt(0)) {
+                await formatContext.ioReader.seek(this.context.firstFramePos);
+                return now;
+            }
+            if (this.context.isVBR) {
+                if (mp3Context.tocIndexes.length) {
+                    const sample = mp3Context.tocIndexes[Number(BigInt.asIntN(32, timestamp / (stream.duration / BigInt(_mp3_mp3__WEBPACK_IMPORTED_MODULE_14__.XING_TOC_COUNT))))];
+                    if (sample) {
+                        common_util_logger__WEBPACK_IMPORTED_MODULE_6__.debug(`seek in xing toc indexes, pts: ${sample.dts}, pos: ${sample.pos}`, cheap__fileName__0, 459);
+                        await formatContext.ioReader.seek(sample.pos);
+                        mp3Context.nextDTS = sample.dts;
+                    }
+                    else {
+                        common_util_logger__WEBPACK_IMPORTED_MODULE_6__.debug('not found any keyframe index, try to seek in bytes', cheap__fileName__0, 464);
+                        const frameLength = _mp3_frameHeader__WEBPACK_IMPORTED_MODULE_18__.getFrameLength(mp3Context.frameHeader, stream.codecpar.sampleRate);
+                        const frame = timestamp / BigInt(stream.codecpar.frameSize >> 0);
+                        const pos = frame * BigInt(Math.floor(frameLength)) + this.context.firstFramePos;
+                        mp3Context.nextDTS = frame * BigInt(stream.codecpar.frameSize >> 0);
+                        await formatContext.ioReader.seek(pos);
+                    }
                 }
                 else {
-                    common_util_logger__WEBPACK_IMPORTED_MODULE_6__.debug('not found any keyframe index, try to seek in bytes', cheap__fileName__0, 437);
+                    common_util_logger__WEBPACK_IMPORTED_MODULE_6__.debug('not found any keyframe index, try to seek in bytes', cheap__fileName__0, 473);
                     const frameLength = _mp3_frameHeader__WEBPACK_IMPORTED_MODULE_18__.getFrameLength(mp3Context.frameHeader, stream.codecpar.sampleRate);
-                    const frame = timestamp / BigInt(stream.codecpar.frameSize >>> 0);
+                    const frame = timestamp / BigInt(stream.codecpar.frameSize >> 0);
                     const pos = frame * BigInt(Math.floor(frameLength)) + this.context.firstFramePos;
-                    mp3Context.nextDTS = frame * BigInt(stream.codecpar.frameSize >>> 0);
+                    mp3Context.nextDTS = frame * BigInt(stream.codecpar.frameSize >> 0);
                     await formatContext.ioReader.seek(pos);
                 }
             }
             else {
-                common_util_logger__WEBPACK_IMPORTED_MODULE_6__.debug('not found any keyframe index, try to seek in bytes', cheap__fileName__0, 446);
-                const frameLength = _mp3_frameHeader__WEBPACK_IMPORTED_MODULE_18__.getFrameLength(mp3Context.frameHeader, stream.codecpar.sampleRate);
-                const frame = timestamp / BigInt(stream.codecpar.frameSize >>> 0);
-                const pos = frame * BigInt(Math.floor(frameLength)) + this.context.firstFramePos;
-                mp3Context.nextDTS = frame * BigInt(stream.codecpar.frameSize >>> 0);
+                const frame = timestamp / BigInt(stream.codecpar.frameSize >> 0);
+                const pos = frame * BigInt(mp3Context.frameLength >> 0) + this.context.firstFramePos;
+                mp3Context.nextDTS = frame * BigInt(stream.codecpar.frameSize >> 0);
                 await formatContext.ioReader.seek(pos);
             }
+            await this.syncToFrame(formatContext);
         }
-        else {
-            const frame = timestamp / BigInt(stream.codecpar.frameSize >>> 0);
-            const pos = frame * BigInt(mp3Context.frameLength >>> 0) + this.context.firstFramePos;
-            mp3Context.nextDTS = frame * BigInt(stream.codecpar.frameSize >>> 0);
-            await formatContext.ioReader.seek(pos);
-        }
-        await this.syncToFrame(formatContext);
         return now;
     }
     getAnalyzeStreamsCount() {
@@ -712,7 +736,7 @@ function decodeString(encoding, buffer) {
 async function parse(ioReader, len, id3v2, metadata) {
     const isV34 = id3v2.version !== 2;
     const tagHeaderLen = isV34 ? 10 : 6;
-    let end = ioReader.getPos() + BigInt(len >>> 0);
+    let end = ioReader.getPos() + BigInt(len >> 0);
     async function error() {
         await ioReader.seek(end);
     }
@@ -976,7 +1000,7 @@ function write(ioWriter, version, padding, metadata) {
     if (padding < 10) {
         padding = 10;
     }
-    const len = (Number(ioWriter.getPos() - now & 0xffffffffn) >> 0);
+    const len = Number(BigInt.asIntN(32, ioWriter.getPos() - now));
     if (padding > 268435455 - len) {
         padding = 268435455 - len;
     }

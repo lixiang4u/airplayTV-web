@@ -9,4 +9,5 @@ export default abstract class AVBSFilter {
     destroy(): void;
     abstract sendAVPacket(avpacket: pointer<AVPacket>): number;
     abstract receiveAVPacket(avpacket: pointer<AVPacket>): number;
+    abstract reset(): number;
 }

@@ -44,7 +44,7 @@ var cheap__fileName__0 = "src\\avformat\\formats\\IFlacFormat.ts";
 
 const PACKET_SIZE = 1024;
 class IFlacFormat extends _IFormat__WEBPACK_IMPORTED_MODULE_4__["default"] {
-    type = 14 /* AVFormat.FLAC */;
+    type = 15 /* AVFormat.FLAC */;
     context;
     constructor() {
         super();
@@ -237,16 +237,15 @@ class IFlacFormat extends _IFormat__WEBPACK_IMPORTED_MODULE_4__["default"] {
             }
             if (!this.context.cacheBuffer) {
                 this.context.cachePos = formatContext.ioReader.getPos();
-                this.context.cacheBuffer = await formatContext.ioReader.readBuffer(Math.min(PACKET_SIZE, (Number(this.context.fileSize - formatContext.ioReader.getPos() & 0xffffffffn) >> 0)));
+                this.context.cacheBuffer = await formatContext.ioReader.readBuffer(Math.min(PACKET_SIZE, Number(BigInt.asIntN(32, this.context.fileSize - formatContext.ioReader.getPos()))));
             }
             else if (this.context.cacheBuffer.length < 17) {
                 this.context.cacheBuffer = (0,common_function_concatTypeArray__WEBPACK_IMPORTED_MODULE_10__["default"])(Uint8Array, [
                     this.context.cacheBuffer,
-                    await formatContext.ioReader.readBuffer(Math.min(PACKET_SIZE, (Number(this.context.fileSize - formatContext.ioReader.getPos() & 0xffffffffn) >> 0)))
+                    await formatContext.ioReader.readBuffer(Math.min(PACKET_SIZE, Number(BigInt.asIntN(32, this.context.fileSize - formatContext.ioReader.getPos()))))
                 ]);
             }
             let i = buffers.length ? 0 : 2;
-            // 根据规范 isVarSize 是不能变的，但发现某些文件中间的某一帧变了，这里将强行指定到第一个帧的值来判断
             const sync = this.context.isVarSize < 0 ? [0xf8, 0xf9] : (this.context.isVarSize ? [0xf9] : [0xf8]);
             for (; i < this.context.cacheBuffer.length - 2; i++) {
                 if (this.context.cacheBuffer[i] === 0xff && common_util_array__WEBPACK_IMPORTED_MODULE_13__.has(sync, this.context.cacheBuffer[i + 1])) {
@@ -274,12 +273,16 @@ class IFlacFormat extends _IFormat__WEBPACK_IMPORTED_MODULE_4__["default"] {
             if (this.context.cacheBuffer.length < 16) {
                 this.context.cacheBuffer = (0,common_function_concatTypeArray__WEBPACK_IMPORTED_MODULE_10__["default"])(Uint8Array, [
                     this.context.cacheBuffer,
-                    await formatContext.ioReader.readBuffer(Math.min(PACKET_SIZE, (Number(this.context.fileSize - formatContext.ioReader.getPos() & 0xffffffffn) >> 0)))
+                    await formatContext.ioReader.readBuffer(Math.min(PACKET_SIZE, Number(BigInt.asIntN(32, this.context.fileSize - formatContext.ioReader.getPos()))))
                 ]);
             }
-            this.context.bitReader.clear();
+            this.context.bitReader.reset();
             this.context.bitReader.appendBuffer(this.context.cacheBuffer.subarray(0, 16));
-            if ((0,_flac_iflac__WEBPACK_IMPORTED_MODULE_8__.decodeFrameHeader)(this.context.bitReader, {}, true) < 0) {
+            const info = {};
+            // 检查下一帧的数据是否合法，不合法说明和前面的是同一帧数据
+            if ((0,_flac_iflac__WEBPACK_IMPORTED_MODULE_8__.decodeFrameHeader)(this.context.bitReader, info, true) < 0
+                || info.sampleRate !== this.context.frameInfo.sampleRate
+                || info.channels !== this.context.frameInfo.channels) {
                 buffers.push(this.context.cacheBuffer.subarray(0, 2));
                 this.context.cachePos += BigInt(2);
                 this.context.cacheBuffer = this.context.cacheBuffer.subarray(2);
@@ -302,13 +305,13 @@ class IFlacFormat extends _IFormat__WEBPACK_IMPORTED_MODULE_4__["default"] {
             if (now === this.context.fileSize) {
                 return -1048576 /* IOError.END */;
             }
-            this.context.bitReader.clear();
+            this.context.bitReader.reset();
             if (this.context.cacheBuffer) {
                 now = this.context.cachePos;
                 if (this.context.cacheBuffer.length < 16) {
                     this.context.cacheBuffer = (0,common_function_concatTypeArray__WEBPACK_IMPORTED_MODULE_10__["default"])(Uint8Array, [
                         this.context.cacheBuffer,
-                        await formatContext.ioReader.readBuffer(Math.min(PACKET_SIZE, (Number(this.context.fileSize - formatContext.ioReader.getPos() & 0xffffffffn) >> 0)))
+                        await formatContext.ioReader.readBuffer(Math.min(PACKET_SIZE, Number(BigInt.asIntN(32, this.context.fileSize - formatContext.ioReader.getPos()))))
                     ]);
                 }
                 this.context.bitReader.appendBuffer(this.context.cacheBuffer.subarray(0, 16));
@@ -329,9 +332,9 @@ class IFlacFormat extends _IFormat__WEBPACK_IMPORTED_MODULE_4__["default"] {
             cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumWrite[15](avpacket + 72, stream.timeBase.num);
             cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumWrite[17](avpacket + 16, this.context.frameInfo.isVarSize
                 ? this.context.frameInfo.frameOrSampleNum
-                : this.context.frameInfo.frameOrSampleNum * BigInt(this.context.frameInfo.blocksize >>> 0)), cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumWrite[17](avpacket + 8, this.context.frameInfo.isVarSize
+                : this.context.frameInfo.frameOrSampleNum * BigInt(this.context.frameInfo.blocksize >> 0)), cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumWrite[17](avpacket + 8, this.context.frameInfo.isVarSize
                 ? this.context.frameInfo.frameOrSampleNum
-                : this.context.frameInfo.frameOrSampleNum * BigInt(this.context.frameInfo.blocksize >>> 0));
+                : this.context.frameInfo.frameOrSampleNum * BigInt(this.context.frameInfo.blocksize >> 0));
             if (this.context.isVarSize < 0) {
                 this.context.isVarSize = this.context.frameInfo.isVarSize;
             }
@@ -339,7 +342,8 @@ class IFlacFormat extends _IFormat__WEBPACK_IMPORTED_MODULE_4__["default"] {
         }
         catch (error) {
             if (formatContext.ioReader.error !== -1048576 /* IOError.END */) {
-                common_util_logger__WEBPACK_IMPORTED_MODULE_2__.error(error.message, cheap__fileName__0, 405);
+                common_util_logger__WEBPACK_IMPORTED_MODULE_2__.error(`read packet error, ${error}`, cheap__fileName__0, 409);
+                return avutil_error__WEBPACK_IMPORTED_MODULE_3__.DATA_INVALID;
             }
             return formatContext.ioReader.error;
         }
@@ -351,7 +355,7 @@ class IFlacFormat extends _IFormat__WEBPACK_IMPORTED_MODULE_4__["default"] {
                 const word = await formatContext.ioReader.peekUint16();
                 if (word === 0xfff9 || word === 0xfff8) {
                     pos = formatContext.ioReader.getPos();
-                    this.context.bitReader.clear();
+                    this.context.bitReader.reset();
                     this.context.bitReader.appendBuffer(await formatContext.ioReader.peekBuffer(16));
                     if (!(0,_flac_iflac__WEBPACK_IMPORTED_MODULE_8__.decodeFrameHeader)(this.context.bitReader, {}, true)) {
                         break;
@@ -395,7 +399,7 @@ class IFlacFormat extends _IFormat__WEBPACK_IMPORTED_MODULE_4__["default"] {
                 return 1;
             });
             if (index > 0 && (0,avutil_util_rational__WEBPACK_IMPORTED_MODULE_14__.avRescaleQ)(timestamp - stream.sampleIndexes[index - 1].pts, stream.timeBase, avutil_constant__WEBPACK_IMPORTED_MODULE_11__.AV_MILLI_TIME_BASE_Q) < BigInt(5000)) {
-                common_util_logger__WEBPACK_IMPORTED_MODULE_2__.debug(`seek in sampleIndexes, found index: ${index}, pts: ${stream.sampleIndexes[index - 1].pts}, pos: ${stream.sampleIndexes[index - 1].pos}`, cheap__fileName__0, 472);
+                common_util_logger__WEBPACK_IMPORTED_MODULE_2__.debug(`seek in sampleIndexes, found index: ${index}, pts: ${stream.sampleIndexes[index - 1].pts}, pos: ${stream.sampleIndexes[index - 1].pos}`, cheap__fileName__0, 477);
                 await formatContext.ioReader.seek(stream.sampleIndexes[index - 1].pos);
                 context.cacheBuffer = null;
                 return now;
@@ -405,14 +409,14 @@ class IFlacFormat extends _IFormat__WEBPACK_IMPORTED_MODULE_4__["default"] {
             for (let i = 0; i < context.seekPoints.length; i++) {
                 const cue = context.seekPoints[i];
                 if (cue.pts >= timestamp) {
-                    common_util_logger__WEBPACK_IMPORTED_MODULE_2__.debug(`seek in seekPoints, found index: ${i}, pts: ${cue.pts}, pos: ${cue.pos + context.firstFramePos}`, cheap__fileName__0, 483);
+                    common_util_logger__WEBPACK_IMPORTED_MODULE_2__.debug(`seek in seekPoints, found index: ${i}, pts: ${cue.pts}, pos: ${cue.pos + context.firstFramePos}`, cheap__fileName__0, 488);
                     await formatContext.ioReader.seek(cue.pos + context.firstFramePos);
                     context.cacheBuffer = null;
                     return now;
                 }
             }
         }
-        common_util_logger__WEBPACK_IMPORTED_MODULE_2__.debug('not found any keyframe index, try to seek in bytes', cheap__fileName__0, 491);
+        common_util_logger__WEBPACK_IMPORTED_MODULE_2__.debug('not found any keyframe index, try to seek in bytes', cheap__fileName__0, 496);
         const ret = await (0,_function_seekInBytes__WEBPACK_IMPORTED_MODULE_12__["default"])(formatContext, stream, timestamp, context.firstFramePos, this.readAVPacket.bind(this), this.syncFrame.bind(this));
         if (ret > 0) {
             context.cacheBuffer = null;
@@ -550,7 +554,7 @@ const BlockSizeTable = [
 /* harmony import */ var avutil_error__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! avutil/error */ "./src/avutil/error.ts");
 /* harmony import */ var common_util_logger__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! common/util/logger */ "./src/common/util/logger.ts");
 /* harmony import */ var _flac__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./flac */ "./src/avformat/formats/flac/flac.ts");
-/* harmony import */ var avutil_function_crc8__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! avutil/function/crc8 */ "./src/avutil/function/crc8.ts");
+/* harmony import */ var common_math_crc8__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! common/math/crc8 */ "./src/common/math/crc8.ts");
 var cheap__fileName__0 = "src\\avformat\\formats\\flac\\iflac.ts";
 
 
@@ -574,7 +578,7 @@ function getUtf8(reader) {
     return value;
 }
 function decodeFrameHeader(bitReader, info, check = false) {
-    const start = bitReader.getPos();
+    const start = bitReader.getPointer();
     if ((bitReader.readU(15) & 0x7fff) != 0x7ffc) {
         !check && common_util_logger__WEBPACK_IMPORTED_MODULE_1__.error('invalid sync code', cheap__fileName__0, 57);
         return avutil_error__WEBPACK_IMPORTED_MODULE_0__.DATA_INVALID;
@@ -639,7 +643,7 @@ function decodeFrameHeader(bitReader, info, check = false) {
         !check && common_util_logger__WEBPACK_IMPORTED_MODULE_1__.error(`illegal sample rate code ${srCode}`, cheap__fileName__0, 126);
         return avutil_error__WEBPACK_IMPORTED_MODULE_0__.DATA_INVALID;
     }
-    const crc = (0,avutil_function_crc8__WEBPACK_IMPORTED_MODULE_3__["default"])(bitReader.getBuffer().subarray(start, bitReader.getPos()));
+    const crc = (0,common_math_crc8__WEBPACK_IMPORTED_MODULE_3__["default"])(bitReader.getBuffer().subarray(start, bitReader.getPointer()));
     if (crc !== bitReader.readU(8)) {
         !check && common_util_logger__WEBPACK_IMPORTED_MODULE_1__.error('header crc mismatch', cheap__fileName__0, 133);
         return avutil_error__WEBPACK_IMPORTED_MODULE_0__.DATA_INVALID;
@@ -692,7 +696,7 @@ function decodeFrameHeader(bitReader, info, check = false) {
 function getBytesByDuration(streams, duration, timeBase) {
     let bytes = BigInt(0);
     common_util_array__WEBPACK_IMPORTED_MODULE_0__.each(streams, (st) => {
-        bytes += st.codecpar.bitRate * (0,avutil_util_rational__WEBPACK_IMPORTED_MODULE_1__.avRescaleQ)(duration, timeBase, avutil_constant__WEBPACK_IMPORTED_MODULE_2__.AV_MILLI_TIME_BASE_Q) / BigInt(8000);
+        bytes += st.codecpar.bitrate * (0,avutil_util_rational__WEBPACK_IMPORTED_MODULE_1__.avRescaleQ)(duration, timeBase, avutil_constant__WEBPACK_IMPORTED_MODULE_2__.AV_MILLI_TIME_BASE_Q) / BigInt(8000);
     });
     return bytes;
 }
@@ -748,8 +752,8 @@ async function seekInBytes(context, stream, timestamp, firstPacketPos, readAVPac
         return now;
     }
     let bytes = (0,_getBytesByDuration__WEBPACK_IMPORTED_MODULE_5__.getBytesByDuration)(context.streams, duration, stream.timeBase);
-    // 最大到结尾往前 5 秒
-    const max = fileSize - (0,_getBytesByDuration__WEBPACK_IMPORTED_MODULE_5__.getBytesByDuration)(context.streams, BigInt(5000), avutil_constant__WEBPACK_IMPORTED_MODULE_3__.AV_MILLI_TIME_BASE_Q);
+    // 最大到结尾往前 10 秒
+    const max = fileSize - (0,_getBytesByDuration__WEBPACK_IMPORTED_MODULE_5__.getBytesByDuration)(context.streams, BigInt(10000), avutil_constant__WEBPACK_IMPORTED_MODULE_3__.AV_MILLI_TIME_BASE_Q);
     const length = (0,_getBytesByDuration__WEBPACK_IMPORTED_MODULE_5__.getBytesByDuration)(context.streams, BigInt(10000), avutil_constant__WEBPACK_IMPORTED_MODULE_3__.AV_MILLI_TIME_BASE_Q);
     if (bytes > max) {
         bytes = max;
@@ -791,12 +795,14 @@ async function seekInBytes(context, stream, timestamp, firstPacketPos, readAVPac
             }
         }
         else {
+            // 失败了重新 seek 回原来的位置
+            pos = avutil_constant__WEBPACK_IMPORTED_MODULE_3__.NOPTS_VALUE_BIGINT;
             break;
         }
     }
     (0,avutil_util_avpacket__WEBPACK_IMPORTED_MODULE_6__.destroyAVPacket)(avpacket);
     if (pos !== avutil_constant__WEBPACK_IMPORTED_MODULE_3__.NOPTS_VALUE_BIGINT) {
-        common_util_logger__WEBPACK_IMPORTED_MODULE_8__.debug(`finally seek to pos ${pos}`, cheap__fileName__0, 124);
+        common_util_logger__WEBPACK_IMPORTED_MODULE_8__.debug(`finally seek to pos ${pos}`, cheap__fileName__0, 126);
         await context.ioReader.seek(pos);
         await syncAVPacket(context);
         return now;
@@ -810,39 +816,15 @@ async function seekInBytes(context, stream, timestamp, firstPacketPos, readAVPac
 
 /***/ }),
 
-/***/ "./src/avutil/function/crc8.ts":
-/*!*************************************!*\
-  !*** ./src/avutil/function/crc8.ts ***!
-  \*************************************/
+/***/ "./src/common/math/crc8.ts":
+/*!*********************************!*\
+  !*** ./src/common/math/crc8.ts ***!
+  \*********************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ crc8)
 /* harmony export */ });
-/*
- * libmedia crc8
- *
- * 版权所有 (C) 2024 赵高兴
- * Copyright (C) 2024 Gaoxing Zhao
- *
- * 此文件是 libmedia 的一部分
- * This file is part of libmedia.
- *
- * libmedia 是自由软件；您可以根据 GNU Lesser General Public License（GNU LGPL）3.1
- * 或任何其更新的版本条款重新分发或修改它
- * libmedia is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 3.1 of the License, or (at your option) any later version.
- *
- * libmedia 希望能够为您提供帮助，但不提供任何明示或暗示的担保，包括但不限于适销性或特定用途的保证
- * 您应自行承担使用 libmedia 的风险，并且需要遵守 GNU Lesser General Public License 中的条款和条件。
- * libmedia is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- *
- */
 function crc8(data, crc = 0x00) {
     const polynomial = 0x07;
     for (let i = 0; i < data.length; i++) {
@@ -857,178 +839,6 @@ function crc8(data, crc = 0x00) {
         }
     }
     return crc & 0xFF;
-}
-
-
-/***/ }),
-
-/***/ "./src/common/io/BitReader.ts":
-/*!************************************!*\
-  !*** ./src/common/io/BitReader.ts ***!
-  \************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ BitReader)
-/* harmony export */ });
-/* harmony import */ var _util_logger__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../util/logger */ "./src/common/util/logger.ts");
-var cheap__fileName__0 = "src\\common\\io\\BitReader.ts";
-
-class BitReader {
-    buffer;
-    pointer;
-    bitsLeft;
-    size;
-    endPointer;
-    error;
-    onFlush;
-    /**
-     * @param data 待读取的字节
-     * @param bigEndian 是否按大端字节序读取，默认大端字节序（网络字节序）
-     */
-    constructor(size = 1048576) {
-        this.pointer = 0;
-        this.bitsLeft = 8;
-        this.size = size;
-        this.endPointer = 0;
-        this.error = 0;
-        this.buffer = new Uint8Array(this.size);
-    }
-    /**
-     * 不影响原读取操作的情况下，读取 1 个比特
-     */
-    peekU1() {
-        let result = 0;
-        if (this.remainingLength() < 1 || this.remainingLength() === 1 && this.bitsLeft === 0) {
-            this.flush();
-        }
-        let pointer = this.pointer;
-        let bitsLeft = this.bitsLeft;
-        if (bitsLeft === 0) {
-            pointer++;
-            bitsLeft = 8;
-        }
-        result = (this.buffer[pointer] >> (bitsLeft - 1)) & 0x01;
-        return result;
-    }
-    /**
-     * 读取 1 个比特
-     */
-    readU1() {
-        let result = 0;
-        if (this.remainingLength() < 1 || this.remainingLength() === 1 && this.bitsLeft === 0) {
-            this.flush();
-        }
-        this.bitsLeft--;
-        result = (this.buffer[this.pointer] >> this.bitsLeft) & 0x01;
-        if (this.bitsLeft === 0) {
-            this.pointer++;
-            this.bitsLeft = 8;
-        }
-        return result;
-    }
-    /**
-     * 读取 n 个比特
-     *
-     * @param n
-     */
-    readU(n) {
-        let result = 0;
-        for (let i = 0; i < n; i++) {
-            result |= (this.readU1() << (n - i - 1));
-        }
-        return result;
-    }
-    /**
-     * 获取剩余可读字节数
-     *
-     * @returns
-     */
-    remainingLength() {
-        return this.endPointer - this.pointer;
-    }
-    getPos() {
-        return this.pointer;
-    }
-    skip(n) {
-        const byte = (n - (n % 8)) / 8;
-        this.pointer += byte;
-        const bitsLeft = n % 8;
-        if (this.bitsLeft <= bitsLeft) {
-            this.pointer++;
-            this.bitsLeft = 8 - (bitsLeft - this.bitsLeft);
-        }
-        else {
-            this.bitsLeft -= bitsLeft;
-        }
-    }
-    flush() {
-        if (!this.onFlush) {
-            this.error = -1048574 /* IOError.INVALID_OPERATION */;
-            throw Error('IOReader error, flush failed because of no flush callback');
-        }
-        if (this.bitsLeft === 0) {
-            this.pointer++;
-        }
-        if (this.size - this.remainingLength() <= 0) {
-            return;
-        }
-        if (this.pointer < this.endPointer) {
-            this.buffer.set(this.buffer.subarray(this.pointer, this.endPointer), 0);
-            const len = this.onFlush(this.buffer.subarray(this.endPointer - this.pointer, this.size));
-            if (len < 0) {
-                this.error = len;
-                throw Error('IOReader error, flush failed');
-            }
-            this.endPointer = this.endPointer - this.pointer + len;
-            this.pointer = 0;
-        }
-        else {
-            const len = this.onFlush(this.buffer);
-            this.endPointer = len;
-            this.pointer = 0;
-            this.bitsLeft = 8;
-            if (len < 0) {
-                this.error = len;
-                throw Error('IOReader error, flush failed');
-            }
-        }
-    }
-    getBuffer() {
-        return this.buffer;
-    }
-    appendBuffer(buffer) {
-        if (this.size - this.endPointer >= buffer.length) {
-            this.buffer.set(buffer, this.endPointer);
-            this.endPointer += buffer.length;
-        }
-        else {
-            this.buffer.set(this.buffer.subarray(this.pointer, this.endPointer), 0);
-            this.endPointer = this.endPointer - this.pointer;
-            this.pointer = 0;
-            if (this.size - this.endPointer >= buffer.length) {
-                this.buffer.set(buffer, this.endPointer);
-                this.endPointer += buffer.length;
-            }
-            else {
-                const len = Math.min(this.size - this.endPointer, buffer.length);
-                this.buffer.set(buffer.subarray(0, len), this.endPointer);
-                this.endPointer += len;
-                _util_logger__WEBPACK_IMPORTED_MODULE_0__.warn('BSReader, call appendBuffer but the buffer\'s size is lagger then the remaining size', cheap__fileName__0, 190);
-            }
-        }
-    }
-    clear() {
-        this.pointer = this.endPointer = 0;
-        this.bitsLeft = 8;
-        this.error = 0;
-    }
-    skipPadding() {
-        if (this.bitsLeft < 8) {
-            this.bitsLeft = 8;
-            this.pointer++;
-        }
-    }
 }
 
 

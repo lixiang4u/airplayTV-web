@@ -1,8 +1,8 @@
 import { WebAssemblyResource } from './compiler';
 import { Pthread } from './thread';
 import { ThreadDescriptor } from './thread';
-import * as cond from 'cheap/thread/cond';
-import * as mutex from 'cheap/thread/mutex';
+import * as cond from '../thread/cond';
+import * as mutex from '../thread/mutex';
 export type WebAssemblyRunnerOptions = {
     imports?: Record<string, Record<string, WebAssembly.ImportValue>>;
     exportMap?: Record<string, string>;

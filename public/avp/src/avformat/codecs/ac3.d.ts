@@ -1,4 +1,5 @@
 import { AV_CH_LAYOUT } from 'avutil/audiosamplefmt';
+import { Uint8ArrayInterface } from 'common/io/interface';
 export declare const enum AC3DeltaStrategy {
     DBA_REUSE = 0,
     DBA_NEW = 1,
@@ -63,10 +64,10 @@ export interface AC3HeaderInfo {
     dolbySurroundMode: int32;
     srShift: uint8;
     sampleRate: uint16;
-    bitRate: uint32;
+    bitrate: uint32;
     channels: uint8;
     frameSize: uint16;
     channelLayout: uint64;
     ac3BitrateCode: int8;
 }
-export declare function parseHeader(buf: pointer<uint8>, size: size): -2 | -1 | -5 | -3 | -4 | -6 | -7 | AC3HeaderInfo;
+export declare function parseHeader(buf: Uint8ArrayInterface): -2 | -1 | -5 | -3 | -4 | -6 | -7 | AC3HeaderInfo;

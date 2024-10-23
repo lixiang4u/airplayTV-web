@@ -48,7 +48,7 @@ const defaultMp3FormatOptions = {
     hasXing: true
 };
 class OMp3Format extends _OFormat__WEBPACK_IMPORTED_MODULE_1__["default"] {
-    type = 11 /* AVFormat.MP3 */;
+    type = 12 /* AVFormat.MP3 */;
     options;
     context;
     xingWriter;
@@ -98,7 +98,7 @@ class OMp3Format extends _OFormat__WEBPACK_IMPORTED_MODULE_1__["default"] {
         let channels = 0;
         let bitrateIdx = -1;
         let bestBitrateIdx = -1;
-        let bestBitrateError = BigInt(avutil_constant__WEBPACK_IMPORTED_MODULE_5__.INT32_MAX >>> 0);
+        let bestBitrateError = BigInt(avutil_constant__WEBPACK_IMPORTED_MODULE_5__.INT32_MAX >> 0);
         let ver = 0;
         let bytesNeeded = 0;
         const freqTab = [44100, 48000, 32000];
@@ -145,8 +145,8 @@ class OMp3Format extends _OFormat__WEBPACK_IMPORTED_MODULE_1__["default"] {
         header |= (rateIdx << 2) << 8;
         header |= channels << 6;
         for (bitrateIdx = 1; bitrateIdx < 15; bitrateIdx++) {
-            let bitRate = BigInt(Math.floor(1000 * _codecs_mp3__WEBPACK_IMPORTED_MODULE_4__.getBitRateByVersionLayerIndex(ver, 2, bitrateIdx)));
-            let error = common_util_bigint__WEBPACK_IMPORTED_MODULE_6__.abs(bitRate - stream.codecpar.bitRate);
+            let bitrate = BigInt(Math.floor(1000 * _codecs_mp3__WEBPACK_IMPORTED_MODULE_4__.getBitRateByVersionLayerIndex(ver, 2, bitrateIdx)));
+            let error = common_util_bigint__WEBPACK_IMPORTED_MODULE_6__.abs(bitrate - stream.codecpar.bitrate);
             if (error < bestBitrateError) {
                 bestBitrateError = error;
                 bestBitrateIdx = bitrateIdx;
@@ -293,11 +293,11 @@ class OMp3Format extends _OFormat__WEBPACK_IMPORTED_MODULE_1__["default"] {
         }
         if (cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[20](avpacket + 24) && cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](avpacket + 28) > 4) {
             _mp3_frameHeader__WEBPACK_IMPORTED_MODULE_7__.parse(this.context.frameHeader, cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[8](cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[20](avpacket + 24)));
-            const bitRate = _codecs_mp3__WEBPACK_IMPORTED_MODULE_4__.getBitRateByVersionLayerIndex(this.context.frameHeader.version, this.context.frameHeader.layer, this.context.frameHeader.bitrateIndex);
+            const bitrate = _codecs_mp3__WEBPACK_IMPORTED_MODULE_4__.getBitRateByVersionLayerIndex(this.context.frameHeader.version, this.context.frameHeader.layer, this.context.frameHeader.bitrateIndex);
             if (!this.context.initialBitrate) {
-                this.context.initialBitrate = bitRate;
+                this.context.initialBitrate = bitrate;
             }
-            else if (bitRate !== this.context.initialBitrate) {
+            else if (bitrate !== this.context.initialBitrate) {
                 this.context.hasVariableBitrate = true;
             }
             this.xingAddFrame(avpacket);
@@ -497,7 +497,7 @@ function decodeString(encoding, buffer) {
 async function parse(ioReader, len, id3v2, metadata) {
     const isV34 = id3v2.version !== 2;
     const tagHeaderLen = isV34 ? 10 : 6;
-    let end = ioReader.getPos() + BigInt(len >>> 0);
+    let end = ioReader.getPos() + BigInt(len >> 0);
     async function error() {
         await ioReader.seek(end);
     }
@@ -761,7 +761,7 @@ function write(ioWriter, version, padding, metadata) {
     if (padding < 10) {
         padding = 10;
     }
-    const len = (Number(ioWriter.getPos() - now & 0xffffffffn) >> 0);
+    const len = Number(BigInt.asIntN(32, ioWriter.getPos() - now));
     if (padding > 268435455 - len) {
         padding = 268435455 - len;
     }

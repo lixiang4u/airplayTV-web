@@ -1,14 +1,17 @@
 import ts from 'typescript';
 export declare function getEqualsBinaryExpressionRight(node: ts.BinaryExpression): ts.BinaryExpression;
 export declare function isExpressionPointer(node: ts.PropertyAccessExpression | ts.Identifier): boolean;
+export declare function isExpressionSmartPointer(node: ts.PropertyAccessExpression | ts.Identifier): boolean;
 export declare function getPointerExpressionType(node: ts.Node): ts.Type;
 export declare function isPointerNode(node: ts.Node): any;
+export declare function isSmartPointerNode(node: ts.Node): boolean;
 export declare function isJSDocTypeAlias(node: ts.Node): boolean;
 export declare function getContainerNode(node: ts.Node): ts.Node;
 export declare function isParseTreeNode(node: ts.Node): boolean;
 export declare function getParseTreeNode(node: ts.Node, nodeTest?: (node: ts.Node) => boolean): ts.Node;
 export declare function isPointerIndexOfCall(node: ts.CallExpression): boolean;
 export declare function isPointerElementAccess(node: ts.Node): any;
+export declare function isSmartPointerElementAccess(node: ts.Node): boolean;
 export declare function getPropertyAccessExpressionRootNode(node: ts.Node): ts.Node;
 export declare function getParameterDefaultValue(symbol: ts.Symbol, index: number): ts.Expression;
 export declare function checkBool(node: ts.Node, visitor: ts.Visitor): ts.Node;

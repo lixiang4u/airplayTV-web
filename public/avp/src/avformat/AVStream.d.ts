@@ -159,5 +159,5 @@ export interface AVStreamInterface {
     duration: int64;
     startTime: int64;
     disposition: int32;
-    timeBase: pointer<Rational>;
+    timeBase: Rational;
 }

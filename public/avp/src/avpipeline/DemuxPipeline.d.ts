@@ -44,11 +44,11 @@ type SelfTask = DemuxTaskOptions & {
 export default class DemuxPipeline extends Pipeline {
     tasks: Map<string, SelfTask>;
     constructor();
-    private judgeFormat;
     private createTask;
     openStream(taskId: string, maxProbeDuration?: int32): Promise<number>;
     getFormat(taskId: string): Promise<AVFormat>;
     analyzeStreams(taskId: string): Promise<AVFormatContextInterface>;
+    private replyAVPacket;
     connectStreamTask(taskId: string, streamIndex: number, port: MessagePort): Promise<void>;
     changeConnectStream(taskId: string, newStreamIndex: number, oldStreamIndex: number, force?: boolean): Promise<void>;
     startDemux(taskId: string, isLive: boolean, minQueueLength: int32): Promise<void>;

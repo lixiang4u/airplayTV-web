@@ -45,6 +45,10 @@ export default class BufferWriter implements BytesWriterSync {
      */
     writeInt16(value: number): void;
     /**
+     * 写 24 位有符号整数
+     */
+    writeInt24(value: number): void;
+    /**
      * 写 32 位有符号整数
      */
     writeInt32(value: number): void;
@@ -103,6 +107,17 @@ export default class BufferWriter implements BytesWriterSync {
      * 写一个字符串
      */
     writeString(str: string): number;
+    /**
+     * 获取已写的数据
+     *
+     * @returns
+     */
     getWroteBuffer(): Uint8Array;
+    /**
+     * 重新装载数据
+     *
+     * @param data
+     * @param bigEndian
+     */
     resetBuffer(data: Uint8ArrayInterface, bigEndian?: boolean): void;
 }

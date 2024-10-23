@@ -9,4 +9,5 @@ export default class Raw2ADTSFilter extends AVBSFilter {
     destroy(): void;
     sendAVPacket(avpacket: pointer<AVPacket>): number;
     receiveAVPacket(avpacket: pointer<AVPacket>): number;
+    reset(): number;
 }

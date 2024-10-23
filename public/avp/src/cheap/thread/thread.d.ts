@@ -26,6 +26,7 @@ export interface ThreadOptions {
     name?: string;
     stackSize?: number;
     disableWorker?: boolean;
+    dispatchToWorker?: boolean;
 }
 export declare function createThreadFromClass<T, U extends any[], args = [moduleId<'0'>]>(entity: new (...args: U) => T, options?: ThreadOptions): {
     run: (...args: U) => Promise<Thread<T>>;

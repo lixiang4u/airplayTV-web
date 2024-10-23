@@ -1,3 +1,6 @@
+/**
+ * 文件 IO
+ */
 export default class FileIO {
     private handler;
     private file;

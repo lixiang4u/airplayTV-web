@@ -138,7 +138,7 @@ function decodeString(encoding, buffer) {
 async function parse(ioReader, len, id3v2, metadata) {
     const isV34 = id3v2.version !== 2;
     const tagHeaderLen = isV34 ? 10 : 6;
-    let end = ioReader.getPos() + BigInt(len >>> 0);
+    let end = ioReader.getPos() + BigInt(len >> 0);
     async function error() {
         await ioReader.seek(end);
     }
@@ -402,7 +402,7 @@ function write(ioWriter, version, padding, metadata) {
     if (padding < 10) {
         padding = 10;
     }
-    const len = (Number(ioWriter.getPos() - now & 0xffffffffn) >> 0);
+    const len = Number(BigInt.asIntN(32, ioWriter.getPos() - now));
     if (padding > 268435455 - len) {
         padding = 268435455 - len;
     }

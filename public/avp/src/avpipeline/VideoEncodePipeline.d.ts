@@ -13,17 +13,20 @@ import WebVideoEncoder from 'avcodec/webcodec/VideoEncoder';
 import { Rational } from 'avutil/struct/rational';
 import { Data } from 'common/types/type';
 export interface VideoEncodeTaskOptions extends TaskOptions {
-    resource: WebAssemblyResource;
+    resource: ArrayBuffer | WebAssemblyResource;
+    resourceExtraData?: Data;
     enableHardware: boolean;
     avpacketList: pointer<List<pointer<AVPacketRef>>>;
     avpacketListMutex: pointer<Mutex>;
     avframeList: pointer<List<pointer<AVFrameRef>>>;
     avframeListMutex: pointer<Mutex>;
     gop: int32;
+    preferWebCodecs?: boolean;
 }
-type SelfTask = VideoEncodeTaskOptions & {
+type SelfTask = Omit<VideoEncodeTaskOptions, 'resource'> & {
     leftIPCPort: IPCPort;
     rightIPCPort: IPCPort;
+    resource: WebAssemblyResource;
     softwareEncoder: WasmVideoEncoder | WebVideoEncoder;
     softwareEncoderOpened: boolean;
     hardwareEncoder?: WebVideoEncoder;
@@ -52,9 +55,10 @@ export default class VideoEncodePipeline extends Pipeline {
     tasks: Map<string, SelfTask>;
     constructor();
     private createWebcodecEncoder;
+    private createWasmcodecEncoder;
     private createTask;
     private openSoftwareEncoder;
-    open(taskId: string, parameters: pointer<AVCodecParameters>, timeBase: Rational, wasmEncoderOptions?: Data): Promise<number>;
+    open(taskId: string, codecpar: pointer<AVCodecParameters>, timeBase: Rational, wasmEncoderOptions?: Data): Promise<number>;
     resetTask(taskId: string): Promise<void>;
     getExtraData(taskId: string): Promise<Uint8Array>;
     getColorSpace(taskId: string): Promise<{

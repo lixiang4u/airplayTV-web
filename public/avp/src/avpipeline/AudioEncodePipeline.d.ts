@@ -11,14 +11,15 @@ import AVFramePoolImpl from 'avutil/implement/AVFramePoolImpl';
 import { Rational } from 'avutil/struct/rational';
 import { Data } from 'common/types/type';
 export interface AudioEncodeTaskOptions extends TaskOptions {
-    resource: WebAssemblyResource;
+    resource: ArrayBuffer | WebAssemblyResource;
     avpacketList: pointer<List<pointer<AVPacketRef>>>;
     avpacketListMutex: pointer<Mutex>;
     avframeList: pointer<List<pointer<AVFrameRef>>>;
     avframeListMutex: pointer<Mutex>;
 }
-type SelfTask = AudioEncodeTaskOptions & {
+type SelfTask = Omit<AudioEncodeTaskOptions, 'resource'> & {
     encoder: WasmAudioEncoder | WebAudioEncoder;
+    resource: WebAssemblyResource;
     avpacketCaches: pointer<AVPacketRef>[];
     parameters: pointer<AVCodecParameters>;
     openReject?: (error: Error) => void;

@@ -45,7 +45,7 @@ export declare function getHeapU64(): BigUint64Array;
 export declare function getHeapF32(): Float32Array;
 export declare function getHeapF64(): Float64Array;
 export declare function getView(): DataView;
-export declare function getAtomicsBuffer(type: number): AtomicsBuffer;
+export declare function getAtomicsBuffer(type: atomictype): AtomicsBuffer;
 export declare function allocThreadId(): number;
 /**
  * 子线程初始化

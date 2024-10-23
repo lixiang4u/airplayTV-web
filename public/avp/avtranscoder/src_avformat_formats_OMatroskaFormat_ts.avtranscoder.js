@@ -57,10 +57,10 @@ function formatTimestamp(milliseconds) {
     const remainingMillisecondsAfterMinutes = remainingMilliseconds % BigInt(60000);
     const seconds = remainingMillisecondsAfterMinutes / BigInt(1000);
     const ms = remainingMillisecondsAfterMinutes % BigInt(1000);
-    return common_util_string__WEBPACK_IMPORTED_MODULE_15__.format('%02d:%02d:%02d.%03d000000\x00\x00', (Number(hours & 0xffffffffn) >> 0), (Number(minutes & 0xffffffffn) >> 0), (Number(seconds & 0xffffffffn) >> 0), (Number(ms & 0xffffffffn) >> 0));
+    return common_util_string__WEBPACK_IMPORTED_MODULE_15__.format('%02d:%02d:%02d.%03d000000\x00\x00', Number(BigInt.asIntN(32, hours)), Number(BigInt.asIntN(32, minutes)), Number(BigInt.asIntN(32, seconds)), Number(BigInt.asIntN(32, ms)));
 }
 class OMatroskaFormat extends _OFormat__WEBPACK_IMPORTED_MODULE_3__["default"] {
-    type = 5 /* AVFormat.MATROSKA */;
+    type = 6 /* AVFormat.MATROSKA */;
     options;
     context;
     random;
@@ -90,8 +90,8 @@ class OMatroskaFormat extends _OFormat__WEBPACK_IMPORTED_MODULE_3__["default"] {
                 entry: []
             },
             info: {
-                muxingApp: "libmedia.0.0.1",
-                writingApp: "libmedia.0.0.1",
+                muxingApp: "v0.0.1-18-g41e9e9f",
+                writingApp: "v0.0.1-18-g41e9e9f",
                 timestampScale: 1000000,
                 duration: 0,
                 segmentUUID: -BigInt(1)
@@ -113,7 +113,7 @@ class OMatroskaFormat extends _OFormat__WEBPACK_IMPORTED_MODULE_3__["default"] {
                     {
                         tag: {
                             name: 'ENCODER',
-                            string: "libmedia.0.0.1"
+                            string: "v0.0.1-18-g41e9e9f"
                         }
                     }
                 ]
@@ -172,7 +172,7 @@ class OMatroskaFormat extends _OFormat__WEBPACK_IMPORTED_MODULE_3__["default"] {
                     mime: stream.metadata['mime'] || 'unknown',
                     data: {
                         data: (0,cheap_std_memory__WEBPACK_IMPORTED_MODULE_12__.mapUint8Array)(stream.codecpar.extradata, stream.codecpar.extradataSize),
-                        size: BigInt(stream.codecpar.extradataSize >>> 0),
+                        size: BigInt(stream.codecpar.extradataSize >> 0),
                         pos: -BigInt(1)
                     },
                     description: stream.metadata['description'] || 'unknown'
@@ -188,7 +188,7 @@ class OMatroskaFormat extends _OFormat__WEBPACK_IMPORTED_MODULE_3__["default"] {
                     track.codecPrivate = {
                         data: (0,cheap_std_memory__WEBPACK_IMPORTED_MODULE_12__.mapUint8Array)(stream.codecpar.extradata, stream.codecpar.extradataSize).slice(),
                         pos: -BigInt(1),
-                        size: BigInt(stream.codecpar.extradataSize >>> 0)
+                        size: BigInt(stream.codecpar.extradataSize >> 0)
                     };
                 }
                 track.language = stream.metadata['language'] || 'und';
@@ -255,7 +255,7 @@ class OMatroskaFormat extends _OFormat__WEBPACK_IMPORTED_MODULE_3__["default"] {
         _matroska_omatroska__WEBPACK_IMPORTED_MODULE_9__.writeEbmlLength(this.context.eleWriter, _matroska_omatroska__WEBPACK_IMPORTED_MODULE_9__.ebmlLengthSize(track.number) + 2 + 1 + cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](avpacket + 28));
         _matroska_omatroska__WEBPACK_IMPORTED_MODULE_9__.writeEbmlNum(this.context.eleWriter, track.number, _matroska_omatroska__WEBPACK_IMPORTED_MODULE_9__.ebmlLengthSize(track.number));
         const pts = (0,avutil_util_rational__WEBPACK_IMPORTED_MODULE_5__.avRescaleQ)(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[17](avpacket + 8), (0,cheap_std_structAccess__WEBPACK_IMPORTED_MODULE_2__["default"])(avpacket + 72, _avutil_struct_rational_ts__WEBPACK_IMPORTED_MODULE_1__.Rational), avutil_constant__WEBPACK_IMPORTED_MODULE_14__.AV_MILLI_TIME_BASE_Q);
-        this.context.eleWriter.writeInt16((Number(pts - this.context.currentCluster.timeCode & 0xffffffffn) >> 0));
+        this.context.eleWriter.writeInt16(Number(BigInt.asIntN(32, pts - this.context.currentCluster.timeCode)));
         if (cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](avpacket + 36) & 1 /* AVPacketFlags.AV_PKT_FLAG_KEY */ || stream.codecpar.codecType !== 0 /* AVMediaType.AVMEDIA_TYPE_VIDEO */) {
             this.context.eleWriter.writeUint8(0x80);
         }
@@ -325,7 +325,7 @@ class OMatroskaFormat extends _OFormat__WEBPACK_IMPORTED_MODULE_3__["default"] {
             if (!this.options.isLive) {
                 const duration = track.maxPts;
                 if (duration > this.context.info.duration) {
-                    this.context.info.duration = (Number(duration & 0xffffffffn) >> 0);
+                    this.context.info.duration = Number(BigInt.asIntN(32, duration));
                 }
                 this.context.tags.entry.push({
                     tag: {
@@ -1027,8 +1027,8 @@ function random(buffer) {
 /* harmony import */ var _constant__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../constant */ "./src/avutil/constant.ts");
 /* harmony import */ var cheap_std_memory__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! cheap/std/memory */ "./src/cheap/std/memory.ts");
 /* harmony import */ var cheap_stack__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! cheap/stack */ "./src/cheap/stack.ts");
-/* harmony import */ var _util_common__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../util/common */ "./src/avutil/util/common.ts");
-/* harmony import */ var _mem__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./mem */ "./src/avutil/util/mem.ts");
+/* harmony import */ var _mem__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./mem */ "./src/avutil/util/mem.ts");
+/* harmony import */ var common_math_align__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! common/math/align */ "./src/common/math/align.ts");
 
 
 /*
@@ -1233,12 +1233,12 @@ function pixelAlloc(pointers, linesizes, w, h, pixfmt, align = 1) {
     const linesizes1 = cheap_stack__WEBPACK_IMPORTED_MODULE_6__.malloc(16);
     const sizes = cheap_stack__WEBPACK_IMPORTED_MODULE_6__.malloc(16);
     let ret = 0;
-    if ((ret = pixelFillLinesizes(linesizes, pixfmt, align > 7 ? (0,_util_common__WEBPACK_IMPORTED_MODULE_7__.alignFunc)(w, 8) : w)) < 0) {
+    if ((ret = pixelFillLinesizes(linesizes, pixfmt, align > 7 ? (0,common_math_align__WEBPACK_IMPORTED_MODULE_8__["default"])(w, 8) : w)) < 0) {
         defer();
         return ret;
     }
     for (let i = 0; i < 4; i++) {
-        cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumWrite[15](linesizes + (i * 4), (0,_util_common__WEBPACK_IMPORTED_MODULE_7__.alignFunc)(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](linesizes + (i * 4)), align));
+        cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumWrite[15](linesizes + (i * 4), (0,common_math_align__WEBPACK_IMPORTED_MODULE_8__["default"])(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](linesizes + (i * 4)), align));
         cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumWrite[15](linesizes1 + (i * 4), cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](linesizes + (i * 4)));
     }
     if ((ret = pixelFillPlaneSizes(sizes, pixfmt, h, linesizes1)) < 0) {
@@ -1253,7 +1253,7 @@ function pixelAlloc(pointers, linesizes, w, h, pixfmt, align = 1) {
         }
         totalSize += cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](sizes + (i * 4));
     }
-    const buf = (0,_mem__WEBPACK_IMPORTED_MODULE_8__.avMalloc)(totalSize);
+    const buf = (0,_mem__WEBPACK_IMPORTED_MODULE_7__.avMalloc)(totalSize);
     if (!buf) {
         defer();
         return _error__WEBPACK_IMPORTED_MODULE_3__.NO_MEMORY;
@@ -1264,7 +1264,7 @@ function pixelAlloc(pointers, linesizes, w, h, pixfmt, align = 1) {
     }
     if (desc.flags & 2 /* PixelFormatFlags.PALETTE */) {
         if (align < 4) {
-            (0,_mem__WEBPACK_IMPORTED_MODULE_8__.avFree)(buf);
+            (0,_mem__WEBPACK_IMPORTED_MODULE_7__.avFree)(buf);
             defer();
             return ret;
         }
@@ -1297,7 +1297,7 @@ function pixelGetSize(pixfmt, width, height, align) {
         return ret;
     }
     for (let i = 0; i < 4; i++) {
-        cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumWrite[15](alignedLinesizes + (i * 4), (0,_util_common__WEBPACK_IMPORTED_MODULE_7__.alignFunc)(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](linesizes + (i * 4)), align));
+        cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumWrite[15](alignedLinesizes + (i * 4), (0,common_math_align__WEBPACK_IMPORTED_MODULE_8__["default"])(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](linesizes + (i * 4)), align));
     }
     if ((ret = pixelFillPlaneSizes(sizes, pixfmt, height, alignedLinesizes)) < 0) {
         defer();
@@ -1318,6 +1318,22 @@ function pixelGetSize(pixfmt, width, height, align) {
         cheap_stack__WEBPACK_IMPORTED_MODULE_6__.free(16);
         cheap_stack__WEBPACK_IMPORTED_MODULE_6__.free(16);
     }
+}
+
+
+/***/ }),
+
+/***/ "./src/common/math/align.ts":
+/*!**********************************!*\
+  !*** ./src/common/math/align.ts ***!
+  \**********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ align)
+/* harmony export */ });
+function align(value, alignment) {
+    return (value + (alignment - 1)) & ~(alignment - 1);
 }
 
 

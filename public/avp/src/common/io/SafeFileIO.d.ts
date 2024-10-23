@@ -1,4 +1,7 @@
 import FileIO from './FileIO';
+/**
+ * 安全的文件 IO 操作
+ */
 export default class SafeFileIO extends FileIO {
     private commandQueue;
     constructor(handler: FileHandle, append?: boolean);

@@ -10,11 +10,10 @@ export default class FileIOLoader extends IOLoader {
     private endPos;
     private reader;
     private readerResolve;
-    open(info: FileInfo, range: Range): Promise<void>;
+    open(info: FileInfo, range: Range): Promise<number>;
     private readBufferByReader;
     read(buffer: Uint8ArrayInterface): Promise<number>;
     seek(pos: int64): Promise<number>;
     size(): Promise<int64>;
-    abort(): Promise<void>;
     stop(): Promise<void>;
 }

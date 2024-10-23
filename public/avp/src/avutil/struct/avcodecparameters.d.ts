@@ -49,7 +49,7 @@ export default class AVCodecParameters {
     /**
      * The average bitrate of the encoded data (in bits per second).
      */
-    bitRate: int64;
+    bitrate: int64;
     /**
      * The number of bits per sample in the codedwords.
      *

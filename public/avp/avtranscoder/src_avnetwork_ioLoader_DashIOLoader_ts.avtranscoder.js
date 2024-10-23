@@ -113,7 +113,7 @@ class DashIOLoader extends _IOLoader__WEBPACK_IMPORTED_MODULE_1__["default"] {
                 const segmentCount = Math.max(this.mediaPlayList.mediaList.audio && this.mediaPlayList.mediaList.audio[0]?.mediaSegments.length || 0, this.mediaPlayList.mediaList.video && this.mediaPlayList.mediaList.video[0]?.mediaSegments.length || 0);
                 if (segmentCount < needSegment) {
                     await new common_timer_Sleep__WEBPACK_IMPORTED_MODULE_0__["default"]((needSegment - segmentCount) * this.mediaPlayList.maxSegmentDuration);
-                    common_util_logger__WEBPACK_IMPORTED_MODULE_3__.warn(`wait for min buffer time, buffer: ${segmentCount * this.mediaPlayList.maxSegmentDuration}, need: ${needSegment * this.mediaPlayList.maxSegmentDuration}`, cheap__fileName__0, 142);
+                    common_util_logger__WEBPACK_IMPORTED_MODULE_3__.warn(`wait for min buffer time, buffer: ${segmentCount * this.mediaPlayList.maxSegmentDuration}, need: ${needSegment * this.mediaPlayList.maxSegmentDuration}`, cheap__fileName__0, 143);
                     return this.fetchMediaPlayList(resolve);
                 }
             }
@@ -177,20 +177,20 @@ class DashIOLoader extends _IOLoader__WEBPACK_IMPORTED_MODULE_1__["default"] {
         catch (error) {
             if (this.retryCount < this.options.retryCount) {
                 this.retryCount++;
-                common_util_logger__WEBPACK_IMPORTED_MODULE_3__.error(`failed fetch mpd file, retry(${this.retryCount}/3)`, cheap__fileName__0, 214);
+                common_util_logger__WEBPACK_IMPORTED_MODULE_3__.error(`failed fetch mpd file, retry(${this.retryCount}/3)`, cheap__fileName__0, 215);
                 await new common_timer_Sleep__WEBPACK_IMPORTED_MODULE_0__["default"](this.status === 2 /* IOLoaderStatus.BUFFERING */ ? this.options.retryInterval : 5);
                 return this.fetchMediaPlayList(resolve);
             }
             else {
                 this.status = 3 /* IOLoaderStatus.ERROR */;
                 resolve();
-                common_util_logger__WEBPACK_IMPORTED_MODULE_3__.fatal(`DashLoader: exception, fetch slice error, error: ${error.message}`, cheap__fileName__0, 222);
+                common_util_logger__WEBPACK_IMPORTED_MODULE_3__.fatal(`DashLoader: exception, fetch slice error, error: ${error.message}`, cheap__fileName__0, 223);
             }
         }
     }
     async open(info, range) {
         if (this.status !== 0 /* IOLoaderStatus.IDLE */) {
-            return;
+            return avutil_error__WEBPACK_IMPORTED_MODULE_7__.INVALID_OPERATE;
         }
         this.info = info;
         this.range = range;
@@ -204,6 +204,7 @@ class DashIOLoader extends _IOLoader__WEBPACK_IMPORTED_MODULE_1__["default"] {
         this.status = 1 /* IOLoaderStatus.CONNECTING */;
         this.retryCount = 0;
         await this.fetchMediaPlayList();
+        return 0;
     }
     async readResource(buffer, resource) {
         let ret = 0;
@@ -303,7 +304,7 @@ class DashIOLoader extends _IOLoader__WEBPACK_IMPORTED_MODULE_1__["default"] {
             await resource.loader.abort();
             resource.loader = null;
         }
-        let seekTime = (Number(timestamp & 0xffffffffn) >> 0);
+        let seekTime = Number(BigInt.asIntN(32, timestamp));
         if (resource.segments) {
             let index = 0;
             const mediaList = resource.type === 'audio'
@@ -336,6 +337,7 @@ class DashIOLoader extends _IOLoader__WEBPACK_IMPORTED_MODULE_1__["default"] {
         if (this.status === 4 /* IOLoaderStatus.COMPLETE */) {
             this.status = 2 /* IOLoaderStatus.BUFFERING */;
         }
+        return 0;
     }
     async size() {
         return BigInt(0);

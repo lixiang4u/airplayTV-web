@@ -57,6 +57,8 @@ export interface OS {
     windows?: boolean;
     linux?: boolean;
     mac?: boolean;
+    harmony?: boolean;
+    mobile?: boolean;
 }
 export interface Browser {
     /**

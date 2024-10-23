@@ -15,7 +15,9 @@ export declare const enum KeyboardPlayerActionKey {
     VOLUME_DOWN = 12,
     EXIT_FULLSCREEN = 13,
     FOLD_FOLDER = 14,
-    UNFOLD_FOLDER = 15
+    UNFOLD_FOLDER = 15,
+    SUBTITLE_DELAY_ADD = 16,
+    SUBTITLE_DELAY_SUB = 17
 }
 type ActionType = 'up' | 'down' | 'longDown';
 export interface KeyboardPlayerAction {
@@ -49,6 +51,8 @@ export default class Keyboard {
     private actionExitFullscreen;
     private actionFoldFolder;
     private actionUnFoldFolder;
+    private actionSubtitleDelayAdd;
+    private actionSubtitleDelaySub;
     private runAction;
     private longDownAction;
     private getActionKeys;

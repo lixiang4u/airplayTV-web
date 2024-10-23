@@ -46,10 +46,41 @@ export default abstract class IOLoader {
     protected retryCount: number;
     protected retryTimeout: Timeout;
     constructor(options?: IOLoaderOptions);
-    abstract open(info: Data, range: Range): Promise<any>;
+    /**
+     * 打开 ioloader
+     *
+     * @param info
+     * @param range
+     *
+     * @returns 成功返回 0, 失败返回错误码（负值）
+     */
+    abstract open(info: Data, range: Range): Promise<int32>;
+    /**
+     * 读取数据到缓冲区
+     *
+     * @param buffer 可以放置数据的缓冲区，类 Uint8Array 结构
+     * @param options 一些配置（比如 hls 和 dash 有相关配置项）
+     *
+     * @returns 返回写入的数据长度，失败返回错误码（负值）
+     */
     abstract read(buffer: Uint8ArrayInterface, options?: Data): Promise<int32>;
-    abstract seek(pos: int64, options?: Data): Promise<any>;
+    /**
+     * seek 到指定位置
+     *
+     * @param pos 位置
+     * @param options 一些配置（比如 hls 和 dash 有相关配置项）
+     *
+     * @returns 成功返回 0, 否则失败，可以返回错误码（负值）
+     */
+    abstract seek(pos: int64, options?: Data): Promise<int32>;
+    /**
+     * 数据总字节大小
+     *
+     * 没有返回 0n
+     */
     abstract size(): Promise<int64>;
-    abstract abort(): Promise<any>;
-    abstract stop(): Promise<any>;
+    /**
+     * 停止 ioloader
+     */
+    abstract stop(): Promise<void>;
 }

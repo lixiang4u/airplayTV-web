@@ -7,6 +7,7 @@
 export default class BitWriter {
     private buffer;
     private pointer;
+    private pos;
     private bitPointer;
     private size;
     error: number;
@@ -33,9 +34,34 @@ export default class BitWriter {
      * @returns
      */
     remainingLength(): number;
+    /**
+     * 写出缓冲区
+     */
     flush(): void;
+    /**
+     * 对齐字节，当处在当前字节的第一个 bit 时不动，否则写入 0 直到下一个字节
+     */
     padding(): void;
-    clear(): void;
+    /**
+     * 重置缓冲区
+     */
+    reset(): void;
+    /**
+     * 获取缓冲区
+     *
+     * @returns
+     */
     getBuffer(): Uint8Array;
+    /**
+     * 获取当前写指针位置
+     *
+     * @returns
+     */
     getPointer(): number;
+    /**
+     * 获取当前的绝对位置
+     *
+     * @returns
+     */
+    getPos(): bigint;
 }

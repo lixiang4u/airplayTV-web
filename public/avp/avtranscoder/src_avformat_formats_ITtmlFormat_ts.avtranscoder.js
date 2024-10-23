@@ -77,7 +77,7 @@ var cheap__fileName__12 = "src\\avformat\\formats\\ITtmlFormat.ts";
 
 
 class ITtmlFormat extends _IFormat__WEBPACK_IMPORTED_MODULE_4__["default"] {
-    type = 18 /* AVFormat.TTML */;
+    type = 19 /* AVFormat.TTML */;
     queue;
     index;
     constructor() {
@@ -95,7 +95,7 @@ class ITtmlFormat extends _IFormat__WEBPACK_IMPORTED_MODULE_4__["default"] {
         let xml = '';
         if (formatContext.ioReader.flags & 1 /* IOFlags.SEEKABLE */) {
             const fileSize = await formatContext.ioReader.fileSize();
-            xml = await formatContext.ioReader.readString((Number(fileSize & 0xffffffffn) >> 0));
+            xml = await formatContext.ioReader.readString(Number(BigInt.asIntN(32, fileSize)));
         }
         else {
             try {
@@ -157,7 +157,8 @@ class ITtmlFormat extends _IFormat__WEBPACK_IMPORTED_MODULE_4__["default"] {
             common_util_logger__WEBPACK_IMPORTED_MODULE_2__.debug(`seek in cues, found index: ${index}, pts: ${this.queue[index].pts}`, cheap__fileName__12, 143);
             this.index = Math.max(index - 1, 0);
             while (this.index > 0) {
-                if (this.queue[this.index - 1].pts === this.queue[this.index].pts) {
+                if (this.queue[this.index - 1].pts === this.queue[this.index].pts
+                    || (this.queue[this.index - 1].pts + this.queue[this.index - 1].duration) > timestamp) {
                     this.index--;
                 }
                 else {

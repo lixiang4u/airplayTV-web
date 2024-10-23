@@ -306,7 +306,7 @@ class HlsIOLoader extends _IOLoader__WEBPACK_IMPORTED_MODULE_1__["default"] {
                     if (this.mediaPlayList.segments?.length) {
                         wait = this.mediaPlayList.segments[0].duration * (2 - this.mediaPlayList.segments.length);
                     }
-                    common_util_logger__WEBPACK_IMPORTED_MODULE_7__.warn(`wait for min buffer time, now segments: ${this.mediaPlayList.segments.length}`, cheap__fileName__0, 122);
+                    common_util_logger__WEBPACK_IMPORTED_MODULE_7__.warn(`wait for min buffer time, now segments: ${this.mediaPlayList.segments.length}`, cheap__fileName__0, 123);
                     await new common_timer_Sleep__WEBPACK_IMPORTED_MODULE_0__["default"](wait);
                     return this.fetchMasterPlayList();
                 }
@@ -321,13 +321,13 @@ class HlsIOLoader extends _IOLoader__WEBPACK_IMPORTED_MODULE_1__["default"] {
         catch (error) {
             if (this.retryCount < this.options.retryCount) {
                 this.retryCount++;
-                common_util_logger__WEBPACK_IMPORTED_MODULE_7__.error(`failed fetch m3u8 file, retry(${this.retryCount}/3)`, cheap__fileName__0, 139);
+                common_util_logger__WEBPACK_IMPORTED_MODULE_7__.error(`failed fetch m3u8 file, retry(${this.retryCount}/3)`, cheap__fileName__0, 140);
                 await new common_timer_Sleep__WEBPACK_IMPORTED_MODULE_0__["default"](5);
                 return this.fetchMasterPlayList();
             }
             else {
                 this.status = 3 /* IOLoaderStatus.ERROR */;
-                common_util_logger__WEBPACK_IMPORTED_MODULE_7__.fatal('HLSLoader: exception, fetch slice error', cheap__fileName__0, 145);
+                common_util_logger__WEBPACK_IMPORTED_MODULE_7__.fatal('HLSLoader: exception, fetch slice error', cheap__fileName__0, 146);
             }
         }
     }
@@ -336,7 +336,7 @@ class HlsIOLoader extends _IOLoader__WEBPACK_IMPORTED_MODULE_1__["default"] {
         if (this.masterPlaylist) {
             const currentVariant = this.masterPlaylist.variants[this.mediaPlayListIndex];
             if (!currentVariant) {
-                common_util_logger__WEBPACK_IMPORTED_MODULE_7__.fatal('no media playlist', cheap__fileName__0, 157);
+                common_util_logger__WEBPACK_IMPORTED_MODULE_7__.fatal('no media playlist', cheap__fileName__0, 158);
             }
             url = currentVariant.uri;
         }
@@ -374,7 +374,7 @@ class HlsIOLoader extends _IOLoader__WEBPACK_IMPORTED_MODULE_1__["default"] {
                 if (this.mediaPlayList.segments?.length) {
                     wait = this.mediaPlayList.segments[0].duration * (2 - this.mediaPlayList.segments.length);
                 }
-                common_util_logger__WEBPACK_IMPORTED_MODULE_7__.warn(`wait for min buffer time, now segments: ${this.mediaPlayList.segments.length}`, cheap__fileName__0, 202);
+                common_util_logger__WEBPACK_IMPORTED_MODULE_7__.warn(`wait for min buffer time, now segments: ${this.mediaPlayList.segments.length}`, cheap__fileName__0, 203);
                 await new common_timer_Sleep__WEBPACK_IMPORTED_MODULE_0__["default"](wait);
                 return this.fetchMediaPlayList();
             }
@@ -389,13 +389,13 @@ class HlsIOLoader extends _IOLoader__WEBPACK_IMPORTED_MODULE_1__["default"] {
         catch (error) {
             if (this.retryCount < this.options.retryCount) {
                 this.retryCount++;
-                common_util_logger__WEBPACK_IMPORTED_MODULE_7__.error(`failed fetch m3u8 file, retry(${this.retryCount}/3)`, cheap__fileName__0, 221);
+                common_util_logger__WEBPACK_IMPORTED_MODULE_7__.error(`failed fetch m3u8 file, retry(${this.retryCount}/3)`, cheap__fileName__0, 222);
                 await new common_timer_Sleep__WEBPACK_IMPORTED_MODULE_0__["default"](this.options.retryInterval);
                 return this.fetchMasterPlayList();
             }
             else {
                 this.status = 3 /* IOLoaderStatus.ERROR */;
-                common_util_logger__WEBPACK_IMPORTED_MODULE_7__.fatal('HLSLoader: exception, fetch slice error', cheap__fileName__0, 227);
+                common_util_logger__WEBPACK_IMPORTED_MODULE_7__.fatal('HLSLoader: exception, fetch slice error', cheap__fileName__0, 228);
             }
         }
     }
@@ -421,6 +421,7 @@ class HlsIOLoader extends _IOLoader__WEBPACK_IMPORTED_MODULE_1__["default"] {
         if (this.mediaPlayList.segments.length && this.mediaPlayList.segments[0].map) {
             this.initLoaded = false;
         }
+        return 0;
     }
     async checkNeedDecrypt(segment, sequence) {
         if (!segment.key) {
@@ -469,7 +470,7 @@ class HlsIOLoader extends _IOLoader__WEBPACK_IMPORTED_MODULE_1__["default"] {
                     else {
                         this.segmentIndex++;
                         if (this.segmentIndex >= this.mediaPlayList.segments.length) {
-                            common_util_logger__WEBPACK_IMPORTED_MODULE_7__.info('hls segments ended', cheap__fileName__0, 321);
+                            common_util_logger__WEBPACK_IMPORTED_MODULE_7__.info('hls segments ended', cheap__fileName__0, 324);
                             this.status = 4 /* IOLoaderStatus.COMPLETE */;
                             return -1048576 /* IOError.END */;
                         }
@@ -563,6 +564,7 @@ class HlsIOLoader extends _IOLoader__WEBPACK_IMPORTED_MODULE_1__["default"] {
         if (this.status === 4 /* IOLoaderStatus.COMPLETE */) {
             this.status = 2 /* IOLoaderStatus.BUFFERING */;
         }
+        return 0;
     }
     async size() {
         return BigInt(0);

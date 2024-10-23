@@ -7,4 +7,5 @@ export default class Mpegts2RawFilter extends AVBSFilter {
     init(codecpar: pointer<AVCodecParameters>, timeBase: pointer<Rational>): number;
     sendAVPacket(avpacket: pointer<AVPacket>): number;
     receiveAVPacket(avpacket: pointer<AVPacket>): number;
+    reset(): number;
 }

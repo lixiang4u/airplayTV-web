@@ -4,6 +4,22 @@ import { AVColorPrimaries, AVColorRange, AVColorSpace, AVColorTransferCharacteri
 import { AVSampleFormat } from './audiosamplefmt';
 import { AVDisposition } from 'avformat/AVStream';
 import { IOType } from 'avpipeline/IOPipeline';
+export declare const CodecId2MimeType: {
+    86017: string;
+    86018: string;
+    86021: string;
+    86028: string;
+    86076: string;
+    65542: string;
+    65543: string;
+    225: string;
+    27: string;
+    173: string;
+    196: string;
+    139: string;
+    167: string;
+    12: string;
+};
 export declare const Ext2Format: Record<string, AVFormat>;
 export declare const Ext2IOLoader: Record<string, IOType>;
 export declare const VideoCodecString2CodecId: {
@@ -19,6 +35,7 @@ export declare const VideoCodecString2CodecId: {
     vp8: AVCodecID;
     mpeg4: AVCodecID;
     theora: AVCodecID;
+    mpeg2video: AVCodecID;
 };
 export declare const AudioCodecString2CodecId: {
     copy: AVCodecID;

@@ -10,15 +10,17 @@ import AVCodecParameters from 'avutil/struct/avcodecparameters';
 import { Rational } from 'avutil/struct/rational';
 import WebAudioDecoder from 'avcodec/webcodec/AudioDecoder';
 import { Data } from 'common/types/type';
+import { AVCodecParametersSerialize } from 'avutil/util/serialize';
 export interface AudioDecodeTaskOptions extends TaskOptions {
-    resource: WebAssemblyResource;
+    resource: ArrayBuffer | WebAssemblyResource;
     avpacketList: pointer<List<pointer<AVPacketRef>>>;
     avpacketListMutex: pointer<Mutex>;
     avframeList: pointer<List<pointer<AVFrameRef>>>;
     avframeListMutex: pointer<Mutex>;
     timeBase: Rational;
 }
-type SelfTask = AudioDecodeTaskOptions & {
+type SelfTask = Omit<AudioDecodeTaskOptions, 'resource'> & {
+    resource: WebAssemblyResource;
     decoder: WasmAudioDecoder | WebAudioDecoder;
     frameCaches: pointer<AVFrameRef>[];
     inputEnd: boolean;
@@ -34,9 +36,10 @@ export default class AudioDecodePipeline extends Pipeline {
     constructor();
     private createWebcodecDecoder;
     private createWasmcodecDecoder;
+    private pullAVPacketInternal;
     private createTask;
-    open(taskId: string, parameters: pointer<AVCodecParameters>, wasmDecoderOptions?: Data): Promise<number>;
-    reopenDecoder(taskId: string, parameters: pointer<AVCodecParameters>, resource?: WebAssemblyResource, wasmDecoderOptions?: Data): Promise<number>;
+    open(taskId: string, parameters: AVCodecParametersSerialize | pointer<AVCodecParameters>, wasmDecoderOptions?: Data): Promise<number>;
+    reopenDecoder(taskId: string, parameters: AVCodecParametersSerialize | pointer<AVCodecParameters>, resource?: string | ArrayBuffer | WebAssemblyResource, wasmDecoderOptions?: Data): Promise<number>;
     resetTask(taskId: string): Promise<void>;
     registerTask(options: AudioDecodeTaskOptions): Promise<number>;
     unregisterTask(taskId: string): Promise<void>;

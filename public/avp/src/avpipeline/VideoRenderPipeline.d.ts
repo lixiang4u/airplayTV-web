@@ -8,7 +8,6 @@ import ImageRender from 'avrender/image/ImageRender';
 import { RenderMode } from 'avrender/image/ImageRender';
 import { Rational } from 'avutil/struct/rational';
 import LoopTask from 'common/timer/LoopTask';
-import { JitterBuffer } from './struct/jitter';
 declare enum AdjustStatus {
     None = 0,
     Accelerate = 1,
@@ -29,7 +28,6 @@ export interface VideoRenderTaskOptions extends TaskOptions {
     avframeList: pointer<List<pointer<AVFrameRef>>>;
     avframeListMutex: pointer<Mutex>;
     enableJitterBuffer: boolean;
-    jitterBuffer: pointer<JitterBuffer>;
 }
 type SelfTask = VideoRenderTaskOptions & {
     leftIPCPort: IPCPort;
@@ -47,6 +45,7 @@ type SelfTask = VideoRenderTaskOptions & {
     loop: LoopTask;
     render: ImageRender;
     renderRedyed: boolean;
+    renderRecreateCount: number;
     adjust: AdjustStatus;
     adjustDiff: int64;
     firstRendered: boolean;

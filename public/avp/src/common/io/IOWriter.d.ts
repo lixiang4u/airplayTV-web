@@ -48,6 +48,10 @@ export default class IOWriter implements BytesWriter {
      */
     writeInt16(value: number): Promise<void>;
     /**
+     * 写 24 位有符号整数
+     */
+    writeInt24(value: number): Promise<void>;
+    /**
      * 写 32 位有符号整数
      */
     writeInt32(value: number): Promise<void>;
@@ -89,15 +93,60 @@ export default class IOWriter implements BytesWriter {
      * 写一个字符串
      */
     writeString(str: string): Promise<number>;
-    encodeString(str: string): Uint8Array;
+    /**
+     * 将缓冲区中数据写出
+     */
     flush(): Promise<void>;
+    /**
+     * 将缓冲区中数据写出到指定位置
+     *
+     * @param pos
+     */
     flushToPos(pos: bigint): Promise<void>;
+    /**
+     * seek 到指定位置
+     *
+     * @param pos
+     */
     seek(pos: bigint): Promise<void>;
+    /**
+     * 在当前缓冲区映射区间内 seek
+     *
+     * @param pos
+     */
     seekInline(pos: number): void;
+    /**
+     * 跳过指定长度
+     *
+     * @param length
+     */
     skip(length: number): void;
+    /**
+     * 回退指定长度，不能大于 pointer 大小
+     *
+     * @param length
+     */
     back(length: number): void;
+    /**
+     * 获取缓冲区
+     *
+     * @returns
+     */
     getBuffer(): Uint8Array;
+    /**
+     * 设置读取是小端还是大端
+     *
+     * @param bigEndian
+     */
     setEndian(bigEndian: boolean): void;
+    /**
+     * 重置 writer
+     */
     reset(): void;
+    /**
+     * 获取缓冲区长度
+     *
+     * @returns
+     */
     getBufferSize(): number;
 }

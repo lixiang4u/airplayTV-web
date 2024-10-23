@@ -8,6 +8,10 @@ export interface AVPlayerUIOptions extends AVPlayerOptions {
     pauseStateUrl?: string;
     errorStateUrl?: string;
     fullscreenDom?: HTMLElement;
+    ui?: {
+        hasFolder?: boolean;
+        hasHeader?: boolean;
+    };
 }
 export default class AVPlayerUI extends AVPlayer {
     ui: Component;

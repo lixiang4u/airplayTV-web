@@ -25,6 +25,7 @@ export default class IHevcFormat extends IFormat {
     private naluReader;
     constructor(options?: IVvcFormatOptions);
     init(formatContext: AVIFormatContext): void;
+    destroy(formatContext: AVIFormatContext): void;
     private isFrameNalu;
     private readNaluFrame;
     readHeader(formatContext: AVIFormatContext): Promise<number>;

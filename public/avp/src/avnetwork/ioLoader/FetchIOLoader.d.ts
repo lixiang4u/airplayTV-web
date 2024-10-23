@@ -22,11 +22,11 @@ export default class FetchIOLoader extends IOLoader {
     private reader;
     private buffers;
     constructor(options?: FetchIOLoaderOptions);
-    open(info: FetchInfo, range: Range): Promise<void>;
+    open(info: FetchInfo, range: Range): Promise<number>;
     private openReader;
     private readInterval;
     read(buffer: Uint8ArrayInterface): Promise<int32>;
-    seek(pos: int64): Promise<void>;
+    seek(pos: int64): Promise<0 | -9>;
     size(): Promise<int64 | 0n>;
     abort(): Promise<void>;
     stop(): Promise<void>;

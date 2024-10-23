@@ -11,24 +11,24 @@ import { WebAssemblyResource } from 'cheap/webassembly/compiler';
 import StretchPitcher from 'audiostretchpitch/StretchPitcher';
 import { Rational } from 'avutil/struct/rational';
 import { Timeout } from 'common/types/type';
-import { JitterBuffer } from './struct/jitter';
 export interface AudioRenderTaskOptions extends TaskOptions {
     playSampleRate: int32;
     playFormat: AVSampleFormat;
     playChannels: int32;
-    resamplerResource: WebAssemblyResource;
-    stretchpitcherResource: WebAssemblyResource;
+    resamplerResource: ArrayBuffer | WebAssemblyResource;
+    stretchpitcherResource: ArrayBuffer | WebAssemblyResource;
     timeBase: Rational;
     startPTS: int64;
     avframeList: pointer<List<pointer<AVFrameRef>>>;
     avframeListMutex: pointer<Mutex>;
     enableJitterBuffer: boolean;
-    jitterBuffer: pointer<JitterBuffer>;
 }
 type SelfTask = AudioRenderTaskOptions & {
     leftIPCPort: IPCPort;
     rightIPCPort: IPCPort;
     controlIPCPort: IPCPort;
+    resamplerResource: WebAssemblyResource;
+    stretchpitcherResource: WebAssemblyResource;
     resampler: Resampler;
     stretchpitcher: Map<int32, StretchPitcher>;
     outPCMBuffer: AVPCMBuffer;

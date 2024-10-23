@@ -27,6 +27,7 @@ export default class IH264Format extends IFormat {
     private naluReader;
     constructor(options?: IH264FormatOptions);
     init(formatContext: AVIFormatContext): void;
+    destroy(formatContext: AVIFormatContext): void;
     private isFrameNalu;
     private readNaluFrame;
     readHeader(formatContext: AVIFormatContext): Promise<number>;

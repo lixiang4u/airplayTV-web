@@ -135,6 +135,9 @@ class Annexb2AvccFilter extends _AVBSFilter__WEBPACK_IMPORTED_MODULE_2__["defaul
             return avutil_error__WEBPACK_IMPORTED_MODULE_8__.DATA_INVALID;
         }
     }
+    reset() {
+        return 0;
+    }
 }
 
 
@@ -148,7 +151,9 @@ class Annexb2AvccFilter extends _AVBSFilter__WEBPACK_IMPORTED_MODULE_2__["defaul
 
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   annexb2Avcc: () => (/* binding */ annexb2Avcc),
+/* harmony export */   annexbExtradata2AvccExtradata: () => (/* binding */ annexbExtradata2AvccExtradata),
 /* harmony export */   avcc2Annexb: () => (/* binding */ avcc2Annexb),
+/* harmony export */   isIDR: () => (/* binding */ isIDR),
 /* harmony export */   parseAVCodecParameters: () => (/* binding */ parseAVCodecParameters),
 /* harmony export */   parseAVCodecParametersBySps: () => (/* binding */ parseAVCodecParametersBySps),
 /* harmony export */   parseAnnexbExtraData: () => (/* binding */ parseAnnexbExtraData),
@@ -156,7 +161,7 @@ class Annexb2AvccFilter extends _AVBSFilter__WEBPACK_IMPORTED_MODULE_2__["defaul
 /* harmony export */   parseExtraData: () => (/* binding */ parseExtraData),
 /* harmony export */   parseSPS: () => (/* binding */ parseSPS)
 /* harmony export */ });
-/* unused harmony exports extradata2VpsSpsPps, vpsSpsPps2Extradata, annexbExtradata2AvccExtradata, isIDR */
+/* unused harmony exports extradata2VpsSpsPps, vpsSpsPps2Extradata */
 /* harmony import */ var cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! cheap/ctypeEnumRead */ "./src/cheap/ctypeEnumRead.ts");
 /* harmony import */ var cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! cheap/ctypeEnumWrite */ "./src/cheap/ctypeEnumWrite.ts");
 /* harmony import */ var common_util_array__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! common/util/array */ "./src/common/util/array.ts");
@@ -208,6 +213,7 @@ class Annexb2AvccFilter extends _AVBSFilter__WEBPACK_IMPORTED_MODULE_2__["defaul
 
 
 const NALULengthSizeMinusOne = 3;
+/* eslint-disable camelcase */
 function parsePTL(bitReader) {
     const olsIdx = bitReader.readU(9);
     const numSublayers = bitReader.readU(3);
@@ -278,6 +284,7 @@ function parsePTL(bitReader) {
         avgFramerate
     };
 }
+/* eslint-enable camelcase */
 /**
  *
  * vvcc 格式的 extradata 转 annexb vps sps pps
@@ -341,7 +348,7 @@ function extradata2VpsSpsPps(extradata) {
         const bitReader = new common_io_BitReader__WEBPACK_IMPORTED_MODULE_5__["default"]();
         bitReader.appendBuffer(extradata.subarray(1));
         parsePTL(bitReader);
-        bufferReader.skip(bitReader.getPos());
+        bufferReader.skip(bitReader.getPointer());
     }
     let vpss = [];
     let spss = [];
@@ -407,11 +414,11 @@ function vpsSpsPps2Extradata(vpss, spss, ppss) {
             biWriter.writeU(6, 0b111111);
         }
         if (spsParams.spsMaxSublayersMinus1 + 1 > 1) {
-            let ptl_sublayer_level_present_flags = 0;
+            let ptlSubLayerLevelPresentFlags = 0;
             for (let i = spsParams.spsMaxSublayersMinus1 - 1; i >= 0; i--) {
-                ptl_sublayer_level_present_flags = (ptl_sublayer_level_present_flags << 1 | spsParams.ptlSublayerLevelPresentFlag[i]);
+                ptlSubLayerLevelPresentFlags = (ptlSubLayerLevelPresentFlags << 1 | spsParams.ptlSublayerLevelPresentFlag[i]);
             }
-            biWriter.writeU(spsParams.spsMaxSublayersMinus1, ptl_sublayer_level_present_flags);
+            biWriter.writeU(spsParams.spsMaxSublayersMinus1, ptlSubLayerLevelPresentFlags);
             for (let j = spsParams.spsMaxSublayersMinus1 + 1; j <= 8 && spsParams.spsMaxSublayersMinus1 > 0; ++j) {
                 biWriter.writeU1(0);
             }
@@ -725,7 +732,7 @@ function parseAvccExtraData(avpacket, stream) {
         else {
             length = bufferReader.readUint8();
         }
-        const nalu = data.subarray((Number(bufferReader.getPos() & 0xffffffffn) >> 0), (Number(bufferReader.getPos() & 0xffffffffn) >> 0) + length);
+        const nalu = data.subarray(Number(BigInt.asIntN(32, bufferReader.getPos())), Number(BigInt.asIntN(32, bufferReader.getPos())) + length);
         bufferReader.skip(length);
         const naluType = (nalu[1] >>> 3) & 0x1f;
         if (naluType === 15 /* VVCNaluType.kSPS_NUT */) {
@@ -799,9 +806,6 @@ function parseAVCodecParameters(stream, extradata) {
     }
 }
 function isIDR(avpacket, naluLengthSize = 4) {
-    if (!(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](avpacket + 36) & 1 /* AVPacketFlags.AV_PKT_FLAG_KEY */)) {
-        return false;
-    }
     if (cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](avpacket + 80) === 2 /* BitFormat.ANNEXB */) {
         let nalus = (0,avutil_util_nalu__WEBPACK_IMPORTED_MODULE_7__.splitNaluByStartCode)((0,cheap_std_memory__WEBPACK_IMPORTED_MODULE_6__.mapUint8Array)(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[20](avpacket + 24), cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](avpacket + 28)));
         return nalus.some((nalu) => {
@@ -1305,7 +1309,7 @@ class OFlvFormat extends _OFormat__WEBPACK_IMPORTED_MODULE_4__["default"] {
                     if (packetType === 1 /* PacketTypeExt.PacketTypeCodedFrames */) {
                         let ct = 0;
                         if (cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumRead[17](avpacket + 8) !== avutil_constant__WEBPACK_IMPORTED_MODULE_20__.NOPTS_VALUE_BIGINT) {
-                            ct = (Number((0,avutil_util_rational__WEBPACK_IMPORTED_MODULE_18__.avRescaleQ)(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumRead[17](avpacket + 8) - cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumRead[17](avpacket + 16), (0,cheap_std_structAccess__WEBPACK_IMPORTED_MODULE_3__["default"])(avpacket + 72, _avutil_struct_rational_ts__WEBPACK_IMPORTED_MODULE_2__.Rational), stream.timeBase) & 0xffffffffn) >> 0);
+                            ct = Number(BigInt.asIntN(32, (0,avutil_util_rational__WEBPACK_IMPORTED_MODULE_18__.avRescaleQ)(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumRead[17](avpacket + 8) - cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumRead[17](avpacket + 16), (0,cheap_std_structAccess__WEBPACK_IMPORTED_MODULE_3__["default"])(avpacket + 72, _avutil_struct_rational_ts__WEBPACK_IMPORTED_MODULE_2__.Rational), stream.timeBase)));
                         }
                         formatContext.ioWriter.writeUint24(ct);
                     }
@@ -1317,7 +1321,7 @@ class OFlvFormat extends _OFormat__WEBPACK_IMPORTED_MODULE_4__["default"] {
                         _flv_oflv__WEBPACK_IMPORTED_MODULE_10__.writeVideoTagDataHeader(formatContext.ioWriter, stream, cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumRead[15](avpacket + 36));
                         let ct = 0;
                         if (cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumRead[17](avpacket + 8) !== avutil_constant__WEBPACK_IMPORTED_MODULE_20__.NOPTS_VALUE_BIGINT) {
-                            ct = (Number((0,avutil_util_rational__WEBPACK_IMPORTED_MODULE_18__.avRescaleQ)(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumRead[17](avpacket + 8) - cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumRead[17](avpacket + 16), (0,cheap_std_structAccess__WEBPACK_IMPORTED_MODULE_3__["default"])(avpacket + 72, _avutil_struct_rational_ts__WEBPACK_IMPORTED_MODULE_2__.Rational), stream.timeBase) & 0xffffffffn) >> 0);
+                            ct = Number(BigInt.asIntN(32, (0,avutil_util_rational__WEBPACK_IMPORTED_MODULE_18__.avRescaleQ)(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumRead[17](avpacket + 8) - cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumRead[17](avpacket + 16), (0,cheap_std_structAccess__WEBPACK_IMPORTED_MODULE_3__["default"])(avpacket + 72, _avutil_struct_rational_ts__WEBPACK_IMPORTED_MODULE_2__.Rational), stream.timeBase)));
                         }
                         _flv_codecs_h264__WEBPACK_IMPORTED_MODULE_12__.writeDataHeader(formatContext.ioWriter, 1 /* AVCPacketType.AVC_NALU */, ct);
                     }

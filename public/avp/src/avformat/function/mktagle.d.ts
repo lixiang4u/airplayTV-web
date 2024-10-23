@@ -1,1 +1,1 @@
-export default function mktagLe(tag: string): number;
+export default function mktagle(tag: string): number;

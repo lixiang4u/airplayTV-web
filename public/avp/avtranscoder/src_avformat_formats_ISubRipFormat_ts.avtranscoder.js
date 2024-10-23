@@ -77,7 +77,7 @@ var cheap__fileName__12 = "src\\avformat\\formats\\ISubRipFormat.ts";
 
 
 class IWebVttFormat extends _IFormat__WEBPACK_IMPORTED_MODULE_4__["default"] {
-    type = 16 /* AVFormat.SUBRIP */;
+    type = 17 /* AVFormat.SUBRIP */;
     queue;
     index;
     constructor() {
@@ -199,7 +199,8 @@ class IWebVttFormat extends _IFormat__WEBPACK_IMPORTED_MODULE_4__["default"] {
             common_util_logger__WEBPACK_IMPORTED_MODULE_2__.debug(`seek in cues, found index: ${index}, pts: ${this.queue[index].startTs}, pos: ${this.queue[index].pos}`, cheap__fileName__12, 201);
             this.index = Math.max(index - 1, 0);
             while (this.index > 0) {
-                if (this.queue[this.index - 1].startTs === this.queue[this.index].startTs) {
+                if (this.queue[this.index - 1].startTs === this.queue[this.index].startTs
+                    || this.queue[this.index - 1].endTs > timestamp) {
                     this.index--;
                 }
                 else {

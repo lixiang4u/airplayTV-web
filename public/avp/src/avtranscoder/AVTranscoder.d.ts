@@ -1,19 +1,20 @@
 import { AVCodecID, AVMediaType } from 'avutil/codec';
-import { WebAssemblyResource } from 'cheap/webassembly/compiler';
-import IOReader from 'common/io/IOReader';
+import compile, { WebAssemblyResource } from 'cheap/webassembly/compiler';
 import { AudioCodecString2CodecId, Format2AVFormat, PixfmtString2AVPixelFormat, SampleFmtString2SampleFormat, VideoCodecString2CodecId } from 'avutil/stringEnum';
 import IOWriterSync from 'common/io/IOWriterSync';
 import Emitter from 'common/event/Emitter';
 import { ControllerObserver } from './Controller';
 import { Data } from 'common/types/type';
+import CustomIOLoader from 'avnetwork/ioLoader/CustomIOLoader';
+import FetchIOLoader from 'avnetwork/ioLoader/FetchIOLoader';
+import FileIOLoader from 'avnetwork/ioLoader/FileIOLoader';
 export interface AVTranscoderOptions {
     getWasm: (type: 'decoder' | 'resampler' | 'scaler' | 'encoder', codec?: AVCodecID, mediaType?: AVMediaType) => string | ArrayBuffer | WebAssemblyResource;
-    enableHardware?: boolean;
     onprogress?: (taskId: string, progress: number) => void;
 }
 export interface TaskOptions {
     input: {
-        file: string | File | IOReader;
+        file: string | File | CustomIOLoader;
         format?: keyof (typeof Format2AVFormat);
         protocol?: 'hls' | 'dash';
     };
@@ -61,9 +62,13 @@ export interface TaskOptions {
              */
             pixfmt?: keyof (typeof PixfmtString2AVPixelFormat);
             /**
-             * 输出关键帧间隔(毫秒)
+             * 输出关键帧间隔（毫秒）
              */
             keyFrameInterval?: number;
+            /**
+             * 是否启动硬件编码
+             */
+            enableHardware?: boolean;
             profile?: number;
             level?: number;
             delay?: number;
@@ -98,7 +103,17 @@ export interface TaskOptions {
     };
 }
 export default class AVTranscoder extends Emitter implements ControllerObserver {
-    static Resource: Map<string, WebAssemblyResource>;
+    static Util: {
+        compile: typeof compile;
+        browser: import("common/types/type").Browser;
+        os: import("common/types/type").OS;
+    };
+    static IOLoader: {
+        CustomIOLoader: typeof CustomIOLoader;
+        FetchIOLoader: typeof FetchIOLoader;
+        FileIOLoader: typeof FileIOLoader;
+    };
+    static Resource: Map<string, WebAssemblyResource | ArrayBuffer>;
     private level;
     private DemuxThreadReady;
     private AudioThreadReady;
@@ -142,5 +157,5 @@ export default class AVTranscoder extends Emitter implements ControllerObserver 
     cancelTask(taskId: string): Promise<void>;
     destroy(): Promise<void>;
     setLogLevel(level: number): void;
-    onGetDecoderResource(mediaType: AVMediaType, codecId: AVCodecID): Promise<WebAssemblyResource>;
+    onGetDecoderResource(mediaType: AVMediaType, codecId: AVCodecID): Promise<WebAssemblyResource | ArrayBuffer>;
 }

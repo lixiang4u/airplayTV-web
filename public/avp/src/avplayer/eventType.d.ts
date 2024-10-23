@@ -18,3 +18,4 @@ export declare const FIRST_VIDEO_RENDERED = "firstVideoRendered";
 export declare const STREAM_UPDATE = "streamUpdate";
 export declare const PROGRESS = "progress";
 export declare const VOLUME_CHANGE = "volumeChange";
+export declare const SUBTITLE_DELAY_CHANGE = "subtitle_delay_change";

@@ -18,7 +18,7 @@ export default class DashIOLoader extends IOLoader {
     private subtitleResource;
     private createResource;
     private fetchMediaPlayList;
-    open(info: FetchInfo, range: Range): Promise<void>;
+    open(info: FetchInfo, range: Range): Promise<0 | -5>;
     private readResource;
     read(buffer: Uint8ArrayInterface, options: {
         mediaType: MediaType;
@@ -26,7 +26,7 @@ export default class DashIOLoader extends IOLoader {
     private seekResource;
     seek(timestamp: int64, options: {
         mediaType: MediaType;
-    }): Promise<void>;
+    }): Promise<number>;
     size(): Promise<bigint>;
     abort(): Promise<void>;
     stop(): Promise<void>;

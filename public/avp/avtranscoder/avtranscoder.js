@@ -68,60 +68,6 @@ class Resampler {
 
 /***/ }),
 
-/***/ "./src/avcodec/codec/codec.ts":
-/*!************************************!*\
-  !*** ./src/avcodec/codec/codec.ts ***!
-  \************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   CodecId2String: () => (/* binding */ CodecId2String)
-/* harmony export */ });
-/*
- * libmedia  codec string map
- *
- * 版权所有 (C) 2024 赵高兴
- * Copyright (C) 2024 Gaoxing Zhao
- *
- * 此文件是 libmedia 的一部分
- * This file is part of libmedia.
- *
- * libmedia 是自由软件；您可以根据 GNU Lesser General Public License（GNU LGPL）3.1
- * 或任何其更新的版本条款重新分发或修改它
- * libmedia is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 3.1 of the License, or (at your option) any later version.
- *
- * libmedia 希望能够为您提供帮助，但不提供任何明示或暗示的担保，包括但不限于适销性或特定用途的保证
- * 您应自行承担使用 libmedia 的风险，并且需要遵守 GNU Lesser General Public License 中的条款和条件。
- * libmedia is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- *
- */
-const CodecId2String = {
-    [86017 /* AVCodecID.AV_CODEC_ID_MP3 */]: 'mp3',
-    [86018 /* AVCodecID.AV_CODEC_ID_AAC */]: 'mp4a.40',
-    [86021 /* AVCodecID.AV_CODEC_ID_VORBIS */]: 'vorbis',
-    [86028 /* AVCodecID.AV_CODEC_ID_FLAC */]: 'flac',
-    [86076 /* AVCodecID.AV_CODEC_ID_OPUS */]: 'opus',
-    [65542 /* AVCodecID.AV_CODEC_ID_PCM_MULAW */]: 'ulaw',
-    [65543 /* AVCodecID.AV_CODEC_ID_PCM_ALAW */]: 'alaw',
-    [225 /* AVCodecID.AV_CODEC_ID_AV1 */]: 'av01',
-    [27 /* AVCodecID.AV_CODEC_ID_H264 */]: 'avc1',
-    [173 /* AVCodecID.AV_CODEC_ID_HEVC */]: 'hev1',
-    [196 /* AVCodecID.AV_CODEC_ID_VVC */]: 'vvc1',
-    [139 /* AVCodecID.AV_CODEC_ID_VP8 */]: 'vp8',
-    [167 /* AVCodecID.AV_CODEC_ID_VP9 */]: 'vp09',
-    [12 /* AVCodecID.AV_CODEC_ID_MPEG4 */]: 'mp4v'
-};
-
-
-/***/ }),
-
 /***/ "./src/avcodec/function/getAudioCodec.ts":
 /*!***********************************************!*\
   !*** ./src/avcodec/function/getAudioCodec.ts ***!
@@ -133,13 +79,13 @@ const CodecId2String = {
 /* harmony export */   "default": () => (/* binding */ getAudioCodec)
 /* harmony export */ });
 /* harmony import */ var cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! cheap/ctypeEnumRead */ "./src/cheap/ctypeEnumRead.ts");
-/* harmony import */ var _codec_codec__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../codec/codec */ "./src/avcodec/codec/codec.ts");
+/* harmony import */ var avutil_stringEnum__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! avutil/stringEnum */ "./src/avutil/stringEnum.ts");
 
 
 function getAudioCodec(codecpar) {
     const codecId = cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](codecpar + 4);
     let profile = cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](codecpar + 48);
-    let codec = _codec_codec__WEBPACK_IMPORTED_MODULE_1__.CodecId2String[codecId];
+    let codec = avutil_stringEnum__WEBPACK_IMPORTED_MODULE_1__.CodecId2MimeType[codecId];
     if (codecId === 86018 /* AVCodecID.AV_CODEC_ID_AAC */) {
         /*
          * mp4a.40.profile
@@ -222,7 +168,7 @@ function getHardwarePreference(enable) {
 /* harmony export */   "default": () => (/* binding */ getVideoCodec)
 /* harmony export */ });
 /* harmony import */ var cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! cheap/ctypeEnumRead */ "./src/cheap/ctypeEnumRead.ts");
-/* harmony import */ var _codec_codec__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../codec/codec */ "./src/avcodec/codec/codec.ts");
+/* harmony import */ var avutil_stringEnum__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! avutil/stringEnum */ "./src/avutil/stringEnum.ts");
 /* harmony import */ var avformat_codecs_av1__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! avformat/codecs/av1 */ "./src/avformat/codecs/av1.ts");
 /* harmony import */ var avformat_codecs_vp8__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! avformat/codecs/vp8 */ "./src/avformat/codecs/vp8.ts");
 /* harmony import */ var avformat_codecs_vp9__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! avformat/codecs/vp9 */ "./src/avformat/codecs/vp9.ts");
@@ -248,7 +194,7 @@ function getVideoCodec(codecpar, extradata) {
     if (!extradata && cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[20](codecpar + 12) !== 0 && cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](codecpar + 16)) {
         extradata = (0,cheap_std_memory__WEBPACK_IMPORTED_MODULE_8__.mapUint8Array)(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[20](codecpar + 12), cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](codecpar + 16));
     }
-    let entry = _codec_codec__WEBPACK_IMPORTED_MODULE_1__.CodecId2String[codecId];
+    let entry = avutil_stringEnum__WEBPACK_IMPORTED_MODULE_1__.CodecId2MimeType[codecId];
     let codec = '';
     if (codecId === 27 /* AVCodecID.AV_CODEC_ID_H264 */) {
         /*
@@ -629,7 +575,7 @@ class AudioFrameResizer {
             (0,cheap_std_memory__WEBPACK_IMPORTED_MODULE_11__.memcpyFromUint8Array)(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[20](avframe + 4 * (i)), cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](avframe + 32), this.data[i].subarray(this.pos, this.pos + size));
         }
         this.pos += size;
-        this.pts += BigInt(this.frameSize >>> 0);
+        this.pts += BigInt(this.frameSize >> 0);
     }
     receiveAVFrame(avframe) {
         const size = this.frameSize * this.bytesPerSample * (this.planar ? 1 : this.channels);
@@ -1120,7 +1066,7 @@ class WasmVideoEncoder {
         }
         cheap_stack__WEBPACK_IMPORTED_MODULE_8__.free(8);
         if (ret < 0) {
-            common_util_logger__WEBPACK_IMPORTED_MODULE_7__.fatal(`open video decoder failed, ret: ${ret}`, cheap__fileName__27, 188);
+            common_util_logger__WEBPACK_IMPORTED_MODULE_7__.fatal(`open video decoder failed, ret: ${ret}`, cheap__fileName__27, 187);
         }
         this.parameters = parameters;
         this.timeBase = timeBase;
@@ -1141,7 +1087,7 @@ class WasmVideoEncoder {
         if (key) {
             cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumWrite[15](frame + 88, 1 /* AVPictureType.AV_PICTURE_TYPE_I */);
         }
-        cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumWrite[17](frame + 312, BigInt(this.timeBase.den >>> 0) / this.framerate);
+        cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumWrite[17](frame + 312, BigInt(this.timeBase.den >> 0) / this.framerate);
         cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumWrite[17](frame + 104, this.inputCounter * BigInt(this.timeBase.den / this.timeBase.num) / this.framerate);
         cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumWrite[15](frame + 124, this.timeBase.den);
         cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumWrite[15](frame + 120, this.timeBase.num);
@@ -1405,7 +1351,7 @@ class WebAudioDecoder {
 /* harmony export */ });
 /* harmony import */ var cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! cheap/ctypeEnumRead */ "./src/cheap/ctypeEnumRead.ts");
 /* harmony import */ var cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! cheap/ctypeEnumWrite */ "./src/cheap/ctypeEnumWrite.ts");
-/* harmony import */ var avcodec_function_getAudioCodec__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! avcodec/function/getAudioCodec */ "./src/avcodec/function/getAudioCodec.ts");
+/* harmony import */ var _function_getAudioCodec__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../function/getAudioCodec */ "./src/avcodec/function/getAudioCodec.ts");
 /* harmony import */ var avutil_function_avframe2AudioData__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! avutil/function/avframe2AudioData */ "./src/avutil/function/avframe2AudioData.ts");
 /* harmony import */ var avutil_util_avpacket__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! avutil/util/avpacket */ "./src/avutil/util/avpacket.ts");
 /* harmony import */ var avutil_util_avframe__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! avutil/util/avframe */ "./src/avutil/util/avframe.ts");
@@ -1476,7 +1422,7 @@ class WebAudioEncoder {
     async open(parameters, timeBase) {
         this.currentError = null;
         const config = {
-            codec: (0,avcodec_function_getAudioCodec__WEBPACK_IMPORTED_MODULE_2__["default"])(parameters),
+            codec: (0,_function_getAudioCodec__WEBPACK_IMPORTED_MODULE_2__["default"])(parameters),
             sampleRate: cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](parameters + 136),
             numberOfChannels: cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](parameters + 116),
             bitrate: Number(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[17](parameters + 32)),
@@ -1545,7 +1491,7 @@ class WebAudioEncoder {
     }
     static async isSupported(parameters) {
         const config = {
-            codec: (0,avcodec_function_getAudioCodec__WEBPACK_IMPORTED_MODULE_2__["default"])(parameters),
+            codec: (0,_function_getAudioCodec__WEBPACK_IMPORTED_MODULE_2__["default"])(parameters),
             sampleRate: cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](parameters + 136),
             numberOfChannels: cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](parameters + 116),
             bitrate: Number(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[17](parameters + 32)),
@@ -1821,7 +1767,7 @@ class WebVideoDecoder {
 /* harmony import */ var avformat_codecs_av1__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! avformat/codecs/av1 */ "./src/avformat/codecs/av1.ts");
 /* harmony import */ var avformat_codecs_vp9__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! avformat/codecs/vp9 */ "./src/avformat/codecs/vp9.ts");
 /* harmony import */ var cheap_std_function_isPointer__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! cheap/std/function/isPointer */ "./src/cheap/std/function/isPointer.ts");
-var cheap__fileName__47 = "src\\avcodec\\webcodec\\VideoEncoder.ts";
+var cheap__fileName__23 = "src\\avcodec\\webcodec\\VideoEncoder.ts";
 
 
 
@@ -1938,7 +1884,7 @@ class WebVideoEncoder {
         const descriptor = avutil_pixelFormatDescriptor__WEBPACK_IMPORTED_MODULE_10__.PixelFormatDescriptorsMap[cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](parameters + 28)];
         // webcodecs 目前还不支持 hdr
         if (!descriptor || descriptor.comp[0].depth > 8) {
-            throw new Error(`format ${cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](parameters + 28)} not support`);
+            common_util_logger__WEBPACK_IMPORTED_MODULE_15__.fatal(`format ${cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](parameters + 28)} not support`, cheap__fileName__23, 187);
         }
         const config = {
             codec: (0,_function_getVideoCodec__WEBPACK_IMPORTED_MODULE_4__["default"])(parameters),
@@ -1959,7 +1905,7 @@ class WebVideoEncoder {
         }
         const support = await VideoEncoder.isConfigSupported(config);
         if (!support.supported) {
-            throw new Error('not support');
+            common_util_logger__WEBPACK_IMPORTED_MODULE_15__.fatal('not support', cheap__fileName__23, 213);
         }
         if (this.encoder && this.encoder.state !== 'closed') {
             this.encoder.close();
@@ -2008,7 +1954,7 @@ class WebVideoEncoder {
             return 0;
         }
         catch (error) {
-            common_util_logger__WEBPACK_IMPORTED_MODULE_15__.error(`encode error, ${error}`, cheap__fileName__47, 268);
+            common_util_logger__WEBPACK_IMPORTED_MODULE_15__.error(`encode error, ${error}`, cheap__fileName__23, 268);
             frame.close();
             return -1;
         }
@@ -2233,7 +2179,10 @@ class AVFilterNode {
                                 frame.close();
                             }
                         });
-                        port.reply(request, this.currentOutput[index], null, ((0,cheap_std_function_isPointer__WEBPACK_IMPORTED_MODULE_3__["default"])(this.currentOutput[index]) || common_util_is__WEBPACK_IMPORTED_MODULE_4__.number(this.currentOutput[index])) ? null : [this.currentOutput[index]]);
+                        port.reply(request, this.currentOutput[index], null, ((0,cheap_std_function_isPointer__WEBPACK_IMPORTED_MODULE_3__["default"])(this.currentOutput[index])
+                            || common_util_is__WEBPACK_IMPORTED_MODULE_4__.number(this.currentOutput[index]))
+                            ? null
+                            : [this.currentOutput[index]]);
                         this.consumedCount++;
                         if (this.pending.length) {
                             this.pending.forEach((item) => {
@@ -2247,7 +2196,10 @@ class AVFilterNode {
                         }
                     }
                     else if (this.consumedCount === this.outputCount - 1) {
-                        port.reply(request, this.currentOutput[index], null, ((0,cheap_std_function_isPointer__WEBPACK_IMPORTED_MODULE_3__["default"])(this.currentOutput[index]) || common_util_is__WEBPACK_IMPORTED_MODULE_4__.number(this.currentOutput[index])) ? null : [this.currentOutput[index]]);
+                        port.reply(request, this.currentOutput[index], null, ((0,cheap_std_function_isPointer__WEBPACK_IMPORTED_MODULE_3__["default"])(this.currentOutput[index])
+                            || common_util_is__WEBPACK_IMPORTED_MODULE_4__.number(this.currentOutput[index]))
+                            ? null
+                            : [this.currentOutput[index]]);
                         this.consumedCount = 0;
                         this.currentOutput.length = 0;
                     }
@@ -2258,7 +2210,10 @@ class AVFilterNode {
                                 reject
                             });
                         });
-                        port.reply(request, this.currentOutput[index], null, ((0,cheap_std_function_isPointer__WEBPACK_IMPORTED_MODULE_3__["default"])(this.currentOutput[index]) || common_util_is__WEBPACK_IMPORTED_MODULE_4__.number(this.currentOutput[index])) ? null : [this.currentOutput[index]]);
+                        port.reply(request, this.currentOutput[index], null, ((0,cheap_std_function_isPointer__WEBPACK_IMPORTED_MODULE_3__["default"])(this.currentOutput[index])
+                            || common_util_is__WEBPACK_IMPORTED_MODULE_4__.number(this.currentOutput[index]))
+                            ? null
+                            : [this.currentOutput[index]]);
                         this.consumedCount++;
                     }
                 }
@@ -2517,7 +2472,11 @@ class RangeFilterNode extends _AVFilterNode__WEBPACK_IMPORTED_MODULE_1__["defaul
 /* harmony import */ var avutil_util_avbuffer__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! avutil/util/avbuffer */ "./src/avutil/util/avbuffer.ts");
 /* harmony import */ var avutil_constant__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! avutil/constant */ "./src/avutil/constant.ts");
 /* harmony import */ var common_util_logger__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! common/util/logger */ "./src/common/util/logger.ts");
+/* harmony import */ var common_util_is__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! common/util/is */ "./src/common/util/is.ts");
+/* harmony import */ var avutil_function_compileResource__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! avutil/function/compileResource */ "./src/avutil/function/compileResource.ts");
 var cheap__fileName__14 = "src\\avfilter\\audio\\ResampleFilterNode.ts";
+
+
 
 
 
@@ -2576,8 +2535,12 @@ class ResampleFilterNode extends _AVFilterNode__WEBPACK_IMPORTED_MODULE_6__["def
                 }
             }
             if (!this.resampler) {
+                let resource = this.options.resource;
+                if (common_util_is__WEBPACK_IMPORTED_MODULE_16__.arrayBuffer(resource)) {
+                    resource = await (0,avutil_function_compileResource__WEBPACK_IMPORTED_MODULE_17__["default"])(resource);
+                }
                 this.resampler = new audioresample_Resampler__WEBPACK_IMPORTED_MODULE_5__["default"]({
-                    resource: this.options.resource
+                    resource
                 });
                 try {
                     await this.resampler.open({
@@ -2591,7 +2554,7 @@ class ResampleFilterNode extends _AVFilterNode__WEBPACK_IMPORTED_MODULE_6__["def
                     });
                 }
                 catch (error) {
-                    common_util_logger__WEBPACK_IMPORTED_MODULE_15__.error(`open resampler failed, error ${error}`, cheap__fileName__14, 92);
+                    common_util_logger__WEBPACK_IMPORTED_MODULE_15__.error(`open resampler failed, error ${error}`, cheap__fileName__14, 98);
                     outputs[0] = avutil_error__WEBPACK_IMPORTED_MODULE_12__.FORMAT_NOT_SUPPORT;
                     return;
                 }
@@ -2910,7 +2873,9 @@ class FramerateFilterNode extends _AVFilterNode__WEBPACK_IMPORTED_MODULE_1__["de
 /* harmony import */ var avutil_error__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! avutil/error */ "./src/avutil/error.ts");
 /* harmony import */ var common_util_logger__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! common/util/logger */ "./src/common/util/logger.ts");
 /* harmony import */ var cheap_std_function_isPointer__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! cheap/std/function/isPointer */ "./src/cheap/std/function/isPointer.ts");
+/* harmony import */ var avutil_function_compileResource__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! avutil/function/compileResource */ "./src/avutil/function/compileResource.ts");
 var cheap__fileName__3 = "src\\avfilter\\video\\ScaleFilterNode.ts";
+
 
 
 
@@ -2941,9 +2906,6 @@ class ScaleFilterNode extends _AVFilterNode__WEBPACK_IMPORTED_MODULE_2__["defaul
             outputs[0] = avframe;
             return;
         }
-        if (avframe == null) {
-            debugger;
-        }
         const width = (0,cheap_std_function_isPointer__WEBPACK_IMPORTED_MODULE_10__["default"])(avframe) ? cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](avframe + 68) : avframe.displayWidth;
         const height = (0,cheap_std_function_isPointer__WEBPACK_IMPORTED_MODULE_10__["default"])(avframe) ? cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](avframe + 72) : avframe.displayHeight;
         const format = (0,cheap_std_function_isPointer__WEBPACK_IMPORTED_MODULE_10__["default"])(avframe) ? cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](avframe + 80) : (0,avutil_function_videoFrame2AVFrame__WEBPACK_IMPORTED_MODULE_6__.mapFormat)(avframe.format);
@@ -2953,7 +2915,7 @@ class ScaleFilterNode extends _AVFilterNode__WEBPACK_IMPORTED_MODULE_2__["defaul
                 && this.options.output.format !== avutil_constant__WEBPACK_IMPORTED_MODULE_7__.NOPTS_VALUE
                 && format !== -1 /* AVPixelFormat.AV_PIX_FMT_NONE */) {
             if (format === -1 /* AVPixelFormat.AV_PIX_FMT_NONE */) {
-                common_util_logger__WEBPACK_IMPORTED_MODULE_9__.error(`src avframe format not support`, cheap__fileName__3, 63);
+                common_util_logger__WEBPACK_IMPORTED_MODULE_9__.error('src avframe format not support', cheap__fileName__3, 60);
                 outputs[0] = avutil_error__WEBPACK_IMPORTED_MODULE_8__.FORMAT_NOT_SUPPORT;
                 return;
             }
@@ -2968,8 +2930,12 @@ class ScaleFilterNode extends _AVFilterNode__WEBPACK_IMPORTED_MODULE_2__["defaul
                 }
             }
             if (!this.scaler) {
+                let resource = this.options.resource;
+                if (common_util_is__WEBPACK_IMPORTED_MODULE_5__.arrayBuffer(resource)) {
+                    resource = await (0,avutil_function_compileResource__WEBPACK_IMPORTED_MODULE_11__["default"])(resource);
+                }
                 this.scaler = new videoscale_VideoScaler__WEBPACK_IMPORTED_MODULE_4__["default"]({
-                    resource: this.options.resource
+                    resource
                 });
                 try {
                     await this.scaler.open({
@@ -2987,7 +2953,7 @@ class ScaleFilterNode extends _AVFilterNode__WEBPACK_IMPORTED_MODULE_2__["defaul
                     });
                 }
                 catch (error) {
-                    common_util_logger__WEBPACK_IMPORTED_MODULE_9__.error(`open scaler failed, error ${error}`, cheap__fileName__3, 105);
+                    common_util_logger__WEBPACK_IMPORTED_MODULE_9__.error(`open scaler failed, error ${error}`, cheap__fileName__3, 106);
                     outputs[0] = avutil_error__WEBPACK_IMPORTED_MODULE_8__.FORMAT_NOT_SUPPORT;
                     return;
                 }
@@ -3195,11 +3161,12 @@ function createAVOFormatContext() {
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ AVStream)
 /* harmony export */ });
-/* harmony import */ var cheap_std_make__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! cheap/std/make */ "./src/cheap/std/make.ts");
-/* harmony import */ var cheap_std_unmake__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! cheap/std/unmake */ "./src/cheap/std/unmake.ts");
-/* harmony import */ var avutil_struct_avcodecparameters__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! avutil/struct/avcodecparameters */ "./src/avutil/struct/avcodecparameters.ts");
-/* harmony import */ var avutil_constant__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! avutil/constant */ "./src/avutil/constant.ts");
-/* harmony import */ var avutil_struct_rational__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! avutil/struct/rational */ "./src/avutil/struct/rational.ts");
+/* harmony import */ var _avutil_struct_avcodecparameters_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! avutil/struct/avcodecparameters */ "./src/avutil/struct/avcodecparameters.ts");
+/* harmony import */ var cheap_std_make__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! cheap/std/make */ "./src/cheap/std/make.ts");
+/* harmony import */ var _avutil_struct_rational_ts__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./..\avutil\struct\rational.ts */ "./src/avutil/struct/rational.ts");
+/* harmony import */ var cheap_std_unmake__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! cheap/std/unmake */ "./src/cheap/std/unmake.ts");
+/* harmony import */ var avutil_constant__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! avutil/constant */ "./src/avutil/constant.ts");
+
 
 
 
@@ -3213,15 +3180,15 @@ class AVStream {
     /**
      * stream index in AVFormatContext
      */
-    index = avutil_constant__WEBPACK_IMPORTED_MODULE_3__.NOPTS_VALUE;
+    index = avutil_constant__WEBPACK_IMPORTED_MODULE_4__.NOPTS_VALUE;
     /**
      * Format-specific stream ID.
      * decoding: set by libavformat
      * encoding: set by the user, replaced by libavformat if left unset
      */
-    id = avutil_constant__WEBPACK_IMPORTED_MODULE_3__.NOPTS_VALUE;
+    id = avutil_constant__WEBPACK_IMPORTED_MODULE_4__.NOPTS_VALUE;
     privData = null;
-    codecpar = (0,cheap_std_make__WEBPACK_IMPORTED_MODULE_0__["default"])(avutil_struct_avcodecparameters__WEBPACK_IMPORTED_MODULE_2__["default"], new avutil_struct_avcodecparameters__WEBPACK_IMPORTED_MODULE_2__["default"]());
+    codecpar = (0,cheap_std_make__WEBPACK_IMPORTED_MODULE_1__["default"])(new _avutil_struct_avcodecparameters_ts__WEBPACK_IMPORTED_MODULE_0__["default"](), _avutil_struct_avcodecparameters_ts__WEBPACK_IMPORTED_MODULE_0__["default"]);
     /**
      * An array of side data that applies to the whole stream (i.e. the
      * container does not allow it to change between packets).
@@ -3251,7 +3218,7 @@ class AVStream {
      * Encoding: May be set by the caller before avformat_write_header() to
      * provide a hint to the muxer about the estimated duration.
      */
-    duration = avutil_constant__WEBPACK_IMPORTED_MODULE_3__.NOPTS_VALUE_BIGINT;
+    duration = avutil_constant__WEBPACK_IMPORTED_MODULE_4__.NOPTS_VALUE_BIGINT;
     /**
      * Decoding: pts of the first frame of the stream in presentation order, in stream time base.
      * Only set this if you are absolutely 100% sure that the value you set
@@ -3260,7 +3227,7 @@ class AVStream {
      * @note The ASF header does NOT contain a correct start_time the ASF
      * demuxer must NOT set this.
      */
-    startTime = avutil_constant__WEBPACK_IMPORTED_MODULE_3__.NOPTS_VALUE_BIGINT;
+    startTime = avutil_constant__WEBPACK_IMPORTED_MODULE_4__.NOPTS_VALUE_BIGINT;
     /**
      * 第一个 packet 的 dts
      */
@@ -3281,7 +3248,7 @@ class AVStream {
      *           written into the file (which may or may not be related to the
      *           user-provided one, depending on the format).
      */
-    timeBase = (0,cheap_std_make__WEBPACK_IMPORTED_MODULE_0__["default"])(avutil_struct_rational__WEBPACK_IMPORTED_MODULE_4__.Rational);
+    timeBase = (0,cheap_std_make__WEBPACK_IMPORTED_MODULE_1__["default"])(_avutil_struct_rational_ts__WEBPACK_IMPORTED_MODULE_2__.Rational);
     /**
      * 帧索引，可用于 seek
      */
@@ -3293,11 +3260,11 @@ class AVStream {
     destroy() {
         if (this.codecpar) {
             this.codecpar.destroy();
-            (0,cheap_std_unmake__WEBPACK_IMPORTED_MODULE_1__["default"])(this.codecpar);
+            (0,cheap_std_unmake__WEBPACK_IMPORTED_MODULE_3__["default"])(this.codecpar);
             this.codecpar = null;
         }
         if (this.timeBase) {
-            (0,cheap_std_unmake__WEBPACK_IMPORTED_MODULE_1__["default"])(this.timeBase);
+            (0,cheap_std_unmake__WEBPACK_IMPORTED_MODULE_3__["default"])(this.timeBase);
             this.timeBase = null;
         }
         this.sampleIndexes.length = 0;
@@ -3444,6 +3411,9 @@ class Annexb2AvccFilter extends _AVBSFilter__WEBPACK_IMPORTED_MODULE_2__["defaul
             return avutil_error__WEBPACK_IMPORTED_MODULE_8__.DATA_INVALID;
         }
     }
+    reset() {
+        return 0;
+    }
 }
 
 
@@ -3458,14 +3428,16 @@ class Annexb2AvccFilter extends _AVBSFilter__WEBPACK_IMPORTED_MODULE_2__["defaul
 "use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   AACProfile2Name: () => (/* binding */ AACProfile2Name),
-/* harmony export */   MPEG4Channels: () => (/* binding */ MPEG4Channels),
-/* harmony export */   MPEG4SamplingFrequencies: () => (/* binding */ MPEG4SamplingFrequencies),
 /* harmony export */   MPEG4SamplingFrequencyIndex: () => (/* binding */ MPEG4SamplingFrequencyIndex),
 /* harmony export */   avCodecParameters2Extradata: () => (/* binding */ avCodecParameters2Extradata),
 /* harmony export */   getAVCodecParameters: () => (/* binding */ getAVCodecParameters),
-/* harmony export */   parseAVCodecParameters: () => (/* binding */ parseAVCodecParameters)
+/* harmony export */   parseADTSHeader: () => (/* binding */ parseADTSHeader),
+/* harmony export */   parseAVCodecParameters: () => (/* binding */ parseAVCodecParameters),
+/* harmony export */   parseLATMHeader: () => (/* binding */ parseLATMHeader)
 /* harmony export */ });
+/* unused harmony exports MPEG4SamplingFrequencies, MPEG4Channels */
 /* harmony import */ var avutil_constant__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! avutil/constant */ "./src/avutil/constant.ts");
+/* harmony import */ var common_io_BitReader__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! common/io/BitReader */ "./src/common/io/BitReader.ts");
 /*
  * libmedia aac util
  *
@@ -3490,6 +3462,7 @@ class Annexb2AvccFilter extends _AVBSFilter__WEBPACK_IMPORTED_MODULE_2__["defaul
  * Lesser General Public License for more details.
  *
  */
+
 
 const AACProfile2Name = {
     [1 /* MPEG4AudioObjectTypes.AAC_MAIN */]: 'Main',
@@ -3592,6 +3565,179 @@ function avCodecParameters2Extradata(codecpar) {
     extradata[0] = ((codecpar.profile & 0x1f) << 3) | ((samplingFreqIndex & 0x0e) >> 1);
     extradata[1] = ((samplingFreqIndex & 0x01) << 7) | ((channelConfig & 0x0f) << 3);
     return extradata;
+}
+/**
+ *
+ * adts 封装转 raw
+ *
+ * bits
+ * - 12  syncword
+ * - 1   ID (MPEG 标识位，固定为 1)
+ * - 2   Layer ( 固定为 0)
+ * - 1   Protection Absent ( 指示是否有 CRC 校验，1 表示没有校验）
+ * - 2   Profile
+ * - 4   Sampling Frequency Index ( 采样率的索引）
+ * - 1   Private Bit ( 保留位，一般设置为 0)
+ * - 3   Channel Configuration ( 音频通道数）
+ * - 1   Original Copy ( 原始拷贝标志位，一般设置为 0)
+ * - 1   Home ( 保留位，一般设置为 0)
+ * - 1   Copyright Identification Bit（置 0）
+ * - 1   Copyright Identification Start（置 0）
+ * - 13  Frame Length ( 帧长度，包括 ADTS 头和音频帧数据的长度）
+ * - 11  Buffer Fullness ( 缓冲区满度，可用于音频流的同步）
+ * - 2   Number of Raw Data Blocks in Frame ( 帧中原始数据块的数量）
+ * - 16  CRC (Protection Absent 控制）
+ * - N  raw aac data
+ *
+ */
+function parseADTSHeader(buffer) {
+    if (buffer.length < 7) {
+        return -1;
+    }
+    const syncWord = (buffer[0] << 4) | (buffer[1] >> 4);
+    if (syncWord !== 0xFFF) {
+        return -1;
+    }
+    /*
+      * const id = (buffer[1] & 0x08) >>> 3
+      * const layer = (buffer[1] & 0x06) >>> 1
+      */
+    const protectionAbsent = buffer[1] & 0x01;
+    const profile = (buffer[2] & 0xC0) >>> 6;
+    const samplingFrequencyIndex = (buffer[2] & 0x3C) >>> 2;
+    const channelConfiguration = ((buffer[2] & 0x01) << 2) | ((buffer[3] & 0xC0) >>> 6);
+    // adts_variable_header()
+    const aacFrameLength = ((buffer[3] & 0x03) << 11)
+        | (buffer[4] << 3)
+        | ((buffer[5] & 0xE0) >>> 5);
+    const numberOfRawDataBlocksInFrame = buffer[6] & 0x03;
+    let headerLength = protectionAbsent === 1 ? 7 : 9;
+    let framePayloadLength = aacFrameLength - headerLength;
+    return {
+        syncWord,
+        profile: profile + 1,
+        sampleRate: MPEG4SamplingFrequencies[samplingFrequencyIndex],
+        channels: MPEG4Channels[channelConfiguration],
+        aacFrameLength,
+        numberOfRawDataBlocksInFrame,
+        headerLength,
+        framePayloadLength
+    };
+}
+function parseLATMHeader(buffer, bitReader) {
+    if (!bitReader) {
+        bitReader = new common_io_BitReader__WEBPACK_IMPORTED_MODULE_1__["default"]();
+        bitReader.appendBuffer(buffer);
+    }
+    function getLATMValue() {
+        const bytesForValue = bitReader.readU(2);
+        let value = 0;
+        for (let i = 0; i <= bytesForValue; i++) {
+            value = value << 8;
+            value = value | bitReader.readU(8);
+        }
+        return value;
+    }
+    const now = bitReader.getPointer();
+    const info = {
+        syncWord: 0,
+        profile: 0,
+        sampleRate: 0,
+        channels: 0,
+        useSameStreamMux: false,
+        headerLength: 0,
+        framePayloadLength: 0,
+        muxLengthBytes: 0
+    };
+    const syncWord = bitReader.readU(11);
+    if (syncWord !== 0x2B7) {
+        return -1;
+    }
+    info.syncWord = syncWord;
+    info.muxLengthBytes = bitReader.readU(13);
+    const useSameStreamMux = bitReader.readU1() === 0x01;
+    info.useSameStreamMux = useSameStreamMux;
+    if (!useSameStreamMux) {
+        const audioMuxVersion = bitReader.readU1() === 0x01;
+        const audioMuxVersionA = audioMuxVersion && bitReader.readU1() === 0x01;
+        if (audioMuxVersionA) {
+            return -1;
+        }
+        if (audioMuxVersion) {
+            getLATMValue();
+        }
+        const allStreamsSameTimeFraming = bitReader.readU1() === 0x01;
+        if (!allStreamsSameTimeFraming) {
+            return -1;
+        }
+        const numSubFrames = bitReader.readU(6);
+        if (numSubFrames !== 0) {
+            return -1;
+        }
+        const numProgram = bitReader.readU(4);
+        if (numProgram !== 0) {
+            return -1;
+        }
+        const numLayer = bitReader.readU(3);
+        if (numLayer !== 0) {
+            return -1;
+        }
+        let fillBits = audioMuxVersion ? getLATMValue() : 0;
+        const audioObjectType = bitReader.readU(5);
+        fillBits -= 5;
+        const samplingFreqIndex = bitReader.readU(4);
+        fillBits -= 4;
+        const channelConfig = bitReader.readU(4);
+        fillBits -= 4;
+        bitReader.readU(3);
+        fillBits -= 3;
+        if (fillBits > 0) {
+            bitReader.readU(fillBits);
+        }
+        const frameLengthType = bitReader.readU(3);
+        if (frameLengthType === 0) {
+            bitReader.readU(8);
+        }
+        else {
+            return -1;
+        }
+        const otherDataPresent = bitReader.readU1() === 0x01;
+        if (otherDataPresent) {
+            if (audioMuxVersion) {
+                getLATMValue();
+            }
+            else {
+                let otherDataLenBits = 0;
+                while (true) {
+                    otherDataLenBits = otherDataLenBits << 8;
+                    const otherDataLenEsc = bitReader.readU1() === 0x01;
+                    const otherDataLenTmp = bitReader.readU(8);
+                    otherDataLenBits += otherDataLenTmp;
+                    if (!otherDataLenEsc) {
+                        break;
+                    }
+                }
+            }
+        }
+        const crcCheckPresent = bitReader.readU1() === 0x01;
+        if (crcCheckPresent) {
+            bitReader.readU(8);
+        }
+        info.profile = audioObjectType + 1;
+        info.sampleRate = MPEG4SamplingFrequencies[samplingFreqIndex];
+        info.channels = MPEG4Channels[channelConfig];
+    }
+    let length = 0;
+    while (true) {
+        const tmp = bitReader.readU(8);
+        length += tmp;
+        if (tmp !== 0xff) {
+            break;
+        }
+    }
+    info.framePayloadLength = length;
+    info.headerLength = bitReader.getPointer() - now + (bitReader.getBitLeft() === 8 ? 0 : 1);
+    return info;
 }
 
 
@@ -3974,7 +4120,7 @@ function splitOBU(buffer) {
     bitReader.appendBuffer(buffer);
     const list = [];
     while (bitReader.remainingLength()) {
-        const now = bitReader.getPos();
+        const now = bitReader.getPointer();
         // obu_forbidden_bit
         bitReader.readU1();
         const type = bitReader.readU(4);
@@ -3986,7 +4132,7 @@ function splitOBU(buffer) {
             bitReader.readU(8);
         }
         const size = hasSizeFlag ? avutil_util_av1syntax__WEBPACK_IMPORTED_MODULE_2__.leb128(bitReader) : buffer.length - 1 - extensionFlag;
-        const headerSize = bitReader.getPos() - now;
+        const headerSize = bitReader.getPointer() - now;
         list.push(buffer.subarray(now, now + headerSize + size));
         bitReader.skip(size * 8);
     }
@@ -4047,12 +4193,13 @@ function generateExtradata(codecpar, buffer) {
 /* harmony export */   avcc2Annexb: () => (/* binding */ avcc2Annexb),
 /* harmony export */   extradata2SpsPps: () => (/* binding */ extradata2SpsPps),
 /* harmony export */   getLevelByResolution: () => (/* binding */ getLevelByResolution),
+/* harmony export */   isIDR: () => (/* binding */ isIDR),
 /* harmony export */   parseAVCodecParameters: () => (/* binding */ parseAVCodecParameters),
 /* harmony export */   parseAnnexbExtraData: () => (/* binding */ parseAnnexbExtraData),
 /* harmony export */   parseAvccExtraData: () => (/* binding */ parseAvccExtraData),
 /* harmony export */   parseSPS: () => (/* binding */ parseSPS)
 /* harmony export */ });
-/* unused harmony exports NALULengthSizeMinusOne, LevelCapabilities, spsPps2Extradata, isIDR */
+/* unused harmony exports NALULengthSizeMinusOne, LevelCapabilities, spsPps2Extradata */
 /* harmony import */ var cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! cheap/ctypeEnumRead */ "./src/cheap/ctypeEnumRead.ts");
 /* harmony import */ var cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! cheap/ctypeEnumWrite */ "./src/cheap/ctypeEnumWrite.ts");
 /* harmony import */ var common_util_array__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! common/util/array */ "./src/common/util/array.ts");
@@ -4390,7 +4537,7 @@ function avcc2Annexb(data, extradata) {
         else {
             length = bufferReader.readUint8();
         }
-        const nalu = data.subarray((Number(bufferReader.getPos() & 0xffffffffn) >> 0), (Number(bufferReader.getPos() & 0xffffffffn) >> 0) + length);
+        const nalu = data.subarray(Number(BigInt.asIntN(32, bufferReader.getPos())), Number(BigInt.asIntN(32, bufferReader.getPos())) + length);
         bufferReader.skip(length);
         const naluType = nalu[0] & 0x1f;
         if (naluType === 6 /* H264NaluType.kSliceSEI */) {
@@ -4499,7 +4646,7 @@ function parseAvccExtraData(avpacket, stream) {
         else {
             length = bufferReader.readUint8();
         }
-        const nalu = data.subarray((Number(bufferReader.getPos() & 0xffffffffn) >> 0), (Number(bufferReader.getPos() & 0xffffffffn) >> 0) + length);
+        const nalu = data.subarray(Number(BigInt.asIntN(32, bufferReader.getPos())), Number(BigInt.asIntN(32, bufferReader.getPos())) + length);
         bufferReader.skip(length);
         const naluType = nalu[0] & 0x1f;
         if (naluType === 7 /* H264NaluType.kSliceSPS */) {
@@ -4573,9 +4720,6 @@ function parseAVCodecParameters(stream, extradata) {
     }
 }
 function isIDR(avpacket, naluLengthSize = 4) {
-    if (!(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](avpacket + 36) & 1 /* AVPacketFlags.AV_PKT_FLAG_KEY */)) {
-        return false;
-    }
     if (cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](avpacket + 80) === 2 /* BitFormat.ANNEXB */) {
         let nalus = (0,avutil_util_nalu__WEBPACK_IMPORTED_MODULE_9__.splitNaluByStartCode)((0,cheap_std_memory__WEBPACK_IMPORTED_MODULE_7__.mapUint8Array)(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[20](avpacket + 24), cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](avpacket + 28)));
         return nalus.some((nalu) => {
@@ -4761,13 +4905,14 @@ function parseSPS(sps) {
 /* harmony export */   avcc2Annexb: () => (/* binding */ avcc2Annexb),
 /* harmony export */   extradata2VpsSpsPps: () => (/* binding */ extradata2VpsSpsPps),
 /* harmony export */   getLevelByResolution: () => (/* binding */ getLevelByResolution),
+/* harmony export */   isIDR: () => (/* binding */ isIDR),
 /* harmony export */   parseAVCodecParameters: () => (/* binding */ parseAVCodecParameters),
 /* harmony export */   parseAnnexbExtraData: () => (/* binding */ parseAnnexbExtraData),
 /* harmony export */   parseAvccExtraData: () => (/* binding */ parseAvccExtraData),
 /* harmony export */   parsePPS: () => (/* binding */ parsePPS),
 /* harmony export */   parseSPS: () => (/* binding */ parseSPS)
 /* harmony export */ });
-/* unused harmony exports LevelCapabilities, vpsSpsPps2Extradata, isIDR */
+/* unused harmony exports LevelCapabilities, vpsSpsPps2Extradata */
 /* harmony import */ var cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! cheap/ctypeEnumRead */ "./src/cheap/ctypeEnumRead.ts");
 /* harmony import */ var cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! cheap/ctypeEnumWrite */ "./src/cheap/ctypeEnumWrite.ts");
 /* harmony import */ var common_util_array__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! common/util/array */ "./src/common/util/array.ts");
@@ -5238,7 +5383,7 @@ function parseAvccExtraData(avpacket, stream) {
         else {
             length = bufferReader.readUint8();
         }
-        const nalu = data.subarray((Number(bufferReader.getPos() & 0xffffffffn) >> 0), (Number(bufferReader.getPos() & 0xffffffffn) >> 0) + length);
+        const nalu = data.subarray(Number(BigInt.asIntN(32, bufferReader.getPos())), Number(BigInt.asIntN(32, bufferReader.getPos())) + length);
         bufferReader.skip(length);
         const naluType = (nalu[0] >>> 1) & 0x3f;
         if (naluType === 33 /* HEVCNaluType.kSliceSPS */) {
@@ -5309,9 +5454,6 @@ function parseAVCodecParameters(stream, extradata) {
     }
 }
 function isIDR(avpacket, naluLengthSize = 4) {
-    if (!(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](avpacket + 36) & 1 /* AVPacketFlags.AV_PKT_FLAG_KEY */)) {
-        return false;
-    }
     if (cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](avpacket + 80) === 2 /* BitFormat.ANNEXB */) {
         let nalus = (0,avutil_util_nalu__WEBPACK_IMPORTED_MODULE_7__.splitNaluByStartCode)((0,cheap_std_memory__WEBPACK_IMPORTED_MODULE_6__.mapUint8Array)(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[20](avpacket + 24), cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](avpacket + 28)));
         return nalus.some((nalu) => {
@@ -6116,7 +6258,9 @@ function generateExtradata(codecpar) {
 "use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   annexb2Avcc: () => (/* binding */ annexb2Avcc),
+/* harmony export */   annexbExtradata2AvccExtradata: () => (/* binding */ annexbExtradata2AvccExtradata),
 /* harmony export */   avcc2Annexb: () => (/* binding */ avcc2Annexb),
+/* harmony export */   isIDR: () => (/* binding */ isIDR),
 /* harmony export */   parseAVCodecParameters: () => (/* binding */ parseAVCodecParameters),
 /* harmony export */   parseAVCodecParametersBySps: () => (/* binding */ parseAVCodecParametersBySps),
 /* harmony export */   parseAnnexbExtraData: () => (/* binding */ parseAnnexbExtraData),
@@ -6124,7 +6268,7 @@ function generateExtradata(codecpar) {
 /* harmony export */   parseExtraData: () => (/* binding */ parseExtraData),
 /* harmony export */   parseSPS: () => (/* binding */ parseSPS)
 /* harmony export */ });
-/* unused harmony exports extradata2VpsSpsPps, vpsSpsPps2Extradata, annexbExtradata2AvccExtradata, isIDR */
+/* unused harmony exports extradata2VpsSpsPps, vpsSpsPps2Extradata */
 /* harmony import */ var cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! cheap/ctypeEnumRead */ "./src/cheap/ctypeEnumRead.ts");
 /* harmony import */ var cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! cheap/ctypeEnumWrite */ "./src/cheap/ctypeEnumWrite.ts");
 /* harmony import */ var common_util_array__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! common/util/array */ "./src/common/util/array.ts");
@@ -6176,6 +6320,7 @@ function generateExtradata(codecpar) {
 
 
 const NALULengthSizeMinusOne = 3;
+/* eslint-disable camelcase */
 function parsePTL(bitReader) {
     const olsIdx = bitReader.readU(9);
     const numSublayers = bitReader.readU(3);
@@ -6246,6 +6391,7 @@ function parsePTL(bitReader) {
         avgFramerate
     };
 }
+/* eslint-enable camelcase */
 /**
  *
  * vvcc 格式的 extradata 转 annexb vps sps pps
@@ -6309,7 +6455,7 @@ function extradata2VpsSpsPps(extradata) {
         const bitReader = new common_io_BitReader__WEBPACK_IMPORTED_MODULE_5__["default"]();
         bitReader.appendBuffer(extradata.subarray(1));
         parsePTL(bitReader);
-        bufferReader.skip(bitReader.getPos());
+        bufferReader.skip(bitReader.getPointer());
     }
     let vpss = [];
     let spss = [];
@@ -6375,11 +6521,11 @@ function vpsSpsPps2Extradata(vpss, spss, ppss) {
             biWriter.writeU(6, 0b111111);
         }
         if (spsParams.spsMaxSublayersMinus1 + 1 > 1) {
-            let ptl_sublayer_level_present_flags = 0;
+            let ptlSubLayerLevelPresentFlags = 0;
             for (let i = spsParams.spsMaxSublayersMinus1 - 1; i >= 0; i--) {
-                ptl_sublayer_level_present_flags = (ptl_sublayer_level_present_flags << 1 | spsParams.ptlSublayerLevelPresentFlag[i]);
+                ptlSubLayerLevelPresentFlags = (ptlSubLayerLevelPresentFlags << 1 | spsParams.ptlSublayerLevelPresentFlag[i]);
             }
-            biWriter.writeU(spsParams.spsMaxSublayersMinus1, ptl_sublayer_level_present_flags);
+            biWriter.writeU(spsParams.spsMaxSublayersMinus1, ptlSubLayerLevelPresentFlags);
             for (let j = spsParams.spsMaxSublayersMinus1 + 1; j <= 8 && spsParams.spsMaxSublayersMinus1 > 0; ++j) {
                 biWriter.writeU1(0);
             }
@@ -6693,7 +6839,7 @@ function parseAvccExtraData(avpacket, stream) {
         else {
             length = bufferReader.readUint8();
         }
-        const nalu = data.subarray((Number(bufferReader.getPos() & 0xffffffffn) >> 0), (Number(bufferReader.getPos() & 0xffffffffn) >> 0) + length);
+        const nalu = data.subarray(Number(BigInt.asIntN(32, bufferReader.getPos())), Number(BigInt.asIntN(32, bufferReader.getPos())) + length);
         bufferReader.skip(length);
         const naluType = (nalu[1] >>> 3) & 0x1f;
         if (naluType === 15 /* VVCNaluType.kSPS_NUT */) {
@@ -6767,9 +6913,6 @@ function parseAVCodecParameters(stream, extradata) {
     }
 }
 function isIDR(avpacket, naluLengthSize = 4) {
-    if (!(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](avpacket + 36) & 1 /* AVPacketFlags.AV_PKT_FLAG_KEY */)) {
-        return false;
-    }
     if (cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](avpacket + 80) === 2 /* BitFormat.ANNEXB */) {
         let nalus = (0,avutil_util_nalu__WEBPACK_IMPORTED_MODULE_7__.splitNaluByStartCode)((0,cheap_std_memory__WEBPACK_IMPORTED_MODULE_6__.mapUint8Array)(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[20](avpacket + 24), cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](avpacket + 28)));
         return nalus.some((nalu) => {
@@ -7057,21 +7200,23 @@ const SAMPLE_INDEX_STEP = BigInt(5000);
 /* unused harmony export DefaultDemuxOptions */
 /* harmony import */ var cheap_symbol__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! cheap/symbol */ "./src/cheap/symbol.ts");
 /* harmony import */ var cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! cheap/ctypeEnumRead */ "./src/cheap/ctypeEnumRead.ts");
-/* harmony import */ var _avutil_struct_rational_ts__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./..\avutil\struct\rational.ts */ "./src/avutil/struct/rational.ts");
+/* harmony import */ var _avutil_struct_audiosample_ts__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./..\avutil\struct\audiosample.ts */ "./src/avutil/struct/audiosample.ts");
 /* harmony import */ var cheap_std_structAccess__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! cheap/std/structAccess */ "./src/cheap/std/structAccess.ts");
-/* harmony import */ var common_util_object__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! common/util/object */ "./src/common/util/object.ts");
-/* harmony import */ var common_util_array__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! common/util/array */ "./src/common/util/array.ts");
-/* harmony import */ var avutil_constant__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! avutil/constant */ "./src/avutil/constant.ts");
-/* harmony import */ var _function_checkStreamParameters__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./function/checkStreamParameters */ "./src/avformat/function/checkStreamParameters.ts");
-/* harmony import */ var avutil_util_rational__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! avutil/util/rational */ "./src/avutil/util/rational.ts");
-/* harmony import */ var avutil_util_avpacket__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! avutil/util/avpacket */ "./src/avutil/util/avpacket.ts");
-/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./config */ "./src/avformat/config.ts");
-/* harmony import */ var avutil_error__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! avutil/error */ "./src/avutil/error.ts");
-/* harmony import */ var common_util_logger__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! common/util/logger */ "./src/common/util/logger.ts");
-/* harmony import */ var avcodec_wasmcodec_VideoDecoder__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! avcodec/wasmcodec/VideoDecoder */ "./src/avcodec/wasmcodec/VideoDecoder.ts");
-/* harmony import */ var avcodec_wasmcodec_AudioDecoder__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! avcodec/wasmcodec/AudioDecoder */ "./src/avcodec/wasmcodec/AudioDecoder.ts");
-/* harmony import */ var avutil_util_avframe__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! avutil/util/avframe */ "./src/avutil/util/avframe.ts");
+/* harmony import */ var _avutil_struct_rational_ts__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./..\avutil\struct\rational.ts */ "./src/avutil/struct/rational.ts");
+/* harmony import */ var common_util_object__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! common/util/object */ "./src/common/util/object.ts");
+/* harmony import */ var common_util_array__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! common/util/array */ "./src/common/util/array.ts");
+/* harmony import */ var avutil_constant__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! avutil/constant */ "./src/avutil/constant.ts");
+/* harmony import */ var _function_checkStreamParameters__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./function/checkStreamParameters */ "./src/avformat/function/checkStreamParameters.ts");
+/* harmony import */ var avutil_util_rational__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! avutil/util/rational */ "./src/avutil/util/rational.ts");
+/* harmony import */ var avutil_util_avpacket__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! avutil/util/avpacket */ "./src/avutil/util/avpacket.ts");
+/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./config */ "./src/avformat/config.ts");
+/* harmony import */ var avutil_error__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! avutil/error */ "./src/avutil/error.ts");
+/* harmony import */ var common_util_logger__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! common/util/logger */ "./src/common/util/logger.ts");
+/* harmony import */ var avcodec_wasmcodec_VideoDecoder__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! avcodec/wasmcodec/VideoDecoder */ "./src/avcodec/wasmcodec/VideoDecoder.ts");
+/* harmony import */ var avcodec_wasmcodec_AudioDecoder__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! avcodec/wasmcodec/AudioDecoder */ "./src/avcodec/wasmcodec/AudioDecoder.ts");
+/* harmony import */ var avutil_util_avframe__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! avutil/util/avframe */ "./src/avutil/util/avframe.ts");
 var cheap__fileName__0 = "src\\avformat\\demux.ts";
+
 
 
 
@@ -7094,12 +7239,12 @@ const DefaultDemuxOptions = {
 };
 // @ts-ignore
 async function open(formatContext, options = {}) {
-    const opts = common_util_object__WEBPACK_IMPORTED_MODULE_4__.extend({}, DefaultDemuxOptions, options);
+    const opts = common_util_object__WEBPACK_IMPORTED_MODULE_5__.extend({}, DefaultDemuxOptions, options);
     if (!formatContext.ioReader) {
-        common_util_logger__WEBPACK_IMPORTED_MODULE_12__.fatal('need IOReader', cheap__fileName__0, 65);
+        common_util_logger__WEBPACK_IMPORTED_MODULE_13__.fatal('need IOReader', cheap__fileName__0, 65);
     }
     if (!formatContext.iformat) {
-        common_util_logger__WEBPACK_IMPORTED_MODULE_12__.fatal('need iformat', cheap__fileName__0, 68);
+        common_util_logger__WEBPACK_IMPORTED_MODULE_13__.fatal('need iformat', cheap__fileName__0, 68);
     }
     if (formatContext.iformat.type === 2 /* AVFormat.MPEGTS */) {
         // mpegts 的最小分析时长为 2 秒，mpegts 的 dts 一般从 1.4 秒开始
@@ -7120,13 +7265,13 @@ async function estimateDurationFromPts(formatContext) {
     let now = formatContext.ioReader.getPos();
     let retry = 0;
     while (retry < 4) {
-        const pos = fileSize - BigInt(Math.floor(_config__WEBPACK_IMPORTED_MODULE_10__.DURATION_MAX_READ_SIZE << retry));
+        const pos = fileSize - BigInt(Math.floor(_config__WEBPACK_IMPORTED_MODULE_11__.DURATION_MAX_READ_SIZE << retry));
         const nextPos = await formatContext.iformat.seek(formatContext, null, pos, 2 /* AVSeekFlags.BYTE */);
         if (nextPos > BigInt(0)) {
             now = nextPos;
         }
         const lastDurationMap = {};
-        const avpacket = (0,avutil_util_avpacket__WEBPACK_IMPORTED_MODULE_9__.createAVPacket)();
+        const avpacket = (0,avutil_util_avpacket__WEBPACK_IMPORTED_MODULE_10__.createAVPacket)();
         while (true) {
             const ret = await readAVPacket(formatContext, avpacket);
             if (ret < 0) {
@@ -7135,14 +7280,14 @@ async function estimateDurationFromPts(formatContext) {
             else {
                 let duration = cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumRead[17](avpacket + 8);
                 const stream = formatContext.getStreamByIndex(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumRead[15](avpacket + 32));
-                if (stream.startTime !== avutil_constant__WEBPACK_IMPORTED_MODULE_6__.NOPTS_VALUE_BIGINT) {
+                if (stream.startTime !== avutil_constant__WEBPACK_IMPORTED_MODULE_7__.NOPTS_VALUE_BIGINT) {
                     duration -= stream.startTime;
                 }
                 else {
                     duration -= stream.firstDTS;
                 }
                 if (duration > BigInt(0)) {
-                    if (stream.duration === avutil_constant__WEBPACK_IMPORTED_MODULE_6__.NOPTS_VALUE_BIGINT
+                    if (stream.duration === avutil_constant__WEBPACK_IMPORTED_MODULE_7__.NOPTS_VALUE_BIGINT
                         || !lastDurationMap[cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumRead[15](avpacket + 32)]
                         || (stream.duration < duration
                             && Math.abs(Number(duration - stream.duration)) < 60 * stream.timeBase.den / stream.timeBase.num)) {
@@ -7152,10 +7297,10 @@ async function estimateDurationFromPts(formatContext) {
                 }
             }
         }
-        (0,avutil_util_avpacket__WEBPACK_IMPORTED_MODULE_9__.destroyAVPacket)(avpacket);
+        (0,avutil_util_avpacket__WEBPACK_IMPORTED_MODULE_10__.destroyAVPacket)(avpacket);
         let hasDuration = true;
-        common_util_array__WEBPACK_IMPORTED_MODULE_5__.each(formatContext.streams, (stream) => {
-            if (stream.duration === avutil_constant__WEBPACK_IMPORTED_MODULE_6__.NOPTS_VALUE_BIGINT) {
+        common_util_array__WEBPACK_IMPORTED_MODULE_6__.each(formatContext.streams, (stream) => {
+            if (stream.duration === avutil_constant__WEBPACK_IMPORTED_MODULE_7__.NOPTS_VALUE_BIGINT) {
                 hasDuration = false;
                 return false;
             }
@@ -7165,8 +7310,8 @@ async function estimateDurationFromPts(formatContext) {
         }
         retry++;
     }
-    common_util_array__WEBPACK_IMPORTED_MODULE_5__.each(formatContext.interval.packetBuffer, (avpacket) => {
-        (0,avutil_util_avpacket__WEBPACK_IMPORTED_MODULE_9__.destroyAVPacket)(avpacket);
+    common_util_array__WEBPACK_IMPORTED_MODULE_6__.each(formatContext.interval.packetBuffer, (avpacket) => {
+        (0,avutil_util_avpacket__WEBPACK_IMPORTED_MODULE_10__.destroyAVPacket)(avpacket);
     });
     formatContext.interval.packetBuffer = cache;
     await formatContext.iformat.seek(formatContext, null, now, 2 /* AVSeekFlags.BYTE */);
@@ -7195,13 +7340,13 @@ async function analyzeStreams(formatContext) {
     }
     while (true) {
         if (formatContext.streams.length >= needStreams
-            && (0,_function_checkStreamParameters__WEBPACK_IMPORTED_MODULE_7__.checkStreamParameters)(formatContext)
+            && (0,_function_checkStreamParameters__WEBPACK_IMPORTED_MODULE_8__.checkStreamParameters)(formatContext)
             && formatContext.options.fastOpen
             && checkPictureGot()) {
             break;
         }
         if (!avpacket) {
-            avpacket = (0,avutil_util_avpacket__WEBPACK_IMPORTED_MODULE_9__.createAVPacket)();
+            avpacket = (0,avutil_util_avpacket__WEBPACK_IMPORTED_MODULE_10__.createAVPacket)();
         }
         let packetCached = false;
         ret = await readAVPacket(formatContext, avpacket);
@@ -7238,12 +7383,14 @@ async function analyzeStreams(formatContext) {
                     const resource = await formatContext.getDecoderResource(stream.codecpar.codecType, stream.codecpar.codecId);
                     if (resource) {
                         if (stream.codecpar.codecType === 1 /* AVMediaType.AVMEDIA_TYPE_AUDIO */) {
-                            decoder = new avcodec_wasmcodec_AudioDecoder__WEBPACK_IMPORTED_MODULE_14__["default"]({
+                            decoder = new avcodec_wasmcodec_AudioDecoder__WEBPACK_IMPORTED_MODULE_15__["default"]({
                                 resource,
                                 onReceiveFrame: (avframe) => {
                                     stream.codecpar.format = cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumRead[15](avframe + 80);
                                     stream.codecpar.frameSize = cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumRead[15](avframe + 76);
-                                    (0,avutil_util_avframe__WEBPACK_IMPORTED_MODULE_15__.destroyAVFrame)(avframe);
+                                    stream.codecpar.sampleRate = cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumRead[15](avframe + 152);
+                                    stream.codecpar.chLayout = (0,cheap_std_structAccess__WEBPACK_IMPORTED_MODULE_3__["default"])(avframe + 288, _avutil_struct_audiosample_ts__WEBPACK_IMPORTED_MODULE_2__.AVChannelLayout);
+                                    (0,avutil_util_avframe__WEBPACK_IMPORTED_MODULE_16__.destroyAVFrame)(avframe);
                                     pictureGot[stream.index] = true;
                                 },
                                 onError: () => {
@@ -7255,7 +7402,7 @@ async function analyzeStreams(formatContext) {
                             if (resource.threadModule) {
                                 delete resource.threadModule;
                             }
-                            decoder = new avcodec_wasmcodec_VideoDecoder__WEBPACK_IMPORTED_MODULE_13__["default"]({
+                            decoder = new avcodec_wasmcodec_VideoDecoder__WEBPACK_IMPORTED_MODULE_14__["default"]({
                                 resource,
                                 onReceiveFrame: (avframe) => {
                                     stream.codecpar.format = cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumRead[15](avframe + 80);
@@ -7263,8 +7410,10 @@ async function analyzeStreams(formatContext) {
                                     stream.codecpar.colorPrimaries = cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumRead[15](avframe + 212);
                                     stream.codecpar.colorTrc = cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumRead[15](avframe + 216);
                                     stream.codecpar.chromaLocation = cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumRead[15](avframe + 224);
-                                    stream.codecpar.sampleAspectRatio = (0,cheap_std_structAccess__WEBPACK_IMPORTED_MODULE_3__["default"])(avframe + 92, _avutil_struct_rational_ts__WEBPACK_IMPORTED_MODULE_2__.Rational);
-                                    (0,avutil_util_avframe__WEBPACK_IMPORTED_MODULE_15__.destroyAVFrame)(avframe);
+                                    stream.codecpar.sampleAspectRatio = (0,cheap_std_structAccess__WEBPACK_IMPORTED_MODULE_3__["default"])(avframe + 92, _avutil_struct_rational_ts__WEBPACK_IMPORTED_MODULE_4__.Rational);
+                                    stream.codecpar.width = cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumRead[15](avframe + 68);
+                                    stream.codecpar.height = cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumRead[15](avframe + 72);
+                                    (0,avutil_util_avframe__WEBPACK_IMPORTED_MODULE_16__.destroyAVFrame)(avframe);
                                     pictureGot[stream.index] = true;
                                 },
                                 onError: () => {
@@ -7298,11 +7447,11 @@ async function analyzeStreams(formatContext) {
             }
             const duration = Number(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumRead[17](avpacket + 16) - stream.firstDTS) * stream.timeBase.num / stream.timeBase.den;
             if (duration) {
-                stream.codecpar.bitRate = BigInt(Math.floor(streamBitMap[stream.index] * 8 / duration));
+                stream.codecpar.bitrate = BigInt(Math.floor(streamBitMap[stream.index] * 8 / duration));
             }
         }
-        if ((cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumRead[17](avpacket + 16) - stream.startTime) > (0,avutil_util_rational__WEBPACK_IMPORTED_MODULE_8__.avRescaleQ)(BigInt(Math.floor(formatContext.options.maxAnalyzeDuration)), avutil_constant__WEBPACK_IMPORTED_MODULE_6__.AV_MILLI_TIME_BASE_Q, stream.timeBase)) {
-            common_util_object__WEBPACK_IMPORTED_MODULE_4__.each(streamDtsMap, (list, id) => {
+        if ((cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumRead[17](avpacket + 16) - stream.startTime) > (0,avutil_util_rational__WEBPACK_IMPORTED_MODULE_9__.avRescaleQ)(BigInt(Math.floor(formatContext.options.maxAnalyzeDuration)), avutil_constant__WEBPACK_IMPORTED_MODULE_7__.AV_MILLI_TIME_BASE_Q, stream.timeBase)) {
+            common_util_object__WEBPACK_IMPORTED_MODULE_5__.each(streamDtsMap, (list, id) => {
                 const stream = formatContext.getStreamByIndex(+id);
                 if (list && list.length > 1) {
                     let count = BigInt(0);
@@ -7321,7 +7470,7 @@ async function analyzeStreams(formatContext) {
                     }
                     const duration = Number(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumRead[17](avpacket + 16) - stream.firstDTS) * stream.timeBase.num / stream.timeBase.den;
                     if (duration) {
-                        stream.codecpar.bitRate = BigInt(Math.floor(streamBitMap[stream.index] * 8 / duration));
+                        stream.codecpar.bitrate = BigInt(Math.floor(streamBitMap[stream.index] * 8 / duration));
                     }
                 }
             });
@@ -7335,12 +7484,12 @@ async function analyzeStreams(formatContext) {
         }
     }
     if (avpacket) {
-        (0,avutil_util_avpacket__WEBPACK_IMPORTED_MODULE_9__.destroyAVPacket)(avpacket);
+        (0,avutil_util_avpacket__WEBPACK_IMPORTED_MODULE_10__.destroyAVPacket)(avpacket);
     }
     if (caches.length) {
         formatContext.interval.packetBuffer = caches.concat(formatContext.interval.packetBuffer);
     }
-    common_util_object__WEBPACK_IMPORTED_MODULE_4__.each(decoderMap, (decoder) => {
+    common_util_object__WEBPACK_IMPORTED_MODULE_5__.each(decoderMap, (decoder) => {
         if (decoder) {
             decoder.close();
         }
@@ -7358,7 +7507,7 @@ async function analyzeStreams(formatContext) {
     return 0;
 }
 function addSample(stream, avpacket) {
-    const index = common_util_array__WEBPACK_IMPORTED_MODULE_5__.binarySearch(stream.sampleIndexes, (sample) => {
+    const index = common_util_array__WEBPACK_IMPORTED_MODULE_6__.binarySearch(stream.sampleIndexes, (sample) => {
         if (sample.pts < cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumRead[17](avpacket + 8)) {
             return 1;
         }
@@ -7394,30 +7543,30 @@ async function packetNeedRead(formatContext, avpacket) {
             || stream.codecpar.codecId === 196 /* AVCodecID.AV_CODEC_ID_VVC */
             || stream.codecpar.codecId === 86018 /* AVCodecID.AV_CODEC_ID_AAC */)) {
         if (!cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumRead[15](avpacket + 28)
-            && (0,avutil_util_avpacket__WEBPACK_IMPORTED_MODULE_9__.hasAVPacketSideData)(avpacket, 1 /* AVPacketSideDataType.AV_PKT_DATA_NEW_EXTRADATA */)) {
+            && (0,avutil_util_avpacket__WEBPACK_IMPORTED_MODULE_10__.hasAVPacketSideData)(avpacket, 1 /* AVPacketSideDataType.AV_PKT_DATA_NEW_EXTRADATA */)) {
             while (1) {
-                const tmpPacket = (0,avutil_util_avpacket__WEBPACK_IMPORTED_MODULE_9__.createAVPacket)();
+                const tmpPacket = (0,avutil_util_avpacket__WEBPACK_IMPORTED_MODULE_10__.createAVPacket)();
                 ret = await formatContext.iformat.readAVPacket(formatContext, tmpPacket);
                 if (ret !== 0) {
                     if (formatContext.interval.packetBuffer.length) {
                         let cache = formatContext.interval.packetBuffer.shift();
-                        (0,avutil_util_avpacket__WEBPACK_IMPORTED_MODULE_9__.unrefAVPacket)(avpacket);
-                        (0,avutil_util_avpacket__WEBPACK_IMPORTED_MODULE_9__.refAVPacket)(avpacket, cache);
-                        (0,avutil_util_avpacket__WEBPACK_IMPORTED_MODULE_9__.destroyAVPacket)(cache);
+                        (0,avutil_util_avpacket__WEBPACK_IMPORTED_MODULE_10__.unrefAVPacket)(avpacket);
+                        (0,avutil_util_avpacket__WEBPACK_IMPORTED_MODULE_10__.refAVPacket)(avpacket, cache);
+                        (0,avutil_util_avpacket__WEBPACK_IMPORTED_MODULE_10__.destroyAVPacket)(cache);
                         return packetNeedRead(formatContext, avpacket);
                     }
                     return ret;
                 }
                 if (cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumRead[15](tmpPacket + 32) === cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumRead[15](avpacket + 32)) {
                     if (cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumRead[15](tmpPacket + 28)) {
-                        (0,avutil_util_avpacket__WEBPACK_IMPORTED_MODULE_9__.copyAVPacketData)(avpacket, tmpPacket);
-                        (0,avutil_util_avpacket__WEBPACK_IMPORTED_MODULE_9__.destroyAVPacket)(tmpPacket);
+                        (0,avutil_util_avpacket__WEBPACK_IMPORTED_MODULE_10__.copyAVPacketData)(avpacket, tmpPacket);
+                        (0,avutil_util_avpacket__WEBPACK_IMPORTED_MODULE_10__.destroyAVPacket)(tmpPacket);
                         return 0;
                     }
                     else {
-                        (0,avutil_util_avpacket__WEBPACK_IMPORTED_MODULE_9__.unrefAVPacket)(avpacket);
-                        (0,avutil_util_avpacket__WEBPACK_IMPORTED_MODULE_9__.refAVPacket)(avpacket, tmpPacket);
-                        (0,avutil_util_avpacket__WEBPACK_IMPORTED_MODULE_9__.destroyAVPacket)(tmpPacket);
+                        (0,avutil_util_avpacket__WEBPACK_IMPORTED_MODULE_10__.unrefAVPacket)(avpacket);
+                        (0,avutil_util_avpacket__WEBPACK_IMPORTED_MODULE_10__.refAVPacket)(avpacket, tmpPacket);
+                        (0,avutil_util_avpacket__WEBPACK_IMPORTED_MODULE_10__.destroyAVPacket)(tmpPacket);
                         continue;
                     }
                 }
@@ -7438,7 +7587,7 @@ async function packetNeedRead(formatContext, avpacket) {
                 }
             }
             else if (stream.codecpar.codecType === 1 /* AVMediaType.AVMEDIA_TYPE_AUDIO */) {
-                const index = common_util_array__WEBPACK_IMPORTED_MODULE_5__.binarySearch(stream.sampleIndexes, (sample) => {
+                const index = common_util_array__WEBPACK_IMPORTED_MODULE_6__.binarySearch(stream.sampleIndexes, (sample) => {
                     if (sample.pts < cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumRead[17](avpacket + 8)) {
                         return 1;
                     }
@@ -7448,12 +7597,12 @@ async function packetNeedRead(formatContext, avpacket) {
                 });
                 if (!stream.sampleIndexes.length
                     || (index < 0
-                        && (0,avutil_util_rational__WEBPACK_IMPORTED_MODULE_8__.avRescaleQ)(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumRead[17](avpacket + 8) - stream.sampleIndexes[stream.sampleIndexes.length - 1].pts, (0,cheap_std_structAccess__WEBPACK_IMPORTED_MODULE_3__["default"])(avpacket + 72, _avutil_struct_rational_ts__WEBPACK_IMPORTED_MODULE_2__.Rational), avutil_constant__WEBPACK_IMPORTED_MODULE_6__.AV_MILLI_TIME_BASE_Q) >= _config__WEBPACK_IMPORTED_MODULE_10__.SAMPLE_INDEX_STEP)
+                        && (0,avutil_util_rational__WEBPACK_IMPORTED_MODULE_9__.avRescaleQ)(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumRead[17](avpacket + 8) - stream.sampleIndexes[stream.sampleIndexes.length - 1].pts, (0,cheap_std_structAccess__WEBPACK_IMPORTED_MODULE_3__["default"])(avpacket + 72, _avutil_struct_rational_ts__WEBPACK_IMPORTED_MODULE_4__.Rational), avutil_constant__WEBPACK_IMPORTED_MODULE_7__.AV_MILLI_TIME_BASE_Q) >= _config__WEBPACK_IMPORTED_MODULE_11__.SAMPLE_INDEX_STEP)
                     || (index > 0
                         && index < stream.sampleIndexes.length - 1
-                        && (0,avutil_util_rational__WEBPACK_IMPORTED_MODULE_8__.avRescaleQ)(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumRead[17](avpacket + 8) - stream.sampleIndexes[index - 1].pts, (0,cheap_std_structAccess__WEBPACK_IMPORTED_MODULE_3__["default"])(avpacket + 72, _avutil_struct_rational_ts__WEBPACK_IMPORTED_MODULE_2__.Rational), avutil_constant__WEBPACK_IMPORTED_MODULE_6__.AV_MILLI_TIME_BASE_Q) >= _config__WEBPACK_IMPORTED_MODULE_10__.SAMPLE_INDEX_STEP)
+                        && (0,avutil_util_rational__WEBPACK_IMPORTED_MODULE_9__.avRescaleQ)(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumRead[17](avpacket + 8) - stream.sampleIndexes[index - 1].pts, (0,cheap_std_structAccess__WEBPACK_IMPORTED_MODULE_3__["default"])(avpacket + 72, _avutil_struct_rational_ts__WEBPACK_IMPORTED_MODULE_4__.Rational), avutil_constant__WEBPACK_IMPORTED_MODULE_7__.AV_MILLI_TIME_BASE_Q) >= _config__WEBPACK_IMPORTED_MODULE_11__.SAMPLE_INDEX_STEP)
                     || (index === 0
-                        && (0,avutil_util_rational__WEBPACK_IMPORTED_MODULE_8__.avRescaleQ)(stream.sampleIndexes[0].pts - cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumRead[17](avpacket + 8), (0,cheap_std_structAccess__WEBPACK_IMPORTED_MODULE_3__["default"])(avpacket + 72, _avutil_struct_rational_ts__WEBPACK_IMPORTED_MODULE_2__.Rational), avutil_constant__WEBPACK_IMPORTED_MODULE_6__.AV_MILLI_TIME_BASE_Q) >= _config__WEBPACK_IMPORTED_MODULE_10__.SAMPLE_INDEX_STEP)) {
+                        && (0,avutil_util_rational__WEBPACK_IMPORTED_MODULE_9__.avRescaleQ)(stream.sampleIndexes[0].pts - cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumRead[17](avpacket + 8), (0,cheap_std_structAccess__WEBPACK_IMPORTED_MODULE_3__["default"])(avpacket + 72, _avutil_struct_rational_ts__WEBPACK_IMPORTED_MODULE_4__.Rational), avutil_constant__WEBPACK_IMPORTED_MODULE_7__.AV_MILLI_TIME_BASE_Q) >= _config__WEBPACK_IMPORTED_MODULE_11__.SAMPLE_INDEX_STEP)) {
                     addSample(stream, avpacket);
                 }
             }
@@ -7464,16 +7613,16 @@ async function packetNeedRead(formatContext, avpacket) {
 // @ts-ignore
 async function readAVPacket(formatContext, avpacket) {
     let ret = 0;
-    (0,avutil_util_avpacket__WEBPACK_IMPORTED_MODULE_9__.unrefAVPacket)(avpacket);
+    (0,avutil_util_avpacket__WEBPACK_IMPORTED_MODULE_10__.unrefAVPacket)(avpacket);
     if (formatContext.interval.packetBuffer.length) {
         const cache = formatContext.interval.packetBuffer.shift();
-        (0,avutil_util_avpacket__WEBPACK_IMPORTED_MODULE_9__.refAVPacket)(avpacket, cache);
-        (0,avutil_util_avpacket__WEBPACK_IMPORTED_MODULE_9__.destroyAVPacket)(cache);
+        (0,avutil_util_avpacket__WEBPACK_IMPORTED_MODULE_10__.refAVPacket)(avpacket, cache);
+        (0,avutil_util_avpacket__WEBPACK_IMPORTED_MODULE_10__.destroyAVPacket)(cache);
         return packetNeedRead(formatContext, avpacket);
     }
     ret = await formatContext.iformat.readAVPacket(formatContext, avpacket);
     if (ret !== 0) {
-        (0,avutil_util_avpacket__WEBPACK_IMPORTED_MODULE_9__.unrefAVPacket)(avpacket);
+        (0,avutil_util_avpacket__WEBPACK_IMPORTED_MODULE_10__.unrefAVPacket)(avpacket);
         return ret;
     }
     return packetNeedRead(formatContext, avpacket);
@@ -7491,17 +7640,17 @@ async function seek(formatContext, streamIndex, timestamp, flags) {
         }
     }
     if (!stream) {
-        common_util_logger__WEBPACK_IMPORTED_MODULE_12__.error(`not found any stream to seek, streamIndex: ${stream.index}`, cheap__fileName__0, 543);
-        return BigInt(avutil_error__WEBPACK_IMPORTED_MODULE_11__.DATA_INVALID);
+        common_util_logger__WEBPACK_IMPORTED_MODULE_13__.error(`not found any stream to seek, streamIndex: ${stream.index}`, cheap__fileName__0, 547);
+        return BigInt(avutil_error__WEBPACK_IMPORTED_MODULE_12__.DATA_INVALID);
     }
-    common_util_logger__WEBPACK_IMPORTED_MODULE_12__.debug(`seek in ${stream.codecpar.codecType === 0 /* AVMediaType.AVMEDIA_TYPE_VIDEO */
+    common_util_logger__WEBPACK_IMPORTED_MODULE_13__.debug(`seek in ${stream.codecpar.codecType === 0 /* AVMediaType.AVMEDIA_TYPE_VIDEO */
         ? 'video'
-        : 'audio'} stream, streamIndex: ${stream.index}, timestamp: ${timestamp}, flags: ${flags}`, cheap__fileName__0, 547);
-    timestamp = (0,avutil_util_rational__WEBPACK_IMPORTED_MODULE_8__.avRescaleQ)(timestamp, avutil_constant__WEBPACK_IMPORTED_MODULE_6__.AV_MILLI_TIME_BASE_Q, stream.timeBase);
+        : 'audio'} stream, streamIndex: ${stream.index}, timestamp: ${timestamp}, flags: ${flags}`, cheap__fileName__0, 551);
+    timestamp = (0,avutil_util_rational__WEBPACK_IMPORTED_MODULE_9__.avRescaleQ)(timestamp, avutil_constant__WEBPACK_IMPORTED_MODULE_7__.AV_MILLI_TIME_BASE_Q, stream.timeBase);
     const ret = await formatContext.iformat.seek(formatContext, stream, timestamp, flags);
     if (ret >= BigInt(0)) {
-        common_util_array__WEBPACK_IMPORTED_MODULE_5__.each(formatContext.interval.packetBuffer, (avpacket) => {
-            (0,avutil_util_avpacket__WEBPACK_IMPORTED_MODULE_9__.destroyAVPacket)(avpacket);
+        common_util_array__WEBPACK_IMPORTED_MODULE_6__.each(formatContext.interval.packetBuffer, (avpacket) => {
+            (0,avutil_util_avpacket__WEBPACK_IMPORTED_MODULE_10__.destroyAVPacket)(avpacket);
         });
         formatContext.interval.packetBuffer.length = 0;
         return BigInt(0);
@@ -7525,7 +7674,7 @@ async function seek(formatContext, streamIndex, timestamp, flags) {
 /* harmony export */   dumpFormatName: () => (/* binding */ dumpFormatName),
 /* harmony export */   dumpTime: () => (/* binding */ dumpTime)
 /* harmony export */ });
-/* unused harmony exports dumpInt64, dumpBitrate, dumpKey */
+/* unused harmony exports dumpInt64, dumpBitrate, dumpKey, dumpProfileName, dumpAVStreamInterface, dumpAVFormatContextInterface */
 /* harmony import */ var cheap_symbol__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! cheap/symbol */ "./src/cheap/symbol.ts");
 /* harmony import */ var cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! cheap/ctypeEnumRead */ "./src/cheap/ctypeEnumRead.ts");
 /* harmony import */ var _avutil_struct_rational_ts__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./..\avutil\struct\rational.ts */ "./src/avutil/struct/rational.ts");
@@ -7566,23 +7715,23 @@ function dumpTime(time) {
     if (time < 0) {
         time = BigInt(0);
     }
-    const ms = (Number(time % BigInt(1000) & 0xffffffffn) >> 0);
-    const secs = (Number(time / BigInt(1000) % BigInt(60) & 0xffffffffn) >> 0);
-    const mins = (Number(time / BigInt(1000) / BigInt(60) % BigInt(60) & 0xffffffffn) >> 0);
-    const hours = (Number(time / BigInt(1000) / BigInt(3600) & 0xffffffffn) >> 0);
+    const ms = Number(BigInt.asIntN(32, time % BigInt(1000)));
+    const secs = Number(BigInt.asIntN(32, time / BigInt(1000) % BigInt(60)));
+    const mins = Number(BigInt.asIntN(32, time / BigInt(1000) / BigInt(60) % BigInt(60)));
+    const hours = Number(BigInt.asIntN(32, time / BigInt(1000) / BigInt(3600)));
     return common_util_string__WEBPACK_IMPORTED_MODULE_10__.format('%02d:%02d:%02d.%03d', hours, mins, secs, ms);
 }
 function dumpInt64(v) {
     if (v < BigInt(10000)) {
-        return (0,common_function_toString__WEBPACK_IMPORTED_MODULE_11__["default"])((Number(v & 0xffffffffn) >> 0));
+        return (0,common_function_toString__WEBPACK_IMPORTED_MODULE_11__["default"])(Number(BigInt.asIntN(32, v)));
     }
-    return (Number(v / BigInt(1000) & 0xffffffffn) >> 0) + 'k';
+    return Number(BigInt.asIntN(32, v / BigInt(1000))) + 'k';
 }
 function dumpBitrate(v) {
     if (v < BigInt(10000)) {
-        return (0,common_function_toString__WEBPACK_IMPORTED_MODULE_11__["default"])((Number(v & 0xffffffffn) >> 0)) + ' bps/s';
+        return (0,common_function_toString__WEBPACK_IMPORTED_MODULE_11__["default"])(Number(BigInt.asIntN(32, v))) + ' bps/s';
     }
-    return (Number(v / BigInt(1000) & 0xffffffffn) >> 0) + ' kbps/s';
+    return Number(BigInt.asIntN(32, v / BigInt(1000))) + ' kbps/s';
 }
 function dumpKey(obj, value, defaultValue = 'unknown') {
     let name = defaultValue;
@@ -7670,8 +7819,8 @@ function dumpAVStreamInterface(stream, index, prefix) {
             list.push(`${(0,avutil_util_rational__WEBPACK_IMPORTED_MODULE_8__.avQ2D)((0,cheap_std_structAccess__WEBPACK_IMPORTED_MODULE_3__["default"])(stream.codecpar + 72, _avutil_struct_rational_ts__WEBPACK_IMPORTED_MODULE_2__.Rational)).toFixed(2)} tbr`);
         }
         list.push(`${dumpInt64(BigInt(Math.floor((0,avutil_util_rational__WEBPACK_IMPORTED_MODULE_8__.avQ2D)({
-            num: cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumRead[15](stream.timeBase + 4),
-            den: cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumRead[15](stream.timeBase)
+            num: stream.timeBase.den,
+            den: stream.timeBase.num
         }))))} tbn`);
     }
     else if (cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumRead[15](stream.codecpar) === 3 /* AVMediaType.AVMEDIA_TYPE_SUBTITLE */) {
@@ -7755,7 +7904,7 @@ function dumpAVStreamInterface(stream, index, prefix) {
 function dumpAVFormatContextInterface(formatContext, index, input) {
     let dump = `${input.tag} #${index}, ${dumpKey(avutil_stringEnum__WEBPACK_IMPORTED_MODULE_6__.Format2AVFormat, formatContext.format)}, from '${input.from}':\n`;
     if (Object.keys(formatContext.metadata).length) {
-        dump += `  Metadata:\n`;
+        dump += '  Metadata:\n';
         common_util_object__WEBPACK_IMPORTED_MODULE_5__.each(formatContext.metadata, (value, key) => {
             if (!common_util_is__WEBPACK_IMPORTED_MODULE_7__.object(value) || !common_util_is__WEBPACK_IMPORTED_MODULE_7__.array(value)) {
                 dump += `    ${key}: ${value}\n`;
@@ -7766,8 +7915,8 @@ function dumpAVFormatContextInterface(formatContext, index, input) {
     let bitrate = BigInt(0);
     let start = -BigInt(1);
     formatContext.streams.forEach((stream) => {
-        const d = (0,avutil_util_rational__WEBPACK_IMPORTED_MODULE_8__.avRescaleQ)(stream.duration, (0,cheap_std_structAccess__WEBPACK_IMPORTED_MODULE_3__["default"])(stream.timeBase, _avutil_struct_rational_ts__WEBPACK_IMPORTED_MODULE_2__.Rational), avutil_constant__WEBPACK_IMPORTED_MODULE_9__.AV_MILLI_TIME_BASE_Q);
-        const s = (0,avutil_util_rational__WEBPACK_IMPORTED_MODULE_8__.avRescaleQ)(stream.startTime, (0,cheap_std_structAccess__WEBPACK_IMPORTED_MODULE_3__["default"])(stream.timeBase, _avutil_struct_rational_ts__WEBPACK_IMPORTED_MODULE_2__.Rational), avutil_constant__WEBPACK_IMPORTED_MODULE_9__.AV_MILLI_TIME_BASE_Q);
+        const d = (0,avutil_util_rational__WEBPACK_IMPORTED_MODULE_8__.avRescaleQ)(stream.duration, stream.timeBase, avutil_constant__WEBPACK_IMPORTED_MODULE_9__.AV_MILLI_TIME_BASE_Q);
+        const s = (0,avutil_util_rational__WEBPACK_IMPORTED_MODULE_8__.avRescaleQ)(stream.startTime, stream.timeBase, avutil_constant__WEBPACK_IMPORTED_MODULE_9__.AV_MILLI_TIME_BASE_Q);
         if (d > duration) {
             duration = d;
         }
@@ -7798,7 +7947,7 @@ function dump(formatContexts, inputs) {
                     duration: stream.duration,
                     startTime: stream.startTime,
                     disposition: stream.disposition,
-                    timeBase: stream.timeBase[cheap_symbol__WEBPACK_IMPORTED_MODULE_0__.symbolStructAddress]
+                    timeBase: stream.timeBase
                 });
             }
             formatContext = {
@@ -7856,15 +8005,15 @@ class OFormat {
     destroy(formatContext) { }
 }
 const OFormatSupportedCodecs = {
-    [12 /* AVFormat.AAC */]: [86018 /* AVCodecID.AV_CODEC_ID_AAC */],
-    [7 /* AVFormat.AVI */]: [
+    [13 /* AVFormat.AAC */]: [86018 /* AVCodecID.AV_CODEC_ID_AAC */],
+    [8 /* AVFormat.AVI */]: [
         86017 /* AVCodecID.AV_CODEC_ID_MP3 */,
         86019 /* AVCodecID.AV_CODEC_ID_AC3 */,
         86018 /* AVCodecID.AV_CODEC_ID_AAC */,
         12 /* AVCodecID.AV_CODEC_ID_MPEG4 */,
         27 /* AVCodecID.AV_CODEC_ID_H264 */
     ],
-    [14 /* AVFormat.FLAC */]: [86028 /* AVCodecID.AV_CODEC_ID_FLAC */],
+    [15 /* AVFormat.FLAC */]: [86028 /* AVCodecID.AV_CODEC_ID_FLAC */],
     [0 /* AVFormat.FLV */]: [
         86017 /* AVCodecID.AV_CODEC_ID_MP3 */,
         86018 /* AVCodecID.AV_CODEC_ID_AAC */,
@@ -7880,8 +8029,8 @@ const OFormatSupportedCodecs = {
         167 /* AVCodecID.AV_CODEC_ID_VP9 */,
         196 /* AVCodecID.AV_CODEC_ID_VVC */
     ],
-    [4 /* AVFormat.IVF */]: [139 /* AVCodecID.AV_CODEC_ID_VP8 */, 167 /* AVCodecID.AV_CODEC_ID_VP9 */],
-    [5 /* AVFormat.MATROSKA */]: [
+    [5 /* AVFormat.IVF */]: [139 /* AVCodecID.AV_CODEC_ID_VP8 */, 167 /* AVCodecID.AV_CODEC_ID_VP9 */],
+    [6 /* AVFormat.MATROSKA */]: [
         86021 /* AVCodecID.AV_CODEC_ID_VORBIS */,
         86076 /* AVCodecID.AV_CODEC_ID_OPUS */,
         86018 /* AVCodecID.AV_CODEC_ID_AAC */,
@@ -7903,7 +8052,7 @@ const OFormatSupportedCodecs = {
         30 /* AVCodecID.AV_CODEC_ID_THEORA */,
         94226 /* AVCodecID.AV_CODEC_ID_WEBVTT */
     ],
-    [6 /* AVFormat.WEBM */]: [
+    [7 /* AVFormat.WEBM */]: [
         86021 /* AVCodecID.AV_CODEC_ID_VORBIS */,
         86076 /* AVCodecID.AV_CODEC_ID_OPUS */,
         139 /* AVCodecID.AV_CODEC_ID_VP8 */,
@@ -7929,7 +8078,7 @@ const OFormatSupportedCodecs = {
         94226 /* AVCodecID.AV_CODEC_ID_WEBVTT */,
         94213 /* AVCodecID.AV_CODEC_ID_MOV_TEXT */
     ],
-    [11 /* AVFormat.MP3 */]: [86017 /* AVCodecID.AV_CODEC_ID_MP3 */],
+    [12 /* AVFormat.MP3 */]: [86017 /* AVCodecID.AV_CODEC_ID_MP3 */],
     [2 /* AVFormat.MPEGTS */]: [
         86076 /* AVCodecID.AV_CODEC_ID_OPUS */,
         86018 /* AVCodecID.AV_CODEC_ID_AAC */,
@@ -7944,17 +8093,32 @@ const OFormatSupportedCodecs = {
         173 /* AVCodecID.AV_CODEC_ID_HEVC */,
         196 /* AVCodecID.AV_CODEC_ID_VVC */
     ],
-    [3 /* AVFormat.OGGS */]: [
-        86021 /* AVCodecID.AV_CODEC_ID_VORBIS */
+    [3 /* AVFormat.MPEGPS */]: [
+        86058 /* AVCodecID.AV_CODEC_ID_MP1 */,
+        86016 /* AVCodecID.AV_CODEC_ID_MP2 */,
+        86017 /* AVCodecID.AV_CODEC_ID_MP3 */,
+        86019 /* AVCodecID.AV_CODEC_ID_AC3 */, ,
+        86020 /* AVCodecID.AV_CODEC_ID_DTS */,
+        2 /* AVCodecID.AV_CODEC_ID_MPEG2VIDEO */,
+        12 /* AVCodecID.AV_CODEC_ID_MPEG4 */,
+        27 /* AVCodecID.AV_CODEC_ID_H264 */,
+        173 /* AVCodecID.AV_CODEC_ID_HEVC */,
+        196 /* AVCodecID.AV_CODEC_ID_VVC */
     ],
-    [13 /* AVFormat.WAV */]: [],
-    [15 /* AVFormat.WEBVTT */]: [94226 /* AVCodecID.AV_CODEC_ID_WEBVTT */],
-    [17 /* AVFormat.ASS */]: [94230 /* AVCodecID.AV_CODEC_ID_ASS */, 94212 /* AVCodecID.AV_CODEC_ID_SSA */],
-    [16 /* AVFormat.SUBRIP */]: [94225 /* AVCodecID.AV_CODEC_ID_SUBRIP */],
-    [18 /* AVFormat.TTML */]: [94232 /* AVCodecID.AV_CODEC_ID_TTML */],
-    [8 /* AVFormat.H264 */]: [27 /* AVCodecID.AV_CODEC_ID_H264 */],
-    [9 /* AVFormat.HEVC */]: [173 /* AVCodecID.AV_CODEC_ID_HEVC */],
-    [10 /* AVFormat.VVC */]: [196 /* AVCodecID.AV_CODEC_ID_VVC */]
+    [4 /* AVFormat.OGG */]: [
+        86021 /* AVCodecID.AV_CODEC_ID_VORBIS */,
+        86076 /* AVCodecID.AV_CODEC_ID_OPUS */,
+        86028 /* AVCodecID.AV_CODEC_ID_FLAC */,
+        86051 /* AVCodecID.AV_CODEC_ID_SPEEX */
+    ],
+    [14 /* AVFormat.WAV */]: [],
+    [16 /* AVFormat.WEBVTT */]: [94226 /* AVCodecID.AV_CODEC_ID_WEBVTT */],
+    [18 /* AVFormat.ASS */]: [94230 /* AVCodecID.AV_CODEC_ID_ASS */, 94212 /* AVCodecID.AV_CODEC_ID_SSA */],
+    [17 /* AVFormat.SUBRIP */]: [94225 /* AVCodecID.AV_CODEC_ID_SUBRIP */],
+    [19 /* AVFormat.TTML */]: [94232 /* AVCodecID.AV_CODEC_ID_TTML */],
+    [9 /* AVFormat.H264 */]: [27 /* AVCodecID.AV_CODEC_ID_H264 */],
+    [10 /* AVFormat.HEVC */]: [173 /* AVCodecID.AV_CODEC_ID_HEVC */],
+    [11 /* AVFormat.VVC */]: [196 /* AVCodecID.AV_CODEC_ID_VVC */]
 };
 
 
@@ -8008,7 +8172,7 @@ function checkStreamParameters(context) {
                 if (stream.codecpar.chLayout.nbChannels === avutil_constant__WEBPACK_IMPORTED_MODULE_0__.NOPTS_VALUE
                     || stream.codecpar.sampleRate === avutil_constant__WEBPACK_IMPORTED_MODULE_0__.NOPTS_VALUE
                     || stream.codecpar.frameSize === avutil_constant__WEBPACK_IMPORTED_MODULE_0__.NOPTS_VALUE
-                    || stream.codecpar.bitRate === BigInt(0)) {
+                    || stream.codecpar.bitrate === BigInt(0)) {
                     result = false;
                 }
                 break;
@@ -8016,7 +8180,7 @@ function checkStreamParameters(context) {
                 if ((0,avutil_util_rational__WEBPACK_IMPORTED_MODULE_2__.avQ2D)(stream.codecpar.framerate) === 0
                     || stream.codecpar.width === avutil_constant__WEBPACK_IMPORTED_MODULE_0__.NOPTS_VALUE
                     || stream.codecpar.height === avutil_constant__WEBPACK_IMPORTED_MODULE_0__.NOPTS_VALUE
-                    || stream.codecpar.bitRate === BigInt(0)) {
+                    || stream.codecpar.bitrate === BigInt(0)) {
                     result = false;
                 }
                 if ((stream.codecpar.codecId === 27 /* AVCodecID.AV_CODEC_ID_H264 */
@@ -8086,7 +8250,7 @@ function open(formatContext, options = {}) {
     if (supportCodecs) {
         for (let i = 0; i < formatContext.streams.length; i++) {
             const codecId = formatContext.streams[i].codecpar.codecId;
-            if (formatContext.oformat.type === 13 /* AVFormat.WAV */) {
+            if (formatContext.oformat.type === 14 /* AVFormat.WAV */) {
                 if (codecId < 65536 /* AVCodecID.AV_CODEC_ID_PCM_S16LE */
                     || codecId > 69683 /* AVCodecID.AV_CODEC_ID_ADPCM_XMD */) {
                     common_util_logger__WEBPACK_IMPORTED_MODULE_3__.error(`format ${(0,_dump__WEBPACK_IMPORTED_MODULE_7__.dumpFormatName)(formatContext.oformat.type)} not support codecId ${(0,_dump__WEBPACK_IMPORTED_MODULE_7__.dumpCodecName)(formatContext.streams[i].codecpar.codecType, codecId)}`, cheap__fileName__0, 71);
@@ -8132,6 +8296,68 @@ function flush(formatContext) {
 
 /***/ }),
 
+/***/ "./src/avnetwork/ioLoader/CustomIOLoader.ts":
+/*!**************************************************!*\
+  !*** ./src/avnetwork/ioLoader/CustomIOLoader.ts ***!
+  \**************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ CustomIOLoader)
+/* harmony export */ });
+/*
+ * libmedia custom loader
+ *
+ * 版权所有 (C) 2024 赵高兴
+ * Copyright (C) 2024 Gaoxing Zhao
+ *
+ * 此文件是 libmedia 的一部分
+ * This file is part of libmedia.
+ *
+ * libmedia 是自由软件；您可以根据 GNU Lesser General Public License（GNU LGPL）3.1
+ * 或任何其更新的版本条款重新分发或修改它
+ * libmedia is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3.1 of the License, or (at your option) any later version.
+ *
+ * libmedia 希望能够为您提供帮助，但不提供任何明示或暗示的担保，包括但不限于适销性或特定用途的保证
+ * 您应自行承担使用 libmedia 的风险，并且需要遵守 GNU Lesser General Public License 中的条款和条件。
+ * libmedia is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ */
+class CustomIOLoader {
+    constructor() {
+    }
+    /**
+     * 源扩展名，若无法自动分析出源的格式需要使用此数据获取默认的格式
+     */
+    get ext() {
+        throw new Error('need implemented ext getter');
+    }
+    /**
+     * 源的名字，主要用于日志打印，可不传
+     */
+    get name() {
+        return 'CustomIOLoader.' + Math.random();
+    }
+    /**
+     * 最小缓冲时长默认 4（秒）
+     *
+     * 开启 jitter buffer 需要
+     */
+    get minBuffer() {
+        return 4;
+    }
+}
+
+
+/***/ }),
+
 /***/ "./src/avnetwork/ioLoader/FetchIOLoader.ts":
 /*!*************************************************!*\
   !*** ./src/avnetwork/ioLoader/FetchIOLoader.ts ***!
@@ -8146,6 +8372,7 @@ function flush(formatContext) {
 /* harmony import */ var _IOLoader__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./IOLoader */ "./src/avnetwork/ioLoader/IOLoader.ts");
 /* harmony import */ var common_util_object__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! common/util/object */ "./src/common/util/object.ts");
 /* harmony import */ var common_util_logger__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! common/util/logger */ "./src/common/util/logger.ts");
+/* harmony import */ var avutil_error__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! avutil/error */ "./src/avutil/error.ts");
 var cheap__fileName__0 = "src\\avnetwork\\ioLoader\\FetchIOLoader.ts";
 /*
  * libmedia fetch loader
@@ -8171,6 +8398,7 @@ var cheap__fileName__0 = "src\\avnetwork\\ioLoader\\FetchIOLoader.ts";
  * Lesser General Public License for more details.
  *
  */
+
 
 
 
@@ -8251,6 +8479,7 @@ class FetchIOLoader extends _IOLoader__WEBPACK_IMPORTED_MODULE_1__["default"] {
                 this.endBytes = -1;
             }
         }
+        return 0;
     }
     async openReader() {
         const params = {
@@ -8288,7 +8517,7 @@ class FetchIOLoader extends _IOLoader__WEBPACK_IMPORTED_MODULE_1__["default"] {
             }
             else {
                 this.status = 3 /* IOLoaderStatus.ERROR */;
-                common_util_logger__WEBPACK_IMPORTED_MODULE_3__.fatal(`FetchStreamLoader: Http code invalid, ${res.status} ${res.statusText}`, cheap__fileName__0, 189);
+                common_util_logger__WEBPACK_IMPORTED_MODULE_3__.fatal(`FetchStreamLoader: Http code invalid, ${res.status} ${res.statusText}`, cheap__fileName__0, 192);
             }
         }
         catch (error) {
@@ -8299,7 +8528,7 @@ class FetchIOLoader extends _IOLoader__WEBPACK_IMPORTED_MODULE_1__["default"] {
                 return this.openReader();
             }
             else {
-                common_util_logger__WEBPACK_IMPORTED_MODULE_3__.fatal(`FetchStreamLoader: exception ${error.message}`, cheap__fileName__0, 202);
+                common_util_logger__WEBPACK_IMPORTED_MODULE_3__.fatal(`FetchStreamLoader: exception ${error.message}`, cheap__fileName__0, 205);
             }
         }
     }
@@ -8330,7 +8559,7 @@ class FetchIOLoader extends _IOLoader__WEBPACK_IMPORTED_MODULE_1__["default"] {
         if (done) {
             if (this.contentLength !== null && (this.receivedLength + this.range.from) < this.endBytes + 1) {
                 this.status = 3 /* IOLoaderStatus.ERROR */;
-                common_util_logger__WEBPACK_IMPORTED_MODULE_3__.fatal('Fetch stream meet Early-EOF', cheap__fileName__0, 241);
+                common_util_logger__WEBPACK_IMPORTED_MODULE_3__.fatal('Fetch stream meet Early-EOF', cheap__fileName__0, 244);
             }
             else if (this.options.isLive || this.options.disableSegment || (this.receivedLength + this.range.from) >= this.eofIndex) {
                 this.status = 4 /* IOLoaderStatus.COMPLETE */;
@@ -8366,6 +8595,9 @@ class FetchIOLoader extends _IOLoader__WEBPACK_IMPORTED_MODULE_1__["default"] {
         return this.readInterval(buffer);
     }
     async seek(pos) {
+        if (!this.contentLength) {
+            return avutil_error__WEBPACK_IMPORTED_MODULE_4__.OPERATE_NOT_SUPPORT;
+        }
         await this.abort();
         this.receivedLength = Number(pos) - this.range.from;
         this.startBytes = Number(pos);
@@ -8376,6 +8608,7 @@ class FetchIOLoader extends _IOLoader__WEBPACK_IMPORTED_MODULE_1__["default"] {
         if (this.status === 4 /* IOLoaderStatus.COMPLETE */) {
             this.status = 2 /* IOLoaderStatus.BUFFERING */;
         }
+        return 0;
     }
     async size() {
         if (this.options.isLive) {
@@ -8440,6 +8673,7 @@ class FetchIOLoader extends _IOLoader__WEBPACK_IMPORTED_MODULE_1__["default"] {
  */
 
 
+const hasArrayBuffer = common_util_is__WEBPACK_IMPORTED_MODULE_1__.func(Blob.prototype.arrayBuffer);
 class FileIOLoader extends _IOLoader__WEBPACK_IMPORTED_MODULE_0__["default"] {
     info;
     range;
@@ -8459,6 +8693,7 @@ class FileIOLoader extends _IOLoader__WEBPACK_IMPORTED_MODULE_0__["default"] {
             this.endPos = range.to;
         }
         this.status = 2 /* IOLoaderStatus.BUFFERING */;
+        return 0;
     }
     async readBufferByReader(len) {
         if (!this.reader) {
@@ -8477,11 +8712,11 @@ class FileIOLoader extends _IOLoader__WEBPACK_IMPORTED_MODULE_0__["default"] {
     }
     async read(buffer) {
         if (this.readPos >= this.endPos) {
-            this.status === 4 /* IOLoaderStatus.COMPLETE */;
+            this.status = 4 /* IOLoaderStatus.COMPLETE */;
             return -1048576 /* IOError.END */;
         }
         const len = Math.min(buffer.length, this.endPos - this.readPos);
-        if (common_util_is__WEBPACK_IMPORTED_MODULE_1__.func(Blob.prototype.arrayBuffer)) {
+        if (hasArrayBuffer) {
             buffer.set(new Uint8Array(await (this.info.file.slice(this.readPos, this.readPos + len).arrayBuffer())), 0);
         }
         else {
@@ -8494,7 +8729,6 @@ class FileIOLoader extends _IOLoader__WEBPACK_IMPORTED_MODULE_0__["default"] {
         return len;
     }
     async seek(pos) {
-        await this.abort();
         this.readPos = Number(pos);
         if (this.status === 4 /* IOLoaderStatus.COMPLETE */) {
             this.status = 2 /* IOLoaderStatus.BUFFERING */;
@@ -8504,10 +8738,7 @@ class FileIOLoader extends _IOLoader__WEBPACK_IMPORTED_MODULE_0__["default"] {
     async size() {
         return BigInt(Math.floor(this.info.file.size));
     }
-    async abort() {
-    }
     async stop() {
-        await this.abort();
         this.status = 0 /* IOLoaderStatus.IDLE */;
     }
 }
@@ -8595,13 +8826,20 @@ class IOLoader {
 /* harmony import */ var avcodec_wasmcodec_AudioDecoder__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! avcodec/wasmcodec/AudioDecoder */ "./src/avcodec/wasmcodec/AudioDecoder.ts");
 /* harmony import */ var common_util_logger__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! common/util/logger */ "./src/common/util/logger.ts");
 /* harmony import */ var avutil_implement_AVFramePoolImpl__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! avutil/implement/AVFramePoolImpl */ "./src/avutil/implement/AVFramePoolImpl.ts");
-/* harmony import */ var avcodec_webcodec_AudioDecoder__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! avcodec/webcodec/AudioDecoder */ "./src/avcodec/webcodec/AudioDecoder.ts");
-/* harmony import */ var avutil_implement_AVPacketPoolImpl__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! avutil/implement/AVPacketPoolImpl */ "./src/avutil/implement/AVPacketPoolImpl.ts");
-/* harmony import */ var common_util_array__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! common/util/array */ "./src/common/util/array.ts");
-/* harmony import */ var common_function_getTimestamp__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! common/function/getTimestamp */ "./src/common/function/getTimestamp.ts");
-/* harmony import */ var avutil_function_audioData2AVFrame__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! avutil/function/audioData2AVFrame */ "./src/avutil/function/audioData2AVFrame.ts");
-/* harmony import */ var avutil_util_rational__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! avutil/util/rational */ "./src/avutil/util/rational.ts");
-/* harmony import */ var avutil_constant__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! avutil/constant */ "./src/avutil/constant.ts");
+/* harmony import */ var avutil_struct_avcodecparameters__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! avutil/struct/avcodecparameters */ "./src/avutil/struct/avcodecparameters.ts");
+/* harmony import */ var avcodec_webcodec_AudioDecoder__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! avcodec/webcodec/AudioDecoder */ "./src/avcodec/webcodec/AudioDecoder.ts");
+/* harmony import */ var avutil_implement_AVPacketPoolImpl__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! avutil/implement/AVPacketPoolImpl */ "./src/avutil/implement/AVPacketPoolImpl.ts");
+/* harmony import */ var common_util_array__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! common/util/array */ "./src/common/util/array.ts");
+/* harmony import */ var common_function_getTimestamp__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! common/function/getTimestamp */ "./src/common/function/getTimestamp.ts");
+/* harmony import */ var avutil_function_audioData2AVFrame__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! avutil/function/audioData2AVFrame */ "./src/avutil/function/audioData2AVFrame.ts");
+/* harmony import */ var avutil_util_rational__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! avutil/util/rational */ "./src/avutil/util/rational.ts");
+/* harmony import */ var avutil_constant__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! avutil/constant */ "./src/avutil/constant.ts");
+/* harmony import */ var avutil_function_compileResource__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! avutil/function/compileResource */ "./src/avutil/function/compileResource.ts");
+/* harmony import */ var cheap_std_function_isPointer__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! cheap/std/function/isPointer */ "./src/cheap/std/function/isPointer.ts");
+/* harmony import */ var avutil_util_serialize__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! avutil/util/serialize */ "./src/avutil/util/serialize.ts");
+/* harmony import */ var avutil_util_mem__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! avutil/util/mem */ "./src/avutil/util/mem.ts");
+/* harmony import */ var avutil_util_codecparameters__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! avutil/util/codecparameters */ "./src/avutil/util/codecparameters.ts");
+/* harmony import */ var common_util_is__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! common/util/is */ "./src/common/util/is.ts");
 var cheap__fileName__0 = "src\\avpipeline\\AudioDecodePipeline.ts";
 
 
@@ -8647,30 +8885,37 @@ var cheap__fileName__0 = "src\\avpipeline\\AudioDecodePipeline.ts";
 
 
 
+
+
+
+
+
+
+
 class AudioDecodePipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_5__["default"] {
     constructor() {
         super();
     }
     createWebcodecDecoder(task) {
-        return new avcodec_webcodec_AudioDecoder__WEBPACK_IMPORTED_MODULE_11__["default"]({
+        return new avcodec_webcodec_AudioDecoder__WEBPACK_IMPORTED_MODULE_12__["default"]({
             onError: (error) => {
-                common_util_logger__WEBPACK_IMPORTED_MODULE_9__.error(`audio decode error, taskId: ${task.taskId}, error: ${error}`, cheap__fileName__0, 86);
+                common_util_logger__WEBPACK_IMPORTED_MODULE_9__.error(`audio decode error, taskId: ${task.taskId}, error: ${error}`, cheap__fileName__0, 93);
                 if (task.openReject) {
                     task.openReject(avutil_error__WEBPACK_IMPORTED_MODULE_6__.CODEC_NOT_SUPPORT);
                     task.openReject = null;
                 }
             },
             onReceiveFrame(audioData) {
-                const avframe = (0,avutil_function_audioData2AVFrame__WEBPACK_IMPORTED_MODULE_15__.audioData2AVFrame)(audioData, task.avframePool.alloc());
-                cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumWrite[17](avframe + 104, (0,avutil_util_rational__WEBPACK_IMPORTED_MODULE_16__.avRescaleQ)(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[17](avframe + 104), avutil_constant__WEBPACK_IMPORTED_MODULE_17__.AV_TIME_BASE_Q, task.timeBase));
+                const avframe = (0,avutil_function_audioData2AVFrame__WEBPACK_IMPORTED_MODULE_16__.audioData2AVFrame)(audioData, task.avframePool.alloc());
+                cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumWrite[17](avframe + 104, (0,avutil_util_rational__WEBPACK_IMPORTED_MODULE_17__.avRescaleQ)(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[17](avframe + 104), avutil_constant__WEBPACK_IMPORTED_MODULE_18__.AV_TIME_BASE_Q, task.timeBase));
                 cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumWrite[15](avframe + 124, task.timeBase.den);
                 cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumWrite[15](avframe + 120, task.timeBase.num);
                 task.frameCaches.push(avframe);
                 cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumWrite[17](task.stats + 56, cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[17](task.stats + 56) + BigInt(1));
                 if (task.lastDecodeTimestamp) {
-                    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumWrite[15](task.stats + 240, Math.max((0,common_function_getTimestamp__WEBPACK_IMPORTED_MODULE_14__["default"])() - task.lastDecodeTimestamp, cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](task.stats + 240)));
+                    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumWrite[15](task.stats + 240, Math.max((0,common_function_getTimestamp__WEBPACK_IMPORTED_MODULE_15__["default"])() - task.lastDecodeTimestamp, cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](task.stats + 240)));
                 }
-                task.lastDecodeTimestamp = (0,common_function_getTimestamp__WEBPACK_IMPORTED_MODULE_14__["default"])();
+                task.lastDecodeTimestamp = (0,common_function_getTimestamp__WEBPACK_IMPORTED_MODULE_15__["default"])();
                 audioData.close();
             }
         });
@@ -8679,7 +8924,7 @@ class AudioDecodePipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_5__["defaul
         return new avcodec_wasmcodec_AudioDecoder__WEBPACK_IMPORTED_MODULE_8__["default"]({
             resource: resource,
             onError: (error) => {
-                common_util_logger__WEBPACK_IMPORTED_MODULE_9__.error(`audio decode error, taskId: ${task.taskId}, error: ${error}`, cheap__fileName__0, 117);
+                common_util_logger__WEBPACK_IMPORTED_MODULE_9__.error(`audio decode error, taskId: ${task.taskId}, error: ${error}`, cheap__fileName__0, 124);
                 if (task.openReject) {
                     task.openReject(avutil_error__WEBPACK_IMPORTED_MODULE_6__.CODEC_NOT_SUPPORT);
                     task.openReject = null;
@@ -8689,31 +8934,43 @@ class AudioDecodePipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_5__["defaul
                 task.frameCaches.push(frame);
                 cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumWrite[17](task.stats + 56, cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[17](task.stats + 56) + BigInt(1));
                 if (task.lastDecodeTimestamp) {
-                    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumWrite[15](task.stats + 240, Math.max((0,common_function_getTimestamp__WEBPACK_IMPORTED_MODULE_14__["default"])() - task.lastDecodeTimestamp, cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](task.stats + 240)));
+                    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumWrite[15](task.stats + 240, Math.max((0,common_function_getTimestamp__WEBPACK_IMPORTED_MODULE_15__["default"])() - task.lastDecodeTimestamp, cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](task.stats + 240)));
                 }
-                task.lastDecodeTimestamp = (0,common_function_getTimestamp__WEBPACK_IMPORTED_MODULE_14__["default"])();
+                task.lastDecodeTimestamp = (0,common_function_getTimestamp__WEBPACK_IMPORTED_MODULE_15__["default"])();
             },
             avframePool: task.avframePool
         });
     }
-    createTask(options) {
+    async pullAVPacketInternal(task, leftIPCPort) {
+        const data = await leftIPCPort.request('pull');
+        if (common_util_is__WEBPACK_IMPORTED_MODULE_24__.number(data)) {
+            return data;
+        }
+        else {
+            const avpacket = task.avpacketPool.alloc();
+            (0,avutil_util_serialize__WEBPACK_IMPORTED_MODULE_21__.unserializeAVPacket)(data, avpacket);
+            return avpacket;
+        }
+    }
+    async createTask(options) {
         const leftIPCPort = new common_network_IPCPort__WEBPACK_IMPORTED_MODULE_7__["default"](options.leftPort);
         const rightIPCPort = new common_network_IPCPort__WEBPACK_IMPORTED_MODULE_7__["default"](options.rightPort);
         const frameCaches = [];
         const avframePool = new avutil_implement_AVFramePoolImpl__WEBPACK_IMPORTED_MODULE_10__["default"]((0,cheap_std_structAccess__WEBPACK_IMPORTED_MODULE_3__["default"])(options.avframeList, _cheap_std_collection_List_ts__WEBPACK_IMPORTED_MODULE_2__["default"]), options.avframeListMutex);
         const task = {
             ...options,
+            resource: await (0,avutil_function_compileResource__WEBPACK_IMPORTED_MODULE_19__["default"])(options.resource),
             frameCaches,
             inputEnd: false,
             decoder: null,
             parameters: 0,
             lastDecodeTimestamp: 0,
             avframePool,
-            avpacketPool: new avutil_implement_AVPacketPoolImpl__WEBPACK_IMPORTED_MODULE_12__["default"]((0,cheap_std_structAccess__WEBPACK_IMPORTED_MODULE_3__["default"])(options.avpacketList, _cheap_std_collection_List_ts__WEBPACK_IMPORTED_MODULE_2__["default"]), options.avpacketListMutex),
+            avpacketPool: new avutil_implement_AVPacketPoolImpl__WEBPACK_IMPORTED_MODULE_13__["default"]((0,cheap_std_structAccess__WEBPACK_IMPORTED_MODULE_3__["default"])(options.avpacketList, _cheap_std_collection_List_ts__WEBPACK_IMPORTED_MODULE_2__["default"]), options.avpacketListMutex),
             openReject: null
         };
-        if (options.resource) {
-            task.decoder = this.createWasmcodecDecoder(task, options.resource);
+        if (task.resource) {
+            task.decoder = this.createWasmcodecDecoder(task, task.resource);
         }
         else {
             task.decoder = this.createWebcodecDecoder(task);
@@ -8734,7 +8991,7 @@ class AudioDecodePipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_5__["defaul
                                 rightIPCPort.reply(request, frame);
                                 break;
                             }
-                            const avpacket = await leftIPCPort.request('pull');
+                            const avpacket = await this.pullAVPacketInternal(task, leftIPCPort);
                             if (avpacket === -1048576 /* IOError.END */) {
                                 await task.decoder.flush();
                                 task.inputEnd = true;
@@ -8744,22 +9001,22 @@ class AudioDecodePipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_5__["defaul
                                     break;
                                 }
                                 else {
-                                    common_util_logger__WEBPACK_IMPORTED_MODULE_9__.info(`audio decoder ended, taskId: ${task.taskId}`, cheap__fileName__0, 198);
+                                    common_util_logger__WEBPACK_IMPORTED_MODULE_9__.info(`audio decoder ended, taskId: ${task.taskId}`, cheap__fileName__0, 218);
                                     rightIPCPort.reply(request, -1048576 /* IOError.END */);
                                     break;
                                 }
                             }
                             else if (avpacket > 0) {
-                                const ret = task.decoder.decode(avpacket, (0,avutil_util_rational__WEBPACK_IMPORTED_MODULE_16__.avRescaleQ)(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[17](avpacket + 8), (0,cheap_std_structAccess__WEBPACK_IMPORTED_MODULE_3__["default"])(avpacket + 72, _avutil_struct_rational_ts__WEBPACK_IMPORTED_MODULE_4__.Rational), avutil_constant__WEBPACK_IMPORTED_MODULE_17__.AV_TIME_BASE_Q));
+                                const ret = task.decoder.decode(avpacket, (0,avutil_util_rational__WEBPACK_IMPORTED_MODULE_17__.avRescaleQ)(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[17](avpacket + 8), (0,cheap_std_structAccess__WEBPACK_IMPORTED_MODULE_3__["default"])(avpacket + 72, _avutil_struct_rational_ts__WEBPACK_IMPORTED_MODULE_4__.Rational), avutil_constant__WEBPACK_IMPORTED_MODULE_18__.AV_TIME_BASE_Q));
                                 task.avpacketPool.release(avpacket);
                                 if (ret < 0) {
                                     cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumWrite[15](task.stats + 48, cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](task.stats + 48) + 1);
-                                    common_util_logger__WEBPACK_IMPORTED_MODULE_9__.error(`audio decode error, taskId: ${options.taskId}, ret: ${ret}`, cheap__fileName__0, 211);
+                                    common_util_logger__WEBPACK_IMPORTED_MODULE_9__.error(`audio decode error, taskId: ${options.taskId}, ret: ${ret}`, cheap__fileName__0, 231);
                                 }
                                 continue;
                             }
                             else {
-                                common_util_logger__WEBPACK_IMPORTED_MODULE_9__.error(`audio decode pull avpacket error, taskId: ${options.taskId}, ret: ${avpacket}`, cheap__fileName__0, 216);
+                                common_util_logger__WEBPACK_IMPORTED_MODULE_9__.error(`audio decode pull avpacket error, taskId: ${options.taskId}, ret: ${avpacket}`, cheap__fileName__0, 236);
                                 rightIPCPort.reply(request, avpacket);
                                 break;
                             }
@@ -8777,21 +9034,31 @@ class AudioDecodePipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_5__["defaul
         const task = this.tasks.get(taskId);
         if (task) {
             task.wasmDecoderOptions = wasmDecoderOptions;
+            const codecpar = (0,avutil_util_mem__WEBPACK_IMPORTED_MODULE_22__.avMallocz)(168);
+            if ((0,cheap_std_function_isPointer__WEBPACK_IMPORTED_MODULE_20__["default"])(parameters)) {
+                (0,avutil_util_codecparameters__WEBPACK_IMPORTED_MODULE_23__.copyCodecParameters)(codecpar, parameters);
+            }
+            else {
+                (0,avutil_util_serialize__WEBPACK_IMPORTED_MODULE_21__.unserializeAVCodecParameters)(parameters, codecpar);
+            }
+            if (task.parameters) {
+                (0,avutil_util_codecparameters__WEBPACK_IMPORTED_MODULE_23__.freeCodecParameters)(task.parameters);
+            }
+            task.parameters = codecpar;
             return new Promise(async (resolve, reject) => {
                 task.openReject = resolve;
                 try {
-                    await task.decoder.open(parameters, task.wasmDecoderOptions);
-                    task.parameters = parameters;
+                    await task.decoder.open(codecpar, task.wasmDecoderOptions);
                 }
                 catch (error) {
-                    common_util_logger__WEBPACK_IMPORTED_MODULE_9__.error(`open audio decoder failed, error: ${error}`, cheap__fileName__0, 243);
+                    common_util_logger__WEBPACK_IMPORTED_MODULE_9__.error(`open audio decoder failed, error: ${error}`, cheap__fileName__0, 273);
                     resolve(avutil_error__WEBPACK_IMPORTED_MODULE_6__.CODEC_NOT_SUPPORT);
                     return;
                 }
                 resolve(0);
             });
         }
-        common_util_logger__WEBPACK_IMPORTED_MODULE_9__.fatal('task not found', cheap__fileName__0, 250);
+        common_util_logger__WEBPACK_IMPORTED_MODULE_9__.fatal('task not found', cheap__fileName__0, 280);
     }
     async reopenDecoder(taskId, parameters, resource, wasmDecoderOptions) {
         const task = this.tasks.get(taskId);
@@ -8799,8 +9066,20 @@ class AudioDecodePipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_5__["defaul
             if (wasmDecoderOptions) {
                 task.wasmDecoderOptions = wasmDecoderOptions;
             }
+            const codecpar = (0,avutil_util_mem__WEBPACK_IMPORTED_MODULE_22__.avMallocz)(168);
+            if ((0,cheap_std_function_isPointer__WEBPACK_IMPORTED_MODULE_20__["default"])(parameters)) {
+                (0,avutil_util_codecparameters__WEBPACK_IMPORTED_MODULE_23__.copyCodecParameters)(codecpar, parameters);
+            }
+            else {
+                (0,avutil_util_serialize__WEBPACK_IMPORTED_MODULE_21__.unserializeAVCodecParameters)(parameters, codecpar);
+            }
+            if (task.parameters) {
+                (0,avutil_util_codecparameters__WEBPACK_IMPORTED_MODULE_23__.freeCodecParameters)(task.parameters);
+            }
+            task.parameters = codecpar;
             let decoder;
             if (resource) {
+                resource = await (0,avutil_function_compileResource__WEBPACK_IMPORTED_MODULE_19__["default"])(resource);
                 decoder = this.createWasmcodecDecoder(task, resource);
             }
             else {
@@ -8809,21 +9088,23 @@ class AudioDecodePipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_5__["defaul
             return new Promise(async (resolve, reject) => {
                 task.openReject = resolve;
                 try {
-                    await decoder.open(parameters);
-                    task.parameters = parameters;
+                    await decoder.open(codecpar);
+                    if (resource) {
+                        task.resource = resource;
+                    }
                     task.decoder.close();
                     task.decoder = decoder;
-                    common_util_logger__WEBPACK_IMPORTED_MODULE_9__.debug(`reopen audio decoder, taskId: ${task.taskId}`, cheap__fileName__0, 274);
+                    common_util_logger__WEBPACK_IMPORTED_MODULE_9__.debug(`reopen audio decoder, taskId: ${task.taskId}`, cheap__fileName__0, 323);
                 }
                 catch (error) {
-                    common_util_logger__WEBPACK_IMPORTED_MODULE_9__.error(`reopen audio decoder failed, error: ${error}`, cheap__fileName__0, 277);
+                    common_util_logger__WEBPACK_IMPORTED_MODULE_9__.error(`reopen audio decoder failed, error: ${error}`, cheap__fileName__0, 326);
                     resolve(avutil_error__WEBPACK_IMPORTED_MODULE_6__.CODEC_NOT_SUPPORT);
                     return;
                 }
                 resolve(0);
             });
         }
-        common_util_logger__WEBPACK_IMPORTED_MODULE_9__.fatal('task not found', cheap__fileName__0, 284);
+        common_util_logger__WEBPACK_IMPORTED_MODULE_9__.fatal('task not found', cheap__fileName__0, 333);
     }
     async resetTask(taskId) {
         const task = this.tasks.get(taskId);
@@ -8831,13 +9112,13 @@ class AudioDecodePipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_5__["defaul
             if (task.decoder) {
                 await task.decoder.flush();
             }
-            common_util_array__WEBPACK_IMPORTED_MODULE_13__.each(task.frameCaches, (frame) => {
+            common_util_array__WEBPACK_IMPORTED_MODULE_14__.each(task.frameCaches, (frame) => {
                 task.avframePool.release(frame);
             });
             task.frameCaches.length = 0;
             task.inputEnd = false;
-            task.lastDecodeTimestamp = (0,common_function_getTimestamp__WEBPACK_IMPORTED_MODULE_14__["default"])();
-            common_util_logger__WEBPACK_IMPORTED_MODULE_9__.info(`reset audio decoder, taskId: ${task.taskId}`, cheap__fileName__0, 300);
+            task.lastDecodeTimestamp = (0,common_function_getTimestamp__WEBPACK_IMPORTED_MODULE_15__["default"])();
+            common_util_logger__WEBPACK_IMPORTED_MODULE_9__.info(`reset audio decoder, taskId: ${task.taskId}`, cheap__fileName__0, 349);
         }
     }
     async registerTask(options) {
@@ -8855,6 +9136,9 @@ class AudioDecodePipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_5__["defaul
             task.frameCaches.forEach((frame) => {
                 task.avframePool.release(frame);
             });
+            if (task.parameters) {
+                (0,avutil_util_codecparameters__WEBPACK_IMPORTED_MODULE_23__.freeCodecParameters)(task.parameters);
+            }
             this.tasks.delete(taskId);
         }
     }
@@ -8888,7 +9172,9 @@ class AudioDecodePipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_5__["defaul
 /* harmony import */ var avutil_error__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! avutil/error */ "./src/avutil/error.ts");
 /* harmony import */ var common_timer_Sleep__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! common/timer/Sleep */ "./src/common/timer/Sleep.ts");
 /* harmony import */ var cheap_std_function_isPointer__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! cheap/std/function/isPointer */ "./src/cheap/std/function/isPointer.ts");
+/* harmony import */ var avutil_function_compileResource__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! avutil/function/compileResource */ "./src/avutil/function/compileResource.ts");
 var cheap__fileName__0 = "src\\avpipeline\\AudioEncodePipeline.ts";
+
 
 
 
@@ -8912,7 +9198,7 @@ class AudioEncodePipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_4__["defaul
     createWebcodecEncoder(task) {
         return new avcodec_webcodec_AudioEncoder__WEBPACK_IMPORTED_MODULE_6__["default"]({
             onError: (error) => {
-                common_util_logger__WEBPACK_IMPORTED_MODULE_10__.error(`audio encode error, taskId: ${task.taskId}, error: ${error}`, cheap__fileName__0, 79);
+                common_util_logger__WEBPACK_IMPORTED_MODULE_10__.error(`audio encode error, taskId: ${task.taskId}, error: ${error}`, cheap__fileName__0, 80);
                 if (task.openReject) {
                     task.openReject(error);
                     task.openReject = null;
@@ -8926,13 +9212,14 @@ class AudioEncodePipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_4__["defaul
             avframePool: task.avframePool
         });
     }
-    createTask(options) {
+    async createTask(options) {
         const leftIPCPort = new common_network_IPCPort__WEBPACK_IMPORTED_MODULE_8__["default"](options.leftPort);
         const rightIPCPort = new common_network_IPCPort__WEBPACK_IMPORTED_MODULE_8__["default"](options.rightPort);
         const avpacketCaches = [];
         const avpacketPool = new avutil_implement_AVPacketPoolImpl__WEBPACK_IMPORTED_MODULE_9__["default"]((0,cheap_std_structAccess__WEBPACK_IMPORTED_MODULE_3__["default"])(options.avpacketList, _cheap_std_collection_List_ts__WEBPACK_IMPORTED_MODULE_2__["default"]), options.avpacketListMutex);
         const task = {
             ...options,
+            resource: await (0,avutil_function_compileResource__WEBPACK_IMPORTED_MODULE_15__["default"])(options.resource),
             avpacketCaches,
             encoder: null,
             inputEnd: false,
@@ -8940,11 +9227,11 @@ class AudioEncodePipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_4__["defaul
             avframePool: new avutil_implement_AVFramePoolImpl__WEBPACK_IMPORTED_MODULE_7__["default"]((0,cheap_std_structAccess__WEBPACK_IMPORTED_MODULE_3__["default"])(options.avframeList, _cheap_std_collection_List_ts__WEBPACK_IMPORTED_MODULE_2__["default"]), options.avframeListMutex),
             avpacketPool
         };
-        if (options.resource) {
+        if (task.resource) {
             task.encoder = new avcodec_wasmcodec_AudioEncoder__WEBPACK_IMPORTED_MODULE_5__["default"]({
-                resource: options.resource,
+                resource: task.resource,
                 onError: (error) => {
-                    common_util_logger__WEBPACK_IMPORTED_MODULE_10__.error(`audio encode error, taskId: ${options.taskId}, error: ${error}`, cheap__fileName__0, 120);
+                    common_util_logger__WEBPACK_IMPORTED_MODULE_10__.error(`audio encode error, taskId: ${options.taskId}, error: ${error}`, cheap__fileName__0, 122);
                     const task = this.tasks.get(options.taskId);
                     if (task.openReject) {
                         task.openReject(error);
@@ -8988,7 +9275,7 @@ class AudioEncodePipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_4__["defaul
                                 }
                                 if (ret < 0) {
                                     cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumWrite[15](task.stats + 52, cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](task.stats + 52) + 1);
-                                    common_util_logger__WEBPACK_IMPORTED_MODULE_10__.error(`audio encode error, taskId: ${options.taskId}, ret: ${ret}`, cheap__fileName__0, 168);
+                                    common_util_logger__WEBPACK_IMPORTED_MODULE_10__.error(`audio encode error, taskId: ${options.taskId}, ret: ${ret}`, cheap__fileName__0, 170);
                                     rightIPCPort.reply(request, ret);
                                     break;
                                 }
@@ -9009,13 +9296,13 @@ class AudioEncodePipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_4__["defaul
                                         break;
                                     }
                                     else {
-                                        common_util_logger__WEBPACK_IMPORTED_MODULE_10__.info(`audio encoder ended, taskId: ${task.taskId}`, cheap__fileName__0, 190);
+                                        common_util_logger__WEBPACK_IMPORTED_MODULE_10__.info(`audio encoder ended, taskId: ${task.taskId}`, cheap__fileName__0, 192);
                                         rightIPCPort.reply(request, -1048576 /* IOError.END */);
                                         break;
                                     }
                                 }
                                 else {
-                                    common_util_logger__WEBPACK_IMPORTED_MODULE_10__.error(`audio encoder pull avpacket error, taskId: ${options.taskId}, ret: ${avframe}`, cheap__fileName__0, 196);
+                                    common_util_logger__WEBPACK_IMPORTED_MODULE_10__.error(`audio encoder pull avpacket error, taskId: ${options.taskId}, ret: ${avframe}`, cheap__fileName__0, 198);
                                     rightIPCPort.reply(request, avframe);
                                     break;
                                 }
@@ -9023,7 +9310,7 @@ class AudioEncodePipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_4__["defaul
                         }
                         break;
                     }
-                    common_util_logger__WEBPACK_IMPORTED_MODULE_10__.info(`audio encoder ended, taskId: ${task.taskId}`, cheap__fileName__0, 204);
+                    common_util_logger__WEBPACK_IMPORTED_MODULE_10__.info(`audio encoder ended, taskId: ${task.taskId}`, cheap__fileName__0, 206);
                     rightIPCPort.reply(request, -1048576 /* IOError.END */);
                     break;
                 }
@@ -9042,21 +9329,21 @@ class AudioEncodePipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_4__["defaul
                     task.parameters = parameters;
                 }
                 catch (error) {
-                    common_util_logger__WEBPACK_IMPORTED_MODULE_10__.error(`open audio encoder failed, error: ${error}`, cheap__fileName__0, 225);
+                    common_util_logger__WEBPACK_IMPORTED_MODULE_10__.error(`open audio encoder failed, error: ${error}`, cheap__fileName__0, 227);
                     resolve(avutil_error__WEBPACK_IMPORTED_MODULE_12__.CODEC_NOT_SUPPORT);
                     return;
                 }
                 resolve(0);
             });
         }
-        common_util_logger__WEBPACK_IMPORTED_MODULE_10__.fatal('task not found', cheap__fileName__0, 232);
+        common_util_logger__WEBPACK_IMPORTED_MODULE_10__.fatal('task not found', cheap__fileName__0, 234);
     }
     async getExtraData(taskId) {
         const task = this.tasks.get(taskId);
         if (task) {
             return task.encoder.getExtraData();
         }
-        common_util_logger__WEBPACK_IMPORTED_MODULE_10__.fatal('task not found', cheap__fileName__0, 240);
+        common_util_logger__WEBPACK_IMPORTED_MODULE_10__.fatal('task not found', cheap__fileName__0, 242);
     }
     async resetTask(taskId) {
         const task = this.tasks.get(taskId);
@@ -9069,7 +9356,7 @@ class AudioEncodePipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_4__["defaul
             });
             task.avpacketCaches.length = 0;
             task.inputEnd = false;
-            common_util_logger__WEBPACK_IMPORTED_MODULE_10__.info(`reset audio encoder, taskId: ${task.taskId}`, cheap__fileName__0, 255);
+            common_util_logger__WEBPACK_IMPORTED_MODULE_10__.info(`reset audio encoder, taskId: ${task.taskId}`, cheap__fileName__0, 257);
         }
     }
     async registerTask(options) {
@@ -9129,7 +9416,27 @@ class AudioEncodePipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_4__["defaul
 /* harmony import */ var common_util_bigint__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! common/util/bigint */ "./src/common/util/bigint.ts");
 /* harmony import */ var avutil_util_avpacket__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! avutil/util/avpacket */ "./src/avutil/util/avpacket.ts");
 /* harmony import */ var cheap_std_memory__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! cheap/std/memory */ "./src/cheap/std/memory.ts");
+/* harmony import */ var avutil_function_analyzeAVFormat__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! avutil/function/analyzeAVFormat */ "./src/avutil/function/analyzeAVFormat.ts");
+/* harmony import */ var avutil_function_compileResource__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! avutil/function/compileResource */ "./src/avutil/function/compileResource.ts");
+/* harmony import */ var common_function_isWorker__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! common/function/isWorker */ "./src/common/function/isWorker.ts");
+/* harmony import */ var cheap_config__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! cheap/config */ "./src/cheap/config.ts");
+/* harmony import */ var avutil_util_serialize__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! avutil/util/serialize */ "./src/avutil/util/serialize.ts");
+/* harmony import */ var cheap_std_function_isPointer__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! cheap/std/function/isPointer */ "./src/cheap/std/function/isPointer.ts");
+/* harmony import */ var common_util_is__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! common/util/is */ "./src/common/util/is.ts");
+/* harmony import */ var avformat_codecs_h264__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! avformat/codecs/h264 */ "./src/avformat/codecs/h264.ts");
+/* harmony import */ var avformat_codecs_hevc__WEBPACK_IMPORTED_MODULE_31__ = __webpack_require__(/*! avformat/codecs/hevc */ "./src/avformat/codecs/hevc.ts");
+/* harmony import */ var avformat_codecs_vvc__WEBPACK_IMPORTED_MODULE_32__ = __webpack_require__(/*! avformat/codecs/vvc */ "./src/avformat/codecs/vvc.ts");
 var cheap__fileName__2 = "src\\avpipeline\\DemuxPipeline.ts";
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -9158,37 +9465,6 @@ const STREAM_INDEX_ALL = -1;
 class DemuxPipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_6__["default"] {
     constructor() {
         super();
-    }
-    async judgeFormat(ioReader, defaultFormat = -1 /* AVFormat.UNKNOWN */) {
-        let signature = await ioReader.peekString(8);
-        if (/^FLV/.test(signature)) {
-            return 0 /* AVFormat.FLV */;
-        }
-        else if (/^DKIF/.test(signature)) {
-            return 4 /* AVFormat.IVF */;
-        }
-        else if (/^ftyp/.test(signature.slice(4, 8))) {
-            return 1 /* AVFormat.MP4 */;
-        }
-        else if (/^OggS/.test(signature)) {
-            return 3 /* AVFormat.OGGS */;
-        }
-        else if (/^ID3/.test(signature)) {
-            return 11 /* AVFormat.MP3 */;
-        }
-        else if (/^fLaC/.test(signature)) {
-            return 14 /* AVFormat.FLAC */;
-        }
-        else if (/^RIFF/.test(signature)) {
-            const dataType = (await ioReader.peekString(12)).slice(8);
-            if (/^WAVE/.test(dataType)) {
-                return 13 /* AVFormat.WAV */;
-            }
-        }
-        else if ((await ioReader.peekUint32()) === 0x1A45DFA3) {
-            return 5 /* AVFormat.MATROSKA */;
-        }
-        return defaultFormat;
     }
     createTask(options) {
         let leftIPCPort;
@@ -9226,8 +9502,12 @@ class DemuxPipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_6__["default"] {
                 params.ioloaderOptions = options.ioloaderOptions;
             }
             try {
-                const len = await leftIPCPort.request('read', params);
-                return len;
+                const result = await leftIPCPort.request('read', params);
+                if (common_util_is__WEBPACK_IMPORTED_MODULE_29__.number(result)) {
+                    return result;
+                }
+                (0,cheap_std_memory__WEBPACK_IMPORTED_MODULE_22__.memcpyFromUint8Array)(params.pointer, result.length, result);
+                return result.length;
             }
             catch (error) {
                 return -1048574 /* IOError.INVALID_OPERATION */;
@@ -9241,8 +9521,7 @@ class DemuxPipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_6__["default"] {
                 if (options.ioloaderOptions) {
                     params.ioloaderOptions = options.ioloaderOptions;
                 }
-                await leftIPCPort.request('seek', params);
-                return 0;
+                return leftIPCPort.request('seek', params);
             }
             catch (error) {
                 return -1048574 /* IOError.INVALID_OPERATION */;
@@ -9250,10 +9529,10 @@ class DemuxPipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_6__["default"] {
         };
         ioReader.onSize = async () => {
             try {
-                return await leftIPCPort.request('size');
+                return leftIPCPort.request('size');
             }
             catch (error) {
-                return BigInt(-1048574 /* IOError.INVALID_OPERATION */);
+                return BigInt(-1048574 /* IOError.INVALID_OPERATION */ >> 0);
             }
         };
         const formatContext = (0,avformat_AVFormatContext__WEBPACK_IMPORTED_MODULE_9__.createAVIFormatContext)();
@@ -9262,10 +9541,11 @@ class DemuxPipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_6__["default"] {
             if (!controlIPCPort) {
                 return;
             }
-            return controlIPCPort.request('getDecoderResource', {
+            const wasm = await controlIPCPort.request('getDecoderResource', {
                 codecId,
                 mediaType
             });
+            return (0,avutil_function_compileResource__WEBPACK_IMPORTED_MODULE_24__["default"])(wasm, mediaType === 0 /* AVMediaType.AVMEDIA_TYPE_VIDEO */);
         };
         this.tasks.set(options.taskId, {
             ...options,
@@ -9292,10 +9572,14 @@ class DemuxPipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_6__["default"] {
     async openStream(taskId, maxProbeDuration = 3000) {
         const task = this.tasks.get(taskId);
         if (task) {
-            await task.leftIPCPort.request('open');
+            let ret = await task.leftIPCPort.request('open');
+            if (ret < 0) {
+                common_util_logger__WEBPACK_IMPORTED_MODULE_14__.error(`open ioloader failed, ret: ${ret}`, cheap__fileName__2, 258);
+                return ret;
+            }
             let format;
             try {
-                format = await this.judgeFormat(task.ioReader, task.format);
+                format = await (0,avutil_function_analyzeAVFormat__WEBPACK_IMPORTED_MODULE_23__["default"])(task.ioReader, task.format);
                 task.format = format;
             }
             catch (error) {
@@ -9315,82 +9599,87 @@ class DemuxPipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_6__["default"] {
                     break;
                 case 2 /* AVFormat.MPEGTS */:
                     {
-                        iformat = new ((await __webpack_require__.e(/*! import() */ "src_avformat_formats_IMpegtsFormat_ts").then(__webpack_require__.bind(__webpack_require__, /*! avformat/formats/IMpegtsFormat */ "./src/avformat/formats/IMpegtsFormat.ts"))).default);
+                        iformat = new ((await Promise.all(/*! import() */[__webpack_require__.e("src_avformat_bsf_aac_ADTS2RawFilter_ts-src_avformat_codecs_ac3_ts-src_avformat_codecs_dts_ts--832a0f"), __webpack_require__.e("src_avformat_formats_IMpegtsFormat_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! avformat/formats/IMpegtsFormat */ "./src/avformat/formats/IMpegtsFormat.ts"))).default);
                     }
                     break;
-                case 4 /* AVFormat.IVF */:
+                case 3 /* AVFormat.MPEGPS */:
+                    {
+                        iformat = new ((await Promise.all(/*! import() */[__webpack_require__.e("src_avformat_bsf_aac_ADTS2RawFilter_ts-src_avformat_codecs_ac3_ts-src_avformat_codecs_dts_ts--832a0f"), __webpack_require__.e("src_avformat_formats_IMpegpsFormat_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! avformat/formats/IMpegpsFormat */ "./src/avformat/formats/IMpegpsFormat.ts"))).default);
+                    }
+                    break;
+                case 5 /* AVFormat.IVF */:
                     {
                         iformat = new ((await __webpack_require__.e(/*! import() */ "src_avformat_formats_IIvfFormat_ts").then(__webpack_require__.bind(__webpack_require__, /*! avformat/formats/IIvfFormat */ "./src/avformat/formats/IIvfFormat.ts"))).default);
                     }
                     break;
-                case 3 /* AVFormat.OGGS */:
+                case 4 /* AVFormat.OGG */:
                     {
-                        iformat = new ((await __webpack_require__.e(/*! import() */ "src_avformat_formats_IOggsFormat_ts").then(__webpack_require__.bind(__webpack_require__, /*! avformat/formats/IOggsFormat */ "./src/avformat/formats/IOggsFormat.ts"))).default);
+                        iformat = new ((await Promise.all(/*! import() */[__webpack_require__.e("src_avformat_formats_ogg_opus_ts-src_avformat_formats_ogg_vorbis_ts-src_common_io_IOReaderSync_ts"), __webpack_require__.e("src_avformat_formats_IOggFormat_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! avformat/formats/IOggFormat */ "./src/avformat/formats/IOggFormat.ts"))).default);
                     }
                     break;
-                case 11 /* AVFormat.MP3 */:
+                case 12 /* AVFormat.MP3 */:
                     {
                         iformat = new ((await Promise.all(/*! import() */[__webpack_require__.e("src_avformat_formats_mp3_frameHeader_ts-src_avformat_formats_mp3_id3v2_ts-src_avformat_format-cfe6eb"), __webpack_require__.e("src_avformat_formats_IMp3Format_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! avformat/formats/IMp3Format */ "./src/avformat/formats/IMp3Format.ts"))).default);
                     }
                     break;
-                case 5 /* AVFormat.MATROSKA */:
-                case 6 /* AVFormat.WEBM */:
+                case 6 /* AVFormat.MATROSKA */:
+                case 7 /* AVFormat.WEBM */:
                     {
                         iformat = new (((await __webpack_require__.e(/*! import() */ "src_avformat_formats_IMatroskaFormat_ts").then(__webpack_require__.bind(__webpack_require__, /*! avformat/formats/IMatroskaFormat */ "./src/avformat/formats/IMatroskaFormat.ts"))).default));
                     }
                     break;
-                case 12 /* AVFormat.AAC */:
+                case 13 /* AVFormat.AAC */:
                     {
                         iformat = new (((await __webpack_require__.e(/*! import() */ "src_avformat_formats_IAacFormat_ts").then(__webpack_require__.bind(__webpack_require__, /*! avformat/formats/IAacFormat */ "./src/avformat/formats/IAacFormat.ts"))).default));
                     }
                     break;
-                case 14 /* AVFormat.FLAC */:
+                case 15 /* AVFormat.FLAC */:
                     {
                         iformat = new (((await __webpack_require__.e(/*! import() */ "src_avformat_formats_IFlacFormat_ts").then(__webpack_require__.bind(__webpack_require__, /*! avformat/formats/IFlacFormat */ "./src/avformat/formats/IFlacFormat.ts"))).default));
                     }
                     break;
-                case 13 /* AVFormat.WAV */:
+                case 14 /* AVFormat.WAV */:
                     {
                         iformat = new (((await __webpack_require__.e(/*! import() */ "src_avformat_formats_IWavFormat_ts").then(__webpack_require__.bind(__webpack_require__, /*! avformat/formats/IWavFormat */ "./src/avformat/formats/IWavFormat.ts"))).default));
                     }
                     break;
-                case 15 /* AVFormat.WEBVTT */:
+                case 16 /* AVFormat.WEBVTT */:
                     {
                         iformat = new (((await __webpack_require__.e(/*! import() */ "src_avformat_formats_IWebVttFormat_ts").then(__webpack_require__.bind(__webpack_require__, /*! avformat/formats/IWebVttFormat */ "./src/avformat/formats/IWebVttFormat.ts"))).default));
                     }
                     break;
-                case 16 /* AVFormat.SUBRIP */:
+                case 17 /* AVFormat.SUBRIP */:
                     {
                         iformat = new (((await __webpack_require__.e(/*! import() */ "src_avformat_formats_ISubRipFormat_ts").then(__webpack_require__.bind(__webpack_require__, /*! avformat/formats/ISubRipFormat */ "./src/avformat/formats/ISubRipFormat.ts"))).default));
                     }
                     break;
-                case 17 /* AVFormat.ASS */:
+                case 18 /* AVFormat.ASS */:
                     {
                         iformat = new (((await __webpack_require__.e(/*! import() */ "src_avformat_formats_IAssFormat_ts").then(__webpack_require__.bind(__webpack_require__, /*! avformat/formats/IAssFormat */ "./src/avformat/formats/IAssFormat.ts"))).default));
                     }
                     break;
-                case 18 /* AVFormat.TTML */:
+                case 19 /* AVFormat.TTML */:
                     {
                         iformat = new (((await __webpack_require__.e(/*! import() */ "src_avformat_formats_ITtmlFormat_ts").then(__webpack_require__.bind(__webpack_require__, /*! avformat/formats/ITtmlFormat */ "./src/avformat/formats/ITtmlFormat.ts"))).default));
                     }
                     break;
-                case 8 /* AVFormat.H264 */:
+                case 9 /* AVFormat.H264 */:
                     {
                         iformat = new (((await __webpack_require__.e(/*! import() */ "src_avformat_formats_IH264Format_ts").then(__webpack_require__.bind(__webpack_require__, /*! avformat/formats/IH264Format */ "./src/avformat/formats/IH264Format.ts"))).default));
                     }
                     break;
-                case 9 /* AVFormat.HEVC */:
+                case 10 /* AVFormat.HEVC */:
                     {
                         iformat = new (((await __webpack_require__.e(/*! import() */ "src_avformat_formats_IHevcFormat_ts").then(__webpack_require__.bind(__webpack_require__, /*! avformat/formats/IHevcFormat */ "./src/avformat/formats/IHevcFormat.ts"))).default));
                     }
                     break;
-                case 10 /* AVFormat.VVC */:
+                case 11 /* AVFormat.VVC */:
                     {
                         iformat = new (((await __webpack_require__.e(/*! import() */ "src_avformat_formats_IVvcFormat_ts").then(__webpack_require__.bind(__webpack_require__, /*! avformat/formats/IVvcFormat */ "./src/avformat/formats/IVvcFormat.ts"))).default));
                     }
                     break;
                 default:
-                    common_util_logger__WEBPACK_IMPORTED_MODULE_14__.error('format not support', cheap__fileName__2, 439);
+                    common_util_logger__WEBPACK_IMPORTED_MODULE_14__.error('format not support', cheap__fileName__2, 438);
                     return avutil_error__WEBPACK_IMPORTED_MODULE_7__.FORMAT_NOT_SUPPORT;
             }
             task.realFormat = format;
@@ -9401,7 +9690,7 @@ class DemuxPipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_6__["default"] {
             });
         }
         else {
-            common_util_logger__WEBPACK_IMPORTED_MODULE_14__.fatal('task not found', cheap__fileName__2, 454);
+            common_util_logger__WEBPACK_IMPORTED_MODULE_14__.fatal('task not found', cheap__fileName__2, 453);
         }
     }
     async getFormat(taskId) {
@@ -9410,7 +9699,7 @@ class DemuxPipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_6__["default"] {
             return task.realFormat;
         }
         else {
-            common_util_logger__WEBPACK_IMPORTED_MODULE_14__.fatal('task not found', cheap__fileName__2, 464);
+            common_util_logger__WEBPACK_IMPORTED_MODULE_14__.fatal('task not found', cheap__fileName__2, 463);
         }
     }
     async analyzeStreams(taskId) {
@@ -9429,7 +9718,10 @@ class DemuxPipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_6__["default"] {
                     duration: stream.duration,
                     startTime: stream.startTime,
                     disposition: stream.disposition,
-                    timeBase: stream.timeBase[cheap_symbol__WEBPACK_IMPORTED_MODULE_0__.symbolStructAddress]
+                    timeBase: {
+                        den: stream.timeBase.den,
+                        num: stream.timeBase.num
+                    }
                 });
             }
             return {
@@ -9440,8 +9732,23 @@ class DemuxPipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_6__["default"] {
             };
         }
         else {
-            common_util_logger__WEBPACK_IMPORTED_MODULE_14__.fatal('task not found', cheap__fileName__2, 497);
+            common_util_logger__WEBPACK_IMPORTED_MODULE_14__.fatal('task not found', cheap__fileName__2, 499);
         }
+    }
+    replyAVPacket(task, ipcPort, request, avpacket) {
+        if ((0,common_function_isWorker__WEBPACK_IMPORTED_MODULE_25__["default"])() && !cheap_config__WEBPACK_IMPORTED_MODULE_26__.USE_THREADS && (0,cheap_std_function_isPointer__WEBPACK_IMPORTED_MODULE_28__["default"])(avpacket)) {
+            const data = (0,avutil_util_serialize__WEBPACK_IMPORTED_MODULE_27__.serializeAVPacket)(avpacket);
+            const transfer = [data.data.buffer];
+            if (data.sideData.length) {
+                data.sideData.forEach((side) => {
+                    transfer.push(side.data.buffer);
+                });
+            }
+            ipcPort.reply(request, data, null, transfer);
+            task.avpacketPool.release(avpacket);
+            return;
+        }
+        ipcPort.reply(request, avpacket);
     }
     async connectStreamTask(taskId, streamIndex, port) {
         const task = this.tasks.get(taskId);
@@ -9463,7 +9770,7 @@ class DemuxPipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_6__["default"] {
                                     cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_4__.CTypeEnumWrite[15](task.stats + 120, cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_3__.CTypeEnumRead[15](task.stats + 120) - 1);
                                 }
                             }
-                            ipcPort.reply(request, avpacket);
+                            this.replyAVPacket(task, ipcPort, request, avpacket);
                         }
                         else {
                             if (task.demuxEnded) {
@@ -9481,10 +9788,10 @@ class DemuxPipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_6__["default"] {
                 }
             });
             task.rightIPCPorts.set(streamIndex, ipcPort);
-            common_util_logger__WEBPACK_IMPORTED_MODULE_14__.debug(`connect stream ${streamIndex}, taskId: ${task.taskId}`, cheap__fileName__2, 542);
+            common_util_logger__WEBPACK_IMPORTED_MODULE_14__.debug(`connect stream ${streamIndex}, taskId: ${task.taskId}`, cheap__fileName__2, 560);
         }
         else {
-            common_util_logger__WEBPACK_IMPORTED_MODULE_14__.fatal('task not found', cheap__fileName__2, 545);
+            common_util_logger__WEBPACK_IMPORTED_MODULE_14__.fatal('task not found', cheap__fileName__2, 563);
         }
     }
     async changeConnectStream(taskId, newStreamIndex, oldStreamIndex, force = true) {
@@ -9497,7 +9804,7 @@ class DemuxPipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_6__["default"] {
             const ipcPort = task.rightIPCPorts.get(oldStreamIndex);
             const request = task.cacheRequests.get(oldStreamIndex);
             if (!cache) {
-                common_util_logger__WEBPACK_IMPORTED_MODULE_14__.warn(`oldStreamIndex ${oldStreamIndex} not found`, cheap__fileName__2, 563);
+                common_util_logger__WEBPACK_IMPORTED_MODULE_14__.warn(`oldStreamIndex ${oldStreamIndex} not found`, cheap__fileName__2, 581);
             }
             await task.loop.stopBeforeNextTick();
             if (force) {
@@ -9521,10 +9828,10 @@ class DemuxPipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_6__["default"] {
             if (!force) {
                 task.loop.start();
             }
-            common_util_logger__WEBPACK_IMPORTED_MODULE_14__.debug(`changed connect stream, new ${newStreamIndex}, old: ${oldStreamIndex}, force: ${force}, taskId: ${task.taskId}`, cheap__fileName__2, 595);
+            common_util_logger__WEBPACK_IMPORTED_MODULE_14__.debug(`changed connect stream, new ${newStreamIndex}, old: ${oldStreamIndex}, force: ${force}, taskId: ${task.taskId}`, cheap__fileName__2, 613);
         }
         else {
-            common_util_logger__WEBPACK_IMPORTED_MODULE_14__.fatal('task not found', cheap__fileName__2, 598);
+            common_util_logger__WEBPACK_IMPORTED_MODULE_14__.fatal('task not found', cheap__fileName__2, 616);
         }
     }
     async startDemux(taskId, isLive, minQueueLength) {
@@ -9561,16 +9868,16 @@ class DemuxPipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_6__["default"] {
                         if (task.formatContext.streams[streamIndex].codecpar.codecType === 1 /* AVMediaType.AVMEDIA_TYPE_AUDIO */
                             && task.cacheAVPackets.has(streamIndex)) {
                             cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_4__.CTypeEnumWrite[17](task.stats + 24, cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_3__.CTypeEnumRead[17](task.stats + 24) + BigInt(1));
-                            cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_4__.CTypeEnumWrite[17](task.stats + 16, cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_3__.CTypeEnumRead[17](task.stats + 16) + BigInt(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_3__.CTypeEnumRead[15](avpacket + 28) >>> 0));
+                            cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_4__.CTypeEnumWrite[17](task.stats + 16, cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_3__.CTypeEnumRead[17](task.stats + 16) + BigInt(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_3__.CTypeEnumRead[15](avpacket + 28) >> 0));
                             if (cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_3__.CTypeEnumRead[17](task.stats + 24) > 1 && cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_3__.CTypeEnumRead[17](avpacket + 16) > task.lastAudioDts) {
                                 const list = task.cacheAVPackets.get(streamIndex);
                                 if (list && list.length) {
                                     cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_4__.CTypeEnumWrite[15](task.stats + 236, Math.round(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_3__.CTypeEnumRead[15](avpacket + 76) / cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_3__.CTypeEnumRead[15](avpacket + 72)
-                                        / ((Number(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_3__.CTypeEnumRead[17](avpacket + 16) - cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_3__.CTypeEnumRead[17](list[0] + 16) & 0xffffffffn) >> 0) / list.length)));
+                                        / (Number(BigInt.asIntN(32, cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_3__.CTypeEnumRead[17](avpacket + 16) - cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_3__.CTypeEnumRead[17](list[0] + 16))) / list.length)));
                                 }
                                 else {
                                     cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_4__.CTypeEnumWrite[15](task.stats + 236, Math.round(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_3__.CTypeEnumRead[15](avpacket + 76) / cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_3__.CTypeEnumRead[15](avpacket + 72)
-                                        / (Number(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_3__.CTypeEnumRead[17](avpacket + 16) - task.lastAudioDts & 0xffffffffn) >> 0)));
+                                        / Number(BigInt.asIntN(32, cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_3__.CTypeEnumRead[17](avpacket + 16) - task.lastAudioDts))));
                                 }
                             }
                             task.lastAudioDts = cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_3__.CTypeEnumRead[17](avpacket + 16);
@@ -9578,13 +9885,13 @@ class DemuxPipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_6__["default"] {
                         else if (task.formatContext.streams[streamIndex].codecpar.codecType === 0 /* AVMediaType.AVMEDIA_TYPE_VIDEO */
                             && task.cacheAVPackets.has(streamIndex)) {
                             cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_4__.CTypeEnumWrite[17](task.stats + 112, cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_3__.CTypeEnumRead[17](task.stats + 112) + BigInt(1));
-                            cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_4__.CTypeEnumWrite[17](task.stats + 104, cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_3__.CTypeEnumRead[17](task.stats + 104) + BigInt(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_3__.CTypeEnumRead[15](avpacket + 28) >>> 0));
+                            cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_4__.CTypeEnumWrite[17](task.stats + 104, cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_3__.CTypeEnumRead[17](task.stats + 104) + BigInt(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_3__.CTypeEnumRead[15](avpacket + 28) >> 0));
                             if (cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_3__.CTypeEnumRead[15](avpacket + 36) & 1 /* AVPacketFlags.AV_PKT_FLAG_KEY */) {
                                 cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_4__.CTypeEnumWrite[17](task.stats + 176, cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_3__.CTypeEnumRead[17](task.stats + 176) + BigInt(1));
                                 if (cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_3__.CTypeEnumRead[17](task.stats + 176) > 1 && cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_3__.CTypeEnumRead[17](avpacket + 8) > task.lastKeyFramePts) {
                                     cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_4__.CTypeEnumWrite[15](task.stats + 96, task.gopCounter);
                                     task.gopCounter = 1;
-                                    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_4__.CTypeEnumWrite[15](task.stats + 92, (Number((0,avutil_util_rational__WEBPACK_IMPORTED_MODULE_18__.avRescaleQ)(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_3__.CTypeEnumRead[17](avpacket + 8) - task.lastKeyFramePts, (0,cheap_std_structAccess__WEBPACK_IMPORTED_MODULE_2__["default"])(avpacket + 72, _avutil_struct_rational_ts__WEBPACK_IMPORTED_MODULE_5__.Rational), avutil_constant__WEBPACK_IMPORTED_MODULE_19__.AV_MILLI_TIME_BASE_Q) & 0xffffffffn) >> 0));
+                                    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_4__.CTypeEnumWrite[15](task.stats + 92, Number(BigInt.asIntN(32, (0,avutil_util_rational__WEBPACK_IMPORTED_MODULE_18__.avRescaleQ)(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_3__.CTypeEnumRead[17](avpacket + 8) - task.lastKeyFramePts, (0,cheap_std_structAccess__WEBPACK_IMPORTED_MODULE_2__["default"])(avpacket + 72, _avutil_struct_rational_ts__WEBPACK_IMPORTED_MODULE_5__.Rational), avutil_constant__WEBPACK_IMPORTED_MODULE_19__.AV_MILLI_TIME_BASE_Q))));
                                 }
                                 task.lastKeyFramePts = cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_3__.CTypeEnumRead[17](avpacket + 8);
                             }
@@ -9595,11 +9902,11 @@ class DemuxPipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_6__["default"] {
                                 const list = task.cacheAVPackets.get(streamIndex);
                                 if (list && list.length) {
                                     cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_4__.CTypeEnumWrite[15](task.stats + 224, Math.round(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_3__.CTypeEnumRead[15](avpacket + 76) / cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_3__.CTypeEnumRead[15](avpacket + 72)
-                                        / ((Number(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_3__.CTypeEnumRead[17](avpacket + 16) - cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_3__.CTypeEnumRead[17](list[0] + 16) & 0xffffffffn) >> 0) / list.length)));
+                                        / (Number(BigInt.asIntN(32, cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_3__.CTypeEnumRead[17](avpacket + 16) - cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_3__.CTypeEnumRead[17](list[0] + 16))) / list.length)));
                                 }
                                 else {
                                     cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_4__.CTypeEnumWrite[15](task.stats + 224, Math.round(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_3__.CTypeEnumRead[15](avpacket + 76) / cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_3__.CTypeEnumRead[15](avpacket + 72)
-                                        / (Number(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_3__.CTypeEnumRead[17](avpacket + 16) - task.lastVideoDts & 0xffffffffn) >> 0)));
+                                        / Number(BigInt.asIntN(32, cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_3__.CTypeEnumRead[17](avpacket + 16) - task.lastVideoDts))));
                                 }
                             }
                             task.lastVideoDts = cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_3__.CTypeEnumRead[17](avpacket + 16);
@@ -9618,7 +9925,7 @@ class DemuxPipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_6__["default"] {
                         task.streamIndexFlush.set(streamIndex, false);
                     }
                     if (task.cacheRequests.has(streamIndex)) {
-                        task.rightIPCPorts.get(streamIndex).reply(task.cacheRequests.get(streamIndex), avpacket);
+                        this.replyAVPacket(task, task.rightIPCPorts.get(streamIndex), task.cacheRequests.get(streamIndex), avpacket);
                         task.cacheRequests.delete(streamIndex);
                     }
                     else {
@@ -9641,7 +9948,7 @@ class DemuxPipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_6__["default"] {
                         else {
                             if (task.rightIPCPorts.has(STREAM_INDEX_ALL)) {
                                 if (task.cacheRequests.has(STREAM_INDEX_ALL)) {
-                                    task.rightIPCPorts.get(STREAM_INDEX_ALL).reply(task.cacheRequests.get(STREAM_INDEX_ALL), avpacket);
+                                    this.replyAVPacket(task, task.rightIPCPorts.get(STREAM_INDEX_ALL), task.cacheRequests.get(STREAM_INDEX_ALL), avpacket);
                                     task.cacheRequests.delete(STREAM_INDEX_ALL);
                                 }
                                 else {
@@ -9657,10 +9964,10 @@ class DemuxPipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_6__["default"] {
                 else {
                     task.avpacketPool.release(avpacket);
                     if (ret !== -1048576 /* IOError.END */) {
-                        common_util_logger__WEBPACK_IMPORTED_MODULE_14__.error(`demux error, ret: ${ret}, taskId: ${taskId}`, cheap__fileName__2, 758);
+                        common_util_logger__WEBPACK_IMPORTED_MODULE_14__.error(`demux error, ret: ${ret}, taskId: ${taskId}`, cheap__fileName__2, 776);
                     }
                     task.demuxEnded = true;
-                    common_util_logger__WEBPACK_IMPORTED_MODULE_14__.info(`demuxer ended, taskId: ${task.taskId}`, cheap__fileName__2, 763);
+                    common_util_logger__WEBPACK_IMPORTED_MODULE_14__.info(`demuxer ended, taskId: ${task.taskId}`, cheap__fileName__2, 781);
                     for (let streamIndex of task.cacheRequests.keys()) {
                         const cacheAVPackets = task.cacheAVPackets.get(streamIndex);
                         if (!cacheAVPackets.length) {
@@ -9672,10 +9979,10 @@ class DemuxPipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_6__["default"] {
                 }
             }, 0, 0, true, false);
             task.loop.start();
-            common_util_logger__WEBPACK_IMPORTED_MODULE_14__.debug(`start demux loop, taskId: ${task.taskId}`, cheap__fileName__2, 778);
+            common_util_logger__WEBPACK_IMPORTED_MODULE_14__.debug(`start demux loop, taskId: ${task.taskId}`, cheap__fileName__2, 796);
         }
         else {
-            common_util_logger__WEBPACK_IMPORTED_MODULE_14__.fatal('task not found', cheap__fileName__2, 781);
+            common_util_logger__WEBPACK_IMPORTED_MODULE_14__.fatal('task not found', cheap__fileName__2, 799);
         }
     }
     async seek(taskId, timestamp, flags, streamIndex = -1) {
@@ -9735,7 +10042,7 @@ class DemuxPipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_6__["default"] {
                         return (0,avutil_util_rational__WEBPACK_IMPORTED_MODULE_18__.avRescaleQ)(common_util_bigint__WEBPACK_IMPORTED_MODULE_20__.max(duration, BigInt(0)), (0,cheap_std_structAccess__WEBPACK_IMPORTED_MODULE_2__["default"])(avpacket + 72, _avutil_struct_rational_ts__WEBPACK_IMPORTED_MODULE_5__.Rational), avutil_constant__WEBPACK_IMPORTED_MODULE_19__.AV_MILLI_TIME_BASE_Q);
                     }
                     else {
-                        common_util_logger__WEBPACK_IMPORTED_MODULE_14__.warn(`got first packet failed after seek, taskId: ${task.taskId}`, cheap__fileName__2, 849);
+                        common_util_logger__WEBPACK_IMPORTED_MODULE_14__.warn(`got first packet failed after seek, taskId: ${task.taskId}`, cheap__fileName__2, 867);
                         task.avpacketPool.release(avpacket);
                         task.demuxEnded = true;
                         return timestamp;
@@ -9744,7 +10051,7 @@ class DemuxPipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_6__["default"] {
                 return ret;
             }
             else {
-                common_util_logger__WEBPACK_IMPORTED_MODULE_14__.info('seek before demux loop start', cheap__fileName__2, 860);
+                common_util_logger__WEBPACK_IMPORTED_MODULE_14__.info('seek before demux loop start', cheap__fileName__2, 878);
                 let ret = await avformat_demux__WEBPACK_IMPORTED_MODULE_11__.seek(task.formatContext, -1, timestamp, flags);
                 if (ret < 0) {
                     return ret;
@@ -9762,30 +10069,97 @@ class DemuxPipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_6__["default"] {
     async croppingAVPacketQueue(taskId, max) {
         const task = this.tasks.get(taskId);
         if (task) {
-            task.cacheAVPackets.forEach((list, streamIndex) => {
-                const lastDts = cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_3__.CTypeEnumRead[17](list[list.length - 1] + 16);
-                let i = list.length - 2;
-                for (i = list.length - 2; i >= 0; i--) {
-                    if (cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_3__.CTypeEnumRead[15](list[i] + 36) & 1 /* AVPacketFlags.AV_PKT_FLAG_KEY */) {
-                        if ((0,avutil_util_rational__WEBPACK_IMPORTED_MODULE_18__.avRescaleQ)(lastDts - cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_3__.CTypeEnumRead[17](list[i] + 16), (0,cheap_std_structAccess__WEBPACK_IMPORTED_MODULE_2__["default"])(list[i] + 72, _avutil_struct_rational_ts__WEBPACK_IMPORTED_MODULE_5__.Rational), avutil_constant__WEBPACK_IMPORTED_MODULE_19__.AV_MILLI_TIME_BASE_Q) >= max) {
-                            break;
-                        }
+            let croppingMax = max;
+            const indexes = new Map();
+            function hasSps(avpacket, codecId) {
+                if (!(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_3__.CTypeEnumRead[15](avpacket + 36) & 1 /* AVPacketFlags.AV_PKT_FLAG_KEY */)) {
+                    return false;
+                }
+                let hasNewSps = (0,avutil_util_avpacket__WEBPACK_IMPORTED_MODULE_21__.getAVPacketSideData)(avpacket, 1 /* AVPacketSideDataType.AV_PKT_DATA_NEW_EXTRADATA */) !== 0;
+                if (!hasNewSps && cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_3__.CTypeEnumRead[15](avpacket + 80) === 2 /* h264.BitFormat.ANNEXB */) {
+                    if (codecId === 27 /* AVCodecID.AV_CODEC_ID_H264 */) {
+                        hasNewSps = !!avformat_codecs_h264__WEBPACK_IMPORTED_MODULE_30__.annexbExtradata2AvccExtradata((0,avutil_util_avpacket__WEBPACK_IMPORTED_MODULE_21__.getAVPacketData)(avpacket));
+                    }
+                    else if (codecId === 173 /* AVCodecID.AV_CODEC_ID_HEVC */) {
+                        hasNewSps = !!avformat_codecs_hevc__WEBPACK_IMPORTED_MODULE_31__.annexbExtradata2AvccExtradata((0,avutil_util_avpacket__WEBPACK_IMPORTED_MODULE_21__.getAVPacketData)(avpacket));
+                    }
+                    else if (codecId === 196 /* AVCodecID.AV_CODEC_ID_VVC */) {
+                        hasNewSps = !!avformat_codecs_vvc__WEBPACK_IMPORTED_MODULE_32__.annexbExtradata2AvccExtradata((0,avutil_util_avpacket__WEBPACK_IMPORTED_MODULE_21__.getAVPacketData)(avpacket));
                     }
                 }
-                if (i > 0) {
-                    list.splice(0, i).forEach((avpacket) => {
-                        task.avpacketPool.release(avpacket);
-                    });
-                    if (task.stats !== 0) {
-                        if (task.formatContext.streams[streamIndex].codecpar.codecType === 1 /* AVMediaType.AVMEDIA_TYPE_AUDIO */) {
-                            cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_4__.CTypeEnumWrite[15](task.stats + 32, list.length);
+                return hasNewSps;
+            }
+            // 先处理视频
+            task.cacheAVPackets.forEach((list, streamIndex) => {
+                const codecType = task.formatContext.streams[streamIndex].codecpar.codecType;
+                const codecId = task.formatContext.streams[streamIndex].codecpar.codecId;
+                if (codecType === 0 /* AVMediaType.AVMEDIA_TYPE_VIDEO */) {
+                    const lastDts = cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_3__.CTypeEnumRead[17](list[list.length - 1] + 16);
+                    let i = list.length - 2;
+                    for (i = list.length - 2; i >= 0; i--) {
+                        if ((cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_3__.CTypeEnumRead[15](list[i] + 36) & 1 /* AVPacketFlags.AV_PKT_FLAG_KEY */)) {
+                            if ((0,avutil_util_rational__WEBPACK_IMPORTED_MODULE_18__.avRescaleQ)(lastDts - cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_3__.CTypeEnumRead[17](list[i] + 16), (0,cheap_std_structAccess__WEBPACK_IMPORTED_MODULE_2__["default"])(list[i] + 72, _avutil_struct_rational_ts__WEBPACK_IMPORTED_MODULE_5__.Rational), avutil_constant__WEBPACK_IMPORTED_MODULE_19__.AV_MILLI_TIME_BASE_Q) >= max) {
+                                croppingMax = common_util_bigint__WEBPACK_IMPORTED_MODULE_20__.max(croppingMax, (0,avutil_util_rational__WEBPACK_IMPORTED_MODULE_18__.avRescaleQ)(lastDts - cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_3__.CTypeEnumRead[17](list[i] + 16), (0,cheap_std_structAccess__WEBPACK_IMPORTED_MODULE_2__["default"])(list[i] + 72, _avutil_struct_rational_ts__WEBPACK_IMPORTED_MODULE_5__.Rational), avutil_constant__WEBPACK_IMPORTED_MODULE_19__.AV_MILLI_TIME_BASE_Q));
+                                break;
+                            }
                         }
-                        else if (task.formatContext.streams[streamIndex].codecpar.codecType === 0 /* AVMediaType.AVMEDIA_TYPE_VIDEO */) {
-                            cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_4__.CTypeEnumWrite[15](task.stats + 120, list.length);
+                    }
+                    if (codecId === 27 /* AVCodecID.AV_CODEC_ID_H264 */
+                        || codecId === 173 /* AVCodecID.AV_CODEC_ID_HEVC */
+                        || codecId === 196 /* AVCodecID.AV_CODEC_ID_VVC */) {
+                        if (i > 0 && !hasSps(list[i], codecId)) {
+                            for (let j = i - 1; j > 0; j--) {
+                                if ((cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_3__.CTypeEnumRead[15](list[j] + 36) & 1 /* AVPacketFlags.AV_PKT_FLAG_KEY */)) {
+                                    // 前面有新的 sps，裁剪到最新的 sps 处
+                                    if (hasSps(list[j], codecId)) {
+                                        croppingMax = common_util_bigint__WEBPACK_IMPORTED_MODULE_20__.max(croppingMax, (0,avutil_util_rational__WEBPACK_IMPORTED_MODULE_18__.avRescaleQ)(lastDts - cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_3__.CTypeEnumRead[17](list[j] + 16), (0,cheap_std_structAccess__WEBPACK_IMPORTED_MODULE_2__["default"])(list[j] + 72, _avutil_struct_rational_ts__WEBPACK_IMPORTED_MODULE_5__.Rational), avutil_constant__WEBPACK_IMPORTED_MODULE_19__.AV_MILLI_TIME_BASE_Q));
+                                        i = j;
+                                        break;
+                                    }
+                                }
+                            }
                         }
+                    }
+                    if (i > 0) {
+                        indexes.set(streamIndex, i);
                     }
                 }
             });
+            // 再处理非视频，裁剪到视频处
+            task.cacheAVPackets.forEach((list, streamIndex) => {
+                const codecType = task.formatContext.streams[streamIndex].codecpar.codecType;
+                if (codecType !== 0 /* AVMediaType.AVMEDIA_TYPE_VIDEO */) {
+                    const lastDts = cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_3__.CTypeEnumRead[17](list[list.length - 1] + 16);
+                    let i = list.length - 2;
+                    for (i = list.length - 2; i >= 0; i--) {
+                        // 使用视频的裁剪时间
+                        if ((0,avutil_util_rational__WEBPACK_IMPORTED_MODULE_18__.avRescaleQ)(lastDts - cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_3__.CTypeEnumRead[17](list[i] + 16), (0,cheap_std_structAccess__WEBPACK_IMPORTED_MODULE_2__["default"])(list[i] + 72, _avutil_struct_rational_ts__WEBPACK_IMPORTED_MODULE_5__.Rational), avutil_constant__WEBPACK_IMPORTED_MODULE_19__.AV_MILLI_TIME_BASE_Q) >= croppingMax) {
+                            break;
+                        }
+                    }
+                    if (i >= 0) {
+                        indexes.set(streamIndex, i);
+                    }
+                }
+            });
+            // 判断所有流是否都支持裁剪
+            if (indexes.size === task.cacheAVPackets.size) {
+                indexes.forEach((index, streamIndex) => {
+                    const list = task.cacheAVPackets.get(streamIndex);
+                    list.splice(0, index).forEach((avpacket) => {
+                        task.avpacketPool.release(avpacket);
+                    });
+                    const codecType = task.formatContext.streams[streamIndex].codecpar.codecType;
+                    if (task.stats !== 0) {
+                        if (codecType === 1 /* AVMediaType.AVMEDIA_TYPE_AUDIO */) {
+                            cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_4__.CTypeEnumWrite[15](task.stats + 32, list.length);
+                        }
+                        else if (codecType === 0 /* AVMediaType.AVMEDIA_TYPE_VIDEO */) {
+                            cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_4__.CTypeEnumWrite[15](task.stats + 120, list.length);
+                        }
+                    }
+                });
+            }
         }
     }
     async registerTask(options) {
@@ -9888,11 +10262,16 @@ class IOPipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_2__["default"] {
             switch (request.method) {
                 case 'open': {
                     try {
-                        await ioLoader.open(options.info, options.range);
-                        ipcPort.reply(request, {});
+                        const ret = await ioLoader.open(options.info, options.range);
+                        if (ret < 0) {
+                            common_util_logger__WEBPACK_IMPORTED_MODULE_8__.error(`loader open error, ${ret}, taskId: ${options.taskId}`, cheap__fileName__0, 116);
+                            ipcPort.reply(request, null, ret);
+                            break;
+                        }
+                        ipcPort.reply(request, ret);
                     }
                     catch (error) {
-                        common_util_logger__WEBPACK_IMPORTED_MODULE_8__.error(`loader open error, ${error}, taskId: ${options.taskId}`, cheap__fileName__0, 118);
+                        common_util_logger__WEBPACK_IMPORTED_MODULE_8__.error(`loader open error, ${error}, taskId: ${options.taskId}`, cheap__fileName__0, 123);
                         ipcPort.reply(request, null, error);
                     }
                     break;
@@ -9904,11 +10283,11 @@ class IOPipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_2__["default"] {
                     const buffer = (0,cheap_std_memory__WEBPACK_IMPORTED_MODULE_6__.mapSafeUint8Array)(pointer, length);
                     try {
                         const len = await ioLoader.read(buffer, ioloaderOptions);
-                        cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumWrite[17](task.stats + 192, cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[17](task.stats + 192) + BigInt(len >>> 0));
+                        cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumWrite[17](task.stats + 192, cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[17](task.stats + 192) + BigInt(len >> 0));
                         ipcPort.reply(request, len);
                     }
                     catch (error) {
-                        common_util_logger__WEBPACK_IMPORTED_MODULE_8__.error(`loader read error, ${error}, taskId: ${options.taskId}`, cheap__fileName__0, 139);
+                        common_util_logger__WEBPACK_IMPORTED_MODULE_8__.error(`loader read error, ${error}, taskId: ${options.taskId}`, cheap__fileName__0, 144);
                         ipcPort.reply(request, avutil_error__WEBPACK_IMPORTED_MODULE_4__.DATA_INVALID);
                     }
                     break;
@@ -9917,11 +10296,16 @@ class IOPipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_2__["default"] {
                     const pos = request.params.pos;
                     const ioloaderOptions = request.params.ioloaderOptions;
                     try {
-                        await ioLoader.seek(pos, ioloaderOptions);
-                        ipcPort.reply(request);
+                        const ret = await ioLoader.seek(pos, ioloaderOptions);
+                        if (ret < 0) {
+                            common_util_logger__WEBPACK_IMPORTED_MODULE_8__.error(`loader seek error, ${ret}, taskId: ${options.taskId}`, cheap__fileName__0, 160);
+                            ipcPort.reply(request, null, ret);
+                            break;
+                        }
+                        ipcPort.reply(request, ret);
                     }
                     catch (error) {
-                        common_util_logger__WEBPACK_IMPORTED_MODULE_8__.error(`loader seek error, ${error}, taskId: ${options.taskId}`, cheap__fileName__0, 157);
+                        common_util_logger__WEBPACK_IMPORTED_MODULE_8__.error(`loader seek error, ${error}, taskId: ${options.taskId}`, cheap__fileName__0, 167);
                         ipcPort.reply(request, null, error);
                     }
                     break;
@@ -9961,8 +10345,8 @@ class IOPipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_2__["default"] {
                     return task.ioLoader.hasAudio();
                 }
             }
-            return false;
         }
+        return false;
     }
     async hasVideo(taskId) {
         const task = this.tasks.get(taskId);
@@ -9972,8 +10356,8 @@ class IOPipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_2__["default"] {
                     return task.ioLoader.hasVideo();
                 }
             }
-            return false;
         }
+        return false;
     }
     async hasSubtitle(taskId) {
         const task = this.tasks.get(taskId);
@@ -9983,8 +10367,8 @@ class IOPipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_2__["default"] {
                     return task.ioLoader.hasSubtitle();
                 }
             }
-            return false;
         }
+        return false;
     }
     async getVideoList(taskId) {
         const task = this.tasks.get(taskId);
@@ -9997,11 +10381,11 @@ class IOPipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_2__["default"] {
                     return task.ioLoader.getVideoList();
                 }
             }
-            return {
-                list: [],
-                selectedIndex: 0
-            };
         }
+        return {
+            list: [],
+            selectedIndex: 0
+        };
     }
     async getAudioList(taskId) {
         const task = this.tasks.get(taskId);
@@ -10011,11 +10395,11 @@ class IOPipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_2__["default"] {
                     return task.ioLoader.getAudioList();
                 }
             }
-            return {
-                list: [],
-                selectedIndex: 0
-            };
         }
+        return {
+            list: [],
+            selectedIndex: 0
+        };
     }
     async getSubtitleList(taskId) {
         const task = this.tasks.get(taskId);
@@ -10025,11 +10409,11 @@ class IOPipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_2__["default"] {
                     return task.ioLoader.getSubtitleList();
                 }
             }
-            return {
-                list: [],
-                selectedIndex: 0
-            };
         }
+        return {
+            list: [],
+            selectedIndex: 0
+        };
     }
     async selectVideo(taskId, index) {
         const task = this.tasks.get(taskId);
@@ -10077,8 +10461,8 @@ class IOPipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_2__["default"] {
                     return task.ioLoader.getMinBuffer();
                 }
             }
-            return 0;
         }
+        return 0;
     }
     async registerTask(options) {
         if (this.tasks.has(options.taskId)) {
@@ -10228,27 +10612,27 @@ class MuxPipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_6__["default"] {
                         oformat = new ((await __webpack_require__.e(/*! import() */ "src_avformat_formats_OMpegtsFormat_ts").then(__webpack_require__.bind(__webpack_require__, /*! avformat/formats/OMpegtsFormat */ "./src/avformat/formats/OMpegtsFormat.ts"))).default)(task.formatOptions);
                     }
                     break;
-                case 4 /* AVFormat.IVF */:
+                case 5 /* AVFormat.IVF */:
                     {
                         oformat = new ((await __webpack_require__.e(/*! import() */ "src_avformat_formats_OIvfFormat_ts").then(__webpack_require__.bind(__webpack_require__, /*! avformat/formats/OIvfFormat */ "./src/avformat/formats/OIvfFormat.ts"))).default);
                     }
                     break;
-                case 3 /* AVFormat.OGGS */:
+                case 4 /* AVFormat.OGG */:
                     {
-                        oformat = new ((await __webpack_require__.e(/*! import() */ "src_avformat_formats_OOggsFormat_ts").then(__webpack_require__.bind(__webpack_require__, /*! avformat/formats/OOggsFormat */ "./src/avformat/formats/OOggsFormat.ts"))).default);
+                        oformat = new ((await Promise.all(/*! import() */[__webpack_require__.e("src_avformat_formats_ogg_opus_ts-src_avformat_formats_ogg_vorbis_ts-src_common_io_IOReaderSync_ts"), __webpack_require__.e("src_avformat_formats_OOggFormat_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! avformat/formats/OOggFormat */ "./src/avformat/formats/OOggFormat.ts"))).default);
                     }
                     break;
-                case 11 /* AVFormat.MP3 */:
+                case 12 /* AVFormat.MP3 */:
                     {
                         oformat = new ((await Promise.all(/*! import() */[__webpack_require__.e("src_avformat_formats_mp3_frameHeader_ts-src_avformat_formats_mp3_id3v2_ts-src_avformat_format-cfe6eb"), __webpack_require__.e("src_avformat_formats_OMp3Format_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! avformat/formats/OMp3Format */ "./src/avformat/formats/OMp3Format.ts"))).default)(task.formatOptions);
                     }
                     break;
-                case 5 /* AVFormat.MATROSKA */:
-                case 6 /* AVFormat.WEBM */:
+                case 6 /* AVFormat.MATROSKA */:
+                case 7 /* AVFormat.WEBM */:
                     {
                         const options = {
                             isLive: task.isLive,
-                            docType: task.format === 6 /* AVFormat.WEBM */ ? 'webm' : 'matroska'
+                            docType: task.format === 7 /* AVFormat.WEBM */ ? 'webm' : 'matroska'
                         };
                         oformat = new (((await __webpack_require__.e(/*! import() */ "src_avformat_formats_OMatroskaFormat_ts").then(__webpack_require__.bind(__webpack_require__, /*! avformat/formats/OMatroskaFormat */ "./src/avformat/formats/OMatroskaFormat.ts"))).default))(common_util_object__WEBPACK_IMPORTED_MODULE_19__.extend(task.formatOptions, options));
                     }
@@ -10273,10 +10657,10 @@ class MuxPipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_6__["default"] {
                     task.streams[i].avpacket = avpacket;
                     const currentDts = (0,avutil_util_rational__WEBPACK_IMPORTED_MODULE_15__.avRescaleQ)(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_3__.CTypeEnumRead[17](task.streams[i].avpacket + 16), (0,cheap_std_structAccess__WEBPACK_IMPORTED_MODULE_2__["default"])(task.streams[i].avpacket + 72, _avutil_struct_rational_ts__WEBPACK_IMPORTED_MODULE_5__.Rational), avutil_constant__WEBPACK_IMPORTED_MODULE_16__.AV_MILLI_TIME_BASE_Q);
                     if (cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_3__.CTypeEnumRead[15](task.streams[i].stream.codecpar) === 1 /* AVMediaType.AVMEDIA_TYPE_AUDIO */) {
-                        cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_4__.CTypeEnumWrite[17](task.stats + 280, currentDts);
+                        cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_4__.CTypeEnumWrite[17](task.stats + 288, currentDts);
                     }
                     else if (cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_3__.CTypeEnumRead[15](task.streams[i].stream.codecpar) === 0 /* AVMediaType.AVMEDIA_TYPE_VIDEO */) {
-                        cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_4__.CTypeEnumWrite[17](task.stats + 296, currentDts);
+                        cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_4__.CTypeEnumWrite[17](task.stats + 304, currentDts);
                     }
                 }
             }
@@ -10299,8 +10683,8 @@ class MuxPipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_6__["default"] {
             ostream.id = stream.id;
             ostream.index = stream.index;
             (0,avutil_util_codecparameters__WEBPACK_IMPORTED_MODULE_18__.copyCodecParameters)(ostream.codecpar[cheap_symbol__WEBPACK_IMPORTED_MODULE_0__.symbolStructAddress], stream.codecpar);
-            ostream.timeBase.num = cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_3__.CTypeEnumRead[15](stream.timeBase);
-            ostream.timeBase.den = cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_3__.CTypeEnumRead[15](stream.timeBase + 4);
+            ostream.timeBase.num = stream.timeBase.num;
+            ostream.timeBase.den = stream.timeBase.den;
             ostream.metadata = stream.metadata;
         }
         else {
@@ -10379,10 +10763,10 @@ class MuxPipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_6__["default"] {
                     task.avpacketPool.release(avpacket);
                     task.streams[index].avpacket = 0;
                     if (type === 1 /* AVMediaType.AVMEDIA_TYPE_AUDIO */) {
-                        cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_4__.CTypeEnumWrite[17](task.stats + 288, dts);
+                        cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_4__.CTypeEnumWrite[17](task.stats + 296, dts);
                     }
                     else if (type === 0 /* AVMediaType.AVMEDIA_TYPE_VIDEO */) {
-                        cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_4__.CTypeEnumWrite[17](task.stats + 304, dts);
+                        cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_4__.CTypeEnumWrite[17](task.stats + 312, dts);
                     }
                 }
                 else {
@@ -10536,13 +10920,18 @@ class Pipeline {
 /* harmony import */ var common_util_is__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! common/util/is */ "./src/common/util/is.ts");
 /* harmony import */ var common_util_array__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! common/util/array */ "./src/common/util/array.ts");
 /* harmony import */ var common_timer_Sleep__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! common/timer/Sleep */ "./src/common/timer/Sleep.ts");
-/* harmony import */ var avutil_implement_AVPacketPoolImpl__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! avutil/implement/AVPacketPoolImpl */ "./src/avutil/implement/AVPacketPoolImpl.ts");
-/* harmony import */ var common_function_isWorker__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! common/function/isWorker */ "./src/common/function/isWorker.ts");
-/* harmony import */ var avutil_util_rational__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! avutil/util/rational */ "./src/avutil/util/rational.ts");
-/* harmony import */ var common_function_getTimestamp__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! common/function/getTimestamp */ "./src/common/function/getTimestamp.ts");
-/* harmony import */ var avutil_constant__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! avutil/constant */ "./src/avutil/constant.ts");
-/* harmony import */ var common_util_support__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! common/util/support */ "./src/common/util/support.ts");
-/* harmony import */ var cheap_std_function_isPointer__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! cheap/std/function/isPointer */ "./src/cheap/std/function/isPointer.ts");
+/* harmony import */ var avutil_struct_avcodecparameters__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! avutil/struct/avcodecparameters */ "./src/avutil/struct/avcodecparameters.ts");
+/* harmony import */ var avutil_implement_AVPacketPoolImpl__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! avutil/implement/AVPacketPoolImpl */ "./src/avutil/implement/AVPacketPoolImpl.ts");
+/* harmony import */ var common_function_isWorker__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! common/function/isWorker */ "./src/common/function/isWorker.ts");
+/* harmony import */ var avutil_util_rational__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! avutil/util/rational */ "./src/avutil/util/rational.ts");
+/* harmony import */ var common_function_getTimestamp__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! common/function/getTimestamp */ "./src/common/function/getTimestamp.ts");
+/* harmony import */ var avutil_constant__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! avutil/constant */ "./src/avutil/constant.ts");
+/* harmony import */ var common_util_support__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! common/util/support */ "./src/common/util/support.ts");
+/* harmony import */ var cheap_std_function_isPointer__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! cheap/std/function/isPointer */ "./src/cheap/std/function/isPointer.ts");
+/* harmony import */ var avutil_function_compileResource__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! avutil/function/compileResource */ "./src/avutil/function/compileResource.ts");
+/* harmony import */ var avutil_util_serialize__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! avutil/util/serialize */ "./src/avutil/util/serialize.ts");
+/* harmony import */ var avutil_util_mem__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! avutil/util/mem */ "./src/avutil/util/mem.ts");
+/* harmony import */ var avutil_util_codecparameters__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! avutil/util/codecparameters */ "./src/avutil/util/codecparameters.ts");
 var cheap__fileName__0 = "src\\avpipeline\\VideoDecodePipeline.ts";
 
 
@@ -10591,6 +10980,11 @@ var cheap__fileName__0 = "src\\avpipeline\\VideoDecodePipeline.ts";
 
 
 
+
+
+
+
+
 class VideoDecodePipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_5__["default"] {
     constructor() {
         super();
@@ -10604,17 +10998,17 @@ class VideoDecodePipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_5__["defaul
                         task.hardwareDecoder.close();
                         task.hardwareDecoder = null;
                         task.decoderReady = this.openSoftwareDecoder(task);
-                        common_util_logger__WEBPACK_IMPORTED_MODULE_10__.warn(`video decode error width hardware(${task.hardwareRetryCount}), taskId: ${task.taskId}, error: ${error}, try to fallback to software decoder`, cheap__fileName__0, 121);
+                        common_util_logger__WEBPACK_IMPORTED_MODULE_10__.warn(`video decode error width hardware(${task.hardwareRetryCount}), taskId: ${task.taskId}, error: ${error}, try to fallback to software decoder`, cheap__fileName__0, 126);
                     }
                 }
                 else {
                     task.hardwareRetryCount++;
                     try {
-                        common_util_logger__WEBPACK_IMPORTED_MODULE_10__.info(`retry open hardware decoder(${task.hardwareRetryCount}), taskId: ${task.taskId}`, cheap__fileName__0, 127);
+                        common_util_logger__WEBPACK_IMPORTED_MODULE_10__.info(`retry open hardware decoder(${task.hardwareRetryCount}), taskId: ${task.taskId}`, cheap__fileName__0, 132);
                         task.decoderReady = task.hardwareDecoder.open(task.parameters);
                     }
                     catch (error) {
-                        common_util_logger__WEBPACK_IMPORTED_MODULE_10__.warn(`retry open hardware decoder failed, fallback to software decoder, taskId: ${task.taskId}`, cheap__fileName__0, 131);
+                        common_util_logger__WEBPACK_IMPORTED_MODULE_10__.warn(`retry open hardware decoder failed, fallback to software decoder, taskId: ${task.taskId}`, cheap__fileName__0, 136);
                     }
                 }
                 task.needKeyFrame = true;
@@ -10625,9 +11019,9 @@ class VideoDecodePipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_5__["defaul
                 task.frameCaches.push(frame);
                 cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumWrite[17](task.stats + 144, cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[17](task.stats + 144) + BigInt(1));
                 if (task.lastDecodeTimestamp) {
-                    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumWrite[15](task.stats + 248, Math.max((0,common_function_getTimestamp__WEBPACK_IMPORTED_MODULE_18__["default"])() - task.lastDecodeTimestamp, cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](task.stats + 248)));
+                    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumWrite[15](task.stats + 248, Math.max((0,common_function_getTimestamp__WEBPACK_IMPORTED_MODULE_19__["default"])() - task.lastDecodeTimestamp, cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](task.stats + 248)));
                 }
-                task.lastDecodeTimestamp = (0,common_function_getTimestamp__WEBPACK_IMPORTED_MODULE_18__["default"])();
+                task.lastDecodeTimestamp = (0,common_function_getTimestamp__WEBPACK_IMPORTED_MODULE_19__["default"])();
             },
             enableHardwareAcceleration
         });
@@ -10636,7 +11030,7 @@ class VideoDecodePipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_5__["defaul
         return new avcodec_wasmcodec_VideoDecoder__WEBPACK_IMPORTED_MODULE_8__["default"]({
             resource: resource,
             onError: (error) => {
-                common_util_logger__WEBPACK_IMPORTED_MODULE_10__.error(`video decode error, taskId: ${task.taskId}, error: ${error}`, cheap__fileName__0, 157);
+                common_util_logger__WEBPACK_IMPORTED_MODULE_10__.error(`video decode error, taskId: ${task.taskId}, error: ${error}`, cheap__fileName__0, 162);
                 if (task.openReject) {
                     task.openReject(avutil_error__WEBPACK_IMPORTED_MODULE_6__.CODEC_NOT_SUPPORT);
                     task.openReject = null;
@@ -10647,20 +11041,32 @@ class VideoDecodePipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_5__["defaul
                 task.frameCaches.push(frame);
                 cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumWrite[17](task.stats + 144, cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[17](task.stats + 144) + BigInt(1));
                 if (task.lastDecodeTimestamp) {
-                    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumWrite[15](task.stats + 248, Math.max((0,common_function_getTimestamp__WEBPACK_IMPORTED_MODULE_18__["default"])() - task.lastDecodeTimestamp, cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](task.stats + 248)));
+                    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumWrite[15](task.stats + 248, Math.max((0,common_function_getTimestamp__WEBPACK_IMPORTED_MODULE_19__["default"])() - task.lastDecodeTimestamp, cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](task.stats + 248)));
                 }
-                task.lastDecodeTimestamp = (0,common_function_getTimestamp__WEBPACK_IMPORTED_MODULE_18__["default"])();
+                task.lastDecodeTimestamp = (0,common_function_getTimestamp__WEBPACK_IMPORTED_MODULE_19__["default"])();
             },
             avframePool: task.avframePool
         });
     }
-    createTask(options) {
+    async pullAVPacketInternal(task, leftIPCPort) {
+        const result = await leftIPCPort.request('pull');
+        if (common_util_is__WEBPACK_IMPORTED_MODULE_12__.number(result)) {
+            return result;
+        }
+        else {
+            const avpacket = task.avpacketPool.alloc();
+            (0,avutil_util_serialize__WEBPACK_IMPORTED_MODULE_24__.unserializeAVPacket)(result, avpacket);
+            return avpacket;
+        }
+    }
+    async createTask(options) {
         const leftIPCPort = new common_network_IPCPort__WEBPACK_IMPORTED_MODULE_7__["default"](options.leftPort);
         const rightIPCPort = new common_network_IPCPort__WEBPACK_IMPORTED_MODULE_7__["default"](options.rightPort);
         const frameCaches = [];
         const avframePool = new avutil_implement_AVFramePoolImpl__WEBPACK_IMPORTED_MODULE_11__["default"]((0,cheap_std_structAccess__WEBPACK_IMPORTED_MODULE_3__["default"])(options.avframeList, _cheap_std_collection_List_ts__WEBPACK_IMPORTED_MODULE_2__["default"]), options.avframeListMutex);
         const task = {
             ...options,
+            resource: await (0,avutil_function_compileResource__WEBPACK_IMPORTED_MODULE_23__["default"])(options.resource, true),
             leftIPCPort,
             rightIPCPort,
             softwareDecoder: null,
@@ -10676,16 +11082,16 @@ class VideoDecodePipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_5__["defaul
             decoderReady: null,
             softwareDecoderOpened: false,
             avframePool,
-            avpacketPool: new avutil_implement_AVPacketPoolImpl__WEBPACK_IMPORTED_MODULE_15__["default"]((0,cheap_std_structAccess__WEBPACK_IMPORTED_MODULE_3__["default"])(options.avpacketList, _cheap_std_collection_List_ts__WEBPACK_IMPORTED_MODULE_2__["default"]), options.avpacketListMutex)
+            avpacketPool: new avutil_implement_AVPacketPoolImpl__WEBPACK_IMPORTED_MODULE_16__["default"]((0,cheap_std_structAccess__WEBPACK_IMPORTED_MODULE_3__["default"])(options.avpacketList, _cheap_std_collection_List_ts__WEBPACK_IMPORTED_MODULE_2__["default"]), options.avpacketListMutex)
         };
-        task.softwareDecoder = options.resource
+        task.softwareDecoder = task.resource
             ? this.createWasmcodecDecoder(task, task.resource)
-            : (common_util_support__WEBPACK_IMPORTED_MODULE_20__["default"].videoDecoder ? this.createWebcodecDecoder(task, false) : null);
+            : (common_util_support__WEBPACK_IMPORTED_MODULE_21__["default"].videoDecoder ? this.createWebcodecDecoder(task, false) : null);
         if (!task.softwareDecoder) {
-            common_util_logger__WEBPACK_IMPORTED_MODULE_10__.error('software decoder not support', cheap__fileName__0, 216);
+            common_util_logger__WEBPACK_IMPORTED_MODULE_10__.error('software decoder not support', cheap__fileName__0, 234);
             return avutil_error__WEBPACK_IMPORTED_MODULE_6__.INVALID_OPERATE;
         }
-        if (common_util_support__WEBPACK_IMPORTED_MODULE_20__["default"].videoDecoder && options.enableHardware) {
+        if (common_util_support__WEBPACK_IMPORTED_MODULE_21__["default"].videoDecoder && options.enableHardware) {
             task.hardwareDecoder = this.createWebcodecDecoder(task);
         }
         task.targetDecoder = task.hardwareDecoder || task.softwareDecoder;
@@ -10695,21 +11101,21 @@ class VideoDecodePipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_5__["defaul
                 case 'pull': {
                     if (frameCaches.length) {
                         const frame = frameCaches.shift();
-                        rightIPCPort.reply(request, frame, null, ((0,cheap_std_function_isPointer__WEBPACK_IMPORTED_MODULE_21__["default"])(frame) || common_util_is__WEBPACK_IMPORTED_MODULE_12__.number(frame)) ? null : [frame]);
+                        rightIPCPort.reply(request, frame, null, ((0,cheap_std_function_isPointer__WEBPACK_IMPORTED_MODULE_22__["default"])(frame) || common_util_is__WEBPACK_IMPORTED_MODULE_12__.number(frame)) ? null : [frame]);
                         break;
                     }
                     else if (!task.inputEnd) {
                         while (true) {
                             if (frameCaches.length) {
                                 const frame = frameCaches.shift();
-                                rightIPCPort.reply(request, frame, null, ((0,cheap_std_function_isPointer__WEBPACK_IMPORTED_MODULE_21__["default"])(frame) || common_util_is__WEBPACK_IMPORTED_MODULE_12__.number(frame)) ? null : [frame]);
+                                rightIPCPort.reply(request, frame, null, ((0,cheap_std_function_isPointer__WEBPACK_IMPORTED_MODULE_22__["default"])(frame) || common_util_is__WEBPACK_IMPORTED_MODULE_12__.number(frame)) ? null : [frame]);
                                 break;
                             }
                             if (task.decoderReady) {
                                 await task.decoderReady;
                                 task.decoderReady = null;
                             }
-                            const avpacket = await leftIPCPort.request('pull');
+                            const avpacket = await this.pullAVPacketInternal(task, leftIPCPort);
                             if (avpacket === -1048576 /* IOError.END */) {
                                 if (task.targetDecoder === task.hardwareDecoder) {
                                     // 硬解的 flush 有时会卡主，这里设置 2 秒超时，若超时只能丢弃还未 flush 出来的帧了
@@ -10718,7 +11124,7 @@ class VideoDecodePipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_5__["defaul
                                         task.targetDecoder.flush()
                                     ]);
                                     if (common_util_is__WEBPACK_IMPORTED_MODULE_12__.number(ret)) {
-                                        common_util_logger__WEBPACK_IMPORTED_MODULE_10__.warn(`video hardware decoder flush failed, ignore it, taskId: ${task.taskId}`, cheap__fileName__0, 259);
+                                        common_util_logger__WEBPACK_IMPORTED_MODULE_10__.warn(`video hardware decoder flush failed, ignore it, taskId: ${task.taskId}`, cheap__fileName__0, 277);
                                     }
                                 }
                                 else {
@@ -10735,7 +11141,7 @@ class VideoDecodePipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_5__["defaul
                                     break;
                                 }
                                 else {
-                                    common_util_logger__WEBPACK_IMPORTED_MODULE_10__.info(`video decoder ended, taskId: ${task.taskId}`, cheap__fileName__0, 276);
+                                    common_util_logger__WEBPACK_IMPORTED_MODULE_10__.info(`video decoder ended, taskId: ${task.taskId}`, cheap__fileName__0, 294);
                                     rightIPCPort.reply(request, -1048576 /* IOError.END */);
                                     break;
                                 }
@@ -10755,7 +11161,7 @@ class VideoDecodePipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_5__["defaul
                                     cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumWrite[15](task.stats + 136, cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](task.stats + 136) + 1);
                                     // 硬解或者 webcodecs 软解失败
                                     if ((task.targetDecoder instanceof avcodec_webcodec_VideoDecoder__WEBPACK_IMPORTED_MODULE_9__["default"]) && task.softwareDecoder) {
-                                        common_util_logger__WEBPACK_IMPORTED_MODULE_10__.warn(`video decode error width hardware, taskId: ${task.taskId}, error: ${ret}, try to fallback to software decoder`, cheap__fileName__0, 303);
+                                        common_util_logger__WEBPACK_IMPORTED_MODULE_10__.warn(`video decode error from hardware, taskId: ${task.taskId}, error: ${ret}, try to fallback to software decoder`, cheap__fileName__0, 321);
                                         if (task.targetDecoder === task.hardwareDecoder) {
                                             task.hardwareDecoder.close();
                                             task.hardwareDecoder = null;
@@ -10765,7 +11171,7 @@ class VideoDecodePipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_5__["defaul
                                             task.softwareDecoder = this.createWasmcodecDecoder(task, task.resource);
                                         }
                                         else {
-                                            common_util_logger__WEBPACK_IMPORTED_MODULE_10__.error(`cannot fallback to wasm video decoder because of resource not found , taskId: ${options.taskId}`, cheap__fileName__0, 314);
+                                            common_util_logger__WEBPACK_IMPORTED_MODULE_10__.error(`cannot fallback to wasm video decoder because of resource not found , taskId: ${options.taskId}`, cheap__fileName__0, 332);
                                             rightIPCPort.reply(request, avutil_error__WEBPACK_IMPORTED_MODULE_6__.CODEC_NOT_SUPPORT);
                                             break;
                                         }
@@ -10774,7 +11180,7 @@ class VideoDecodePipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_5__["defaul
                                             task.targetDecoder = task.softwareDecoder;
                                         }
                                         catch (error) {
-                                            common_util_logger__WEBPACK_IMPORTED_MODULE_10__.error(`video software decoder open error, taskId: ${options.taskId}`, cheap__fileName__0, 324);
+                                            common_util_logger__WEBPACK_IMPORTED_MODULE_10__.error(`video software decoder open error, taskId: ${options.taskId}`, cheap__fileName__0, 342);
                                             rightIPCPort.reply(request, avutil_error__WEBPACK_IMPORTED_MODULE_6__.CODEC_NOT_SUPPORT);
                                             break;
                                         }
@@ -10786,7 +11192,7 @@ class VideoDecodePipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_5__["defaul
                                             }
                                             // webcodecs 软解失败，回退到 wasm 软解
                                             if ((task.targetDecoder instanceof avcodec_webcodec_VideoDecoder__WEBPACK_IMPORTED_MODULE_9__["default"]) && task.resource) {
-                                                common_util_logger__WEBPACK_IMPORTED_MODULE_10__.warn(`video decode error width webcodecs soft decoder, taskId: ${task.taskId}, error: ${ret}, try to fallback to wasm software decoder`, cheap__fileName__0, 338);
+                                                common_util_logger__WEBPACK_IMPORTED_MODULE_10__.warn(`video decode error width webcodecs soft decoder, taskId: ${task.taskId}, error: ${ret}, try to fallback to wasm software decoder`, cheap__fileName__0, 356);
                                                 task.softwareDecoder.close();
                                                 task.softwareDecoder = this.createWasmcodecDecoder(task, task.resource);
                                                 task.softwareDecoderOpened = false;
@@ -10795,7 +11201,7 @@ class VideoDecodePipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_5__["defaul
                                                     task.targetDecoder = task.softwareDecoder;
                                                 }
                                                 catch (error) {
-                                                    common_util_logger__WEBPACK_IMPORTED_MODULE_10__.error(`video wasm software decoder open error, taskId: ${options.taskId}`, cheap__fileName__0, 348);
+                                                    common_util_logger__WEBPACK_IMPORTED_MODULE_10__.error(`video wasm software decoder open error, taskId: ${options.taskId}`, cheap__fileName__0, 366);
                                                     rightIPCPort.reply(request, avutil_error__WEBPACK_IMPORTED_MODULE_6__.CODEC_NOT_SUPPORT);
                                                     break;
                                                 }
@@ -10814,7 +11220,7 @@ class VideoDecodePipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_5__["defaul
                                         }
                                     }
                                     task.avpacketPool.release(avpacket);
-                                    common_util_logger__WEBPACK_IMPORTED_MODULE_10__.error(`video decode error, taskId: ${options.taskId}, ret: ${ret}`, cheap__fileName__0, 367);
+                                    common_util_logger__WEBPACK_IMPORTED_MODULE_10__.error(`video decode error, taskId: ${options.taskId}, ret: ${ret}`, cheap__fileName__0, 385);
                                     rightIPCPort.reply(request, ret);
                                     break;
                                 }
@@ -10827,14 +11233,14 @@ class VideoDecodePipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_5__["defaul
                                 continue;
                             }
                             else {
-                                common_util_logger__WEBPACK_IMPORTED_MODULE_10__.error(`video decode pull avpacket error, taskId: ${options.taskId}, ret: ${avpacket}`, cheap__fileName__0, 381);
+                                common_util_logger__WEBPACK_IMPORTED_MODULE_10__.error(`video decode pull avpacket error, taskId: ${options.taskId}, ret: ${avpacket}`, cheap__fileName__0, 399);
                                 rightIPCPort.reply(request, avpacket);
                                 break;
                             }
                         }
                         break;
                     }
-                    common_util_logger__WEBPACK_IMPORTED_MODULE_10__.info(`video decoder ended, taskId: ${task.taskId}`, cheap__fileName__0, 388);
+                    common_util_logger__WEBPACK_IMPORTED_MODULE_10__.info(`video decoder ended, taskId: ${task.taskId}`, cheap__fileName__0, 406);
                     rightIPCPort.reply(request, -1048576 /* IOError.END */);
                     break;
                 }
@@ -10846,9 +11252,9 @@ class VideoDecodePipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_5__["defaul
         if (task.softwareDecoder && !task.softwareDecoderOpened) {
             const parameters = task.parameters;
             let threadCount = 1;
-            if ((0,common_function_isWorker__WEBPACK_IMPORTED_MODULE_16__["default"])()) {
+            if ((0,common_function_isWorker__WEBPACK_IMPORTED_MODULE_17__["default"])()) {
                 let pixels = cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](parameters + 56) * cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](parameters + 60);
-                let framerate = (0,avutil_util_rational__WEBPACK_IMPORTED_MODULE_17__.avQ2D)((0,cheap_std_structAccess__WEBPACK_IMPORTED_MODULE_3__["default"])(parameters + 72, _avutil_struct_rational_ts__WEBPACK_IMPORTED_MODULE_4__.Rational));
+                let framerate = (0,avutil_util_rational__WEBPACK_IMPORTED_MODULE_18__.avQ2D)((0,cheap_std_structAccess__WEBPACK_IMPORTED_MODULE_3__["default"])(parameters + 72, _avutil_struct_rational_ts__WEBPACK_IMPORTED_MODULE_4__.Rational));
                 if (pixels >= 2073600 && pixels <= 2211840) {
                     if (cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](parameters + 4) === 173 /* AVCodecID.AV_CODEC_ID_HEVC */
                         || cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](parameters + 4) === 196 /* AVCodecID.AV_CODEC_ID_VVC */
@@ -10895,7 +11301,7 @@ class VideoDecodePipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_5__["defaul
             }
             catch (error) {
                 if ((task.softwareDecoder instanceof avcodec_webcodec_VideoDecoder__WEBPACK_IMPORTED_MODULE_9__["default"]) && task.resource) {
-                    common_util_logger__WEBPACK_IMPORTED_MODULE_10__.warn(`webcodecs software decoder open failed, ${error}, try to fallback to wasm software decoder`, cheap__fileName__0, 459);
+                    common_util_logger__WEBPACK_IMPORTED_MODULE_10__.warn(`webcodecs software decoder open failed, ${error}, try to fallback to wasm software decoder`, cheap__fileName__0, 477);
                     task.softwareDecoder.close();
                     task.softwareDecoder = this.createWasmcodecDecoder(task, task.resource);
                     await task.softwareDecoder.open(parameters, threadCount);
@@ -10911,19 +11317,33 @@ class VideoDecodePipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_5__["defaul
     async reopenDecoder(taskId, parameters, resource, wasmDecoderOptions) {
         const task = this.tasks.get(taskId);
         if (task) {
+            const codecpar = (0,avutil_util_mem__WEBPACK_IMPORTED_MODULE_25__.avMallocz)(168);
+            if ((0,cheap_std_function_isPointer__WEBPACK_IMPORTED_MODULE_22__["default"])(parameters)) {
+                (0,avutil_util_codecparameters__WEBPACK_IMPORTED_MODULE_26__.copyCodecParameters)(codecpar, parameters);
+            }
+            else {
+                (0,avutil_util_serialize__WEBPACK_IMPORTED_MODULE_24__.unserializeAVCodecParameters)(parameters, codecpar);
+            }
+            if (task.parameters) {
+                (0,avutil_util_codecparameters__WEBPACK_IMPORTED_MODULE_26__.freeCodecParameters)(task.parameters);
+            }
+            task.parameters = codecpar;
             if (wasmDecoderOptions) {
                 task.wasmDecoderOptions = wasmDecoderOptions;
             }
+            if (resource) {
+                resource = await (0,avutil_function_compileResource__WEBPACK_IMPORTED_MODULE_23__["default"])(resource, true);
+            }
             let softwareDecoder;
-            if (task.preferWebCodecs && common_util_support__WEBPACK_IMPORTED_MODULE_20__["default"].videoDecoder && avcodec_webcodec_VideoDecoder__WEBPACK_IMPORTED_MODULE_9__["default"].isSupported(parameters, false)) {
+            if (task.preferWebCodecs && common_util_support__WEBPACK_IMPORTED_MODULE_21__["default"].videoDecoder && avcodec_webcodec_VideoDecoder__WEBPACK_IMPORTED_MODULE_9__["default"].isSupported(codecpar, false)) {
                 softwareDecoder = this.createWebcodecDecoder(task, false);
             }
             else {
                 softwareDecoder = resource
                     ? this.createWasmcodecDecoder(task, resource)
-                    : (common_util_support__WEBPACK_IMPORTED_MODULE_20__["default"].videoDecoder ? this.createWebcodecDecoder(task, false) : null);
+                    : (common_util_support__WEBPACK_IMPORTED_MODULE_21__["default"].videoDecoder ? this.createWebcodecDecoder(task, false) : null);
             }
-            let hardwareDecoder = (common_util_support__WEBPACK_IMPORTED_MODULE_20__["default"].videoDecoder && task.enableHardware)
+            let hardwareDecoder = (common_util_support__WEBPACK_IMPORTED_MODULE_21__["default"].videoDecoder && task.enableHardware)
                 ? this.createWebcodecDecoder(task, true)
                 : null;
             return new Promise(async (resolve, reject) => {
@@ -10940,24 +11360,26 @@ class VideoDecodePipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_5__["defaul
                 task.hardwareRetryCount = 0;
                 if (task.hardwareDecoder) {
                     try {
-                        await task.hardwareDecoder.open(parameters);
-                        common_util_logger__WEBPACK_IMPORTED_MODULE_10__.debug(`reopen video hardware decoder, taskId: ${task.taskId}`, cheap__fileName__0, 514);
+                        await task.hardwareDecoder.open(codecpar);
+                        common_util_logger__WEBPACK_IMPORTED_MODULE_10__.debug(`reopen video hardware decoder, taskId: ${task.taskId}`, cheap__fileName__0, 552);
                     }
                     catch (error) {
-                        common_util_logger__WEBPACK_IMPORTED_MODULE_10__.error(`cannot reopen hardware decoder, ${error}, taskId: ${task.taskId}`, cheap__fileName__0, 517);
+                        common_util_logger__WEBPACK_IMPORTED_MODULE_10__.error(`cannot reopen hardware decoder, ${error}, taskId: ${task.taskId}`, cheap__fileName__0, 555);
                         task.hardwareDecoder.close();
                         task.hardwareDecoder = null;
                         task.targetDecoder = task.softwareDecoder;
                     }
                 }
-                task.parameters = parameters;
+                if (resource) {
+                    task.resource = resource;
+                }
                 if (task.targetDecoder === task.softwareDecoder) {
                     try {
                         await this.openSoftwareDecoder(task);
-                        common_util_logger__WEBPACK_IMPORTED_MODULE_10__.debug(`reopen video soft decoder, taskId: ${task.taskId}`, cheap__fileName__0, 530);
+                        common_util_logger__WEBPACK_IMPORTED_MODULE_10__.debug(`reopen video soft decoder, taskId: ${task.taskId}`, cheap__fileName__0, 570);
                     }
                     catch (error) {
-                        common_util_logger__WEBPACK_IMPORTED_MODULE_10__.error(`reopen video software decoder failed, error: ${error}`, cheap__fileName__0, 533);
+                        common_util_logger__WEBPACK_IMPORTED_MODULE_10__.error(`reopen video software decoder failed, error: ${error}`, cheap__fileName__0, 573);
                         if (!task.hardwareDecoder) {
                             resolve(avutil_error__WEBPACK_IMPORTED_MODULE_6__.CODEC_NOT_SUPPORT);
                             return;
@@ -10967,15 +11389,26 @@ class VideoDecodePipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_5__["defaul
                 resolve(0);
             });
         }
-        common_util_logger__WEBPACK_IMPORTED_MODULE_10__.fatal('task not found', cheap__fileName__0, 543);
+        common_util_logger__WEBPACK_IMPORTED_MODULE_10__.fatal('task not found', cheap__fileName__0, 583);
     }
     async open(taskId, parameters, wasmDecoderOptions = {}) {
         const task = this.tasks.get(taskId);
         if (task) {
             task.wasmDecoderOptions = wasmDecoderOptions;
+            const codecpar = (0,avutil_util_mem__WEBPACK_IMPORTED_MODULE_25__.avMallocz)(168);
+            if ((0,cheap_std_function_isPointer__WEBPACK_IMPORTED_MODULE_22__["default"])(parameters)) {
+                (0,avutil_util_codecparameters__WEBPACK_IMPORTED_MODULE_26__.copyCodecParameters)(codecpar, parameters);
+            }
+            else {
+                (0,avutil_util_serialize__WEBPACK_IMPORTED_MODULE_24__.unserializeAVCodecParameters)(parameters, codecpar);
+            }
+            if (task.parameters) {
+                (0,avutil_util_codecparameters__WEBPACK_IMPORTED_MODULE_26__.freeCodecParameters)(task.parameters);
+            }
+            task.parameters = codecpar;
             if (task.preferWebCodecs
-                && common_util_support__WEBPACK_IMPORTED_MODULE_20__["default"].videoDecoder
-                && avcodec_webcodec_VideoDecoder__WEBPACK_IMPORTED_MODULE_9__["default"].isSupported(parameters, false)
+                && common_util_support__WEBPACK_IMPORTED_MODULE_21__["default"].videoDecoder
+                && avcodec_webcodec_VideoDecoder__WEBPACK_IMPORTED_MODULE_9__["default"].isSupported(codecpar, false)
                 && task.softwareDecoder instanceof avcodec_wasmcodec_VideoDecoder__WEBPACK_IMPORTED_MODULE_8__["default"]) {
                 task.softwareDecoder.close();
                 const softwareDecoder = this.createWebcodecDecoder(task, false);
@@ -10988,22 +11421,21 @@ class VideoDecodePipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_5__["defaul
                 task.openReject = resolve;
                 if (task.hardwareDecoder) {
                     try {
-                        await task.hardwareDecoder.open(parameters);
+                        await task.hardwareDecoder.open(codecpar);
                     }
                     catch (error) {
-                        common_util_logger__WEBPACK_IMPORTED_MODULE_10__.error(`cannot open hardware decoder, ${error}`, cheap__fileName__0, 570);
+                        common_util_logger__WEBPACK_IMPORTED_MODULE_10__.error(`cannot open hardware decoder, ${error}`, cheap__fileName__0, 623);
                         task.hardwareDecoder.close();
                         task.hardwareDecoder = null;
                         task.targetDecoder = task.softwareDecoder;
                     }
                 }
-                task.parameters = parameters;
                 if (task.targetDecoder === task.softwareDecoder) {
                     try {
                         await this.openSoftwareDecoder(task);
                     }
                     catch (error) {
-                        common_util_logger__WEBPACK_IMPORTED_MODULE_10__.error(`open video software decoder failed, error: ${error}`, cheap__fileName__0, 584);
+                        common_util_logger__WEBPACK_IMPORTED_MODULE_10__.error(`open video software decoder failed, error: ${error}`, cheap__fileName__0, 635);
                         if (!task.hardwareDecoder) {
                             resolve(avutil_error__WEBPACK_IMPORTED_MODULE_6__.CODEC_NOT_SUPPORT);
                             return;
@@ -11013,13 +11445,13 @@ class VideoDecodePipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_5__["defaul
                 resolve(0);
             });
         }
-        common_util_logger__WEBPACK_IMPORTED_MODULE_10__.fatal('task not found', cheap__fileName__0, 594);
+        common_util_logger__WEBPACK_IMPORTED_MODULE_10__.fatal('task not found', cheap__fileName__0, 645);
     }
     async setPlayRate(taskId, rate) {
         const task = this.tasks.get(taskId);
         if (task && task.softwareDecoder) {
             let discard = -16 /* AVDiscard.AVDISCARD_NONE */;
-            let framerate = (0,avutil_util_rational__WEBPACK_IMPORTED_MODULE_17__.avQ2D)((0,cheap_std_structAccess__WEBPACK_IMPORTED_MODULE_3__["default"])(task.parameters + 72, _avutil_struct_rational_ts__WEBPACK_IMPORTED_MODULE_4__.Rational));
+            let framerate = (0,avutil_util_rational__WEBPACK_IMPORTED_MODULE_18__.avQ2D)((0,cheap_std_structAccess__WEBPACK_IMPORTED_MODULE_3__["default"])(task.parameters + 72, _avutil_struct_rational_ts__WEBPACK_IMPORTED_MODULE_4__.Rational));
             if (framerate >= 120) {
                 if (rate <= 1) {
                     discard = -16 /* AVDiscard.AVDISCARD_NONE */;
@@ -11070,7 +11502,7 @@ class VideoDecodePipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_5__["defaul
                 task.targetDecoder = task.hardwareDecoder;
             }
             common_util_array__WEBPACK_IMPORTED_MODULE_13__.each(task.frameCaches, (frame) => {
-                if ((0,cheap_std_function_isPointer__WEBPACK_IMPORTED_MODULE_21__["default"])(frame)) {
+                if ((0,cheap_std_function_isPointer__WEBPACK_IMPORTED_MODULE_22__["default"])(frame)) {
                     task.avframePool.release(frame);
                 }
                 else {
@@ -11080,8 +11512,8 @@ class VideoDecodePipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_5__["defaul
             task.frameCaches.length = 0;
             task.needKeyFrame = true;
             task.inputEnd = false;
-            task.lastDecodeTimestamp = (0,common_function_getTimestamp__WEBPACK_IMPORTED_MODULE_18__["default"])();
-            common_util_logger__WEBPACK_IMPORTED_MODULE_10__.info(`reset video decoder, taskId: ${task.taskId}`, cheap__fileName__0, 665);
+            task.lastDecodeTimestamp = (0,common_function_getTimestamp__WEBPACK_IMPORTED_MODULE_19__["default"])();
+            common_util_logger__WEBPACK_IMPORTED_MODULE_10__.info(`reset video decoder, taskId: ${task.taskId}`, cheap__fileName__0, 716);
         }
     }
     async registerTask(options) {
@@ -11102,13 +11534,16 @@ class VideoDecodePipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_5__["defaul
                 task.hardwareDecoder.close();
             }
             task.frameCaches.forEach((frame) => {
-                if ((0,cheap_std_function_isPointer__WEBPACK_IMPORTED_MODULE_21__["default"])(frame)) {
+                if ((0,cheap_std_function_isPointer__WEBPACK_IMPORTED_MODULE_22__["default"])(frame)) {
                     task.avframePool.release(frame);
                 }
                 else {
                     frame.close();
                 }
             });
+            if (task.parameters) {
+                (0,avutil_util_codecparameters__WEBPACK_IMPORTED_MODULE_26__.freeCodecParameters)(task.parameters);
+            }
             this.tasks.delete(taskId);
         }
     }
@@ -11119,7 +11554,7 @@ class VideoDecodePipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_5__["defaul
                 codecId: cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](task.parameters + 4),
                 width: cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](task.parameters + 56),
                 height: cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](task.parameters + 60),
-                framerate: (0,avutil_util_rational__WEBPACK_IMPORTED_MODULE_17__.avQ2D)((0,cheap_std_structAccess__WEBPACK_IMPORTED_MODULE_3__["default"])(task.parameters + 72, _avutil_struct_rational_ts__WEBPACK_IMPORTED_MODULE_4__.Rational)),
+                framerate: (0,avutil_util_rational__WEBPACK_IMPORTED_MODULE_18__.avQ2D)((0,cheap_std_structAccess__WEBPACK_IMPORTED_MODULE_3__["default"])(task.parameters + 72, _avutil_struct_rational_ts__WEBPACK_IMPORTED_MODULE_4__.Rational)),
                 hardware: task.targetDecoder === task.hardwareDecoder
             });
         });
@@ -11152,14 +11587,16 @@ class VideoDecodePipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_5__["defaul
 /* harmony import */ var avutil_implement_AVFramePoolImpl__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! avutil/implement/AVFramePoolImpl */ "./src/avutil/implement/AVFramePoolImpl.ts");
 /* harmony import */ var common_util_is__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! common/util/is */ "./src/common/util/is.ts");
 /* harmony import */ var common_util_array__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! common/util/array */ "./src/common/util/array.ts");
-/* harmony import */ var common_timer_Sleep__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! common/timer/Sleep */ "./src/common/timer/Sleep.ts");
-/* harmony import */ var avutil_implement_AVPacketPoolImpl__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! avutil/implement/AVPacketPoolImpl */ "./src/avutil/implement/AVPacketPoolImpl.ts");
-/* harmony import */ var common_function_isWorker__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! common/function/isWorker */ "./src/common/function/isWorker.ts");
-/* harmony import */ var avutil_util_rational__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! avutil/util/rational */ "./src/avutil/util/rational.ts");
-/* harmony import */ var common_util_support__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! common/util/support */ "./src/common/util/support.ts");
-/* harmony import */ var avcodec_wasmcodec_VideoEncoder__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! avcodec/wasmcodec/VideoEncoder */ "./src/avcodec/wasmcodec/VideoEncoder.ts");
-/* harmony import */ var avcodec_webcodec_VideoEncoder__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! avcodec/webcodec/VideoEncoder */ "./src/avcodec/webcodec/VideoEncoder.ts");
-/* harmony import */ var cheap_std_function_isPointer__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! cheap/std/function/isPointer */ "./src/cheap/std/function/isPointer.ts");
+/* harmony import */ var common_util_object__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! common/util/object */ "./src/common/util/object.ts");
+/* harmony import */ var common_timer_Sleep__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! common/timer/Sleep */ "./src/common/timer/Sleep.ts");
+/* harmony import */ var avutil_implement_AVPacketPoolImpl__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! avutil/implement/AVPacketPoolImpl */ "./src/avutil/implement/AVPacketPoolImpl.ts");
+/* harmony import */ var common_function_isWorker__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! common/function/isWorker */ "./src/common/function/isWorker.ts");
+/* harmony import */ var avutil_util_rational__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! avutil/util/rational */ "./src/avutil/util/rational.ts");
+/* harmony import */ var common_util_support__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! common/util/support */ "./src/common/util/support.ts");
+/* harmony import */ var avcodec_wasmcodec_VideoEncoder__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! avcodec/wasmcodec/VideoEncoder */ "./src/avcodec/wasmcodec/VideoEncoder.ts");
+/* harmony import */ var avcodec_webcodec_VideoEncoder__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! avcodec/webcodec/VideoEncoder */ "./src/avcodec/webcodec/VideoEncoder.ts");
+/* harmony import */ var cheap_std_function_isPointer__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! cheap/std/function/isPointer */ "./src/cheap/std/function/isPointer.ts");
+/* harmony import */ var avutil_function_compileResource__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! avutil/function/compileResource */ "./src/avutil/function/compileResource.ts");
 var cheap__fileName__0 = "src\\avpipeline\\VideoEncodePipeline.ts";
 
 
@@ -11206,22 +11643,24 @@ var cheap__fileName__0 = "src\\avpipeline\\VideoEncodePipeline.ts";
 
 
 
+
+
 class VideoEncodePipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_5__["default"] {
     constructor() {
         super();
     }
     createWebcodecEncoder(task, enableHardwareAcceleration = true) {
-        return new avcodec_webcodec_VideoEncoder__WEBPACK_IMPORTED_MODULE_18__["default"]({
+        return new avcodec_webcodec_VideoEncoder__WEBPACK_IMPORTED_MODULE_19__["default"]({
             onError: (error) => {
                 if (task.targetEncoder === task.hardwareEncoder) {
                     task.targetEncoder = task.softwareEncoder;
                     task.hardwareEncoder.close();
                     task.hardwareEncoder = null;
                     task.encoderReady = this.openSoftwareEncoder(task);
-                    common_util_logger__WEBPACK_IMPORTED_MODULE_8__.warn(`video encode error width hardware, taskId: ${task.taskId}, error: ${error}, try to fallback to software encoder`, cheap__fileName__0, 117);
+                    common_util_logger__WEBPACK_IMPORTED_MODULE_8__.warn(`video encode error width hardware, taskId: ${task.taskId}, error: ${error}, try to fallback to software encoder`, cheap__fileName__0, 122);
                 }
                 else {
-                    common_util_logger__WEBPACK_IMPORTED_MODULE_8__.error(`video encode error width hardware, taskId: ${task.taskId}, error: ${error}`, cheap__fileName__0, 120);
+                    common_util_logger__WEBPACK_IMPORTED_MODULE_8__.error(`video encode error width hardware, taskId: ${task.taskId}, error: ${error}`, cheap__fileName__0, 125);
                 }
             },
             onReceivePacket(avpacket) {
@@ -11233,14 +11672,36 @@ class VideoEncodePipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_5__["defaul
             avframePool: task.avframePool
         });
     }
-    createTask(options) {
+    createWasmcodecEncoder(task, resource) {
+        return new avcodec_wasmcodec_VideoEncoder__WEBPACK_IMPORTED_MODULE_18__["default"]({
+            resource: task.resource,
+            onError: (error) => {
+                common_util_logger__WEBPACK_IMPORTED_MODULE_8__.error(`video encode error, taskId: ${task.taskId}, error: ${error}`, cheap__fileName__0, 142);
+                if (task.openReject) {
+                    task.openReject(error);
+                    task.openReject = null;
+                }
+            },
+            onReceiveAVPacket(avpacket) {
+                task.avpacketCaches.push(avpacket);
+                cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumWrite[17](task.stats + 152, cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[17](task.stats + 152) + BigInt(1));
+            },
+            avpacketPool: task.avpacketPool
+        });
+    }
+    async createTask(options) {
         const leftIPCPort = new common_network_IPCPort__WEBPACK_IMPORTED_MODULE_7__["default"](options.leftPort);
         const rightIPCPort = new common_network_IPCPort__WEBPACK_IMPORTED_MODULE_7__["default"](options.rightPort);
         const avpacketCaches = [];
         const avframePool = new avutil_implement_AVFramePoolImpl__WEBPACK_IMPORTED_MODULE_9__["default"]((0,cheap_std_structAccess__WEBPACK_IMPORTED_MODULE_3__["default"])(options.avframeList, _cheap_std_collection_List_ts__WEBPACK_IMPORTED_MODULE_2__["default"]), options.avframeListMutex);
-        const avpacketPool = new avutil_implement_AVPacketPoolImpl__WEBPACK_IMPORTED_MODULE_13__["default"]((0,cheap_std_structAccess__WEBPACK_IMPORTED_MODULE_3__["default"])(options.avpacketList, _cheap_std_collection_List_ts__WEBPACK_IMPORTED_MODULE_2__["default"]), options.avpacketListMutex);
+        const avpacketPool = new avutil_implement_AVPacketPoolImpl__WEBPACK_IMPORTED_MODULE_14__["default"]((0,cheap_std_structAccess__WEBPACK_IMPORTED_MODULE_3__["default"])(options.avpacketList, _cheap_std_collection_List_ts__WEBPACK_IMPORTED_MODULE_2__["default"]), options.avpacketListMutex);
+        const resource = await (0,avutil_function_compileResource__WEBPACK_IMPORTED_MODULE_21__["default"])(options.resource, true);
+        if (options.resourceExtraData) {
+            common_util_object__WEBPACK_IMPORTED_MODULE_12__.extend(resource, options.resourceExtraData);
+        }
         const task = {
             ...options,
+            resource,
             leftIPCPort,
             rightIPCPort,
             softwareEncoder: null,
@@ -11258,49 +11719,40 @@ class VideoEncodePipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_5__["defaul
             avframePool,
             avpacketPool
         };
-        task.softwareEncoder = options.resource
-            ? new avcodec_wasmcodec_VideoEncoder__WEBPACK_IMPORTED_MODULE_17__["default"]({
-                resource: options.resource,
-                onError: (error) => {
-                    common_util_logger__WEBPACK_IMPORTED_MODULE_8__.error(`video encode error, taskId: ${options.taskId}, error: ${error}`, cheap__fileName__0, 170);
-                    const task = this.tasks.get(options.taskId);
-                    if (task.openReject) {
-                        task.openReject(error);
-                        task.openReject = null;
-                    }
-                },
-                onReceiveAVPacket(avpacket) {
-                    task.avpacketCaches.push(avpacket);
-                    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumWrite[17](task.stats + 152, cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[17](task.stats + 152) + BigInt(1));
-                },
-                avpacketPool
-            })
-            : (common_util_support__WEBPACK_IMPORTED_MODULE_16__["default"].videoEncoder ? this.createWebcodecEncoder(task, false) : null);
+        task.softwareEncoder = task.resource
+            ? this.createWasmcodecEncoder(task, task.resource)
+            : (common_util_support__WEBPACK_IMPORTED_MODULE_17__["default"].videoEncoder ? this.createWebcodecEncoder(task, false) : null);
         if (!task.softwareEncoder) {
-            common_util_logger__WEBPACK_IMPORTED_MODULE_8__.error('software encoder not support', cheap__fileName__0, 186);
+            common_util_logger__WEBPACK_IMPORTED_MODULE_8__.error('software encoder not support', cheap__fileName__0, 201);
             return avutil_error__WEBPACK_IMPORTED_MODULE_6__.INVALID_OPERATE;
         }
-        if (common_util_support__WEBPACK_IMPORTED_MODULE_16__["default"].videoEncoder && options.enableHardware) {
+        if (common_util_support__WEBPACK_IMPORTED_MODULE_17__["default"].videoEncoder && options.enableHardware) {
             task.hardwareEncoder = this.createWebcodecEncoder(task);
         }
         task.targetEncoder = task.hardwareEncoder || task.softwareEncoder;
         this.tasks.set(options.taskId, task);
         const caches = [];
+        let pullPadding;
+        const MAX = 4;
         async function pullAVFrame() {
             if (!task.inputEnd) {
                 if (!caches.length) {
+                    if (pullPadding) {
+                        await pullPadding;
+                    }
                     const avframe = await leftIPCPort.request('pull');
                     if (common_util_is__WEBPACK_IMPORTED_MODULE_10__.number(avframe) && avframe < 0) {
                         task.inputEnd = true;
                     }
                     caches.push(avframe);
                 }
-                if (caches.length < 4) {
-                    leftIPCPort.request('pull').then((avframe) => {
+                if (caches.length < MAX && !pullPadding) {
+                    pullPadding = leftIPCPort.request('pull').then((avframe) => {
                         if (common_util_is__WEBPACK_IMPORTED_MODULE_10__.number(avframe) && avframe < 0) {
                             task.inputEnd = true;
                         }
                         caches.push(avframe);
+                        pullPadding = null;
                     });
                 }
             }
@@ -11326,31 +11778,49 @@ class VideoEncodePipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_5__["defaul
                                 task.encoderReady = null;
                             }
                             const avframe = await pullAVFrame();
-                            if ((0,cheap_std_function_isPointer__WEBPACK_IMPORTED_MODULE_19__["default"])(avframe) || avframe instanceof VideoFrame) {
-                                let ret = (!task.firstEncoded && task.targetEncoder instanceof avcodec_wasmcodec_VideoEncoder__WEBPACK_IMPORTED_MODULE_17__["default"])
+                            if ((0,cheap_std_function_isPointer__WEBPACK_IMPORTED_MODULE_20__["default"])(avframe) || avframe instanceof VideoFrame) {
+                                let ret = (!task.firstEncoded && task.targetEncoder instanceof avcodec_wasmcodec_VideoEncoder__WEBPACK_IMPORTED_MODULE_18__["default"])
                                     ? await task.targetEncoder.encodeAsync(avframe, task.gopCounter === 0)
                                     : task.targetEncoder.encode(avframe, task.gopCounter === 0);
                                 if (ret < 0) {
                                     cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumWrite[15](task.stats + 140, cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](task.stats + 140) + 1);
-                                    if (task.targetEncoder === task.hardwareEncoder && task.softwareEncoder) {
-                                        task.targetEncoder = task.softwareEncoder;
-                                        task.hardwareEncoder.close();
-                                        task.hardwareEncoder = null;
+                                    if (task.targetEncoder instanceof avcodec_webcodec_VideoEncoder__WEBPACK_IMPORTED_MODULE_19__["default"] && task.softwareEncoder) {
+                                        common_util_logger__WEBPACK_IMPORTED_MODULE_8__.warn(`video encode error from hardware, taskId: ${task.taskId}, error: ${ret}, try to fallback to software decoder`, cheap__fileName__0, 274);
+                                        if (task.targetEncoder === task.hardwareEncoder) {
+                                            task.hardwareEncoder.close();
+                                            task.hardwareEncoder = null;
+                                        }
+                                        else if (task.resource) {
+                                            task.softwareEncoder.close();
+                                            task.softwareEncoder = this.createWasmcodecEncoder(task, task.resource);
+                                        }
+                                        else {
+                                            common_util_logger__WEBPACK_IMPORTED_MODULE_8__.error(`cannot fallback to wasm video encoder because of resource not found , taskId: ${options.taskId}`, cheap__fileName__0, 285);
+                                            rightIPCPort.reply(request, avutil_error__WEBPACK_IMPORTED_MODULE_6__.CODEC_NOT_SUPPORT);
+                                            break;
+                                        }
+                                        try {
+                                            await this.openSoftwareEncoder(task);
+                                            task.targetEncoder = task.softwareEncoder;
+                                        }
+                                        catch (error) {
+                                            common_util_logger__WEBPACK_IMPORTED_MODULE_8__.error(`video software encoder open error, taskId: ${options.taskId}`, cheap__fileName__0, 294);
+                                            rightIPCPort.reply(request, avutil_error__WEBPACK_IMPORTED_MODULE_6__.CODEC_NOT_SUPPORT);
+                                            break;
+                                        }
                                         task.gopCounter = 0;
-                                        await this.openSoftwareEncoder(task);
-                                        common_util_logger__WEBPACK_IMPORTED_MODULE_8__.warn(`video encode error width hardware, taskId: ${task.taskId}, error: ${ret}, try to fallback to software encode`, cheap__fileName__0, 257);
-                                        ret = task.targetEncoder instanceof avcodec_wasmcodec_VideoEncoder__WEBPACK_IMPORTED_MODULE_17__["default"]
+                                        ret = task.targetEncoder instanceof avcodec_wasmcodec_VideoEncoder__WEBPACK_IMPORTED_MODULE_18__["default"]
                                             ? await task.targetEncoder.encodeAsync(avframe, task.gopCounter === 0)
                                             : task.targetEncoder.encode(avframe, task.gopCounter === 0);
                                     }
                                     if (ret < 0) {
-                                        if ((0,cheap_std_function_isPointer__WEBPACK_IMPORTED_MODULE_19__["default"])(avframe)) {
+                                        if ((0,cheap_std_function_isPointer__WEBPACK_IMPORTED_MODULE_20__["default"])(avframe)) {
                                             task.avframePool.release(avframe);
                                         }
                                         else {
                                             avframe.close();
                                         }
-                                        common_util_logger__WEBPACK_IMPORTED_MODULE_8__.error(`video encode error, taskId: ${options.taskId}, ret: ${ret}`, cheap__fileName__0, 270);
+                                        common_util_logger__WEBPACK_IMPORTED_MODULE_8__.error(`video encode error, taskId: ${options.taskId}, ret: ${ret}`, cheap__fileName__0, 312);
                                         rightIPCPort.reply(request, ret);
                                         break;
                                     }
@@ -11360,19 +11830,19 @@ class VideoEncodePipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_5__["defaul
                                 if (task.gopCounter === task.gop) {
                                     task.gopCounter = 0;
                                 }
-                                if ((0,cheap_std_function_isPointer__WEBPACK_IMPORTED_MODULE_19__["default"])(avframe)) {
+                                if ((0,cheap_std_function_isPointer__WEBPACK_IMPORTED_MODULE_20__["default"])(avframe)) {
                                     task.avframePool.release(avframe);
                                 }
                                 else {
                                     avframe.close();
                                 }
                                 // 硬解队列中的 EncodedVideoChunk 过多会报错， 这里判断做一下延时
-                                while (task.targetEncoder instanceof avcodec_webcodec_VideoEncoder__WEBPACK_IMPORTED_MODULE_18__["default"]
+                                while (task.targetEncoder instanceof avcodec_webcodec_VideoEncoder__WEBPACK_IMPORTED_MODULE_19__["default"]
                                     && task.targetEncoder.getQueueLength() > 10
                                 // || task.targetEncoder instanceof WasmVideoEncoder
                                 // && task.targetEncoder.getQueueLength() > 40
                                 ) {
-                                    await new common_timer_Sleep__WEBPACK_IMPORTED_MODULE_12__["default"](0);
+                                    await new common_timer_Sleep__WEBPACK_IMPORTED_MODULE_13__["default"](0);
                                 }
                                 continue;
                             }
@@ -11382,11 +11852,11 @@ class VideoEncodePipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_5__["defaul
                                     if (task.targetEncoder === task.hardwareEncoder) {
                                         // 硬解的 flush 有时会卡主，这里设置 2 秒超时，若超时只能丢弃还未 flush 出来的帧了
                                         let ret = await Promise.race([
-                                            new common_timer_Sleep__WEBPACK_IMPORTED_MODULE_12__["default"](2),
+                                            new common_timer_Sleep__WEBPACK_IMPORTED_MODULE_13__["default"](2),
                                             task.targetEncoder.flush()
                                         ]);
                                         if (common_util_is__WEBPACK_IMPORTED_MODULE_10__.number(ret)) {
-                                            common_util_logger__WEBPACK_IMPORTED_MODULE_8__.warn(`video hardware encoder flush failed, ignore it, taskId: ${task.taskId}`, cheap__fileName__0, 306);
+                                            common_util_logger__WEBPACK_IMPORTED_MODULE_8__.warn(`video hardware encoder flush failed, ignore it, taskId: ${task.taskId}`, cheap__fileName__0, 348);
                                         }
                                     }
                                     else {
@@ -11394,7 +11864,7 @@ class VideoEncodePipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_5__["defaul
                                     }
                                     // 等待 flush 出的帧入队
                                     if (task.targetEncoder === task.hardwareEncoder) {
-                                        await new common_timer_Sleep__WEBPACK_IMPORTED_MODULE_12__["default"](0);
+                                        await new common_timer_Sleep__WEBPACK_IMPORTED_MODULE_13__["default"](0);
                                     }
                                     if (avpacketCaches.length) {
                                         const avpacket = avpacketCaches.shift();
@@ -11402,13 +11872,13 @@ class VideoEncodePipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_5__["defaul
                                         break;
                                     }
                                     else {
-                                        common_util_logger__WEBPACK_IMPORTED_MODULE_8__.info(`video encoder ended, taskId: ${task.taskId}`, cheap__fileName__0, 322);
+                                        common_util_logger__WEBPACK_IMPORTED_MODULE_8__.info(`video encoder ended, taskId: ${task.taskId}`, cheap__fileName__0, 364);
                                         rightIPCPort.reply(request, -1048576 /* IOError.END */);
                                         break;
                                     }
                                 }
                                 else {
-                                    common_util_logger__WEBPACK_IMPORTED_MODULE_8__.error(`video encoder pull avframe error, taskId: ${options.taskId}, ret: ${avframe}`, cheap__fileName__0, 328);
+                                    common_util_logger__WEBPACK_IMPORTED_MODULE_8__.error(`video encoder pull avframe error, taskId: ${options.taskId}, ret: ${avframe}`, cheap__fileName__0, 370);
                                     rightIPCPort.reply(request, avframe);
                                     break;
                                 }
@@ -11416,7 +11886,7 @@ class VideoEncodePipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_5__["defaul
                         }
                         break;
                     }
-                    common_util_logger__WEBPACK_IMPORTED_MODULE_8__.info(`video encoder ended, taskId: ${task.taskId}`, cheap__fileName__0, 336);
+                    common_util_logger__WEBPACK_IMPORTED_MODULE_8__.info(`video encoder ended, taskId: ${task.taskId}`, cheap__fileName__0, 378);
                     rightIPCPort.reply(request, -1048576 /* IOError.END */);
                     break;
                 }
@@ -11428,41 +11898,66 @@ class VideoEncodePipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_5__["defaul
         if (task.softwareEncoder && !task.softwareEncoderOpened) {
             const parameters = task.parameters;
             let threadCount = 1;
-            if ((0,common_function_isWorker__WEBPACK_IMPORTED_MODULE_14__["default"])()) {
+            if ((0,common_function_isWorker__WEBPACK_IMPORTED_MODULE_15__["default"])()) {
                 threadCount = Math.max(threadCount, navigator.hardwareConcurrency);
             }
-            await task.softwareEncoder.open(parameters, task.timeBase, threadCount, task.wasmEncoderOptions);
+            try {
+                await task.softwareEncoder.open(parameters, task.timeBase, threadCount, task.wasmEncoderOptions);
+            }
+            catch (error) {
+                if ((task.softwareEncoder instanceof avcodec_webcodec_VideoEncoder__WEBPACK_IMPORTED_MODULE_19__["default"]) && task.resource) {
+                    common_util_logger__WEBPACK_IMPORTED_MODULE_8__.warn(`webcodecs software encoder open failed, ${error}, try to fallback to wasm software encoder`, cheap__fileName__0, 401);
+                    task.softwareEncoder.close();
+                    task.softwareEncoder = this.createWasmcodecEncoder(task, task.resource);
+                    await task.softwareEncoder.open(parameters, task.timeBase, threadCount, task.wasmEncoderOptions);
+                    task.targetEncoder = task.softwareEncoder;
+                }
+                else {
+                    throw error;
+                }
+            }
             task.softwareEncoderOpened = true;
-            if (task.softwareEncoder instanceof avcodec_wasmcodec_VideoEncoder__WEBPACK_IMPORTED_MODULE_17__["default"]) {
+            if (task.softwareEncoder instanceof avcodec_wasmcodec_VideoEncoder__WEBPACK_IMPORTED_MODULE_18__["default"]) {
                 task.firstEncoded = false;
             }
         }
     }
-    async open(taskId, parameters, timeBase, wasmEncoderOptions = {}) {
+    async open(taskId, codecpar, timeBase, wasmEncoderOptions = {}) {
         const task = this.tasks.get(taskId);
         if (task) {
             task.wasmEncoderOptions = wasmEncoderOptions;
+            if (task.preferWebCodecs
+                && common_util_support__WEBPACK_IMPORTED_MODULE_17__["default"].videoEncoder
+                && avcodec_webcodec_VideoEncoder__WEBPACK_IMPORTED_MODULE_19__["default"].isSupported(codecpar, false)
+                && task.softwareEncoder instanceof avcodec_wasmcodec_VideoEncoder__WEBPACK_IMPORTED_MODULE_18__["default"]) {
+                task.softwareEncoder.close();
+                const softwareEncoder = this.createWebcodecEncoder(task, false);
+                if (task.softwareEncoder === task.targetEncoder) {
+                    task.targetEncoder = softwareEncoder;
+                }
+                task.softwareEncoder = softwareEncoder;
+            }
             return new Promise(async (resolve, reject) => {
                 task.openReject = reject;
                 if (task.hardwareEncoder) {
                     try {
-                        await task.hardwareEncoder.open(parameters, timeBase);
+                        await task.hardwareEncoder.open(codecpar, timeBase);
                     }
                     catch (error) {
-                        common_util_logger__WEBPACK_IMPORTED_MODULE_8__.error(`cannot open hardware encoder, ${error}`, cheap__fileName__0, 372);
+                        common_util_logger__WEBPACK_IMPORTED_MODULE_8__.error(`cannot open hardware encoder, ${error}`, cheap__fileName__0, 445);
                         task.hardwareEncoder.close();
                         task.hardwareEncoder = null;
                         task.targetEncoder = task.softwareEncoder;
                     }
                 }
-                task.parameters = parameters;
+                task.parameters = codecpar;
                 task.timeBase = timeBase;
                 if (task.targetEncoder === task.softwareEncoder) {
                     try {
                         await this.openSoftwareEncoder(task);
                     }
                     catch (error) {
-                        common_util_logger__WEBPACK_IMPORTED_MODULE_8__.error(`open video software encoder failed, error: ${error}`, cheap__fileName__0, 387);
+                        common_util_logger__WEBPACK_IMPORTED_MODULE_8__.error(`open video software encoder failed, error: ${error}`, cheap__fileName__0, 460);
                         if (!task.hardwareEncoder) {
                             resolve(avutil_error__WEBPACK_IMPORTED_MODULE_6__.CODEC_NOT_SUPPORT);
                             return;
@@ -11472,7 +11967,7 @@ class VideoEncodePipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_5__["defaul
                 resolve(0);
             });
         }
-        common_util_logger__WEBPACK_IMPORTED_MODULE_8__.fatal('task not found', cheap__fileName__0, 397);
+        common_util_logger__WEBPACK_IMPORTED_MODULE_8__.fatal('task not found', cheap__fileName__0, 470);
     }
     async resetTask(taskId) {
         const task = this.tasks.get(taskId);
@@ -11493,7 +11988,7 @@ class VideoEncodePipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_5__["defaul
             task.avpacketCaches.length = 0;
             task.inputEnd = false;
             task.encodeEnd = false;
-            common_util_logger__WEBPACK_IMPORTED_MODULE_8__.info(`reset video encode, taskId: ${task.taskId}`, cheap__fileName__0, 420);
+            common_util_logger__WEBPACK_IMPORTED_MODULE_8__.info(`reset video encode, taskId: ${task.taskId}`, cheap__fileName__0, 493);
         }
     }
     async getExtraData(taskId) {
@@ -11501,14 +11996,14 @@ class VideoEncodePipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_5__["defaul
         if (task) {
             return task.targetEncoder.getExtraData();
         }
-        common_util_logger__WEBPACK_IMPORTED_MODULE_8__.fatal('task not found', cheap__fileName__0, 429);
+        common_util_logger__WEBPACK_IMPORTED_MODULE_8__.fatal('task not found', cheap__fileName__0, 502);
     }
     async getColorSpace(taskId) {
         const task = this.tasks.get(taskId);
         if (task) {
             return task.targetEncoder.getColorSpace();
         }
-        common_util_logger__WEBPACK_IMPORTED_MODULE_8__.fatal('task not found', cheap__fileName__0, 437);
+        common_util_logger__WEBPACK_IMPORTED_MODULE_8__.fatal('task not found', cheap__fileName__0, 510);
     }
     async registerTask(options) {
         if (this.tasks.has(options.taskId)) {
@@ -11540,7 +12035,7 @@ class VideoEncodePipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_5__["defaul
                 codecId: cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](task.parameters + 4),
                 width: cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](task.parameters + 56),
                 height: cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](task.parameters + 60),
-                framerate: (0,avutil_util_rational__WEBPACK_IMPORTED_MODULE_15__.avQ2D)((0,cheap_std_structAccess__WEBPACK_IMPORTED_MODULE_3__["default"])(task.parameters + 72, _avutil_struct_rational_ts__WEBPACK_IMPORTED_MODULE_4__.Rational)),
+                framerate: (0,avutil_util_rational__WEBPACK_IMPORTED_MODULE_16__.avQ2D)((0,cheap_std_structAccess__WEBPACK_IMPORTED_MODULE_3__["default"])(task.parameters + 72, _avutil_struct_rational_ts__WEBPACK_IMPORTED_MODULE_4__.Rational)),
                 hardware: task.targetEncoder === task.hardwareEncoder
             });
         });
@@ -11561,6 +12056,7 @@ class VideoEncodePipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_5__["defaul
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ Stats)
 /* harmony export */ });
+/* unused harmony export JitterBuffer */
 /* harmony import */ var cheap_symbol__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! cheap/symbol */ "./src/cheap/symbol.ts");
 /* harmony import */ var cheap_function_definedMetaProperty__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! cheap/function/definedMetaProperty */ "./src/cheap/function/definedMetaProperty.ts");
 
@@ -11589,6 +12085,19 @@ class VideoEncodePipeline extends _Pipeline__WEBPACK_IMPORTED_MODULE_5__["defaul
  * Lesser General Public License for more details.
  *
  */
+class JitterBuffer {
+    min;
+    max;
+}
+(function (prototype) {
+    var map = new Map();
+    map.set("min", { 0: 15, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0 });
+    map.set("max", { 0: 15, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 4, 8: 0 });
+    (0,cheap_function_definedMetaProperty__WEBPACK_IMPORTED_MODULE_1__["default"])(prototype, cheap_symbol__WEBPACK_IMPORTED_MODULE_0__.symbolStruct, true);
+    (0,cheap_function_definedMetaProperty__WEBPACK_IMPORTED_MODULE_1__["default"])(prototype, cheap_symbol__WEBPACK_IMPORTED_MODULE_0__.symbolStructMaxBaseTypeByteLength, 4);
+    (0,cheap_function_definedMetaProperty__WEBPACK_IMPORTED_MODULE_1__["default"])(prototype, cheap_symbol__WEBPACK_IMPORTED_MODULE_0__.symbolStructLength, 8);
+    (0,cheap_function_definedMetaProperty__WEBPACK_IMPORTED_MODULE_1__["default"])(prototype, cheap_symbol__WEBPACK_IMPORTED_MODULE_0__.symbolStructKeysMeta, map);
+})(JitterBuffer.prototype);
 class Stats {
     /**
      * 音频通道数
@@ -11772,6 +12281,10 @@ class Stats {
      */
     jitter;
     /**
+     * jitter buffer
+     */
+    jitterBuffer;
+    /**
      * 音频卡顿次数
      */
     audioStutter;
@@ -11859,17 +12372,18 @@ class Stats {
     map.set("videoFrameRenderIntervalMax", { 0: 15, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 252, 8: 0 });
     map.set("bandwidth", { 0: 15, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 256, 8: 0 });
     map.set("jitter", { 0: 19, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 264, 8: 0 });
-    map.set("audioStutter", { 0: 15, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 272, 8: 0 });
-    map.set("videoStutter", { 0: 15, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 276, 8: 0 });
-    map.set("firstAudioMuxDts", { 0: 17, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 280, 8: 0 });
-    map.set("lastAudioMuxDts", { 0: 17, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 288, 8: 0 });
-    map.set("firstVideoMuxDts", { 0: 17, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 296, 8: 0 });
-    map.set("lastVideoMuxDts", { 0: 17, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 304, 8: 0 });
-    map.set("audioCurrentTime", { 0: 17, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 312, 8: 0 });
-    map.set("videoCurrentTime", { 0: 17, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 320, 8: 0 });
+    map.set("jitterBuffer", { 0: JitterBuffer, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 272, 8: 0 });
+    map.set("audioStutter", { 0: 15, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 280, 8: 0 });
+    map.set("videoStutter", { 0: 15, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 284, 8: 0 });
+    map.set("firstAudioMuxDts", { 0: 17, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 288, 8: 0 });
+    map.set("lastAudioMuxDts", { 0: 17, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 296, 8: 0 });
+    map.set("firstVideoMuxDts", { 0: 17, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 304, 8: 0 });
+    map.set("lastVideoMuxDts", { 0: 17, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 312, 8: 0 });
+    map.set("audioCurrentTime", { 0: 17, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 320, 8: 0 });
+    map.set("videoCurrentTime", { 0: 17, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 328, 8: 0 });
     (0,cheap_function_definedMetaProperty__WEBPACK_IMPORTED_MODULE_1__["default"])(prototype, cheap_symbol__WEBPACK_IMPORTED_MODULE_0__.symbolStruct, true);
     (0,cheap_function_definedMetaProperty__WEBPACK_IMPORTED_MODULE_1__["default"])(prototype, cheap_symbol__WEBPACK_IMPORTED_MODULE_0__.symbolStructMaxBaseTypeByteLength, 8);
-    (0,cheap_function_definedMetaProperty__WEBPACK_IMPORTED_MODULE_1__["default"])(prototype, cheap_symbol__WEBPACK_IMPORTED_MODULE_0__.symbolStructLength, 328);
+    (0,cheap_function_definedMetaProperty__WEBPACK_IMPORTED_MODULE_1__["default"])(prototype, cheap_symbol__WEBPACK_IMPORTED_MODULE_0__.symbolStructLength, 336);
     (0,cheap_function_definedMetaProperty__WEBPACK_IMPORTED_MODULE_1__["default"])(prototype, cheap_symbol__WEBPACK_IMPORTED_MODULE_0__.symbolStructKeysMeta, map);
 })(Stats.prototype);
 
@@ -11892,34 +12406,34 @@ class Stats {
 /* harmony import */ var _cheap_thread_mutex_ts__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! cheap/thread/mutex */ "./src/cheap/thread/mutex.ts");
 /* harmony import */ var cheap_std_make__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! cheap/std/make */ "./src/cheap/std/make.ts");
 /* harmony import */ var cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! cheap/ctypeEnumRead */ "./src/cheap/ctypeEnumRead.ts");
-/* harmony import */ var _avutil_struct_rational_ts__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! avutil/struct/rational */ "./src/avutil/struct/rational.ts");
-/* harmony import */ var cheap_std_structAccess__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! cheap/std/structAccess */ "./src/cheap/std/structAccess.ts");
-/* harmony import */ var cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! cheap/ctypeEnumWrite */ "./src/cheap/ctypeEnumWrite.ts");
+/* harmony import */ var cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! cheap/ctypeEnumWrite */ "./src/cheap/ctypeEnumWrite.ts");
+/* harmony import */ var _avutil_struct_rational_ts__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./..\avutil\struct\rational.ts */ "./src/avutil/struct/rational.ts");
+/* harmony import */ var cheap_std_structAccess__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! cheap/std/structAccess */ "./src/cheap/std/structAccess.ts");
 /* harmony import */ var cheap_std_unmake__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! cheap/std/unmake */ "./src/cheap/std/unmake.ts");
-/* harmony import */ var _avutil_struct_avcodecparameters_ts__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! avutil/struct/avcodecparameters */ "./src/avutil/struct/avcodecparameters.ts");
-/* harmony import */ var avpipeline_IOPipeline__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! avpipeline/IOPipeline */ "./src/avpipeline/IOPipeline.ts");
-/* harmony import */ var avpipeline_DemuxPipeline__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! avpipeline/DemuxPipeline */ "./src/avpipeline/DemuxPipeline.ts");
-/* harmony import */ var avpipeline_VideoDecodePipeline__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! avpipeline/VideoDecodePipeline */ "./src/avpipeline/VideoDecodePipeline.ts");
-/* harmony import */ var avpipeline_AudioDecodePipeline__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! avpipeline/AudioDecodePipeline */ "./src/avpipeline/AudioDecodePipeline.ts");
-/* harmony import */ var cheap_thread_thread__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! cheap/thread/thread */ "./src/cheap/thread/thread.ts");
-/* harmony import */ var common_function_generateUUID__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! common/function/generateUUID */ "./src/common/function/generateUUID.ts");
-/* harmony import */ var common_util_is__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! common/util/is */ "./src/common/util/is.ts");
-/* harmony import */ var common_util_object__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! common/util/object */ "./src/common/util/object.ts");
-/* harmony import */ var cheap_webassembly_compiler__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! cheap/webassembly/compiler */ "./src/cheap/webassembly/compiler.ts");
-/* harmony import */ var common_util_url__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! common/util/url */ "./src/common/util/url.ts");
-/* harmony import */ var cheap_config__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! cheap/config */ "./src/cheap/config.ts");
-/* harmony import */ var common_util_logger__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! common/util/logger */ "./src/common/util/logger.ts");
-/* harmony import */ var common_util_support__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! common/util/support */ "./src/common/util/support.ts");
-/* harmony import */ var common_util_browser__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! common/util/browser */ "./src/common/util/browser.ts");
-/* harmony import */ var avutil_util_rational__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! avutil/util/rational */ "./src/avutil/util/rational.ts");
-/* harmony import */ var avutil_constant__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! avutil/constant */ "./src/avutil/constant.ts");
-/* harmony import */ var cheap_std_memory__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! cheap/std/memory */ "./src/cheap/std/memory.ts");
-/* harmony import */ var avcodec_function_getVideoCodec__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! avcodec/function/getVideoCodec */ "./src/avcodec/function/getVideoCodec.ts");
-/* harmony import */ var avpipeline_AudioEncodePipeline__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! avpipeline/AudioEncodePipeline */ "./src/avpipeline/AudioEncodePipeline.ts");
-/* harmony import */ var avpipeline_VideoEncodePipeline__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! avpipeline/VideoEncodePipeline */ "./src/avpipeline/VideoEncodePipeline.ts");
-/* harmony import */ var avutil_stringEnum__WEBPACK_IMPORTED_MODULE_31__ = __webpack_require__(/*! avutil/stringEnum */ "./src/avutil/stringEnum.ts");
-/* harmony import */ var avpipeline_MuxPipeline__WEBPACK_IMPORTED_MODULE_32__ = __webpack_require__(/*! avpipeline/MuxPipeline */ "./src/avpipeline/MuxPipeline.ts");
-/* harmony import */ var avpipeline_struct_stats__WEBPACK_IMPORTED_MODULE_33__ = __webpack_require__(/*! avpipeline/struct/stats */ "./src/avpipeline/struct/stats.ts");
+/* harmony import */ var _avpipeline_struct_stats_ts__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./..\avpipeline\struct\stats.ts */ "./src/avpipeline/struct/stats.ts");
+/* harmony import */ var _avutil_struct_avcodecparameters_ts__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! avutil/struct/avcodecparameters */ "./src/avutil/struct/avcodecparameters.ts");
+/* harmony import */ var avpipeline_IOPipeline__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! avpipeline/IOPipeline */ "./src/avpipeline/IOPipeline.ts");
+/* harmony import */ var avpipeline_DemuxPipeline__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! avpipeline/DemuxPipeline */ "./src/avpipeline/DemuxPipeline.ts");
+/* harmony import */ var avpipeline_VideoDecodePipeline__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! avpipeline/VideoDecodePipeline */ "./src/avpipeline/VideoDecodePipeline.ts");
+/* harmony import */ var avpipeline_AudioDecodePipeline__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! avpipeline/AudioDecodePipeline */ "./src/avpipeline/AudioDecodePipeline.ts");
+/* harmony import */ var cheap_thread_thread__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! cheap/thread/thread */ "./src/cheap/thread/thread.ts");
+/* harmony import */ var common_function_generateUUID__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! common/function/generateUUID */ "./src/common/function/generateUUID.ts");
+/* harmony import */ var common_util_is__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! common/util/is */ "./src/common/util/is.ts");
+/* harmony import */ var common_util_object__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! common/util/object */ "./src/common/util/object.ts");
+/* harmony import */ var common_util_array__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! common/util/array */ "./src/common/util/array.ts");
+/* harmony import */ var cheap_webassembly_compiler__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! cheap/webassembly/compiler */ "./src/cheap/webassembly/compiler.ts");
+/* harmony import */ var common_util_url__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! common/util/url */ "./src/common/util/url.ts");
+/* harmony import */ var common_util_logger__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! common/util/logger */ "./src/common/util/logger.ts");
+/* harmony import */ var common_util_support__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! common/util/support */ "./src/common/util/support.ts");
+/* harmony import */ var common_util_browser__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! common/util/browser */ "./src/common/util/browser.ts");
+/* harmony import */ var avutil_util_rational__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! avutil/util/rational */ "./src/avutil/util/rational.ts");
+/* harmony import */ var avutil_constant__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! avutil/constant */ "./src/avutil/constant.ts");
+/* harmony import */ var cheap_std_memory__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! cheap/std/memory */ "./src/cheap/std/memory.ts");
+/* harmony import */ var avcodec_function_getVideoCodec__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! avcodec/function/getVideoCodec */ "./src/avcodec/function/getVideoCodec.ts");
+/* harmony import */ var avpipeline_AudioEncodePipeline__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! avpipeline/AudioEncodePipeline */ "./src/avpipeline/AudioEncodePipeline.ts");
+/* harmony import */ var avpipeline_VideoEncodePipeline__WEBPACK_IMPORTED_MODULE_31__ = __webpack_require__(/*! avpipeline/VideoEncodePipeline */ "./src/avpipeline/VideoEncodePipeline.ts");
+/* harmony import */ var avutil_stringEnum__WEBPACK_IMPORTED_MODULE_32__ = __webpack_require__(/*! avutil/stringEnum */ "./src/avutil/stringEnum.ts");
+/* harmony import */ var avpipeline_MuxPipeline__WEBPACK_IMPORTED_MODULE_33__ = __webpack_require__(/*! avpipeline/MuxPipeline */ "./src/avpipeline/MuxPipeline.ts");
 /* harmony import */ var common_network_IPCPort__WEBPACK_IMPORTED_MODULE_34__ = __webpack_require__(/*! common/network/IPCPort */ "./src/common/network/IPCPort.ts");
 /* harmony import */ var avutil_error__WEBPACK_IMPORTED_MODULE_35__ = __webpack_require__(/*! avutil/error */ "./src/avutil/error.ts");
 /* harmony import */ var avcodec_function_getAudioCodec__WEBPACK_IMPORTED_MODULE_36__ = __webpack_require__(/*! avcodec/function/getAudioCodec */ "./src/avcodec/function/getAudioCodec.ts");
@@ -11941,10 +12455,19 @@ class Stats {
 /* harmony import */ var avfilter_graph__WEBPACK_IMPORTED_MODULE_52__ = __webpack_require__(/*! avfilter/graph */ "./src/avfilter/graph.ts");
 /* harmony import */ var common_function_getTimestamp__WEBPACK_IMPORTED_MODULE_53__ = __webpack_require__(/*! common/function/getTimestamp */ "./src/common/function/getTimestamp.ts");
 /* harmony import */ var common_timer_Timer__WEBPACK_IMPORTED_MODULE_54__ = __webpack_require__(/*! common/timer/Timer */ "./src/common/timer/Timer.ts");
-/* harmony import */ var avutil_function_createMessageChannel__WEBPACK_IMPORTED_MODULE_55__ = __webpack_require__(/*! avutil/function/createMessageChannel */ "./src/avutil/function/createMessageChannel.ts");
+/* harmony import */ var _function_createMessageChannel__WEBPACK_IMPORTED_MODULE_55__ = __webpack_require__(/*! ./function/createMessageChannel */ "./src/avtranscoder/function/createMessageChannel.ts");
 /* harmony import */ var _Controller__WEBPACK_IMPORTED_MODULE_56__ = __webpack_require__(/*! ./Controller */ "./src/avtranscoder/Controller.ts");
 /* harmony import */ var avformat_dump__WEBPACK_IMPORTED_MODULE_57__ = __webpack_require__(/*! avformat/dump */ "./src/avformat/dump.ts");
+/* harmony import */ var common_util_os__WEBPACK_IMPORTED_MODULE_58__ = __webpack_require__(/*! common/util/os */ "./src/common/util/os.ts");
+/* harmony import */ var avutil_function_compileResource__WEBPACK_IMPORTED_MODULE_59__ = __webpack_require__(/*! avutil/function/compileResource */ "./src/avutil/function/compileResource.ts");
+/* harmony import */ var avnetwork_ioLoader_CustomIOLoader__WEBPACK_IMPORTED_MODULE_60__ = __webpack_require__(/*! avnetwork/ioLoader/CustomIOLoader */ "./src/avnetwork/ioLoader/CustomIOLoader.ts");
+/* harmony import */ var avnetwork_ioLoader_FetchIOLoader__WEBPACK_IMPORTED_MODULE_61__ = __webpack_require__(/*! avnetwork/ioLoader/FetchIOLoader */ "./src/avnetwork/ioLoader/FetchIOLoader.ts");
+/* harmony import */ var avnetwork_ioLoader_FileIOLoader__WEBPACK_IMPORTED_MODULE_62__ = __webpack_require__(/*! avnetwork/ioLoader/FileIOLoader */ "./src/avnetwork/ioLoader/FileIOLoader.ts");
 var cheap__fileName__12 = "src\\avtranscoder\\AVTranscoder.ts";
+
+
+
+
 
 
 
@@ -12023,12 +12546,20 @@ class AVTranscoderGlobalData {
     (0,cheap_function_definedMetaProperty__WEBPACK_IMPORTED_MODULE_1__["default"])(prototype, cheap_symbol__WEBPACK_IMPORTED_MODULE_0__.symbolStructLength, 32);
     (0,cheap_function_definedMetaProperty__WEBPACK_IMPORTED_MODULE_1__["default"])(prototype, cheap_symbol__WEBPACK_IMPORTED_MODULE_0__.symbolStructKeysMeta, map);
 })(AVTranscoderGlobalData.prototype);
-const defaultAVTranscoderOptions = {
-    enableHardware: true
-};
+const defaultAVTranscoderOptions = {};
 class AVTranscoder extends common_event_Emitter__WEBPACK_IMPORTED_MODULE_40__["default"] {
+    static Util = {
+        compile: cheap_webassembly_compiler__WEBPACK_IMPORTED_MODULE_21__["default"],
+        browser: common_util_browser__WEBPACK_IMPORTED_MODULE_25__["default"],
+        os: common_util_os__WEBPACK_IMPORTED_MODULE_58__["default"]
+    };
+    static IOLoader = {
+        CustomIOLoader: avnetwork_ioLoader_CustomIOLoader__WEBPACK_IMPORTED_MODULE_60__["default"],
+        FetchIOLoader: avnetwork_ioLoader_FetchIOLoader__WEBPACK_IMPORTED_MODULE_61__["default"],
+        FileIOLoader: avnetwork_ioLoader_FileIOLoader__WEBPACK_IMPORTED_MODULE_62__["default"]
+    };
     static Resource = new Map();
-    level = common_util_logger__WEBPACK_IMPORTED_MODULE_22__.INFO;
+    level = common_util_logger__WEBPACK_IMPORTED_MODULE_23__.INFO;
     DemuxThreadReady;
     AudioThreadReady;
     VideoThreadReady;
@@ -12050,7 +12581,7 @@ class AVTranscoder extends common_event_Emitter__WEBPACK_IMPORTED_MODULE_40__["d
     reportTimer;
     constructor(options) {
         super(true);
-        this.options = common_util_object__WEBPACK_IMPORTED_MODULE_18__.extend({}, defaultAVTranscoderOptions, options);
+        this.options = common_util_object__WEBPACK_IMPORTED_MODULE_19__.extend({}, defaultAVTranscoderOptions, options);
         this.GlobalData = (0,cheap_std_make__WEBPACK_IMPORTED_MODULE_4__["default"])(AVTranscoderGlobalData);
         _cheap_thread_mutex_ts__WEBPACK_IMPORTED_MODULE_3__.init(this.GlobalData[cheap_symbol__WEBPACK_IMPORTED_MODULE_0__.symbolStructAddress] + 24);
         _cheap_thread_mutex_ts__WEBPACK_IMPORTED_MODULE_3__.init(this.GlobalData[cheap_symbol__WEBPACK_IMPORTED_MODULE_0__.symbolStructAddress] + 28);
@@ -12058,7 +12589,7 @@ class AVTranscoder extends common_event_Emitter__WEBPACK_IMPORTED_MODULE_40__["d
         this.reportTimer = new common_timer_Timer__WEBPACK_IMPORTED_MODULE_54__["default"](() => {
             this.report();
         }, 0, 1000);
-        common_util_logger__WEBPACK_IMPORTED_MODULE_22__.info(`create transcoder`, cheap__fileName__12, 278);
+        common_util_logger__WEBPACK_IMPORTED_MODULE_23__.info('create transcoder', cheap__fileName__12, 298);
     }
     async getResource(type, codecId, mediaType) {
         const key = codecId != null ? `${type}-${codecId}` : type;
@@ -12068,22 +12599,26 @@ class AVTranscoder extends common_event_Emitter__WEBPACK_IMPORTED_MODULE_40__["d
         const wasmUrl = this.options.getWasm(type, codecId, mediaType);
         let resource;
         if (wasmUrl) {
-            if (common_util_is__WEBPACK_IMPORTED_MODULE_17__.string(wasmUrl) || common_util_is__WEBPACK_IMPORTED_MODULE_17__.arrayBuffer(wasmUrl)) {
-                resource = await (0,cheap_webassembly_compiler__WEBPACK_IMPORTED_MODULE_19__["default"])({
-                    source: wasmUrl
-                });
-                if (cheap_config__WEBPACK_IMPORTED_MODULE_21__.USE_THREADS && true && mediaType === 0 /* AVMediaType.AVMEDIA_TYPE_VIDEO */) {
-                    resource.threadModule = await (0,cheap_webassembly_compiler__WEBPACK_IMPORTED_MODULE_19__["default"])({
-                        // firefox 使用 arraybuffer 会卡主
-                        source: common_util_browser__WEBPACK_IMPORTED_MODULE_24__["default"].firefox ? wasmUrl : resource.buffer
-                    }, {
-                        child: true
-                    });
+            let resource;
+            // safari 16 以下不支持将 WebAssembly.Module 传递到 worker 中
+            if (common_util_browser__WEBPACK_IMPORTED_MODULE_25__["default"].safari && !common_util_browser__WEBPACK_IMPORTED_MODULE_25__["default"].checkVersion(common_util_browser__WEBPACK_IMPORTED_MODULE_25__["default"].version, '16.1', true) && (common_util_is__WEBPACK_IMPORTED_MODULE_18__.string(wasmUrl) || common_util_is__WEBPACK_IMPORTED_MODULE_18__.arrayBuffer(wasmUrl))) {
+                if (common_util_is__WEBPACK_IMPORTED_MODULE_18__.string(wasmUrl)) {
+                    const params = {
+                        method: 'GET',
+                        headers: {},
+                        mode: 'cors',
+                        cache: 'default',
+                        referrerPolicy: 'no-referrer-when-downgrade'
+                    };
+                    const response = await fetch(wasmUrl, params);
+                    resource = await response.arrayBuffer();
                 }
-                delete resource.buffer;
+                else {
+                    resource = wasmUrl;
+                }
             }
             else {
-                resource = wasmUrl;
+                resource = await (0,avutil_function_compileResource__WEBPACK_IMPORTED_MODULE_59__["default"])(wasmUrl, mediaType === 0 /* AVMediaType.AVMEDIA_TYPE_VIDEO */);
             }
             AVTranscoder.Resource.set(key, resource);
             return resource;
@@ -12100,20 +12635,20 @@ class AVTranscoder extends common_event_Emitter__WEBPACK_IMPORTED_MODULE_40__["d
                     const stream = task.streams.find((s) => cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](s.input.codecpar) === 0 /* AVMediaType.AVMEDIA_TYPE_VIDEO */);
                     dts = task.stats.lastVideoMuxDts - task.stats.firstVideoMuxDts;
                     if (stream.output) {
-                        duration = (0,avutil_util_rational__WEBPACK_IMPORTED_MODULE_25__.avRescaleQ)(stream.output.duration, (0,cheap_std_structAccess__WEBPACK_IMPORTED_MODULE_7__["default"])(stream.output.timeBase, _avutil_struct_rational_ts__WEBPACK_IMPORTED_MODULE_6__.Rational), avutil_constant__WEBPACK_IMPORTED_MODULE_26__.AV_MILLI_TIME_BASE_Q);
+                        duration = (0,avutil_util_rational__WEBPACK_IMPORTED_MODULE_26__.avRescaleQ)(stream.output.duration, stream.output.timeBase, avutil_constant__WEBPACK_IMPORTED_MODULE_27__.AV_MILLI_TIME_BASE_Q);
                     }
                     else {
-                        duration = (0,avutil_util_rational__WEBPACK_IMPORTED_MODULE_25__.avRescaleQ)(stream.input.duration, (0,cheap_std_structAccess__WEBPACK_IMPORTED_MODULE_7__["default"])(stream.input.timeBase, _avutil_struct_rational_ts__WEBPACK_IMPORTED_MODULE_6__.Rational), avutil_constant__WEBPACK_IMPORTED_MODULE_26__.AV_MILLI_TIME_BASE_Q);
+                        duration = (0,avutil_util_rational__WEBPACK_IMPORTED_MODULE_26__.avRescaleQ)(stream.input.duration, stream.input.timeBase, avutil_constant__WEBPACK_IMPORTED_MODULE_27__.AV_MILLI_TIME_BASE_Q);
                     }
                 }
                 if (task.stats.lastAudioMuxDts && !dts) {
                     const stream = task.streams.find((s) => cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](s.input.codecpar) === 1 /* AVMediaType.AVMEDIA_TYPE_AUDIO */);
                     dts = task.stats.lastAudioMuxDts - task.stats.firstAudioMuxDts;
                     if (stream.output) {
-                        duration = (0,avutil_util_rational__WEBPACK_IMPORTED_MODULE_25__.avRescaleQ)(stream.output.duration, (0,cheap_std_structAccess__WEBPACK_IMPORTED_MODULE_7__["default"])(stream.output.timeBase, _avutil_struct_rational_ts__WEBPACK_IMPORTED_MODULE_6__.Rational), avutil_constant__WEBPACK_IMPORTED_MODULE_26__.AV_MILLI_TIME_BASE_Q);
+                        duration = (0,avutil_util_rational__WEBPACK_IMPORTED_MODULE_26__.avRescaleQ)(stream.output.duration, stream.output.timeBase, avutil_constant__WEBPACK_IMPORTED_MODULE_27__.AV_MILLI_TIME_BASE_Q);
                     }
                     else {
-                        duration = (0,avutil_util_rational__WEBPACK_IMPORTED_MODULE_25__.avRescaleQ)(stream.input.duration, (0,cheap_std_structAccess__WEBPACK_IMPORTED_MODULE_7__["default"])(stream.input.timeBase, _avutil_struct_rational_ts__WEBPACK_IMPORTED_MODULE_6__.Rational), avutil_constant__WEBPACK_IMPORTED_MODULE_26__.AV_MILLI_TIME_BASE_Q);
+                        duration = (0,avutil_util_rational__WEBPACK_IMPORTED_MODULE_26__.avRescaleQ)(stream.input.duration, stream.input.timeBase, avutil_constant__WEBPACK_IMPORTED_MODULE_27__.AV_MILLI_TIME_BASE_Q);
                     }
                 }
                 const fps = time ? (Number(frameCount) / (time / 1000)) : Number(frameCount);
@@ -12124,7 +12659,7 @@ class AVTranscoder extends common_event_Emitter__WEBPACK_IMPORTED_MODULE_40__["d
                 if (progress > 100) {
                     progress = 100;
                 }
-                common_util_logger__WEBPACK_IMPORTED_MODULE_22__.info(`[${task.taskId}] frame=${frameCount} fps=${fps.toFixed(2)} size=${size}kB time=${(0,avformat_dump__WEBPACK_IMPORTED_MODULE_57__.dumpTime)(dts)} bitrate=${bitrate.toFixed(2)}kbps speed=${speed.toFixed(2)}x progress=${progress.toFixed(2)}%`, cheap__fileName__12, 358);
+                common_util_logger__WEBPACK_IMPORTED_MODULE_23__.info(`[${task.taskId}] frame=${frameCount} fps=${fps.toFixed(2)} size=${size}kB time=${(0,avformat_dump__WEBPACK_IMPORTED_MODULE_57__.dumpTime)(dts)} bitrate=${bitrate.toFixed(2)}kbps speed=${speed.toFixed(2)}x progress=${progress.toFixed(2)}%`, cheap__fileName__12, 377);
                 if (this.options.onprogress) {
                     this.options.onprogress(task.taskId, progress);
                 }
@@ -12136,11 +12671,11 @@ class AVTranscoder extends common_event_Emitter__WEBPACK_IMPORTED_MODULE_40__["d
             return this.DemuxThreadReady;
         }
         return this.DemuxThreadReady = new Promise(async (resolve) => {
-            this.IOThread = await (0,cheap_thread_thread__WEBPACK_IMPORTED_MODULE_15__.createThreadFromClass)(avpipeline_IOPipeline__WEBPACK_IMPORTED_MODULE_11__["default"], {
+            this.IOThread = await (0,cheap_thread_thread__WEBPACK_IMPORTED_MODULE_16__.createThreadFromClass)(avpipeline_IOPipeline__WEBPACK_IMPORTED_MODULE_12__["default"], {
                 name: 'IOThread'
             }, /*require.resolve*/(/*! ./..\avpipeline\IOPipeline.ts */ "./src/avpipeline/IOPipeline.ts")).run();
             this.IOThread.setLogLevel(this.level);
-            this.DemuxerThread = await (0,cheap_thread_thread__WEBPACK_IMPORTED_MODULE_15__.createThreadFromClass)(avpipeline_DemuxPipeline__WEBPACK_IMPORTED_MODULE_12__["default"], {
+            this.DemuxerThread = await (0,cheap_thread_thread__WEBPACK_IMPORTED_MODULE_16__.createThreadFromClass)(avpipeline_DemuxPipeline__WEBPACK_IMPORTED_MODULE_13__["default"], {
                 name: 'DemuxerThread'
             }, /*require.resolve*/(/*! ./..\avpipeline\DemuxPipeline.ts */ "./src/avpipeline/DemuxPipeline.ts")).run();
             this.DemuxerThread.setLogLevel(this.level);
@@ -12152,19 +12687,19 @@ class AVTranscoder extends common_event_Emitter__WEBPACK_IMPORTED_MODULE_40__["d
             return this.VideoThreadReady;
         }
         return this.VideoThreadReady = new Promise(async (resolve) => {
-            this.VideoDecoderThread = await (0,cheap_thread_thread__WEBPACK_IMPORTED_MODULE_15__.createThreadFromClass)(avpipeline_VideoDecodePipeline__WEBPACK_IMPORTED_MODULE_13__["default"], {
+            this.VideoDecoderThread = await (0,cheap_thread_thread__WEBPACK_IMPORTED_MODULE_16__.createThreadFromClass)(avpipeline_VideoDecodePipeline__WEBPACK_IMPORTED_MODULE_14__["default"], {
                 name: 'VideoDecoderThread',
-                disableWorker: common_util_browser__WEBPACK_IMPORTED_MODULE_24__["default"].safari && !common_util_browser__WEBPACK_IMPORTED_MODULE_24__["default"].checkVersion(common_util_browser__WEBPACK_IMPORTED_MODULE_24__["default"].version, '16.1', true)
+                disableWorker: common_util_browser__WEBPACK_IMPORTED_MODULE_25__["default"].safari && !common_util_browser__WEBPACK_IMPORTED_MODULE_25__["default"].checkVersion(common_util_browser__WEBPACK_IMPORTED_MODULE_25__["default"].version, '16.1', true)
             }, /*require.resolve*/(/*! ./..\avpipeline\VideoDecodePipeline.ts */ "./src/avpipeline/VideoDecodePipeline.ts")).run();
             this.VideoDecoderThread.setLogLevel(this.level);
-            this.VideoFilterThread = await (0,cheap_thread_thread__WEBPACK_IMPORTED_MODULE_15__.createThreadFromClass)(_filter_AVFilterPipeline__WEBPACK_IMPORTED_MODULE_51__["default"], {
+            this.VideoFilterThread = await (0,cheap_thread_thread__WEBPACK_IMPORTED_MODULE_16__.createThreadFromClass)(_filter_AVFilterPipeline__WEBPACK_IMPORTED_MODULE_51__["default"], {
                 name: 'VideoFilterThread',
-                disableWorker: common_util_browser__WEBPACK_IMPORTED_MODULE_24__["default"].safari && !common_util_browser__WEBPACK_IMPORTED_MODULE_24__["default"].checkVersion(common_util_browser__WEBPACK_IMPORTED_MODULE_24__["default"].version, '16.1', true)
+                disableWorker: common_util_browser__WEBPACK_IMPORTED_MODULE_25__["default"].safari && !common_util_browser__WEBPACK_IMPORTED_MODULE_25__["default"].checkVersion(common_util_browser__WEBPACK_IMPORTED_MODULE_25__["default"].version, '16.1', true)
             }, /*require.resolve*/(/*! ./filter\AVFilterPipeline.ts */ "./src/avtranscoder/filter/AVFilterPipeline.ts")).run();
             this.VideoFilterThread.setLogLevel(this.level);
-            this.VideoEncoderThread = await (0,cheap_thread_thread__WEBPACK_IMPORTED_MODULE_15__.createThreadFromClass)(avpipeline_VideoEncodePipeline__WEBPACK_IMPORTED_MODULE_30__["default"], {
+            this.VideoEncoderThread = await (0,cheap_thread_thread__WEBPACK_IMPORTED_MODULE_16__.createThreadFromClass)(avpipeline_VideoEncodePipeline__WEBPACK_IMPORTED_MODULE_31__["default"], {
                 name: 'VideoEncoderThread',
-                disableWorker: common_util_browser__WEBPACK_IMPORTED_MODULE_24__["default"].safari && !common_util_browser__WEBPACK_IMPORTED_MODULE_24__["default"].checkVersion(common_util_browser__WEBPACK_IMPORTED_MODULE_24__["default"].version, '16.1', true)
+                disableWorker: common_util_browser__WEBPACK_IMPORTED_MODULE_25__["default"].safari && !common_util_browser__WEBPACK_IMPORTED_MODULE_25__["default"].checkVersion(common_util_browser__WEBPACK_IMPORTED_MODULE_25__["default"].version, '16.1', true)
             }, /*require.resolve*/(/*! ./..\avpipeline\VideoEncodePipeline.ts */ "./src/avpipeline/VideoEncodePipeline.ts")).run();
             this.VideoEncoderThread.setLogLevel(this.level);
             resolve();
@@ -12175,19 +12710,19 @@ class AVTranscoder extends common_event_Emitter__WEBPACK_IMPORTED_MODULE_40__["d
             return this.AudioThreadReady;
         }
         return this.AudioThreadReady = new Promise(async (resolve) => {
-            this.AudioDecoderThread = await (0,cheap_thread_thread__WEBPACK_IMPORTED_MODULE_15__.createThreadFromClass)(avpipeline_AudioDecodePipeline__WEBPACK_IMPORTED_MODULE_14__["default"], {
+            this.AudioDecoderThread = await (0,cheap_thread_thread__WEBPACK_IMPORTED_MODULE_16__.createThreadFromClass)(avpipeline_AudioDecodePipeline__WEBPACK_IMPORTED_MODULE_15__["default"], {
                 name: 'AudioDecoderThread',
-                disableWorker: common_util_browser__WEBPACK_IMPORTED_MODULE_24__["default"].safari && !common_util_browser__WEBPACK_IMPORTED_MODULE_24__["default"].checkVersion(common_util_browser__WEBPACK_IMPORTED_MODULE_24__["default"].version, '16.1', true)
+                disableWorker: common_util_browser__WEBPACK_IMPORTED_MODULE_25__["default"].safari && !common_util_browser__WEBPACK_IMPORTED_MODULE_25__["default"].checkVersion(common_util_browser__WEBPACK_IMPORTED_MODULE_25__["default"].version, '16.1', true)
             }, /*require.resolve*/(/*! ./..\avpipeline\AudioDecodePipeline.ts */ "./src/avpipeline/AudioDecodePipeline.ts")).run();
             this.AudioDecoderThread.setLogLevel(this.level);
-            this.AudioFilterThread = await (0,cheap_thread_thread__WEBPACK_IMPORTED_MODULE_15__.createThreadFromClass)(_filter_AVFilterPipeline__WEBPACK_IMPORTED_MODULE_51__["default"], {
+            this.AudioFilterThread = await (0,cheap_thread_thread__WEBPACK_IMPORTED_MODULE_16__.createThreadFromClass)(_filter_AVFilterPipeline__WEBPACK_IMPORTED_MODULE_51__["default"], {
                 name: 'AudioFilterThread',
-                disableWorker: common_util_browser__WEBPACK_IMPORTED_MODULE_24__["default"].safari && !common_util_browser__WEBPACK_IMPORTED_MODULE_24__["default"].checkVersion(common_util_browser__WEBPACK_IMPORTED_MODULE_24__["default"].version, '16.1', true)
+                disableWorker: common_util_browser__WEBPACK_IMPORTED_MODULE_25__["default"].safari && !common_util_browser__WEBPACK_IMPORTED_MODULE_25__["default"].checkVersion(common_util_browser__WEBPACK_IMPORTED_MODULE_25__["default"].version, '16.1', true)
             }, /*require.resolve*/(/*! ./filter\AVFilterPipeline.ts */ "./src/avtranscoder/filter/AVFilterPipeline.ts")).run();
             this.AudioFilterThread.setLogLevel(this.level);
-            this.AudioEncoderThread = await (0,cheap_thread_thread__WEBPACK_IMPORTED_MODULE_15__.createThreadFromClass)(avpipeline_AudioEncodePipeline__WEBPACK_IMPORTED_MODULE_29__["default"], {
+            this.AudioEncoderThread = await (0,cheap_thread_thread__WEBPACK_IMPORTED_MODULE_16__.createThreadFromClass)(avpipeline_AudioEncodePipeline__WEBPACK_IMPORTED_MODULE_30__["default"], {
                 name: 'AudioEncoderThread',
-                disableWorker: common_util_browser__WEBPACK_IMPORTED_MODULE_24__["default"].safari && !common_util_browser__WEBPACK_IMPORTED_MODULE_24__["default"].checkVersion(common_util_browser__WEBPACK_IMPORTED_MODULE_24__["default"].version, '16.1', true)
+                disableWorker: common_util_browser__WEBPACK_IMPORTED_MODULE_25__["default"].safari && !common_util_browser__WEBPACK_IMPORTED_MODULE_25__["default"].checkVersion(common_util_browser__WEBPACK_IMPORTED_MODULE_25__["default"].version, '16.1', true)
             }, /*require.resolve*/(/*! ./..\avpipeline\AudioEncodePipeline.ts */ "./src/avpipeline/AudioEncodePipeline.ts")).run();
             this.AudioEncoderThread.setLogLevel(this.level);
             resolve();
@@ -12198,9 +12733,9 @@ class AVTranscoder extends common_event_Emitter__WEBPACK_IMPORTED_MODULE_40__["d
             return this.MuxThreadReady;
         }
         return this.MuxThreadReady = new Promise(async (resolve) => {
-            this.MuxThread = await (0,cheap_thread_thread__WEBPACK_IMPORTED_MODULE_15__.createThreadFromClass)(avpipeline_MuxPipeline__WEBPACK_IMPORTED_MODULE_32__["default"], {
+            this.MuxThread = await (0,cheap_thread_thread__WEBPACK_IMPORTED_MODULE_16__.createThreadFromClass)(avpipeline_MuxPipeline__WEBPACK_IMPORTED_MODULE_33__["default"], {
                 name: 'MuxThread',
-                disableWorker: !common_util_support__WEBPACK_IMPORTED_MODULE_23__["default"].workerMSE
+                disableWorker: !common_util_support__WEBPACK_IMPORTED_MODULE_24__["default"].workerMSE
             }, /*require.resolve*/(/*! ./..\avpipeline\MuxPipeline.ts */ "./src/avpipeline/MuxPipeline.ts")).run();
             this.MuxThread.setLogLevel(this.level);
             resolve();
@@ -12223,40 +12758,43 @@ class AVTranscoder extends common_event_Emitter__WEBPACK_IMPORTED_MODULE_40__["d
         await this.startAudioPipeline();
         await this.startVideoPipeline();
         await this.startMuxPipeline();
-        common_util_logger__WEBPACK_IMPORTED_MODULE_22__.info('AVTranscoder pipelines started', cheap__fileName__12, 470);
+        common_util_logger__WEBPACK_IMPORTED_MODULE_23__.info('AVTranscoder pipelines started', cheap__fileName__12, 489);
     }
     copyAVStreamInterface(task, stream) {
-        const newStream = common_util_object__WEBPACK_IMPORTED_MODULE_18__.extend({}, stream);
+        const newStream = common_util_object__WEBPACK_IMPORTED_MODULE_19__.extend({}, stream);
         newStream.codecpar = (0,avutil_util_mem__WEBPACK_IMPORTED_MODULE_37__.avMallocz)(168);
         (0,avutil_util_codecparameters__WEBPACK_IMPORTED_MODULE_38__.copyCodecParameters)(newStream.codecpar, stream.codecpar);
-        newStream.timeBase = (0,avutil_util_mem__WEBPACK_IMPORTED_MODULE_37__.avMallocz)(8);
-        cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_8__.CTypeEnumWrite[15](newStream.timeBase + 4, cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](stream.timeBase + 4));
-        cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_8__.CTypeEnumWrite[15](newStream.timeBase, cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](stream.timeBase));
+        newStream.timeBase = {
+            den: 1,
+            num: 1
+        };
+        newStream.timeBase.den = stream.timeBase.den;
+        newStream.timeBase.num = stream.timeBase.num;
         if (cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[20](newStream.codecpar + 12)) {
             (0,avutil_util_mem__WEBPACK_IMPORTED_MODULE_37__.avFree)(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[20](newStream.codecpar + 12));
-            cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_8__.CTypeEnumWrite[20](newStream.codecpar + 12, 0);
-            cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_8__.CTypeEnumWrite[15](newStream.codecpar + 16, 0);
+            cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_6__.CTypeEnumWrite[20](newStream.codecpar + 12, 0);
+            cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_6__.CTypeEnumWrite[15](newStream.codecpar + 16, 0);
         }
         if (task.options.duration) {
-            newStream.duration = (0,avutil_util_rational__WEBPACK_IMPORTED_MODULE_25__.avRescaleQ)(BigInt(Math.floor(task.options.duration)), avutil_constant__WEBPACK_IMPORTED_MODULE_26__.AV_MILLI_TIME_BASE_Q, (0,cheap_std_structAccess__WEBPACK_IMPORTED_MODULE_7__["default"])(newStream.timeBase, _avutil_struct_rational_ts__WEBPACK_IMPORTED_MODULE_6__.Rational));
+            newStream.duration = (0,avutil_util_rational__WEBPACK_IMPORTED_MODULE_26__.avRescaleQ)(BigInt(Math.floor(task.options.duration)), avutil_constant__WEBPACK_IMPORTED_MODULE_27__.AV_MILLI_TIME_BASE_Q, newStream.timeBase);
         }
-        newStream.metadata['encoder'] = `libmedia.js-${"libmedia.0.0.1"}`;
+        newStream.metadata['encoder'] = `libmedia-${"v0.0.1-18-g41e9e9f"}`;
         return newStream;
     }
     async setTaskInput(task) {
         const taskId = task.taskId;
         const taskOptions = task.options;
-        const ioloader2DemuxerChannel = task.ioloader2DemuxerChannel = (0,avutil_function_createMessageChannel__WEBPACK_IMPORTED_MODULE_55__["default"])();
+        const ioloader2DemuxerChannel = task.ioloader2DemuxerChannel = (0,_function_createMessageChannel__WEBPACK_IMPORTED_MODULE_55__["default"])();
         const stats = task.stats;
         let ret = 0;
         let ext;
-        if (common_util_is__WEBPACK_IMPORTED_MODULE_17__.string(taskOptions.input.file)) {
-            ext = common_util_url__WEBPACK_IMPORTED_MODULE_20__.parse(taskOptions.input.file).file.split('.').pop();
+        if (common_util_is__WEBPACK_IMPORTED_MODULE_18__.string(taskOptions.input.file)) {
+            ext = common_util_url__WEBPACK_IMPORTED_MODULE_22__.parse(taskOptions.input.file).file.split('.').pop();
             // 注册一个 url io 任务
             ret = await this.IOThread.registerTask
                 .transfer(ioloader2DemuxerChannel.port1)
                 .invoke({
-                type: avutil_stringEnum__WEBPACK_IMPORTED_MODULE_31__.Ext2IOLoader[ext] ?? 0 /* IOType.Fetch */,
+                type: avutil_stringEnum__WEBPACK_IMPORTED_MODULE_32__.Ext2IOLoader[ext] ?? 0 /* IOType.Fetch */,
                 info: {
                     url: taskOptions.input.file
                 },
@@ -12294,25 +12832,31 @@ class AVTranscoder extends common_event_Emitter__WEBPACK_IMPORTED_MODULE_40__["d
                 stats: stats[cheap_symbol__WEBPACK_IMPORTED_MODULE_0__.symbolStructAddress]
             });
         }
-        else {
+        else if (taskOptions.input.file instanceof avnetwork_ioLoader_CustomIOLoader__WEBPACK_IMPORTED_MODULE_60__["default"]) {
             const ipcPort = task.inputIPCPort = new common_network_IPCPort__WEBPACK_IMPORTED_MODULE_34__["default"](ioloader2DemuxerChannel.port1);
             ipcPort.on(common_network_IPCPort__WEBPACK_IMPORTED_MODULE_34__.REQUEST, async (request) => {
                 switch (request.method) {
                     case 'open': {
-                        ipcPort.reply(request, {});
+                        const ret = await task.options.input.file.open();
+                        if (ret < 0) {
+                            common_util_logger__WEBPACK_IMPORTED_MODULE_23__.error(`custom loader open error, ${ret}, taskId: ${task.taskId}`, cheap__fileName__12, 578);
+                            ipcPort.reply(request, null, ret);
+                            break;
+                        }
+                        ipcPort.reply(request, ret);
                         break;
                     }
                     case 'read': {
                         const pointer = request.params.pointer;
                         const length = request.params.length;
-                        const buffer = (0,cheap_std_memory__WEBPACK_IMPORTED_MODULE_27__.mapSafeUint8Array)(pointer, length);
+                        const buffer = (0,cheap_std_memory__WEBPACK_IMPORTED_MODULE_28__.mapSafeUint8Array)(pointer, length);
                         try {
-                            const len = await task.options.input.file.readToBuffer(length, buffer);
-                            task.stats.bufferReceiveBytes += BigInt(Math.floor(len));
+                            const len = await task.options.input.file.read(length, buffer);
+                            task.stats.bufferReceiveBytes += BigInt(len >> 0);
                             ipcPort.reply(request, len);
                         }
                         catch (error) {
-                            common_util_logger__WEBPACK_IMPORTED_MODULE_22__.error(`loader read error, ${error}, taskId: ${task.taskId}`, cheap__fileName__12, 572);
+                            common_util_logger__WEBPACK_IMPORTED_MODULE_23__.error(`loader read error, ${error}, taskId: ${task.taskId}`, cheap__fileName__12, 600);
                             ipcPort.reply(request, avutil_error__WEBPACK_IMPORTED_MODULE_35__.DATA_INVALID);
                         }
                         break;
@@ -12320,42 +12864,50 @@ class AVTranscoder extends common_event_Emitter__WEBPACK_IMPORTED_MODULE_40__["d
                     case 'seek': {
                         const pos = request.params.pos;
                         try {
-                            await task.options.input.file.seek(pos);
-                            ipcPort.reply(request);
+                            const ret = await task.options.input.file.seek(pos);
+                            if (ret < 0) {
+                                common_util_logger__WEBPACK_IMPORTED_MODULE_23__.error(`custom loader seek error, ${ret}, taskId: ${task.taskId}`, cheap__fileName__12, 615);
+                                ipcPort.reply(request, null, ret);
+                                break;
+                            }
+                            ipcPort.reply(request, ret);
                         }
                         catch (error) {
-                            common_util_logger__WEBPACK_IMPORTED_MODULE_22__.error(`loader seek error, ${error}, taskId: ${task.taskId}`, cheap__fileName__12, 589);
+                            common_util_logger__WEBPACK_IMPORTED_MODULE_23__.error(`loader seek error, ${error}, taskId: ${task.taskId}`, cheap__fileName__12, 622);
                             ipcPort.reply(request, null, error);
                         }
                         break;
                     }
                     case 'size': {
-                        ipcPort.reply(request, await task.options.input.file.fileSize());
+                        ipcPort.reply(request, await task.options.input.file.size());
                         break;
                     }
                 }
             });
         }
+        else {
+            common_util_logger__WEBPACK_IMPORTED_MODULE_23__.fatal('invalid source', cheap__fileName__12, 636);
+        }
         if (ext) {
             task.ext = ext;
         }
         if (ret < 0) {
-            common_util_logger__WEBPACK_IMPORTED_MODULE_22__.fatal(`register io task failed, ret: ${ret}, taskId: ${taskId}`, cheap__fileName__12, 608);
+            common_util_logger__WEBPACK_IMPORTED_MODULE_23__.fatal(`register io task failed, ret: ${ret}, taskId: ${taskId}`, cheap__fileName__12, 645);
         }
     }
     async setTaskOutput(task) {
-        const muxer2OutputChannel = task.muxer2OutputChannel = (0,avutil_function_createMessageChannel__WEBPACK_IMPORTED_MODULE_55__["default"])();
+        const muxer2OutputChannel = task.muxer2OutputChannel = (0,_function_createMessageChannel__WEBPACK_IMPORTED_MODULE_55__["default"])();
         const ipcPort = task.outputIPCPort = new common_network_IPCPort__WEBPACK_IMPORTED_MODULE_34__["default"](muxer2OutputChannel.port2);
         let format;
         if (task.options.output.format) {
-            format = avutil_stringEnum__WEBPACK_IMPORTED_MODULE_31__.Format2AVFormat[task.options.output.format];
+            format = avutil_stringEnum__WEBPACK_IMPORTED_MODULE_32__.Format2AVFormat[task.options.output.format];
         }
         else if (task.options.output.file instanceof FileSystemFileHandle) {
             let ext = task.options.output.file.name.split('.').pop();
-            format = avutil_stringEnum__WEBPACK_IMPORTED_MODULE_31__.Ext2Format[ext];
+            format = avutil_stringEnum__WEBPACK_IMPORTED_MODULE_32__.Ext2Format[ext];
         }
-        if (!common_util_is__WEBPACK_IMPORTED_MODULE_17__.number(format)) {
-            common_util_logger__WEBPACK_IMPORTED_MODULE_22__.fatal('invalid output format', cheap__fileName__12, 627);
+        if (!common_util_is__WEBPACK_IMPORTED_MODULE_18__.number(format)) {
+            common_util_logger__WEBPACK_IMPORTED_MODULE_23__.fatal('invalid output format', cheap__fileName__12, 664);
         }
         task.format = format;
         let ret = await this.MuxThread.registerTask.transfer(muxer2OutputChannel.port1)
@@ -12369,7 +12921,7 @@ class AVTranscoder extends common_event_Emitter__WEBPACK_IMPORTED_MODULE_40__["d
             formatOptions: task.options.output.formatOptions
         });
         if (ret < 0) {
-            common_util_logger__WEBPACK_IMPORTED_MODULE_22__.fatal(`register mux task failed, ret: ${ret}, taskId: ${task.taskId}`, cheap__fileName__12, 644);
+            common_util_logger__WEBPACK_IMPORTED_MODULE_23__.fatal(`register mux task failed, ret: ${ret}, taskId: ${task.taskId}`, cheap__fileName__12, 681);
         }
         let ioWriter;
         if (task.options.output.file instanceof FileSystemFileHandle) {
@@ -12418,7 +12970,7 @@ class AVTranscoder extends common_event_Emitter__WEBPACK_IMPORTED_MODULE_40__["d
                         }
                     }
                     catch (error) {
-                        common_util_logger__WEBPACK_IMPORTED_MODULE_22__.error(`ioWriter write error, ${error}, taskId: ${task.taskId}`, cheap__fileName__12, 701);
+                        common_util_logger__WEBPACK_IMPORTED_MODULE_23__.error(`ioWriter write error, ${error}, taskId: ${task.taskId}`, cheap__fileName__12, 738);
                     }
                     break;
                 }
@@ -12428,7 +12980,7 @@ class AVTranscoder extends common_event_Emitter__WEBPACK_IMPORTED_MODULE_40__["d
                         ioWriter.seek(Number(pos));
                     }
                     catch (error) {
-                        common_util_logger__WEBPACK_IMPORTED_MODULE_22__.error(`ioWriter seek error, ${error}, taskId: ${task.taskId}`, cheap__fileName__12, 714);
+                        common_util_logger__WEBPACK_IMPORTED_MODULE_23__.error(`ioWriter seek error, ${error}, taskId: ${task.taskId}`, cheap__fileName__12, 751);
                     }
                     break;
                 }
@@ -12436,14 +12988,14 @@ class AVTranscoder extends common_event_Emitter__WEBPACK_IMPORTED_MODULE_40__["d
                     await ioWriter.close();
                     await this.clearTask(task);
                     this.fire(_eventType__WEBPACK_IMPORTED_MODULE_41__.TASK_ENDED, [task.taskId]);
-                    common_util_logger__WEBPACK_IMPORTED_MODULE_22__.info(`transcode ended, taskId: ${task.taskId}, cost: ${(0,avformat_dump__WEBPACK_IMPORTED_MODULE_57__.dumpTime)(BigInt(Math.floor((0,common_function_getTimestamp__WEBPACK_IMPORTED_MODULE_53__["default"])() - task.startTime)))}`, cheap__fileName__12, 722);
+                    common_util_logger__WEBPACK_IMPORTED_MODULE_23__.info(`transcode ended, taskId: ${task.taskId}, cost: ${(0,avformat_dump__WEBPACK_IMPORTED_MODULE_57__.dumpTime)(BigInt(Math.floor((0,common_function_getTimestamp__WEBPACK_IMPORTED_MODULE_53__["default"])() - task.startTime)))}`, cheap__fileName__12, 759);
                     break;
                 }
                 case 'error': {
                     await ioWriter.close();
                     await this.clearTask(task);
                     this.fire(_eventType__WEBPACK_IMPORTED_MODULE_41__.TASK_ERROR, [task.taskId]);
-                    common_util_logger__WEBPACK_IMPORTED_MODULE_22__.info(`transcode error, taskId: ${task.taskId}`, cheap__fileName__12, 730);
+                    common_util_logger__WEBPACK_IMPORTED_MODULE_23__.info(`transcode error, taskId: ${task.taskId}`, cheap__fileName__12, 767);
                     break;
                 }
             }
@@ -12462,14 +13014,14 @@ class AVTranscoder extends common_event_Emitter__WEBPACK_IMPORTED_MODULE_40__["d
             const hasVideo = await this.IOThread.hasVideo(taskId);
             if (hasAudio && hasVideo) {
                 // dash 因为音视频各自独立，因此这里注册两个解封装任务
-                subTaskId = (0,common_function_generateUUID__WEBPACK_IMPORTED_MODULE_16__["default"])();
+                subTaskId = (0,common_function_generateUUID__WEBPACK_IMPORTED_MODULE_17__["default"])();
                 await this.DemuxerThread.registerTask
                     .transfer(ioloader2DemuxerChannel.port2, task.controller.getDemuxerRenderControlPort())
                     .invoke({
                     taskId,
                     leftPort: ioloader2DemuxerChannel.port2,
                     controlPort: task.controller.getDemuxerRenderControlPort(),
-                    format: avutil_stringEnum__WEBPACK_IMPORTED_MODULE_31__.Ext2Format[ext],
+                    format: avutil_stringEnum__WEBPACK_IMPORTED_MODULE_32__.Ext2Format[ext],
                     stats: stats[cheap_symbol__WEBPACK_IMPORTED_MODULE_0__.symbolStructAddress],
                     isLive: false,
                     flags: 2 /* IOFlags.SLICE */,
@@ -12483,7 +13035,7 @@ class AVTranscoder extends common_event_Emitter__WEBPACK_IMPORTED_MODULE_40__["d
                     taskId: subTaskId,
                     mainTaskId: taskId,
                     flags: 2 /* IOFlags.SLICE */,
-                    format: avutil_stringEnum__WEBPACK_IMPORTED_MODULE_31__.Ext2Format[ext],
+                    format: avutil_stringEnum__WEBPACK_IMPORTED_MODULE_32__.Ext2Format[ext],
                     stats: stats[cheap_symbol__WEBPACK_IMPORTED_MODULE_0__.symbolStructAddress],
                     isLive: false,
                     ioloaderOptions: {
@@ -12501,7 +13053,7 @@ class AVTranscoder extends common_event_Emitter__WEBPACK_IMPORTED_MODULE_40__["d
                     taskId,
                     leftPort: ioloader2DemuxerChannel.port2,
                     controlPort: task.controller.getDemuxerRenderControlPort(),
-                    format: avutil_stringEnum__WEBPACK_IMPORTED_MODULE_31__.Ext2Format[ext],
+                    format: avutil_stringEnum__WEBPACK_IMPORTED_MODULE_32__.Ext2Format[ext],
                     stats: stats[cheap_symbol__WEBPACK_IMPORTED_MODULE_0__.symbolStructAddress],
                     isLive: false,
                     flags: 2 /* IOFlags.SLICE */,
@@ -12520,7 +13072,7 @@ class AVTranscoder extends common_event_Emitter__WEBPACK_IMPORTED_MODULE_40__["d
                 taskId,
                 leftPort: ioloader2DemuxerChannel.port2,
                 controlPort: task.controller.getDemuxerRenderControlPort(),
-                format: avutil_stringEnum__WEBPACK_IMPORTED_MODULE_31__.Ext2Format[ext],
+                format: avutil_stringEnum__WEBPACK_IMPORTED_MODULE_32__.Ext2Format[ext],
                 stats: stats[cheap_symbol__WEBPACK_IMPORTED_MODULE_0__.symbolStructAddress],
                 isLive: false,
                 flags: this.isHls(task) ? 2 /* IOFlags.SLICE */ : 0,
@@ -12530,37 +13082,33 @@ class AVTranscoder extends common_event_Emitter__WEBPACK_IMPORTED_MODULE_40__["d
         }
         ret = await this.DemuxerThread.openStream(taskId, 10000);
         if (ret < 0) {
-            common_util_logger__WEBPACK_IMPORTED_MODULE_22__.fatal(`open stream failed, ret: ${ret}, taskId: ${taskId}`, cheap__fileName__12, 820);
+            common_util_logger__WEBPACK_IMPORTED_MODULE_23__.fatal(`open stream failed, ret: ${ret}, taskId: ${taskId}`, cheap__fileName__12, 857);
         }
         let formatContext = await this.DemuxerThread.analyzeStreams(taskId);
-        if (common_util_is__WEBPACK_IMPORTED_MODULE_17__.number(formatContext) || !formatContext.streams.length) {
-            common_util_logger__WEBPACK_IMPORTED_MODULE_22__.fatal(`analyze stream failed, ret: ${formatContext}`, cheap__fileName__12, 824);
+        if (common_util_is__WEBPACK_IMPORTED_MODULE_18__.number(formatContext) || !formatContext.streams.length) {
+            common_util_logger__WEBPACK_IMPORTED_MODULE_23__.fatal(`analyze stream failed, ret: ${formatContext}`, cheap__fileName__12, 861);
         }
         if ( true && subTaskId) {
             ret = await this.DemuxerThread.openStream(subTaskId, 10000);
             if (ret < 0) {
-                common_util_logger__WEBPACK_IMPORTED_MODULE_22__.fatal(`open stream failed, ret: ${ret}, taskId: ${taskId}`, cheap__fileName__12, 830);
+                common_util_logger__WEBPACK_IMPORTED_MODULE_23__.fatal(`open stream failed, ret: ${ret}, taskId: ${taskId}`, cheap__fileName__12, 867);
             }
             const subFormatContext = await this.DemuxerThread.analyzeStreams(subTaskId);
-            if (common_util_is__WEBPACK_IMPORTED_MODULE_17__.number(subFormatContext) || !subFormatContext.streams.length) {
-                common_util_logger__WEBPACK_IMPORTED_MODULE_22__.fatal(`analyze stream failed, ret: ${subFormatContext}`, cheap__fileName__12, 834);
+            if (common_util_is__WEBPACK_IMPORTED_MODULE_18__.number(subFormatContext) || !subFormatContext.streams.length) {
+                common_util_logger__WEBPACK_IMPORTED_MODULE_23__.fatal(`analyze stream failed, ret: ${subFormatContext}`, cheap__fileName__12, 871);
             }
             formatContext.streams = formatContext.streams.concat(subFormatContext.streams);
         }
         if (subTaskId) {
             task.subTaskId = subTaskId;
         }
-        common_util_logger__WEBPACK_IMPORTED_MODULE_22__.info('\n' + (0,avformat_dump__WEBPACK_IMPORTED_MODULE_57__["default"])([formatContext], [{
-                from: common_util_is__WEBPACK_IMPORTED_MODULE_17__.string(task.options.input.file) ? task.options.input.file : (task.options.input.file instanceof File ? task.options.input.file.name : 'ioReader'),
-                tag: 'Input'
-            }]), cheap__fileName__12, 843);
         {
             // m3u8 和 dash 的 duration 来自于协议本身
             if (this.isHls(task) || this.isDash(task)) {
                 const duration = (await this.IOThread.getDuration(taskId)) * 1000;
                 if (duration > 0) {
                     for (let i = 0; i < formatContext.streams.length; i++) {
-                        formatContext.streams[i].duration = (0,avutil_util_rational__WEBPACK_IMPORTED_MODULE_25__.avRescaleQ)(BigInt(Math.floor(duration)), avutil_constant__WEBPACK_IMPORTED_MODULE_26__.AV_MILLI_TIME_BASE_Q, (0,cheap_std_structAccess__WEBPACK_IMPORTED_MODULE_7__["default"])(formatContext.streams[i].timeBase, _avutil_struct_rational_ts__WEBPACK_IMPORTED_MODULE_6__.Rational));
+                        formatContext.streams[i].duration = (0,avutil_util_rational__WEBPACK_IMPORTED_MODULE_26__.avRescaleQ)(BigInt(Math.floor(duration)), avutil_constant__WEBPACK_IMPORTED_MODULE_27__.AV_MILLI_TIME_BASE_Q, formatContext.streams[i].timeBase);
                     }
                 }
             }
@@ -12573,7 +13121,7 @@ class AVTranscoder extends common_event_Emitter__WEBPACK_IMPORTED_MODULE_40__["d
             return 0;
         }
         else if (audioConfig?.codec === 'copy' && !(task.options.start || task.options.duration)) {
-            const demuxer2MuxerChannel = (0,avutil_function_createMessageChannel__WEBPACK_IMPORTED_MODULE_55__["default"])();
+            const demuxer2MuxerChannel = (0,_function_createMessageChannel__WEBPACK_IMPORTED_MODULE_55__["default"])();
             await this.DemuxerThread.connectStreamTask
                 .transfer(demuxer2MuxerChannel.port1)
                 .invoke(task.taskId, stream.index, demuxer2MuxerChannel.port1);
@@ -12587,78 +13135,78 @@ class AVTranscoder extends common_event_Emitter__WEBPACK_IMPORTED_MODULE_40__["d
             return 0;
         }
         else {
-            const demuxer2DecoderChannel = (0,avutil_function_createMessageChannel__WEBPACK_IMPORTED_MODULE_55__["default"])();
-            const encoder2MuxerChannel = (0,avutil_function_createMessageChannel__WEBPACK_IMPORTED_MODULE_55__["default"])();
-            const decoder2FilterChannel = (0,avutil_function_createMessageChannel__WEBPACK_IMPORTED_MODULE_55__["default"])();
-            const filter2EncoderChannel = (0,avutil_function_createMessageChannel__WEBPACK_IMPORTED_MODULE_55__["default"])();
+            const demuxer2DecoderChannel = (0,_function_createMessageChannel__WEBPACK_IMPORTED_MODULE_55__["default"])();
+            const encoder2MuxerChannel = (0,_function_createMessageChannel__WEBPACK_IMPORTED_MODULE_55__["default"])();
+            const decoder2FilterChannel = (0,_function_createMessageChannel__WEBPACK_IMPORTED_MODULE_55__["default"])();
+            const filter2EncoderChannel = (0,_function_createMessageChannel__WEBPACK_IMPORTED_MODULE_55__["default"])();
             const newStream = this.copyAVStreamInterface(task, stream);
-            const taskId = (0,common_function_generateUUID__WEBPACK_IMPORTED_MODULE_16__["default"])();
+            const taskId = (0,common_function_generateUUID__WEBPACK_IMPORTED_MODULE_17__["default"])();
             let ret = 0;
             if (audioConfig) {
                 if (audioConfig.codec && audioConfig.codec !== 'copy') {
-                    const codecId = avutil_stringEnum__WEBPACK_IMPORTED_MODULE_31__.AudioCodecString2CodecId[audioConfig.codec];
-                    if (!common_util_is__WEBPACK_IMPORTED_MODULE_17__.number(codecId)) {
-                        common_util_logger__WEBPACK_IMPORTED_MODULE_22__.fatal(`invalid codec name(${audioConfig.codec})`, cheap__fileName__12, 904);
+                    const codecId = avutil_stringEnum__WEBPACK_IMPORTED_MODULE_32__.AudioCodecString2CodecId[audioConfig.codec];
+                    if (!common_util_is__WEBPACK_IMPORTED_MODULE_18__.number(codecId)) {
+                        common_util_logger__WEBPACK_IMPORTED_MODULE_23__.fatal(`invalid codec name(${audioConfig.codec})`, cheap__fileName__12, 936);
                     }
-                    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_8__.CTypeEnumWrite[15](newStream.codecpar + 4, codecId);
+                    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_6__.CTypeEnumWrite[15](newStream.codecpar + 4, codecId);
                     if (cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar + 4) !== cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](stream.codecpar + 4)) {
-                        cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_8__.CTypeEnumWrite[15](newStream.codecpar + 48, avutil_constant__WEBPACK_IMPORTED_MODULE_26__.NOPTS_VALUE);
-                        cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_8__.CTypeEnumWrite[15](newStream.codecpar + 52, avutil_constant__WEBPACK_IMPORTED_MODULE_26__.NOPTS_VALUE);
+                        cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_6__.CTypeEnumWrite[15](newStream.codecpar + 48, avutil_constant__WEBPACK_IMPORTED_MODULE_27__.NOPTS_VALUE);
+                        cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_6__.CTypeEnumWrite[15](newStream.codecpar + 52, avutil_constant__WEBPACK_IMPORTED_MODULE_27__.NOPTS_VALUE);
                     }
                 }
                 if (audioConfig.bitrate) {
-                    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_8__.CTypeEnumWrite[17](newStream.codecpar + 32, BigInt(Math.floor(audioConfig.bitrate)));
+                    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_6__.CTypeEnumWrite[17](newStream.codecpar + 32, BigInt(Math.floor(audioConfig.bitrate)));
                 }
                 if (audioConfig.channels) {
-                    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_8__.CTypeEnumWrite[15](newStream.codecpar + 116, audioConfig.channels);
+                    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_6__.CTypeEnumWrite[15](newStream.codecpar + 116, audioConfig.channels);
                 }
                 if (audioConfig.sampleRate) {
-                    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_8__.CTypeEnumWrite[15](newStream.codecpar + 136, audioConfig.sampleRate);
+                    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_6__.CTypeEnumWrite[15](newStream.codecpar + 136, audioConfig.sampleRate);
                 }
                 if (audioConfig.sampleFmt) {
-                    const sampleFmt = avutil_stringEnum__WEBPACK_IMPORTED_MODULE_31__.SampleFmtString2SampleFormat[audioConfig.sampleFmt];
-                    if (!common_util_is__WEBPACK_IMPORTED_MODULE_17__.number(sampleFmt)) {
-                        common_util_logger__WEBPACK_IMPORTED_MODULE_22__.fatal(`invalid sampleFmt name(${audioConfig.sampleFmt})`, cheap__fileName__12, 925);
+                    const sampleFmt = avutil_stringEnum__WEBPACK_IMPORTED_MODULE_32__.SampleFmtString2SampleFormat[audioConfig.sampleFmt];
+                    if (!common_util_is__WEBPACK_IMPORTED_MODULE_18__.number(sampleFmt)) {
+                        common_util_logger__WEBPACK_IMPORTED_MODULE_23__.fatal(`invalid sampleFmt name(${audioConfig.sampleFmt})`, cheap__fileName__12, 957);
                     }
-                    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_8__.CTypeEnumWrite[15](newStream.codecpar + 28, sampleFmt);
+                    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_6__.CTypeEnumWrite[15](newStream.codecpar + 28, sampleFmt);
                 }
                 if (audioConfig.profile) {
-                    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_8__.CTypeEnumWrite[15](newStream.codecpar + 48, audioConfig.profile);
+                    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_6__.CTypeEnumWrite[15](newStream.codecpar + 48, audioConfig.profile);
                 }
             }
             if (cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar + 4) === 86018 /* AVCodecID.AV_CODEC_ID_AAC */) {
-                cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_8__.CTypeEnumWrite[15](newStream.codecpar + 28, 8 /* AVSampleFormat.AV_SAMPLE_FMT_FLTP */);
+                cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_6__.CTypeEnumWrite[15](newStream.codecpar + 28, 8 /* AVSampleFormat.AV_SAMPLE_FMT_FLTP */);
                 if (cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar + 136) > 48000) {
-                    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_8__.CTypeEnumWrite[15](newStream.codecpar + 136, 48000);
+                    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_6__.CTypeEnumWrite[15](newStream.codecpar + 136, 48000);
                 }
             }
             else if (cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar + 4) === 86017 /* AVCodecID.AV_CODEC_ID_MP3 */) {
-                cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_8__.CTypeEnumWrite[15](newStream.codecpar + 28, 8 /* AVSampleFormat.AV_SAMPLE_FMT_FLTP */);
+                cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_6__.CTypeEnumWrite[15](newStream.codecpar + 28, 8 /* AVSampleFormat.AV_SAMPLE_FMT_FLTP */);
                 if (cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar + 136) > 48000) {
-                    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_8__.CTypeEnumWrite[15](newStream.codecpar + 136, 48000);
+                    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_6__.CTypeEnumWrite[15](newStream.codecpar + 136, 48000);
                 }
             }
             else if (cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar + 4) === 86028 /* AVCodecID.AV_CODEC_ID_FLAC */) {
                 if (cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar + 28) !== 1 /* AVSampleFormat.AV_SAMPLE_FMT_S16 */
                     && cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar + 28) !== 2 /* AVSampleFormat.AV_SAMPLE_FMT_S32 */) {
-                    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_8__.CTypeEnumWrite[15](newStream.codecpar + 28, 1 /* AVSampleFormat.AV_SAMPLE_FMT_S16 */);
+                    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_6__.CTypeEnumWrite[15](newStream.codecpar + 28, 1 /* AVSampleFormat.AV_SAMPLE_FMT_S16 */);
                 }
             }
             else if (cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar + 4) === 65543 /* AVCodecID.AV_CODEC_ID_PCM_ALAW */
                 || cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar + 4) === 65542 /* AVCodecID.AV_CODEC_ID_PCM_MULAW */) {
-                cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_8__.CTypeEnumWrite[15](newStream.codecpar + 136, 8000);
-                cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_8__.CTypeEnumWrite[17](newStream.codecpar + 32, BigInt(64000));
-                cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_8__.CTypeEnumWrite[15](newStream.codecpar + 28, 1 /* AVSampleFormat.AV_SAMPLE_FMT_S16 */);
+                cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_6__.CTypeEnumWrite[15](newStream.codecpar + 136, 8000);
+                cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_6__.CTypeEnumWrite[17](newStream.codecpar + 32, BigInt(64000));
+                cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_6__.CTypeEnumWrite[15](newStream.codecpar + 28, 1 /* AVSampleFormat.AV_SAMPLE_FMT_S16 */);
             }
             else if (cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar + 4) === 86051 /* AVCodecID.AV_CODEC_ID_SPEEX */) {
-                cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_8__.CTypeEnumWrite[15](newStream.codecpar + 28, 1 /* AVSampleFormat.AV_SAMPLE_FMT_S16 */);
+                cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_6__.CTypeEnumWrite[15](newStream.codecpar + 28, 1 /* AVSampleFormat.AV_SAMPLE_FMT_S16 */);
             }
-            if (cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar + 48) === avutil_constant__WEBPACK_IMPORTED_MODULE_26__.NOPTS_VALUE) {
+            if (cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar + 48) === avutil_constant__WEBPACK_IMPORTED_MODULE_27__.NOPTS_VALUE) {
                 if (cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar + 4) === 86018 /* AVCodecID.AV_CODEC_ID_AAC */) {
-                    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_8__.CTypeEnumWrite[15](newStream.codecpar + 48, 2 /* aac.MPEG4AudioObjectTypes.AAC_LC */);
+                    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_6__.CTypeEnumWrite[15](newStream.codecpar + 48, 2 /* aac.MPEG4AudioObjectTypes.AAC_LC */);
                 }
                 else if (cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar + 4) === 86017 /* AVCodecID.AV_CODEC_ID_MP3 */) {
-                    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_8__.CTypeEnumWrite[15](newStream.codecpar + 48, 34);
+                    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_6__.CTypeEnumWrite[15](newStream.codecpar + 48, 34);
                 }
             }
             await this.DemuxerThread.connectStreamTask
@@ -12666,18 +13214,18 @@ class AVTranscoder extends common_event_Emitter__WEBPACK_IMPORTED_MODULE_40__["d
                 .invoke(task.taskId, stream.index, demuxer2DecoderChannel.port1);
             let decoderResource = await this.getResource('decoder', cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](stream.codecpar + 4), cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](stream.codecpar));
             if (!decoderResource) {
-                if (common_util_support__WEBPACK_IMPORTED_MODULE_23__["default"].audioDecoder) {
+                if (common_util_support__WEBPACK_IMPORTED_MODULE_24__["default"].audioDecoder) {
                     const isSupport = await AudioDecoder.isConfigSupported({
-                        codec: (0,avcodec_function_getVideoCodec__WEBPACK_IMPORTED_MODULE_28__["default"])(stream.codecpar),
+                        codec: (0,avcodec_function_getVideoCodec__WEBPACK_IMPORTED_MODULE_29__["default"])(stream.codecpar),
                         sampleRate: cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](stream.codecpar + 136),
                         numberOfChannels: cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](stream.codecpar + 116)
                     });
                     if (!isSupport.supported) {
-                        common_util_logger__WEBPACK_IMPORTED_MODULE_22__.fatal(`AudioDecoder codecId ${cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](stream.codecpar + 4)} not support`, cheap__fileName__12, 986);
+                        common_util_logger__WEBPACK_IMPORTED_MODULE_23__.fatal(`AudioDecoder codecId ${cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](stream.codecpar + 4)} not support`, cheap__fileName__12, 1018);
                     }
                 }
                 else {
-                    common_util_logger__WEBPACK_IMPORTED_MODULE_22__.fatal(`audio decoder codecId ${cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](stream.codecpar + 4)} not support`, cheap__fileName__12, 990);
+                    common_util_logger__WEBPACK_IMPORTED_MODULE_23__.fatal(`audio decoder codecId ${cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](stream.codecpar + 4)} not support`, cheap__fileName__12, 1022);
                 }
             }
             // 注册一个音频解码任务
@@ -12694,18 +13242,18 @@ class AVTranscoder extends common_event_Emitter__WEBPACK_IMPORTED_MODULE_40__["d
                 avframeList: this.GlobalData[cheap_symbol__WEBPACK_IMPORTED_MODULE_0__.symbolStructAddress] + 12,
                 avframeListMutex: this.GlobalData[cheap_symbol__WEBPACK_IMPORTED_MODULE_0__.symbolStructAddress] + 28,
                 timeBase: {
-                    num: cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](stream.timeBase),
-                    den: cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](stream.timeBase + 4)
+                    num: stream.timeBase.num,
+                    den: stream.timeBase.den
                 }
             });
             ret = await this.AudioDecoderThread.open(taskId, stream.codecpar);
             if (ret < 0) {
-                common_util_logger__WEBPACK_IMPORTED_MODULE_22__.error(`cannot open audio ${(0,avformat_dump__WEBPACK_IMPORTED_MODULE_57__.dumpCodecName)(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](stream.codecpar), cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](stream.codecpar + 4))} decoder`, cheap__fileName__12, 1016);
+                common_util_logger__WEBPACK_IMPORTED_MODULE_23__.error(`cannot open audio ${(0,avformat_dump__WEBPACK_IMPORTED_MODULE_57__.dumpCodecName)(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](stream.codecpar), cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](stream.codecpar + 4))} decoder`, cheap__fileName__12, 1048);
                 return ret;
             }
             let resamplerResource = await this.getResource('resampler');
             if (!resamplerResource) {
-                common_util_logger__WEBPACK_IMPORTED_MODULE_22__.fatal('resampler not found', cheap__fileName__12, 1022);
+                common_util_logger__WEBPACK_IMPORTED_MODULE_23__.fatal('resampler not found', cheap__fileName__12, 1054);
             }
             const vertices = [];
             const edges = [];
@@ -12729,11 +13277,11 @@ class AVTranscoder extends common_event_Emitter__WEBPACK_IMPORTED_MODULE_40__["d
                 port: filter2EncoderChannel.port1
             };
             if (task.options.start || task.options.duration) {
-                const start = (0,avutil_util_rational__WEBPACK_IMPORTED_MODULE_25__.avRescaleQ)(BigInt(Math.floor(task.options.start || 0)), avutil_constant__WEBPACK_IMPORTED_MODULE_26__.AV_MILLI_TIME_BASE_Q, (0,cheap_std_structAccess__WEBPACK_IMPORTED_MODULE_7__["default"])(stream.timeBase, _avutil_struct_rational_ts__WEBPACK_IMPORTED_MODULE_6__.Rational));
+                const start = (0,avutil_util_rational__WEBPACK_IMPORTED_MODULE_26__.avRescaleQ)(BigInt(Math.floor(task.options.start || 0)), avutil_constant__WEBPACK_IMPORTED_MODULE_27__.AV_MILLI_TIME_BASE_Q, stream.timeBase);
                 const rangeNode = (0,avfilter_graph__WEBPACK_IMPORTED_MODULE_52__.createGraphDesVertex)('range', {
                     start: start,
                     end: task.options.duration
-                        ? ((0,avutil_util_rational__WEBPACK_IMPORTED_MODULE_25__.avRescaleQ)(BigInt(Math.floor(task.options.duration)), avutil_constant__WEBPACK_IMPORTED_MODULE_26__.AV_MILLI_TIME_BASE_Q, (0,cheap_std_structAccess__WEBPACK_IMPORTED_MODULE_7__["default"])(stream.timeBase, _avutil_struct_rational_ts__WEBPACK_IMPORTED_MODULE_6__.Rational)) + start)
+                        ? ((0,avutil_util_rational__WEBPACK_IMPORTED_MODULE_26__.avRescaleQ)(BigInt(Math.floor(task.options.duration)), avutil_constant__WEBPACK_IMPORTED_MODULE_27__.AV_MILLI_TIME_BASE_Q, stream.timeBase) + start)
                         : -BigInt(1)
                 });
                 vertices.push(rangeNode);
@@ -12762,20 +13310,20 @@ class AVTranscoder extends common_event_Emitter__WEBPACK_IMPORTED_MODULE_40__["d
             });
             let encoderResource = await this.getResource('encoder', cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar + 4), cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar));
             if (!encoderResource) {
-                if (common_util_support__WEBPACK_IMPORTED_MODULE_23__["default"].audioEncoder) {
+                if (common_util_support__WEBPACK_IMPORTED_MODULE_24__["default"].audioEncoder) {
                     const isSupport = await AudioEncoder.isConfigSupported({
                         codec: (0,avcodec_function_getAudioCodec__WEBPACK_IMPORTED_MODULE_36__["default"])(newStream.codecpar),
                         sampleRate: cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar + 136),
                         numberOfChannels: cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar + 116),
-                        bitrate: (Number(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[17](newStream.codecpar + 32) & 0xffffffffn) >> 0),
+                        bitrate: Number(BigInt.asIntN(32, cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[17](newStream.codecpar + 32))),
                         bitrateMode: 'constant'
                     });
                     if (!isSupport.supported) {
-                        common_util_logger__WEBPACK_IMPORTED_MODULE_22__.fatal(`AudioEncoder ${(0,avformat_dump__WEBPACK_IMPORTED_MODULE_57__.dumpCodecName)(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar), cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar + 4))} codecId ${cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar + 4)} not support`, cheap__fileName__12, 1093);
+                        common_util_logger__WEBPACK_IMPORTED_MODULE_23__.fatal(`AudioEncoder ${(0,avformat_dump__WEBPACK_IMPORTED_MODULE_57__.dumpCodecName)(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar), cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar + 4))} codecId ${cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar + 4)} not support`, cheap__fileName__12, 1125);
                     }
                 }
                 else {
-                    common_util_logger__WEBPACK_IMPORTED_MODULE_22__.fatal(`${(0,avformat_dump__WEBPACK_IMPORTED_MODULE_57__.dumpCodecName)(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar), cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar + 4))} encoder codecId ${cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar + 4)} not support`, cheap__fileName__12, 1097);
+                    common_util_logger__WEBPACK_IMPORTED_MODULE_23__.fatal(`${(0,avformat_dump__WEBPACK_IMPORTED_MODULE_57__.dumpCodecName)(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar), cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar + 4))} encoder codecId ${cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar + 4)} not support`, cheap__fileName__12, 1129);
                 }
             }
             // 注册一个音频编码任务
@@ -12792,9 +13340,9 @@ class AVTranscoder extends common_event_Emitter__WEBPACK_IMPORTED_MODULE_40__["d
                 avframeList: this.GlobalData[cheap_symbol__WEBPACK_IMPORTED_MODULE_0__.symbolStructAddress] + 12,
                 avframeListMutex: this.GlobalData[cheap_symbol__WEBPACK_IMPORTED_MODULE_0__.symbolStructAddress] + 28,
             });
-            ret = await this.AudioEncoderThread.open(taskId, newStream.codecpar, { num: cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.timeBase), den: cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.timeBase + 4) });
+            ret = await this.AudioEncoderThread.open(taskId, newStream.codecpar, { num: newStream.timeBase.num, den: newStream.timeBase.den });
             if (ret < 0) {
-                common_util_logger__WEBPACK_IMPORTED_MODULE_22__.error(`cannot open audio ${(0,avformat_dump__WEBPACK_IMPORTED_MODULE_57__.dumpCodecName)(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar), cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar + 4))} encoder`, cheap__fileName__12, 1119);
+                common_util_logger__WEBPACK_IMPORTED_MODULE_23__.error(`cannot open audio ${(0,avformat_dump__WEBPACK_IMPORTED_MODULE_57__.dumpCodecName)(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar), cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar + 4))} encoder`, cheap__fileName__12, 1151);
                 return ret;
             }
             await this.MuxThread.addStream
@@ -12818,7 +13366,7 @@ class AVTranscoder extends common_event_Emitter__WEBPACK_IMPORTED_MODULE_40__["d
             return 0;
         }
         else if (videoConfig?.codec === 'copy' && !(task.options.start || task.options.duration)) {
-            const demuxer2MuxerChannel = (0,avutil_function_createMessageChannel__WEBPACK_IMPORTED_MODULE_55__["default"])();
+            const demuxer2MuxerChannel = (0,_function_createMessageChannel__WEBPACK_IMPORTED_MODULE_55__["default"])();
             await this.DemuxerThread.connectStreamTask
                 .transfer(demuxer2MuxerChannel.port1)
                 .invoke(task.subTaskId || task.taskId, stream.index, demuxer2MuxerChannel.port1);
@@ -12832,133 +13380,133 @@ class AVTranscoder extends common_event_Emitter__WEBPACK_IMPORTED_MODULE_40__["d
             return 0;
         }
         else {
-            const demuxer2DecoderChannel = (0,avutil_function_createMessageChannel__WEBPACK_IMPORTED_MODULE_55__["default"])();
-            const encoder2MuxerChannel = (0,avutil_function_createMessageChannel__WEBPACK_IMPORTED_MODULE_55__["default"])();
-            const decoder2FilterChannel = (0,avutil_function_createMessageChannel__WEBPACK_IMPORTED_MODULE_55__["default"])();
-            const filter2EncoderChannel = (0,avutil_function_createMessageChannel__WEBPACK_IMPORTED_MODULE_55__["default"])();
+            const demuxer2DecoderChannel = (0,_function_createMessageChannel__WEBPACK_IMPORTED_MODULE_55__["default"])();
+            const encoder2MuxerChannel = (0,_function_createMessageChannel__WEBPACK_IMPORTED_MODULE_55__["default"])();
+            const decoder2FilterChannel = (0,_function_createMessageChannel__WEBPACK_IMPORTED_MODULE_55__["default"])();
+            const filter2EncoderChannel = (0,_function_createMessageChannel__WEBPACK_IMPORTED_MODULE_55__["default"])();
             const newStream = this.copyAVStreamInterface(task, stream);
-            const taskId = (0,common_function_generateUUID__WEBPACK_IMPORTED_MODULE_16__["default"])();
+            const taskId = (0,common_function_generateUUID__WEBPACK_IMPORTED_MODULE_17__["default"])();
             let ret = 0;
             if (videoConfig) {
                 if (videoConfig.codec && videoConfig.codec !== 'copy') {
-                    const codecId = avutil_stringEnum__WEBPACK_IMPORTED_MODULE_31__.VideoCodecString2CodecId[videoConfig.codec];
-                    if (!common_util_is__WEBPACK_IMPORTED_MODULE_17__.number(codecId)) {
-                        common_util_logger__WEBPACK_IMPORTED_MODULE_22__.fatal(`invalid codec name(${videoConfig.codec})`, cheap__fileName__12, 1180);
+                    const codecId = avutil_stringEnum__WEBPACK_IMPORTED_MODULE_32__.VideoCodecString2CodecId[videoConfig.codec];
+                    if (!common_util_is__WEBPACK_IMPORTED_MODULE_18__.number(codecId)) {
+                        common_util_logger__WEBPACK_IMPORTED_MODULE_23__.fatal(`invalid codec name(${videoConfig.codec})`, cheap__fileName__12, 1212);
                     }
-                    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_8__.CTypeEnumWrite[15](newStream.codecpar + 4, codecId);
+                    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_6__.CTypeEnumWrite[15](newStream.codecpar + 4, codecId);
                     if (cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar + 4) !== cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](stream.codecpar + 4)) {
-                        cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_8__.CTypeEnumWrite[15](newStream.codecpar + 48, avutil_constant__WEBPACK_IMPORTED_MODULE_26__.NOPTS_VALUE);
-                        cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_8__.CTypeEnumWrite[15](newStream.codecpar + 52, avutil_constant__WEBPACK_IMPORTED_MODULE_26__.NOPTS_VALUE);
+                        cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_6__.CTypeEnumWrite[15](newStream.codecpar + 48, avutil_constant__WEBPACK_IMPORTED_MODULE_27__.NOPTS_VALUE);
+                        cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_6__.CTypeEnumWrite[15](newStream.codecpar + 52, avutil_constant__WEBPACK_IMPORTED_MODULE_27__.NOPTS_VALUE);
                     }
                 }
                 if (videoConfig.width) {
-                    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_8__.CTypeEnumWrite[15](newStream.codecpar + 56, videoConfig.width);
+                    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_6__.CTypeEnumWrite[15](newStream.codecpar + 56, videoConfig.width);
                 }
                 if (videoConfig.height) {
-                    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_8__.CTypeEnumWrite[15](newStream.codecpar + 60, videoConfig.height);
+                    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_6__.CTypeEnumWrite[15](newStream.codecpar + 60, videoConfig.height);
                 }
                 if (videoConfig.bitrate) {
-                    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_8__.CTypeEnumWrite[17](newStream.codecpar + 32, BigInt(Math.floor(videoConfig.bitrate)));
+                    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_6__.CTypeEnumWrite[17](newStream.codecpar + 32, BigInt(Math.floor(videoConfig.bitrate)));
                 }
                 if (videoConfig.pixfmt) {
-                    const pixfmt = avutil_stringEnum__WEBPACK_IMPORTED_MODULE_31__.PixfmtString2AVPixelFormat[videoConfig.pixfmt];
-                    if (!common_util_is__WEBPACK_IMPORTED_MODULE_17__.number(pixfmt)) {
-                        common_util_logger__WEBPACK_IMPORTED_MODULE_22__.fatal(`invalid pixfmt name(${videoConfig.pixfmt})`, cheap__fileName__12, 1201);
+                    const pixfmt = avutil_stringEnum__WEBPACK_IMPORTED_MODULE_32__.PixfmtString2AVPixelFormat[videoConfig.pixfmt];
+                    if (!common_util_is__WEBPACK_IMPORTED_MODULE_18__.number(pixfmt)) {
+                        common_util_logger__WEBPACK_IMPORTED_MODULE_23__.fatal(`invalid pixfmt name(${videoConfig.pixfmt})`, cheap__fileName__12, 1233);
                     }
-                    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_8__.CTypeEnumWrite[15](newStream.codecpar + 28, pixfmt);
+                    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_6__.CTypeEnumWrite[15](newStream.codecpar + 28, pixfmt);
                 }
                 if (videoConfig.framerate) {
-                    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_8__.CTypeEnumWrite[15](newStream.codecpar + 72, videoConfig.framerate >>> 0);
-                    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_8__.CTypeEnumWrite[15](newStream.codecpar + 76, 1);
+                    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_6__.CTypeEnumWrite[15](newStream.codecpar + 72, videoConfig.framerate >>> 0);
+                    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_6__.CTypeEnumWrite[15](newStream.codecpar + 76, 1);
                 }
                 if (videoConfig.aspect) {
-                    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_8__.CTypeEnumWrite[15](newStream.codecpar + 68, videoConfig.aspect.den);
-                    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_8__.CTypeEnumWrite[15](newStream.codecpar + 64, videoConfig.aspect.num);
+                    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_6__.CTypeEnumWrite[15](newStream.codecpar + 68, videoConfig.aspect.den);
+                    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_6__.CTypeEnumWrite[15](newStream.codecpar + 64, videoConfig.aspect.num);
                 }
                 if (videoConfig.profile) {
-                    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_8__.CTypeEnumWrite[15](newStream.codecpar + 48, videoConfig.profile);
+                    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_6__.CTypeEnumWrite[15](newStream.codecpar + 48, videoConfig.profile);
                 }
                 if (videoConfig.level) {
-                    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_8__.CTypeEnumWrite[15](newStream.codecpar + 52, videoConfig.level);
+                    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_6__.CTypeEnumWrite[15](newStream.codecpar + 52, videoConfig.level);
                 }
                 if (videoConfig.delay) {
-                    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_8__.CTypeEnumWrite[15](newStream.codecpar + 104, videoConfig.delay);
+                    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_6__.CTypeEnumWrite[15](newStream.codecpar + 104, videoConfig.delay);
                 }
             }
-            if (cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar + 48) === avutil_constant__WEBPACK_IMPORTED_MODULE_26__.NOPTS_VALUE) {
+            if (cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar + 48) === avutil_constant__WEBPACK_IMPORTED_MODULE_27__.NOPTS_VALUE) {
                 if (cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar + 4) === 27 /* AVCodecID.AV_CODEC_ID_H264 */) {
-                    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_8__.CTypeEnumWrite[15](newStream.codecpar + 48, 100 /* h264.H264Profile.kHigh */);
+                    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_6__.CTypeEnumWrite[15](newStream.codecpar + 48, 100 /* h264.H264Profile.kHigh */);
                 }
                 else if (cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar + 4) === 173 /* AVCodecID.AV_CODEC_ID_HEVC */) {
-                    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_8__.CTypeEnumWrite[15](newStream.codecpar + 48, 1 /* hevc.HEVCProfile.Main */);
+                    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_6__.CTypeEnumWrite[15](newStream.codecpar + 48, 1 /* hevc.HEVCProfile.Main */);
                 }
                 else if (cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar + 4) === 196 /* AVCodecID.AV_CODEC_ID_VVC */) {
                 }
                 else if (cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar + 4) === 225 /* AVCodecID.AV_CODEC_ID_AV1 */) {
-                    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_8__.CTypeEnumWrite[15](newStream.codecpar + 48, 0 /* av1.AV1Profile.Main */);
+                    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_6__.CTypeEnumWrite[15](newStream.codecpar + 48, 0 /* av1.AV1Profile.Main */);
                 }
                 else if (cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar + 4) === 167 /* AVCodecID.AV_CODEC_ID_VP9 */) {
-                    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_8__.CTypeEnumWrite[15](newStream.codecpar + 48, 0 /* vp9.VP9Profile.Profile0 */);
+                    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_6__.CTypeEnumWrite[15](newStream.codecpar + 48, 0 /* vp9.VP9Profile.Profile0 */);
                 }
                 else if (cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar + 4) === 139 /* AVCodecID.AV_CODEC_ID_VP8 */) {
-                    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_8__.CTypeEnumWrite[15](newStream.codecpar + 48, 0);
+                    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_6__.CTypeEnumWrite[15](newStream.codecpar + 48, 0);
                 }
             }
-            if (cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar + 52) === avutil_constant__WEBPACK_IMPORTED_MODULE_26__.NOPTS_VALUE) {
+            if (cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar + 52) === avutil_constant__WEBPACK_IMPORTED_MODULE_27__.NOPTS_VALUE) {
                 if (cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar + 4) === 27 /* AVCodecID.AV_CODEC_ID_H264 */) {
-                    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_8__.CTypeEnumWrite[15](newStream.codecpar + 52, avformat_codecs_h264__WEBPACK_IMPORTED_MODULE_46__.getLevelByResolution(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar + 56), cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar + 60), (0,avutil_util_rational__WEBPACK_IMPORTED_MODULE_25__.avQ2D)((0,cheap_std_structAccess__WEBPACK_IMPORTED_MODULE_7__["default"])(newStream.codecpar + 72, _avutil_struct_rational_ts__WEBPACK_IMPORTED_MODULE_6__.Rational))));
+                    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_6__.CTypeEnumWrite[15](newStream.codecpar + 52, avformat_codecs_h264__WEBPACK_IMPORTED_MODULE_46__.getLevelByResolution(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar + 56), cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar + 60), (0,avutil_util_rational__WEBPACK_IMPORTED_MODULE_26__.avQ2D)((0,cheap_std_structAccess__WEBPACK_IMPORTED_MODULE_8__["default"])(newStream.codecpar + 72, _avutil_struct_rational_ts__WEBPACK_IMPORTED_MODULE_7__.Rational))));
                 }
                 else if (cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar + 4) === 173 /* AVCodecID.AV_CODEC_ID_HEVC */) {
-                    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_8__.CTypeEnumWrite[15](newStream.codecpar + 52, avformat_codecs_hevc__WEBPACK_IMPORTED_MODULE_47__.getLevelByResolution(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar + 48), cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar + 56), cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar + 60), (0,avutil_util_rational__WEBPACK_IMPORTED_MODULE_25__.avQ2D)((0,cheap_std_structAccess__WEBPACK_IMPORTED_MODULE_7__["default"])(newStream.codecpar + 72, _avutil_struct_rational_ts__WEBPACK_IMPORTED_MODULE_6__.Rational)), Number(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[17](newStream.codecpar + 32))));
+                    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_6__.CTypeEnumWrite[15](newStream.codecpar + 52, avformat_codecs_hevc__WEBPACK_IMPORTED_MODULE_47__.getLevelByResolution(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar + 48), cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar + 56), cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar + 60), (0,avutil_util_rational__WEBPACK_IMPORTED_MODULE_26__.avQ2D)((0,cheap_std_structAccess__WEBPACK_IMPORTED_MODULE_8__["default"])(newStream.codecpar + 72, _avutil_struct_rational_ts__WEBPACK_IMPORTED_MODULE_7__.Rational)), Number(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[17](newStream.codecpar + 32))));
                 }
                 else if (cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar + 4) === 196 /* AVCodecID.AV_CODEC_ID_VVC */) {
                 }
                 else if (cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar + 4) === 225 /* AVCodecID.AV_CODEC_ID_AV1 */) {
-                    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_8__.CTypeEnumWrite[15](newStream.codecpar + 52, avformat_codecs_av1__WEBPACK_IMPORTED_MODULE_48__.getLevelByResolution(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar + 56), cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar + 60), (0,avutil_util_rational__WEBPACK_IMPORTED_MODULE_25__.avQ2D)((0,cheap_std_structAccess__WEBPACK_IMPORTED_MODULE_7__["default"])(newStream.codecpar + 72, _avutil_struct_rational_ts__WEBPACK_IMPORTED_MODULE_6__.Rational))));
+                    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_6__.CTypeEnumWrite[15](newStream.codecpar + 52, avformat_codecs_av1__WEBPACK_IMPORTED_MODULE_48__.getLevelByResolution(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar + 56), cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar + 60), (0,avutil_util_rational__WEBPACK_IMPORTED_MODULE_26__.avQ2D)((0,cheap_std_structAccess__WEBPACK_IMPORTED_MODULE_8__["default"])(newStream.codecpar + 72, _avutil_struct_rational_ts__WEBPACK_IMPORTED_MODULE_7__.Rational))));
                 }
                 else if (cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar + 4) === 167 /* AVCodecID.AV_CODEC_ID_VP9 */) {
-                    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_8__.CTypeEnumWrite[15](newStream.codecpar + 52, avformat_codecs_vp9__WEBPACK_IMPORTED_MODULE_49__.getLevelByResolution(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar + 56), cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar + 60), (0,avutil_util_rational__WEBPACK_IMPORTED_MODULE_25__.avQ2D)((0,cheap_std_structAccess__WEBPACK_IMPORTED_MODULE_7__["default"])(newStream.codecpar + 72, _avutil_struct_rational_ts__WEBPACK_IMPORTED_MODULE_6__.Rational))));
+                    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_6__.CTypeEnumWrite[15](newStream.codecpar + 52, avformat_codecs_vp9__WEBPACK_IMPORTED_MODULE_49__.getLevelByResolution(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar + 56), cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar + 60), (0,avutil_util_rational__WEBPACK_IMPORTED_MODULE_26__.avQ2D)((0,cheap_std_structAccess__WEBPACK_IMPORTED_MODULE_8__["default"])(newStream.codecpar + 72, _avutil_struct_rational_ts__WEBPACK_IMPORTED_MODULE_7__.Rational))));
                 }
             }
             if (!videoConfig || videoConfig.delay == null) {
-                cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_8__.CTypeEnumWrite[15](newStream.codecpar + 104, 4);
+                cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_6__.CTypeEnumWrite[15](newStream.codecpar + 104, 4);
             }
             if (cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar + 4) === 27 /* AVCodecID.AV_CODEC_ID_H264 */
                 || cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar + 4) === 12 /* AVCodecID.AV_CODEC_ID_MPEG4 */
                 || cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar + 4) === 173 /* AVCodecID.AV_CODEC_ID_HEVC */
                 || cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar + 4) === 196 /* AVCodecID.AV_CODEC_ID_VVC */) {
                 if (task.format === 2 /* AVFormat.MPEGTS */) {
-                    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_8__.CTypeEnumWrite[15](newStream.codecpar + 160, 2 /* BitFormat.ANNEXB */);
+                    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_6__.CTypeEnumWrite[15](newStream.codecpar + 160, 2 /* BitFormat.ANNEXB */);
                 }
                 else {
-                    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_8__.CTypeEnumWrite[15](newStream.codecpar + 160, 1 /* BitFormat.AVCC */);
+                    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_6__.CTypeEnumWrite[15](newStream.codecpar + 160, 1 /* BitFormat.AVCC */);
                 }
             }
-            if (cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar + 4) === 12 /* AVCodecID.AV_CODEC_ID_MPEG4 */ && cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.timeBase + 4) > 65535) {
+            if (cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar + 4) === 12 /* AVCodecID.AV_CODEC_ID_MPEG4 */ && newStream.timeBase.den > 65535) {
                 const newTimebase = {
                     den: 65535,
                     num: 1
                 };
-                newStream.startTime = (0,avutil_util_rational__WEBPACK_IMPORTED_MODULE_25__.avRescaleQ)(newStream.startTime, (0,cheap_std_structAccess__WEBPACK_IMPORTED_MODULE_7__["default"])(newStream.timeBase, _avutil_struct_rational_ts__WEBPACK_IMPORTED_MODULE_6__.Rational), newTimebase);
-                newStream.duration = (0,avutil_util_rational__WEBPACK_IMPORTED_MODULE_25__.avRescaleQ)(newStream.duration, (0,cheap_std_structAccess__WEBPACK_IMPORTED_MODULE_7__["default"])(newStream.timeBase, _avutil_struct_rational_ts__WEBPACK_IMPORTED_MODULE_6__.Rational), newTimebase);
-                cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_8__.CTypeEnumWrite[15](newStream.timeBase + 4, newTimebase.den);
-                cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_8__.CTypeEnumWrite[15](newStream.timeBase, newTimebase.num);
+                newStream.startTime = (0,avutil_util_rational__WEBPACK_IMPORTED_MODULE_26__.avRescaleQ)(newStream.startTime, newStream.timeBase, newTimebase);
+                newStream.duration = (0,avutil_util_rational__WEBPACK_IMPORTED_MODULE_26__.avRescaleQ)(newStream.duration, newStream.timeBase, newTimebase);
+                newStream.timeBase.den = newTimebase.den;
+                newStream.timeBase.num = newTimebase.num;
             }
             await this.DemuxerThread.connectStreamTask
                 .transfer(demuxer2DecoderChannel.port1)
                 .invoke(task.subTaskId || task.taskId, stream.index, demuxer2DecoderChannel.port1);
             let decoderResource = await this.getResource('decoder', cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](stream.codecpar + 4), cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](stream.codecpar));
             if (!decoderResource) {
-                if (common_util_support__WEBPACK_IMPORTED_MODULE_23__["default"].videoDecoder) {
+                if (common_util_support__WEBPACK_IMPORTED_MODULE_24__["default"].videoDecoder) {
                     const isSupport = await VideoDecoder.isConfigSupported({
-                        codec: (0,avcodec_function_getVideoCodec__WEBPACK_IMPORTED_MODULE_28__["default"])(stream.codecpar)
+                        codec: (0,avcodec_function_getVideoCodec__WEBPACK_IMPORTED_MODULE_29__["default"])(stream.codecpar)
                     });
                     if (!isSupport.supported) {
-                        common_util_logger__WEBPACK_IMPORTED_MODULE_22__.fatal(`VideoDecoder codecId ${cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](stream.codecpar + 4)} not support`, cheap__fileName__12, 1307);
+                        common_util_logger__WEBPACK_IMPORTED_MODULE_23__.fatal(`VideoDecoder codecId ${cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](stream.codecpar + 4)} not support`, cheap__fileName__12, 1339);
                     }
                 }
                 else {
-                    common_util_logger__WEBPACK_IMPORTED_MODULE_22__.fatal(`video decoder codecId ${cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](stream.codecpar + 4)} not support`, cheap__fileName__12, 1311);
+                    common_util_logger__WEBPACK_IMPORTED_MODULE_23__.fatal(`video decoder codecId ${cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](stream.codecpar + 4)} not support`, cheap__fileName__12, 1343);
                 }
             }
             // 注册一个视频解码任务
@@ -12970,7 +13518,7 @@ class AVTranscoder extends common_event_Emitter__WEBPACK_IMPORTED_MODULE_40__["d
                 leftPort: demuxer2DecoderChannel.port2,
                 rightPort: decoder2FilterChannel.port1,
                 stats: task.stats[cheap_symbol__WEBPACK_IMPORTED_MODULE_0__.symbolStructAddress],
-                enableHardware: this.options.enableHardware,
+                enableHardware: !!videoConfig.enableHardware,
                 avpacketList: this.GlobalData[cheap_symbol__WEBPACK_IMPORTED_MODULE_0__.symbolStructAddress],
                 avpacketListMutex: this.GlobalData[cheap_symbol__WEBPACK_IMPORTED_MODULE_0__.symbolStructAddress] + 24,
                 avframeList: this.GlobalData[cheap_symbol__WEBPACK_IMPORTED_MODULE_0__.symbolStructAddress] + 12,
@@ -12978,12 +13526,12 @@ class AVTranscoder extends common_event_Emitter__WEBPACK_IMPORTED_MODULE_40__["d
             });
             ret = await this.VideoDecoderThread.open(taskId, stream.codecpar);
             if (ret < 0) {
-                common_util_logger__WEBPACK_IMPORTED_MODULE_22__.error(`cannot open video ${(0,avformat_dump__WEBPACK_IMPORTED_MODULE_57__.dumpCodecName)(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](stream.codecpar), cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](stream.codecpar + 4))} decoder`, cheap__fileName__12, 1334);
+                common_util_logger__WEBPACK_IMPORTED_MODULE_23__.error(`cannot open video ${(0,avformat_dump__WEBPACK_IMPORTED_MODULE_57__.dumpCodecName)(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](stream.codecpar), cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](stream.codecpar + 4))} decoder`, cheap__fileName__12, 1366);
                 return ret;
             }
             let scalerResource = await this.getResource('scaler');
             if (!scalerResource) {
-                common_util_logger__WEBPACK_IMPORTED_MODULE_22__.fatal('scaler not found', cheap__fileName__12, 1340);
+                common_util_logger__WEBPACK_IMPORTED_MODULE_23__.fatal('scaler not found', cheap__fileName__12, 1372);
             }
             const vertices = [];
             const edges = [];
@@ -13008,11 +13556,11 @@ class AVTranscoder extends common_event_Emitter__WEBPACK_IMPORTED_MODULE_40__["d
                 port: filter2EncoderChannel.port1
             };
             if (task.options.start || task.options.duration) {
-                const start = (0,avutil_util_rational__WEBPACK_IMPORTED_MODULE_25__.avRescaleQ)(BigInt(Math.floor(task.options.start || 0)), avutil_constant__WEBPACK_IMPORTED_MODULE_26__.AV_MILLI_TIME_BASE_Q, (0,cheap_std_structAccess__WEBPACK_IMPORTED_MODULE_7__["default"])(stream.timeBase, _avutil_struct_rational_ts__WEBPACK_IMPORTED_MODULE_6__.Rational));
+                const start = (0,avutil_util_rational__WEBPACK_IMPORTED_MODULE_26__.avRescaleQ)(BigInt(Math.floor(task.options.start || 0)), avutil_constant__WEBPACK_IMPORTED_MODULE_27__.AV_MILLI_TIME_BASE_Q, stream.timeBase);
                 const rangeNode = (0,avfilter_graph__WEBPACK_IMPORTED_MODULE_52__.createGraphDesVertex)('range', {
                     start: start,
                     end: task.options.duration
-                        ? ((0,avutil_util_rational__WEBPACK_IMPORTED_MODULE_25__.avRescaleQ)(BigInt(Math.floor(task.options.duration)), avutil_constant__WEBPACK_IMPORTED_MODULE_26__.AV_MILLI_TIME_BASE_Q, (0,cheap_std_structAccess__WEBPACK_IMPORTED_MODULE_7__["default"])(stream.timeBase, _avutil_struct_rational_ts__WEBPACK_IMPORTED_MODULE_6__.Rational)) + start)
+                        ? ((0,avutil_util_rational__WEBPACK_IMPORTED_MODULE_26__.avRescaleQ)(BigInt(Math.floor(task.options.duration)), avutil_constant__WEBPACK_IMPORTED_MODULE_27__.AV_MILLI_TIME_BASE_Q, stream.timeBase) + start)
                         : -BigInt(1)
                 });
                 vertices.push(rangeNode);
@@ -13026,15 +13574,15 @@ class AVTranscoder extends common_event_Emitter__WEBPACK_IMPORTED_MODULE_40__["d
                 });
                 rangeNodeId = rangeNode.id;
             }
-            if ((0,avutil_util_rational__WEBPACK_IMPORTED_MODULE_25__.avQ2D)((0,cheap_std_structAccess__WEBPACK_IMPORTED_MODULE_7__["default"])(stream.codecpar + 72, _avutil_struct_rational_ts__WEBPACK_IMPORTED_MODULE_6__.Rational)) > (0,avutil_util_rational__WEBPACK_IMPORTED_MODULE_25__.avQ2D)((0,cheap_std_structAccess__WEBPACK_IMPORTED_MODULE_7__["default"])(newStream.codecpar + 72, _avutil_struct_rational_ts__WEBPACK_IMPORTED_MODULE_6__.Rational))) {
+            if ((0,avutil_util_rational__WEBPACK_IMPORTED_MODULE_26__.avQ2D)((0,cheap_std_structAccess__WEBPACK_IMPORTED_MODULE_8__["default"])(stream.codecpar + 72, _avutil_struct_rational_ts__WEBPACK_IMPORTED_MODULE_7__.Rational)) > (0,avutil_util_rational__WEBPACK_IMPORTED_MODULE_26__.avQ2D)((0,cheap_std_structAccess__WEBPACK_IMPORTED_MODULE_8__["default"])(newStream.codecpar + 72, _avutil_struct_rational_ts__WEBPACK_IMPORTED_MODULE_7__.Rational))) {
                 const framerateNode = (0,avfilter_graph__WEBPACK_IMPORTED_MODULE_52__.createGraphDesVertex)('framerate', {
                     framerate: {
                         num: cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar + 72),
                         den: cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar + 76)
                     },
                     timeBase: {
-                        num: cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](stream.timeBase),
-                        den: cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](stream.timeBase + 4)
+                        num: stream.timeBase.num,
+                        den: stream.timeBase.den
                     }
                 });
                 vertices.push(framerateNode);
@@ -13076,29 +13624,30 @@ class AVTranscoder extends common_event_Emitter__WEBPACK_IMPORTED_MODULE_40__["d
             });
             let encoderResource = await this.getResource('encoder', cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar + 4), cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar));
             if (!encoderResource) {
-                if (common_util_support__WEBPACK_IMPORTED_MODULE_23__["default"].videoEncoder) {
+                if (common_util_support__WEBPACK_IMPORTED_MODULE_24__["default"].videoEncoder) {
                     const isSupport = await VideoEncoder.isConfigSupported({
-                        codec: (0,avcodec_function_getVideoCodec__WEBPACK_IMPORTED_MODULE_28__["default"])(newStream.codecpar),
+                        codec: (0,avcodec_function_getVideoCodec__WEBPACK_IMPORTED_MODULE_29__["default"])(newStream.codecpar),
                         width: cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar + 56),
                         height: cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar + 60)
                     });
                     if (!isSupport.supported) {
-                        common_util_logger__WEBPACK_IMPORTED_MODULE_22__.fatal(`VideoEncoder ${(0,avformat_dump__WEBPACK_IMPORTED_MODULE_57__.dumpCodecName)(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar), cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar + 4))} codecId ${cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar + 4)} not support`, cheap__fileName__12, 1449);
+                        common_util_logger__WEBPACK_IMPORTED_MODULE_23__.fatal(`VideoEncoder ${(0,avformat_dump__WEBPACK_IMPORTED_MODULE_57__.dumpCodecName)(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar), cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar + 4))} codecId ${cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar + 4)} not support`, cheap__fileName__12, 1481);
                     }
                 }
                 else {
-                    common_util_logger__WEBPACK_IMPORTED_MODULE_22__.fatal(`${(0,avformat_dump__WEBPACK_IMPORTED_MODULE_57__.dumpCodecName)(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar), cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar + 4))} encoder codecId ${cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar + 4)} not support`, cheap__fileName__12, 1453);
+                    common_util_logger__WEBPACK_IMPORTED_MODULE_23__.fatal(`${(0,avformat_dump__WEBPACK_IMPORTED_MODULE_57__.dumpCodecName)(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar), cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar + 4))} encoder codecId ${cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar + 4)} not support`, cheap__fileName__12, 1485);
                 }
             }
             const wasmEncoderOptions = {};
+            const resourceExtraData = {};
             // x265 需要提前创建线程
             if (cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar + 4) === 173 /* AVCodecID.AV_CODEC_ID_HEVC */) {
-                encoderResource.enableThreadPool = true;
-                encoderResource.enableThreadCountRate = 2;
+                resourceExtraData.enableThreadPool = true;
+                resourceExtraData.enableThreadCountRate = 2;
             }
             // libvpx 需要提前创建线程
             else if (cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar + 4) === 167 /* AVCodecID.AV_CODEC_ID_VP9 */) {
-                encoderResource.enableThreadPool = true;
+                resourceExtraData.enableThreadPool = true;
             }
             else if (cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar + 4) === 225 /* AVCodecID.AV_CODEC_ID_AV1 */) {
                 wasmEncoderOptions['cpu-used'] = '5';
@@ -13109,19 +13658,21 @@ class AVTranscoder extends common_event_Emitter__WEBPACK_IMPORTED_MODULE_40__["d
                 .invoke({
                 taskId: taskId,
                 resource: encoderResource,
+                resourceExtraData,
                 leftPort: filter2EncoderChannel.port2,
                 rightPort: encoder2MuxerChannel.port1,
                 stats: task.stats[cheap_symbol__WEBPACK_IMPORTED_MODULE_0__.symbolStructAddress],
-                enableHardware: this.options.enableHardware,
+                enableHardware: !!videoConfig.enableHardware,
                 avpacketList: this.GlobalData[cheap_symbol__WEBPACK_IMPORTED_MODULE_0__.symbolStructAddress],
                 avpacketListMutex: this.GlobalData[cheap_symbol__WEBPACK_IMPORTED_MODULE_0__.symbolStructAddress] + 24,
                 avframeList: this.GlobalData[cheap_symbol__WEBPACK_IMPORTED_MODULE_0__.symbolStructAddress] + 12,
                 avframeListMutex: this.GlobalData[cheap_symbol__WEBPACK_IMPORTED_MODULE_0__.symbolStructAddress] + 28,
-                gop: (((0,avutil_util_rational__WEBPACK_IMPORTED_MODULE_25__.avQ2D)((0,cheap_std_structAccess__WEBPACK_IMPORTED_MODULE_7__["default"])(newStream.codecpar + 72, _avutil_struct_rational_ts__WEBPACK_IMPORTED_MODULE_6__.Rational)) * (videoConfig?.keyFrameInterval ?? 5000) / 1000) >> 0)
+                gop: (((0,avutil_util_rational__WEBPACK_IMPORTED_MODULE_26__.avQ2D)((0,cheap_std_structAccess__WEBPACK_IMPORTED_MODULE_8__["default"])(newStream.codecpar + 72, _avutil_struct_rational_ts__WEBPACK_IMPORTED_MODULE_7__.Rational)) * (videoConfig?.keyFrameInterval ?? 5000) / 1000) >> 0),
+                preferWebCodecs: common_util_array__WEBPACK_IMPORTED_MODULE_20__.has([225 /* AVCodecID.AV_CODEC_ID_AV1 */, 167 /* AVCodecID.AV_CODEC_ID_VP9 */, 139 /* AVCodecID.AV_CODEC_ID_VP8 */], cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar + 4))
             });
-            ret = await this.VideoEncoderThread.open(taskId, newStream.codecpar, { num: cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.timeBase), den: cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.timeBase + 4) }, wasmEncoderOptions);
+            ret = await this.VideoEncoderThread.open(taskId, newStream.codecpar, { num: newStream.timeBase.num, den: newStream.timeBase.den }, wasmEncoderOptions);
             if (ret < 0) {
-                common_util_logger__WEBPACK_IMPORTED_MODULE_22__.error(`cannot open video ${(0,avformat_dump__WEBPACK_IMPORTED_MODULE_57__.dumpCodecName)(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar), cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar + 4))} encoder`, cheap__fileName__12, 1492);
+                common_util_logger__WEBPACK_IMPORTED_MODULE_23__.error(`cannot open video ${(0,avformat_dump__WEBPACK_IMPORTED_MODULE_57__.dumpCodecName)(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar), cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](newStream.codecpar + 4))} encoder`, cheap__fileName__12, 1527);
                 return ret;
             }
             await this.MuxThread.addStream.transfer(encoder2MuxerChannel.port2)
@@ -13139,7 +13690,7 @@ class AVTranscoder extends common_event_Emitter__WEBPACK_IMPORTED_MODULE_40__["d
         }
     }
     async handleCopyStream(stream, task) {
-        const demuxer2MuxerChannel = (0,avutil_function_createMessageChannel__WEBPACK_IMPORTED_MODULE_55__["default"])();
+        const demuxer2MuxerChannel = (0,_function_createMessageChannel__WEBPACK_IMPORTED_MODULE_55__["default"])();
         await this.DemuxerThread.connectStreamTask
             .transfer(demuxer2MuxerChannel.port1)
             .invoke(task.subTaskId || task.taskId, stream.index, demuxer2MuxerChannel.port1);
@@ -13169,7 +13720,6 @@ class AVTranscoder extends common_event_Emitter__WEBPACK_IMPORTED_MODULE_40__["d
             }
             if (task.streams[i].output) {
                 (0,avutil_util_codecparameters__WEBPACK_IMPORTED_MODULE_38__.freeCodecParameters)(task.streams[i].output.codecpar);
-                (0,avutil_util_mem__WEBPACK_IMPORTED_MODULE_37__.avFree)(task.streams[i].output.timeBase);
             }
         }
         this.DemuxerThread.unregisterTask(task.taskId);
@@ -13196,10 +13746,10 @@ class AVTranscoder extends common_event_Emitter__WEBPACK_IMPORTED_MODULE_40__["d
     }
     async addTask(taskOptions) {
         if (taskOptions.output.audio?.disable && taskOptions.output.video?.disable) {
-            common_util_logger__WEBPACK_IMPORTED_MODULE_22__.fatal('audio and video are all disable', cheap__fileName__12, 1580);
+            common_util_logger__WEBPACK_IMPORTED_MODULE_23__.fatal('audio and video are all disable', cheap__fileName__12, 1614);
         }
-        const taskId = (0,common_function_generateUUID__WEBPACK_IMPORTED_MODULE_16__["default"])();
-        const stats = (0,cheap_std_make__WEBPACK_IMPORTED_MODULE_4__["default"])(avpipeline_struct_stats__WEBPACK_IMPORTED_MODULE_33__["default"]);
+        const taskId = (0,common_function_generateUUID__WEBPACK_IMPORTED_MODULE_17__["default"])();
+        const stats = (0,cheap_std_make__WEBPACK_IMPORTED_MODULE_4__["default"])(_avpipeline_struct_stats_ts__WEBPACK_IMPORTED_MODULE_10__["default"]);
         const task = {
             taskId,
             startTime: 0,
@@ -13229,7 +13779,7 @@ class AVTranscoder extends common_event_Emitter__WEBPACK_IMPORTED_MODULE_40__["d
                     ret = await this.handleCopyStream(formatContext.streams[i], task);
                 }
                 if (ret < 0) {
-                    throw new Error(`config transcode error, ret: ${ret}`);
+                    common_util_logger__WEBPACK_IMPORTED_MODULE_23__.fatal(`config transcode error, ret: ${ret}`, cheap__fileName__12, 1653);
                 }
             }
             const oformatContext = {
@@ -13238,7 +13788,7 @@ class AVTranscoder extends common_event_Emitter__WEBPACK_IMPORTED_MODULE_40__["d
                 metadata: {},
                 chapters: []
             };
-            let mappingDump = '\nStream mapping:\n';
+            let mappingDump = '';
             task.streams.forEach((stream) => {
                 if (stream.output) {
                     oformatContext.streams.push(stream.output);
@@ -13249,11 +13799,17 @@ class AVTranscoder extends common_event_Emitter__WEBPACK_IMPORTED_MODULE_40__["d
                     mappingDump += `  Stream #0:${stream.input.index} -> #0:${stream.input.index} (${(0,avformat_dump__WEBPACK_IMPORTED_MODULE_57__.dumpCodecName)(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](stream.input.codecpar), cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](stream.input.codecpar + 4))} -> copy)\n`;
                 }
             });
-            common_util_logger__WEBPACK_IMPORTED_MODULE_22__.info(mappingDump, cheap__fileName__12, 1644);
-            common_util_logger__WEBPACK_IMPORTED_MODULE_22__.info('\n' + (0,avformat_dump__WEBPACK_IMPORTED_MODULE_57__["default"])([oformatContext], [{
-                    from: task.options.output.file instanceof FileSystemFileHandle ? task.options.output.file.name : 'IOWriter',
-                    tag: 'Output'
-                }]), cheap__fileName__12, 1645);
+            common_util_logger__WEBPACK_IMPORTED_MODULE_23__.info(`\nAVTranscoder version ${"v0.0.1-18-g41e9e9f"} Copyright (c) 2024-present the libmedia developers\n`
+                + (0,avformat_dump__WEBPACK_IMPORTED_MODULE_57__["default"])([formatContext], [{
+                        from: common_util_is__WEBPACK_IMPORTED_MODULE_18__.string(task.options.input.file) ? task.options.input.file : (task.options.input.file instanceof File ? task.options.input.file.name : 'ioReader'),
+                        tag: 'Input'
+                    }])
+                + mappingDump
+                + '\n'
+                + (0,avformat_dump__WEBPACK_IMPORTED_MODULE_57__["default"])([oformatContext], [{
+                        from: task.options.output.file instanceof FileSystemFileHandle ? task.options.output.file.name : 'IOWriter',
+                        tag: 'Output'
+                    }]), cheap__fileName__12, 1678);
             this.tasks.set(taskId, task);
             return taskId;
         }
@@ -13273,7 +13829,7 @@ class AVTranscoder extends common_event_Emitter__WEBPACK_IMPORTED_MODULE_40__["d
             ret = await this.MuxThread.open(taskId);
             if (ret < 0) {
                 await this.clearTask(task);
-                throw new Error(`start transcode error, ret ${ret}`);
+                common_util_logger__WEBPACK_IMPORTED_MODULE_23__.fatal(`start transcode error, ret ${ret}`, cheap__fileName__12, 1711);
             }
             const streams = task.streams;
             for (let i = 0; i < streams.length; i++) {
@@ -13289,26 +13845,26 @@ class AVTranscoder extends common_event_Emitter__WEBPACK_IMPORTED_MODULE_40__["d
                     buffer = await this.VideoEncoderThread.getExtraData(streams[i].taskId);
                     const colorSpace = await this.VideoEncoderThread.getColorSpace(streams[i].taskId);
                     if (colorSpace) {
-                        cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_8__.CTypeEnumWrite[15](streams[i].output.codecpar + 96, colorSpace.colorSpace);
-                        cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_8__.CTypeEnumWrite[15](streams[i].output.codecpar + 88, colorSpace.colorPrimaries);
-                        cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_8__.CTypeEnumWrite[15](streams[i].output.codecpar + 92, colorSpace.colorTrc);
+                        cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_6__.CTypeEnumWrite[15](streams[i].output.codecpar + 96, colorSpace.colorSpace);
+                        cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_6__.CTypeEnumWrite[15](streams[i].output.codecpar + 88, colorSpace.colorPrimaries);
+                        cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_6__.CTypeEnumWrite[15](streams[i].output.codecpar + 92, colorSpace.colorTrc);
                         updated = true;
                     }
                 }
                 if (!buffer) {
                     const codecId = cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_5__.CTypeEnumRead[15](streams[i].output.codecpar + 4);
                     if (codecId === 86018 /* AVCodecID.AV_CODEC_ID_AAC */) {
-                        buffer = avformat_codecs_aac__WEBPACK_IMPORTED_MODULE_44__.avCodecParameters2Extradata((0,cheap_std_structAccess__WEBPACK_IMPORTED_MODULE_7__["default"])(streams[i].output.codecpar, _avutil_struct_avcodecparameters_ts__WEBPACK_IMPORTED_MODULE_10__["default"]));
+                        buffer = avformat_codecs_aac__WEBPACK_IMPORTED_MODULE_44__.avCodecParameters2Extradata((0,cheap_std_structAccess__WEBPACK_IMPORTED_MODULE_8__["default"])(streams[i].output.codecpar, _avutil_struct_avcodecparameters_ts__WEBPACK_IMPORTED_MODULE_11__["default"]));
                     }
                     else if (codecId === 86076 /* AVCodecID.AV_CODEC_ID_OPUS */) {
-                        buffer = avformat_codecs_opus__WEBPACK_IMPORTED_MODULE_45__.avCodecParameters2Extradata((0,cheap_std_structAccess__WEBPACK_IMPORTED_MODULE_7__["default"])(streams[i].output.codecpar, _avutil_struct_avcodecparameters_ts__WEBPACK_IMPORTED_MODULE_10__["default"]));
+                        buffer = avformat_codecs_opus__WEBPACK_IMPORTED_MODULE_45__.avCodecParameters2Extradata((0,cheap_std_structAccess__WEBPACK_IMPORTED_MODULE_8__["default"])(streams[i].output.codecpar, _avutil_struct_avcodecparameters_ts__WEBPACK_IMPORTED_MODULE_11__["default"]));
                     }
                 }
                 if (buffer) {
                     const extradata = (0,avutil_util_mem__WEBPACK_IMPORTED_MODULE_37__.avMalloc)(buffer.length);
-                    (0,cheap_std_memory__WEBPACK_IMPORTED_MODULE_27__.memcpyFromUint8Array)(extradata, buffer.length, buffer);
-                    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_8__.CTypeEnumWrite[20](streams[i].output.codecpar + 12, extradata);
-                    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_8__.CTypeEnumWrite[15](streams[i].output.codecpar + 16, buffer.length);
+                    (0,cheap_std_memory__WEBPACK_IMPORTED_MODULE_28__.memcpyFromUint8Array)(extradata, buffer.length, buffer);
+                    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_6__.CTypeEnumWrite[20](streams[i].output.codecpar + 12, extradata);
+                    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_6__.CTypeEnumWrite[15](streams[i].output.codecpar + 16, buffer.length);
                     updated = true;
                 }
                 if (updated) {
@@ -13318,7 +13874,7 @@ class AVTranscoder extends common_event_Emitter__WEBPACK_IMPORTED_MODULE_40__["d
             ret = await this.MuxThread.start(taskId);
             if (ret < 0) {
                 await this.clearTask(task);
-                throw new Error(`start transcode error, ret ${ret}`);
+                common_util_logger__WEBPACK_IMPORTED_MODULE_23__.fatal(`start transcode error, ret ${ret}`, cheap__fileName__12, 1761);
             }
             task.startTime = (0,common_function_getTimestamp__WEBPACK_IMPORTED_MODULE_53__["default"])();
             if (!this.reportTimer.isStarted()) {
@@ -13326,7 +13882,7 @@ class AVTranscoder extends common_event_Emitter__WEBPACK_IMPORTED_MODULE_40__["d
             }
         }
         else {
-            common_util_logger__WEBPACK_IMPORTED_MODULE_22__.fatal(`task ${taskId} not found`, cheap__fileName__12, 1730);
+            common_util_logger__WEBPACK_IMPORTED_MODULE_23__.fatal(`task ${taskId} not found`, cheap__fileName__12, 1770);
         }
     }
     async pauseTask(taskId) {
@@ -13335,7 +13891,7 @@ class AVTranscoder extends common_event_Emitter__WEBPACK_IMPORTED_MODULE_40__["d
             await this.MuxThread.pause(taskId);
         }
         else {
-            common_util_logger__WEBPACK_IMPORTED_MODULE_22__.fatal(`task ${taskId} not found`, cheap__fileName__12, 1740);
+            common_util_logger__WEBPACK_IMPORTED_MODULE_23__.fatal(`task ${taskId} not found`, cheap__fileName__12, 1780);
         }
     }
     async unpauseTask(taskId) {
@@ -13344,7 +13900,7 @@ class AVTranscoder extends common_event_Emitter__WEBPACK_IMPORTED_MODULE_40__["d
             await this.MuxThread.unpause(taskId);
         }
         else {
-            common_util_logger__WEBPACK_IMPORTED_MODULE_22__.fatal(`task ${taskId} not found`, cheap__fileName__12, 1750);
+            common_util_logger__WEBPACK_IMPORTED_MODULE_23__.fatal(`task ${taskId} not found`, cheap__fileName__12, 1790);
         }
     }
     async cancelTask(taskId) {
@@ -13354,45 +13910,45 @@ class AVTranscoder extends common_event_Emitter__WEBPACK_IMPORTED_MODULE_40__["d
             await this.clearTask(task);
         }
         else {
-            common_util_logger__WEBPACK_IMPORTED_MODULE_22__.fatal(`task ${taskId} not found`, cheap__fileName__12, 1761);
+            common_util_logger__WEBPACK_IMPORTED_MODULE_23__.fatal(`task ${taskId} not found`, cheap__fileName__12, 1801);
         }
     }
     async destroy() {
         if (this.MuxThread) {
             await this.MuxThread.clear();
-            (0,cheap_thread_thread__WEBPACK_IMPORTED_MODULE_15__.closeThread)(this.MuxThread);
+            (0,cheap_thread_thread__WEBPACK_IMPORTED_MODULE_16__.closeThread)(this.MuxThread);
         }
         if (this.AudioEncoderThread) {
             await this.AudioEncoderThread.clear();
-            (0,cheap_thread_thread__WEBPACK_IMPORTED_MODULE_15__.closeThread)(this.AudioEncoderThread);
+            (0,cheap_thread_thread__WEBPACK_IMPORTED_MODULE_16__.closeThread)(this.AudioEncoderThread);
         }
         if (this.AudioFilterThread) {
             await this.AudioFilterThread.clear();
-            (0,cheap_thread_thread__WEBPACK_IMPORTED_MODULE_15__.closeThread)(this.AudioFilterThread);
+            (0,cheap_thread_thread__WEBPACK_IMPORTED_MODULE_16__.closeThread)(this.AudioFilterThread);
         }
         if (this.AudioDecoderThread) {
             await this.AudioDecoderThread.clear();
-            (0,cheap_thread_thread__WEBPACK_IMPORTED_MODULE_15__.closeThread)(this.AudioDecoderThread);
+            (0,cheap_thread_thread__WEBPACK_IMPORTED_MODULE_16__.closeThread)(this.AudioDecoderThread);
         }
         if (this.VideoEncoderThread) {
             await this.VideoEncoderThread.clear();
-            (0,cheap_thread_thread__WEBPACK_IMPORTED_MODULE_15__.closeThread)(this.VideoEncoderThread);
+            (0,cheap_thread_thread__WEBPACK_IMPORTED_MODULE_16__.closeThread)(this.VideoEncoderThread);
         }
         if (this.VideoFilterThread) {
             await this.VideoFilterThread.clear();
-            (0,cheap_thread_thread__WEBPACK_IMPORTED_MODULE_15__.closeThread)(this.VideoFilterThread);
+            (0,cheap_thread_thread__WEBPACK_IMPORTED_MODULE_16__.closeThread)(this.VideoFilterThread);
         }
         if (this.VideoDecoderThread) {
             await this.VideoDecoderThread.clear();
-            (0,cheap_thread_thread__WEBPACK_IMPORTED_MODULE_15__.closeThread)(this.VideoDecoderThread);
+            (0,cheap_thread_thread__WEBPACK_IMPORTED_MODULE_16__.closeThread)(this.VideoDecoderThread);
         }
         if (this.DemuxerThread) {
             await this.DemuxerThread.clear();
-            (0,cheap_thread_thread__WEBPACK_IMPORTED_MODULE_15__.closeThread)(this.DemuxerThread);
+            (0,cheap_thread_thread__WEBPACK_IMPORTED_MODULE_16__.closeThread)(this.DemuxerThread);
         }
         if (this.IOThread) {
             await this.IOThread.clear();
-            (0,cheap_thread_thread__WEBPACK_IMPORTED_MODULE_15__.closeThread)(this.IOThread);
+            (0,cheap_thread_thread__WEBPACK_IMPORTED_MODULE_16__.closeThread)(this.IOThread);
         }
         this.VideoEncoderThread = null;
         this.VideoFilterThread = null;
@@ -13415,11 +13971,11 @@ class AVTranscoder extends common_event_Emitter__WEBPACK_IMPORTED_MODULE_40__["d
             (0,cheap_std_unmake__WEBPACK_IMPORTED_MODULE_9__["default"])(this.GlobalData);
             this.GlobalData = null;
         }
-        common_util_logger__WEBPACK_IMPORTED_MODULE_22__.info('AVTranscoder pipelines stopped', cheap__fileName__12, 1828);
+        common_util_logger__WEBPACK_IMPORTED_MODULE_23__.info('AVTranscoder pipelines stopped', cheap__fileName__12, 1868);
     }
     setLogLevel(level) {
         this.level = level;
-        common_util_logger__WEBPACK_IMPORTED_MODULE_22__.setLevel(level);
+        common_util_logger__WEBPACK_IMPORTED_MODULE_23__.setLevel(level);
         if (this.IOThread) {
             this.IOThread.setLogLevel(level);
         }
@@ -13447,7 +14003,7 @@ class AVTranscoder extends common_event_Emitter__WEBPACK_IMPORTED_MODULE_40__["d
         if (this.MuxThread) {
             this.MuxThread.setLogLevel(level);
         }
-        common_util_logger__WEBPACK_IMPORTED_MODULE_22__.info(`set log level: ${level}`, cheap__fileName__12, 1864);
+        common_util_logger__WEBPACK_IMPORTED_MODULE_23__.info(`set log level: ${level}`, cheap__fileName__12, 1904);
     }
     async onGetDecoderResource(mediaType, codecId) {
         return this.getResource('decoder', codecId, mediaType);
@@ -13468,7 +14024,7 @@ class AVTranscoder extends common_event_Emitter__WEBPACK_IMPORTED_MODULE_40__["d
 /* harmony export */   "default": () => (/* binding */ Controller)
 /* harmony export */ });
 /* harmony import */ var common_network_IPCPort__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! common/network/IPCPort */ "./src/common/network/IPCPort.ts");
-/* harmony import */ var avutil_function_createMessageChannel__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! avutil/function/createMessageChannel */ "./src/avutil/function/createMessageChannel.ts");
+/* harmony import */ var _function_createMessageChannel__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./function/createMessageChannel */ "./src/avtranscoder/function/createMessageChannel.ts");
 /*
  * libmedia AVTranscoder Controller
  *
@@ -13501,7 +14057,7 @@ class Controller {
     observer;
     constructor(observer) {
         this.observer = observer;
-        this.demuxerControlChannel = (0,avutil_function_createMessageChannel__WEBPACK_IMPORTED_MODULE_1__["default"])();
+        this.demuxerControlChannel = (0,_function_createMessageChannel__WEBPACK_IMPORTED_MODULE_1__["default"])();
         this.demuxerControlIPCPort = new common_network_IPCPort__WEBPACK_IMPORTED_MODULE_0__["default"](this.demuxerControlChannel.port2);
         this.demuxerControlIPCPort.on(common_network_IPCPort__WEBPACK_IMPORTED_MODULE_0__.REQUEST, async (request) => {
             switch (request.method) {
@@ -13629,6 +14185,54 @@ class AVFilterPipeline extends avpipeline_Pipeline__WEBPACK_IMPORTED_MODULE_4__[
 
 /***/ }),
 
+/***/ "./src/avtranscoder/function/createMessageChannel.ts":
+/*!***********************************************************!*\
+  !*** ./src/avtranscoder/function/createMessageChannel.ts ***!
+  \***********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ createMessageChannel)
+/* harmony export */ });
+/* harmony import */ var cheap_config__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! cheap/config */ "./src/cheap/config.ts");
+/* harmony import */ var common_network_FakeMessageChannel__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! common/network/FakeMessageChannel */ "./src/common/network/FakeMessageChannel.ts");
+/*
+ * libmedia create MessageChannel
+ *
+ * 版权所有 (C) 2024 赵高兴
+ * Copyright (C) 2024 Gaoxing Zhao
+ *
+ * 此文件是 libmedia 的一部分
+ * This file is part of libmedia.
+ *
+ * libmedia 是自由软件；您可以根据 GNU Lesser General Public License（GNU LGPL）3.1
+ * 或任何其更新的版本条款重新分发或修改它
+ * libmedia is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3.1 of the License, or (at your option) any later version.
+ *
+ * libmedia 希望能够为您提供帮助，但不提供任何明示或暗示的担保，包括但不限于适销性或特定用途的保证
+ * 您应自行承担使用 libmedia 的风险，并且需要遵守 GNU Lesser General Public License 中的条款和条件。
+ * libmedia is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ */
+
+
+function createMessageChannel() {
+    if (cheap_config__WEBPACK_IMPORTED_MODULE_0__.USE_THREADS && true) {
+        return new MessageChannel();
+    }
+    return new common_network_FakeMessageChannel__WEBPACK_IMPORTED_MODULE_1__["default"]();
+}
+
+
+/***/ }),
+
 /***/ "./src/avutil/constant.ts":
 /*!********************************!*\
   !*** ./src/avutil/constant.ts ***!
@@ -13717,7 +14321,8 @@ const UINT32_MAX = 4294967295;
 /* harmony export */   FORMAT_NOT_SUPPORT: () => (/* binding */ FORMAT_NOT_SUPPORT),
 /* harmony export */   INVALID_ARGUMENT: () => (/* binding */ INVALID_ARGUMENT),
 /* harmony export */   INVALID_OPERATE: () => (/* binding */ INVALID_OPERATE),
-/* harmony export */   NO_MEMORY: () => (/* binding */ NO_MEMORY)
+/* harmony export */   NO_MEMORY: () => (/* binding */ NO_MEMORY),
+/* harmony export */   OPERATE_NOT_SUPPORT: () => (/* binding */ OPERATE_NOT_SUPPORT)
 /* harmony export */ });
 /*
  * libmedia error defined
@@ -13751,6 +14356,97 @@ const INVALID_OPERATE = -5;
 const EAGAIN = -6;
 const EOF = -7;
 const CODEC_NOT_SUPPORT = -8;
+const OPERATE_NOT_SUPPORT = -9;
+
+
+/***/ }),
+
+/***/ "./src/avutil/function/analyzeAVFormat.ts":
+/*!************************************************!*\
+  !*** ./src/avutil/function/analyzeAVFormat.ts ***!
+  \************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ analyzeAVFormat)
+/* harmony export */ });
+/*
+ * libmedia analyzeAVFormat
+ *
+ * 版权所有 (C) 2024 赵高兴
+ * Copyright (C) 2024 Gaoxing Zhao
+ *
+ * 此文件是 libmedia 的一部分
+ * This file is part of libmedia.
+ *
+ * libmedia 是自由软件；您可以根据 GNU Lesser General Public License（GNU LGPL）3.1
+ * 或任何其更新的版本条款重新分发或修改它
+ * libmedia is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3.1 of the License, or (at your option) any later version.
+ *
+ * libmedia 希望能够为您提供帮助，但不提供任何明示或暗示的担保，包括但不限于适销性或特定用途的保证
+ * 您应自行承担使用 libmedia 的风险，并且需要遵守 GNU Lesser General Public License 中的条款和条件。
+ * libmedia is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ */
+async function analyzeAVFormat(ioReader, defaultFormat = -1 /* AVFormat.UNKNOWN */) {
+    let signature = await ioReader.peekString(8);
+    if (/^FLV/.test(signature)) {
+        return 0 /* AVFormat.FLV */;
+    }
+    else if (/^DKIF/.test(signature)) {
+        return 5 /* AVFormat.IVF */;
+    }
+    else if (/^ftyp/.test(signature.slice(4, 8))) {
+        return 1 /* AVFormat.MP4 */;
+    }
+    else if (/^OggS/.test(signature)) {
+        return 4 /* AVFormat.OGG */;
+    }
+    else if (/^ID3/.test(signature)) {
+        return 12 /* AVFormat.MP3 */;
+    }
+    else if (/^fLaC/.test(signature)) {
+        return 15 /* AVFormat.FLAC */;
+    }
+    else if (/^RIFF/.test(signature)) {
+        const dataType = (await ioReader.peekString(12)).slice(8);
+        if (/^WAVE/.test(dataType)) {
+            return 14 /* AVFormat.WAV */;
+        }
+    }
+    else if (/^ADIF/.test(signature)) {
+        return 13 /* AVFormat.AAC */;
+    }
+    else if ((await ioReader.peekUint32()) === 0x1A45DFA3) {
+        return 6 /* AVFormat.MATROSKA */;
+    }
+    else {
+        const buf = await ioReader.peekBuffer(2);
+        switch (buf[0]) {
+            case 0x56:
+                if ((buf[1] & 0xe0) === 0xe0) {
+                    return 13 /* AVFormat.AAC */;
+                }
+                break;
+            case 0xff:
+                if ((buf[1] & 0xf6) === 0xf0) {
+                    return 13 /* AVFormat.AAC */;
+                }
+                else if ([0xf2, 0xf4, 0xf6, 0xfa, 0xfc].includes(buf[1] & 0xfe)) {
+                    return 12 /* AVFormat.MP3 */;
+                }
+                break;
+        }
+    }
+    return defaultFormat;
+}
 
 
 /***/ }),
@@ -14160,49 +14856,44 @@ function avpacket2EncodedVideoChunk(avpacket, pts) {
 
 /***/ }),
 
-/***/ "./src/avutil/function/createMessageChannel.ts":
-/*!*****************************************************!*\
-  !*** ./src/avutil/function/createMessageChannel.ts ***!
-  \*****************************************************/
+/***/ "./src/avutil/function/compileResource.ts":
+/*!************************************************!*\
+  !*** ./src/avutil/function/compileResource.ts ***!
+  \************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ createMessageChannel)
+/* harmony export */   "default": () => (/* binding */ compileResource)
 /* harmony export */ });
 /* harmony import */ var cheap_config__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! cheap/config */ "./src/cheap/config.ts");
-/* harmony import */ var common_network_FakeMessageChannel__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! common/network/FakeMessageChannel */ "./src/common/network/FakeMessageChannel.ts");
-/*
- * libmedia create MessageChannel
- *
- * 版权所有 (C) 2024 赵高兴
- * Copyright (C) 2024 Gaoxing Zhao
- *
- * 此文件是 libmedia 的一部分
- * This file is part of libmedia.
- *
- * libmedia 是自由软件；您可以根据 GNU Lesser General Public License（GNU LGPL）3.1
- * 或任何其更新的版本条款重新分发或修改它
- * libmedia is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 3.1 of the License, or (at your option) any later version.
- *
- * libmedia 希望能够为您提供帮助，但不提供任何明示或暗示的担保，包括但不限于适销性或特定用途的保证
- * 您应自行承担使用 libmedia 的风险，并且需要遵守 GNU Lesser General Public License 中的条款和条件。
- * libmedia is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- *
- */
+/* harmony import */ var cheap_webassembly_compiler__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! cheap/webassembly/compiler */ "./src/cheap/webassembly/compiler.ts");
+/* harmony import */ var common_util_is__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! common/util/is */ "./src/common/util/is.ts");
+/* harmony import */ var common_util_browser__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! common/util/browser */ "./src/common/util/browser.ts");
 
 
-function createMessageChannel() {
-    if (cheap_config__WEBPACK_IMPORTED_MODULE_0__.USE_THREADS && true) {
-        return new MessageChannel();
+
+
+async function compileResource(wasmUrl, thread = false) {
+    let resource;
+    if (common_util_is__WEBPACK_IMPORTED_MODULE_2__.string(wasmUrl) || common_util_is__WEBPACK_IMPORTED_MODULE_2__.arrayBuffer(wasmUrl)) {
+        resource = await (0,cheap_webassembly_compiler__WEBPACK_IMPORTED_MODULE_1__["default"])({
+            source: wasmUrl
+        });
+        if (cheap_config__WEBPACK_IMPORTED_MODULE_0__.USE_THREADS && true && thread) {
+            resource.threadModule = await (0,cheap_webassembly_compiler__WEBPACK_IMPORTED_MODULE_1__["default"])({
+                // firefox 使用 arraybuffer 会卡主
+                source: common_util_browser__WEBPACK_IMPORTED_MODULE_3__["default"].firefox ? wasmUrl : resource.buffer
+            }, {
+                child: true
+            });
+        }
+        delete resource.buffer;
     }
-    return new common_network_FakeMessageChannel__WEBPACK_IMPORTED_MODULE_1__["default"]();
+    else {
+        resource = wasmUrl;
+    }
+    return resource;
 }
 
 
@@ -16036,6 +16727,7 @@ const AVSampleFormatDescriptors = {
 "use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   AudioCodecString2CodecId: () => (/* binding */ AudioCodecString2CodecId),
+/* harmony export */   CodecId2MimeType: () => (/* binding */ CodecId2MimeType),
 /* harmony export */   Ext2Format: () => (/* binding */ Ext2Format),
 /* harmony export */   Ext2IOLoader: () => (/* binding */ Ext2IOLoader),
 /* harmony export */   Format2AVFormat: () => (/* binding */ Format2AVFormat),
@@ -16049,40 +16741,58 @@ const AVSampleFormatDescriptors = {
 /* harmony export */   mediaType2AVMediaType: () => (/* binding */ mediaType2AVMediaType)
 /* harmony export */ });
 /* unused harmony exports colorPrimaries2AVColorPrimaries, colorTrc2AVColorTransferCharacteristic */
+const CodecId2MimeType = {
+    [86017 /* AVCodecID.AV_CODEC_ID_MP3 */]: 'mp3',
+    [86018 /* AVCodecID.AV_CODEC_ID_AAC */]: 'mp4a.40',
+    [86021 /* AVCodecID.AV_CODEC_ID_VORBIS */]: 'vorbis',
+    [86028 /* AVCodecID.AV_CODEC_ID_FLAC */]: 'flac',
+    [86076 /* AVCodecID.AV_CODEC_ID_OPUS */]: 'opus',
+    [65542 /* AVCodecID.AV_CODEC_ID_PCM_MULAW */]: 'ulaw',
+    [65543 /* AVCodecID.AV_CODEC_ID_PCM_ALAW */]: 'alaw',
+    [225 /* AVCodecID.AV_CODEC_ID_AV1 */]: 'av01',
+    [27 /* AVCodecID.AV_CODEC_ID_H264 */]: 'avc1',
+    [173 /* AVCodecID.AV_CODEC_ID_HEVC */]: 'hev1',
+    [196 /* AVCodecID.AV_CODEC_ID_VVC */]: 'vvc1',
+    [139 /* AVCodecID.AV_CODEC_ID_VP8 */]: 'vp8',
+    [167 /* AVCodecID.AV_CODEC_ID_VP9 */]: 'vp09',
+    [12 /* AVCodecID.AV_CODEC_ID_MPEG4 */]: 'mp4v'
+};
 const Ext2Format = {
     'flv': 0 /* AVFormat.FLV */,
     'mp4': 1 /* AVFormat.MOV */,
     'mov': 1 /* AVFormat.MOV */,
     'ts': 2 /* AVFormat.MPEGTS */,
-    'ivf': 4 /* AVFormat.IVF */,
-    'opus': 3 /* AVFormat.OGGS */,
-    'oggs': 3 /* AVFormat.OGGS */,
-    'ogg': 3 /* AVFormat.OGGS */,
+    'ivf': 5 /* AVFormat.IVF */,
+    'opus': 4 /* AVFormat.OGG */,
+    'oggs': 4 /* AVFormat.OGG */,
+    'ogg': 4 /* AVFormat.OGG */,
     'm3u8': 2 /* AVFormat.MPEGTS */,
     'm3u': 2 /* AVFormat.MPEGTS */,
     'mpd': 1 /* AVFormat.MOV */,
-    'mp3': 11 /* AVFormat.MP3 */,
-    'mkv': 5 /* AVFormat.MATROSKA */,
-    'mka': 5 /* AVFormat.MATROSKA */,
-    'webm': 6 /* AVFormat.WEBM */,
-    'aac': 12 /* AVFormat.AAC */,
-    'flac': 14 /* AVFormat.FLAC */,
-    'wav': 13 /* AVFormat.WAV */,
-    'srt': 16 /* AVFormat.SUBRIP */,
-    'vtt': 15 /* AVFormat.WEBVTT */,
-    'ssa': 17 /* AVFormat.ASS */,
-    'ass': 17 /* AVFormat.ASS */,
-    'xml': 18 /* AVFormat.TTML */,
-    'ttml': 18 /* AVFormat.TTML */,
-    'h264': 8 /* AVFormat.H264 */,
-    '264': 8 /* AVFormat.H264 */,
-    'avc': 8 /* AVFormat.H264 */,
-    'h265': 9 /* AVFormat.HEVC */,
-    '265': 9 /* AVFormat.HEVC */,
-    'hevc': 9 /* AVFormat.HEVC */,
-    'h266': 10 /* AVFormat.VVC */,
-    '266': 10 /* AVFormat.VVC */,
-    'vvc': 10 /* AVFormat.VVC */
+    'mp3': 12 /* AVFormat.MP3 */,
+    'mkv': 6 /* AVFormat.MATROSKA */,
+    'mka': 6 /* AVFormat.MATROSKA */,
+    'webm': 7 /* AVFormat.WEBM */,
+    'aac': 13 /* AVFormat.AAC */,
+    'flac': 15 /* AVFormat.FLAC */,
+    'wav': 14 /* AVFormat.WAV */,
+    'srt': 17 /* AVFormat.SUBRIP */,
+    'vtt': 16 /* AVFormat.WEBVTT */,
+    'ssa': 18 /* AVFormat.ASS */,
+    'ass': 18 /* AVFormat.ASS */,
+    'xml': 19 /* AVFormat.TTML */,
+    'ttml': 19 /* AVFormat.TTML */,
+    'h264': 9 /* AVFormat.H264 */,
+    '264': 9 /* AVFormat.H264 */,
+    'avc': 9 /* AVFormat.H264 */,
+    'h265': 10 /* AVFormat.HEVC */,
+    '265': 10 /* AVFormat.HEVC */,
+    'hevc': 10 /* AVFormat.HEVC */,
+    'h266': 11 /* AVFormat.VVC */,
+    '266': 11 /* AVFormat.VVC */,
+    'vvc': 11 /* AVFormat.VVC */,
+    'mpeg': 3 /* AVFormat.MPEGPS */,
+    'mpg': 3 /* AVFormat.MPEGPS */
 };
 const Ext2IOLoader = {
     'm3u8': 2 /* IOType.HLS */,
@@ -16101,7 +16811,8 @@ const VideoCodecString2CodecId = {
     'vp9': 167 /* AVCodecID.AV_CODEC_ID_VP9 */,
     'vp8': 139 /* AVCodecID.AV_CODEC_ID_VP8 */,
     'mpeg4': 12 /* AVCodecID.AV_CODEC_ID_MPEG4 */,
-    'theora': 30 /* AVCodecID.AV_CODEC_ID_THEORA */
+    'theora': 30 /* AVCodecID.AV_CODEC_ID_THEORA */,
+    'mpeg2video': 2 /* AVCodecID.AV_CODEC_ID_MPEG2VIDEO */
 };
 const AudioCodecString2CodecId = {
     'copy': 0 /* AVCodecID.AV_CODEC_ID_NONE */,
@@ -16169,23 +16880,24 @@ const Format2AVFormat = {
     'mov': 1 /* AVFormat.MOV */,
     'ts': 2 /* AVFormat.MPEGTS */,
     'mpegts': 2 /* AVFormat.MPEGTS */,
-    'ivf': 4 /* AVFormat.IVF */,
-    'opus': 3 /* AVFormat.OGGS */,
-    'ogg': 3 /* AVFormat.OGGS */,
+    'mpeg': 3 /* AVFormat.MPEGPS */,
+    'ivf': 5 /* AVFormat.IVF */,
+    'ogg': 4 /* AVFormat.OGG */,
+    'opus': 4 /* AVFormat.OGG */,
     'm3u8': 2 /* AVFormat.MPEGTS */,
     'm3u': 2 /* AVFormat.MPEGTS */,
     'mpd': 1 /* AVFormat.MOV */,
-    'mp3': 11 /* AVFormat.MP3 */,
-    'mkv': 5 /* AVFormat.MATROSKA */,
-    'matroska': 5 /* AVFormat.MATROSKA */,
-    'mka': 5 /* AVFormat.MATROSKA */,
-    'webm': 6 /* AVFormat.WEBM */,
-    'aac': 12 /* AVFormat.AAC */,
-    'flac': 14 /* AVFormat.FLAC */,
-    'wav': 13 /* AVFormat.WAV */,
-    'raw_h264': 8 /* AVFormat.H264 */,
-    'raw_h265': 9 /* AVFormat.HEVC */,
-    'raw_vvc': 10 /* AVFormat.VVC */
+    'mp3': 12 /* AVFormat.MP3 */,
+    'mkv': 6 /* AVFormat.MATROSKA */,
+    'matroska': 6 /* AVFormat.MATROSKA */,
+    'mka': 6 /* AVFormat.MATROSKA */,
+    'webm': 7 /* AVFormat.WEBM */,
+    'aac': 13 /* AVFormat.AAC */,
+    'flac': 15 /* AVFormat.FLAC */,
+    'wav': 14 /* AVFormat.WAV */,
+    'raw_h264': 9 /* AVFormat.H264 */,
+    'raw_h265': 10 /* AVFormat.HEVC */,
+    'raw_vvc': 11 /* AVFormat.VVC */
 };
 const colorRange2AVColorRange = {
     'tv': 1 /* AVColorRange.AVCOL_RANGE_MPEG */,
@@ -16610,7 +17322,7 @@ class AVCodecParameters {
     /**
      * The average bitrate of the encoded data (in bits per second).
      */
-    bitRate = BigInt(0);
+    bitrate = BigInt(0);
     /**
      * The number of bits per sample in the codedwords.
      *
@@ -16737,7 +17449,7 @@ class AVCodecParameters {
     map.set("codedSideData", { 0: _avpacket_ts__WEBPACK_IMPORTED_MODULE_2__.AVPacketSideData, 1: 1, 2: 1, 3: 0, 4: 0, 5: 0, 6: 0, 7: 20, 8: 0 });
     map.set("nbCodedSideData", { 0: 15, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 24, 8: 0 });
     map.set("format", { 0: 15, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 28, 8: 0 });
-    map.set("bitRate", { 0: 17, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 32, 8: 0 });
+    map.set("bitrate", { 0: 17, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 32, 8: 0 });
     map.set("bitsPerCodedSample", { 0: 15, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 40, 8: 0 });
     map.set("bitsPerRawSample", { 0: 15, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 44, 8: 0 });
     map.set("profile", { 0: 15, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 48, 8: 0 });
@@ -18172,8 +18884,8 @@ function avDictCopy(dst, src, flags) {
 /* harmony import */ var _sample__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./sample */ "./src/avutil/util/sample.ts");
 /* harmony import */ var _pixelFormatDescriptor__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../pixelFormatDescriptor */ "./src/avutil/pixelFormatDescriptor.ts");
 /* harmony import */ var cheap_stack__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! cheap/stack */ "./src/cheap/stack.ts");
-/* harmony import */ var _util_common__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../util/common */ "./src/avutil/util/common.ts");
-/* harmony import */ var _pixel__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./pixel */ "./src/avutil/util/pixel.ts");
+/* harmony import */ var _pixel__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./pixel */ "./src/avutil/util/pixel.ts");
+/* harmony import */ var common_math_align__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! common/math/align */ "./src/common/math/align.ts");
 
 
 
@@ -18288,7 +19000,7 @@ function getVideoBuffer(frame, algin = 0) {
             algin = 32;
         }
         for (let i = 1; i < algin; i += i) {
-            ret = (0,_pixel__WEBPACK_IMPORTED_MODULE_17__.pixelFillLinesizes)(frame + 32, cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumRead[15](frame + 80), (0,_util_common__WEBPACK_IMPORTED_MODULE_16__.alignFunc)(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumRead[15](frame + 68), i));
+            ret = (0,_pixel__WEBPACK_IMPORTED_MODULE_16__.pixelFillLinesizes)(frame + 32, cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumRead[15](frame + 80), (0,common_math_align__WEBPACK_IMPORTED_MODULE_17__["default"])(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumRead[15](frame + 68), i));
             if (ret < 0) {
                 defer();
                 return ret;
@@ -18298,14 +19010,14 @@ function getVideoBuffer(frame, algin = 0) {
             }
         }
         for (let i = 0; i < 4 && cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumRead[15](frame + 32 + 4 * (i)); i++) {
-            cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_2__.CTypeEnumWrite[15](frame + 32 + i * 4, (0,_util_common__WEBPACK_IMPORTED_MODULE_16__.alignFunc)(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumRead[15](frame + 32 + 4 * (i)), algin));
+            cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_2__.CTypeEnumWrite[15](frame + 32 + i * 4, (0,common_math_align__WEBPACK_IMPORTED_MODULE_17__["default"])(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumRead[15](frame + 32 + 4 * (i)), algin));
         }
     }
     for (let i = 0; i < 4; i++) {
         cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_2__.CTypeEnumWrite[15](linesizes + (i * 4), cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumRead[15](frame + 32 + 4 * (i)));
     }
-    const paddingHeight = (0,_util_common__WEBPACK_IMPORTED_MODULE_16__.alignFunc)(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumRead[15](frame + 72), 32);
-    if ((ret = (0,_pixel__WEBPACK_IMPORTED_MODULE_17__.pixelFillPlaneSizes)(sizes, cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumRead[15](frame + 80), paddingHeight, linesizes)) < 0) {
+    const paddingHeight = (0,common_math_align__WEBPACK_IMPORTED_MODULE_17__["default"])(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumRead[15](frame + 72), 32);
+    if ((ret = (0,_pixel__WEBPACK_IMPORTED_MODULE_16__.pixelFillPlaneSizes)(sizes, cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumRead[15](frame + 80), paddingHeight, linesizes)) < 0) {
         defer();
         return ret;
     }
@@ -18322,7 +19034,7 @@ function getVideoBuffer(frame, algin = 0) {
         defer();
         return _error__WEBPACK_IMPORTED_MODULE_11__.NO_MEMORY;
     }
-    if ((ret = (0,_pixel__WEBPACK_IMPORTED_MODULE_17__.pixelFillPointer)(frame, cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumRead[15](frame + 80), paddingHeight, cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumRead[20](cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumRead[20](frame + 156) + 4), linesizes)) < 0) {
+    if ((ret = (0,_pixel__WEBPACK_IMPORTED_MODULE_16__.pixelFillPointer)(frame, cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumRead[15](frame + 80), paddingHeight, cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumRead[20](cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumRead[20](frame + 156) + 4), linesizes)) < 0) {
         unrefAVFrame(frame);
         defer();
         return ret;
@@ -18537,6 +19249,7 @@ function cloneAVFrame(frame) {
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   addAVPacketData: () => (/* binding */ addAVPacketData),
 /* harmony export */   addAVPacketSideData: () => (/* binding */ addAVPacketSideData),
+/* harmony export */   addSideData: () => (/* binding */ addSideData),
 /* harmony export */   copyAVPacketData: () => (/* binding */ copyAVPacketData),
 /* harmony export */   copyAVPacketProps: () => (/* binding */ copyAVPacketProps),
 /* harmony export */   createAVPacket: () => (/* binding */ createAVPacket),
@@ -18551,7 +19264,7 @@ function cloneAVFrame(frame) {
 /* harmony export */   refAVPacket: () => (/* binding */ refAVPacket),
 /* harmony export */   unrefAVPacket: () => (/* binding */ unrefAVPacket)
 /* harmony export */ });
-/* unused harmony exports initAVPacketData, addSideData, copyAVPacketSideData */
+/* unused harmony exports initAVPacketData, copyAVPacketSideData */
 /* harmony import */ var cheap_std_memory__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! cheap/std/memory */ "./src/cheap/std/memory.ts");
 /* harmony import */ var cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! cheap/ctypeEnumRead */ "./src/cheap/ctypeEnumRead.ts");
 /* harmony import */ var cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! cheap/ctypeEnumWrite */ "./src/cheap/ctypeEnumWrite.ts");
@@ -18840,7 +19553,7 @@ function addAVPacketData(avpacket, data, size) {
 /* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./common */ "./src/avutil/util/common.ts");
 /* harmony import */ var _mem__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./mem */ "./src/avutil/util/mem.ts");
 /* harmony import */ var cheap_std_memory__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! cheap/std/memory */ "./src/cheap/std/memory.ts");
-/* harmony import */ var avutil_error__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! avutil/error */ "./src/avutil/error.ts");
+/* harmony import */ var _error__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../error */ "./src/avutil/error.ts");
 
 
 
@@ -18858,7 +19571,7 @@ function unInitChannelLayout(channelLayout) {
 }
 function setChannelLayoutFromMask(channelLayout, mask) {
     if (!mask) {
-        return avutil_error__WEBPACK_IMPORTED_MODULE_5__.INVALID_ARGUMENT;
+        return _error__WEBPACK_IMPORTED_MODULE_5__.INVALID_ARGUMENT;
     }
     cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumWrite[15](channelLayout, 1 /* AVChannelOrder.AV_CHANNEL_ORDER_NATIVE */);
     cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumWrite[15](channelLayout + 4, (0,_common__WEBPACK_IMPORTED_MODULE_2__.popCount64)(BigInt(mask >>> 0)));
@@ -19003,7 +19716,6 @@ function freeCodecParameters(par) {
 
 "use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   alignFunc: () => (/* binding */ alignFunc),
 /* harmony export */   popCount64: () => (/* binding */ popCount64)
 /* harmony export */ });
 /* unused harmony exports popCount, milliSecond2Second */
@@ -19039,15 +19751,12 @@ function popCount(x) {
     return (x + (x >> 16)) & 0x3F;
 }
 function popCount64(x) {
-    return popCount(Number(x & 0xffffffffn)) + popCount(Number(x >> BigInt(32) & 0xffffffffn));
+    return popCount(Number(BigInt.asUintN(32, x))) + popCount(Number(BigInt.asUintN(32, x >> BigInt(32))));
 }
 function milliSecond2Second(time) {
     const integer = time / BigInt(1000);
     const decimal = time - integer * BigInt(1000);
     return Number(integer) + Number(decimal) / 1000;
-}
-function alignFunc(value, alignment) {
-    return (value + alignment - 1) & ~(alignment - 1);
 }
 
 
@@ -19480,7 +20189,7 @@ function splitNaluByLength(buffer, naluLengthSizeMinusOne) {
         else {
             length = bufferReader.readUint8();
         }
-        const nalu = buffer.subarray((Number(bufferReader.getPos() & 0xffffffffn) >> 0), (Number(bufferReader.getPos() & 0xffffffffn) >> 0) + length, true);
+        const nalu = buffer.subarray(Number(BigInt.asIntN(32, bufferReader.getPos())), Number(BigInt.asIntN(32, bufferReader.getPos())) + length, true);
         bufferReader.skip(length);
         list.push(nalu);
     }
@@ -19489,7 +20198,7 @@ function splitNaluByLength(buffer, naluLengthSizeMinusOne) {
 function joinNaluByStartCode(nalus, output, slice = false) {
     if (!output) {
         let length = nalus.reduce((prev, nalu, index) => {
-            return prev + ((index && slice) ? 3 : 4) + nalu.length;
+            return prev + ((index || slice) ? 3 : 4) + nalu.length;
         }, 0);
         output = new Uint8Array(length);
     }
@@ -19497,7 +20206,7 @@ function joinNaluByStartCode(nalus, output, slice = false) {
     common_util_array__WEBPACK_IMPORTED_MODULE_2__.each(nalus, (nalu, index) => {
         bufferWriter.writeUint8(0x00);
         bufferWriter.writeUint8(0x00);
-        if (!index && slice) {
+        if (!index && !slice) {
             bufferWriter.writeUint8(0x00);
         }
         bufferWriter.writeUint8(0x01);
@@ -19633,8 +20342,8 @@ function naluEscape(data, start = 0, end) {
 /* harmony import */ var _constant__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../constant */ "./src/avutil/constant.ts");
 /* harmony import */ var cheap_std_memory__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! cheap/std/memory */ "./src/cheap/std/memory.ts");
 /* harmony import */ var cheap_stack__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! cheap/stack */ "./src/cheap/stack.ts");
-/* harmony import */ var _util_common__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../util/common */ "./src/avutil/util/common.ts");
-/* harmony import */ var _mem__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./mem */ "./src/avutil/util/mem.ts");
+/* harmony import */ var _mem__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./mem */ "./src/avutil/util/mem.ts");
+/* harmony import */ var common_math_align__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! common/math/align */ "./src/common/math/align.ts");
 
 
 /*
@@ -19839,12 +20548,12 @@ function pixelAlloc(pointers, linesizes, w, h, pixfmt, align = 1) {
     const linesizes1 = cheap_stack__WEBPACK_IMPORTED_MODULE_6__.malloc(16);
     const sizes = cheap_stack__WEBPACK_IMPORTED_MODULE_6__.malloc(16);
     let ret = 0;
-    if ((ret = pixelFillLinesizes(linesizes, pixfmt, align > 7 ? (0,_util_common__WEBPACK_IMPORTED_MODULE_7__.alignFunc)(w, 8) : w)) < 0) {
+    if ((ret = pixelFillLinesizes(linesizes, pixfmt, align > 7 ? (0,common_math_align__WEBPACK_IMPORTED_MODULE_8__["default"])(w, 8) : w)) < 0) {
         defer();
         return ret;
     }
     for (let i = 0; i < 4; i++) {
-        cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumWrite[15](linesizes + (i * 4), (0,_util_common__WEBPACK_IMPORTED_MODULE_7__.alignFunc)(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](linesizes + (i * 4)), align));
+        cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumWrite[15](linesizes + (i * 4), (0,common_math_align__WEBPACK_IMPORTED_MODULE_8__["default"])(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](linesizes + (i * 4)), align));
         cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumWrite[15](linesizes1 + (i * 4), cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](linesizes + (i * 4)));
     }
     if ((ret = pixelFillPlaneSizes(sizes, pixfmt, h, linesizes1)) < 0) {
@@ -19859,7 +20568,7 @@ function pixelAlloc(pointers, linesizes, w, h, pixfmt, align = 1) {
         }
         totalSize += cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](sizes + (i * 4));
     }
-    const buf = (0,_mem__WEBPACK_IMPORTED_MODULE_8__.avMalloc)(totalSize);
+    const buf = (0,_mem__WEBPACK_IMPORTED_MODULE_7__.avMalloc)(totalSize);
     if (!buf) {
         defer();
         return _error__WEBPACK_IMPORTED_MODULE_3__.NO_MEMORY;
@@ -19870,7 +20579,7 @@ function pixelAlloc(pointers, linesizes, w, h, pixfmt, align = 1) {
     }
     if (desc.flags & 2 /* PixelFormatFlags.PALETTE */) {
         if (align < 4) {
-            (0,_mem__WEBPACK_IMPORTED_MODULE_8__.avFree)(buf);
+            (0,_mem__WEBPACK_IMPORTED_MODULE_7__.avFree)(buf);
             defer();
             return ret;
         }
@@ -19903,7 +20612,7 @@ function pixelGetSize(pixfmt, width, height, align) {
         return ret;
     }
     for (let i = 0; i < 4; i++) {
-        cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumWrite[15](alignedLinesizes + (i * 4), (0,_util_common__WEBPACK_IMPORTED_MODULE_7__.alignFunc)(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](linesizes + (i * 4)), align));
+        cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumWrite[15](alignedLinesizes + (i * 4), (0,common_math_align__WEBPACK_IMPORTED_MODULE_8__["default"])(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](linesizes + (i * 4)), align));
     }
     if ((ret = pixelFillPlaneSizes(sizes, pixfmt, height, alignedLinesizes)) < 0) {
         defer();
@@ -19956,8 +20665,8 @@ function pixelGetSize(pixfmt, width, height, align) {
  * @param cq 目标时间基
  */
 function avRescaleQ(a, bq, cq) {
-    const b = a * BigInt(bq.num >>> 0) * BigInt(cq.den >>> 0);
-    const c = BigInt(bq.den >>> 0) * BigInt(cq.num >>> 0);
+    const b = a * BigInt(bq.num >> 0) * BigInt(cq.den >> 0);
+    const c = BigInt(bq.den >> 0) * BigInt(cq.num >> 0);
     return b / c;
 }
 /**
@@ -19968,8 +20677,8 @@ function avRescaleQ(a, bq, cq) {
  * @param cq 目标时间基
  */
 function avRescaleQ2(a, bq, cq) {
-    const b = a * BigInt(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](bq) >>> 0) * BigInt(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](cq + 4) >>> 0);
-    const c = BigInt(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](bq + 4) >>> 0) * BigInt(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](cq) >>> 0);
+    const b = a * BigInt(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](bq) >> 0) * BigInt(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](cq + 4) >> 0);
+    const c = BigInt(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](bq + 4) >> 0) * BigInt(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](cq) >> 0);
     return b / c;
 }
 /**
@@ -20036,7 +20745,7 @@ function avReduce2(a) {
 /* harmony import */ var cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! cheap/ctypeEnumWrite */ "./src/cheap/ctypeEnumWrite.ts");
 /* harmony import */ var cheap_std_memory__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! cheap/std/memory */ "./src/cheap/std/memory.ts");
 /* harmony import */ var _constant__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../constant */ "./src/avutil/constant.ts");
-/* harmony import */ var _util_common__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../util/common */ "./src/avutil/util/common.ts");
+/* harmony import */ var common_math_align__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! common/math/align */ "./src/common/math/align.ts");
 /* harmony import */ var _util_mem__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../util/mem */ "./src/avutil/util/mem.ts");
 /* harmony import */ var _sampleFormatDescriptor__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../sampleFormatDescriptor */ "./src/avutil/sampleFormatDescriptor.ts");
 
@@ -20088,12 +20797,12 @@ function sampleFormatGetLinesize(format, channels, nbSamples, align) {
     }
     if (!align) {
         align = 1;
-        nbSamples = (0,_util_common__WEBPACK_IMPORTED_MODULE_4__.alignFunc)(nbSamples, 32);
+        nbSamples = (0,common_math_align__WEBPACK_IMPORTED_MODULE_4__["default"])(nbSamples, 32);
     }
     if (channels > _constant__WEBPACK_IMPORTED_MODULE_3__.INT32_MAX / align || channels * nbSamples > (_constant__WEBPACK_IMPORTED_MODULE_3__.INT32_MAX - align * channels) / sampleSize) {
         return -1;
     }
-    return planar ? (0,_util_common__WEBPACK_IMPORTED_MODULE_4__.alignFunc)(nbSamples * sampleSize, align) : (0,_util_common__WEBPACK_IMPORTED_MODULE_4__.alignFunc)(nbSamples * sampleSize * channels, align);
+    return planar ? (0,common_math_align__WEBPACK_IMPORTED_MODULE_4__["default"])(nbSamples * sampleSize, align) : (0,common_math_align__WEBPACK_IMPORTED_MODULE_4__["default"])(nbSamples * sampleSize * channels, align);
 }
 function sampleFillArrays(audioData, buf, format, linesize, channels) {
     const planar = sampleFormatIsPlanar(format);
@@ -20135,6 +20844,200 @@ function sampleSetSilence(audioData, offset, format, nbSamples, channels) {
     for (let i = 0; i < planes; i++) {
         (0,cheap_std_memory__WEBPACK_IMPORTED_MODULE_2__.memset)(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[20](audioData + (i * 4)) + offset, fillChar, dataSize);
     }
+}
+
+
+/***/ }),
+
+/***/ "./src/avutil/util/serialize.ts":
+/*!**************************************!*\
+  !*** ./src/avutil/util/serialize.ts ***!
+  \**************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   serializeAVPacket: () => (/* binding */ serializeAVPacket),
+/* harmony export */   unserializeAVCodecParameters: () => (/* binding */ unserializeAVCodecParameters),
+/* harmony export */   unserializeAVPacket: () => (/* binding */ unserializeAVPacket)
+/* harmony export */ });
+/* unused harmony export serializeAVCodecParameters */
+/* harmony import */ var cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! cheap/ctypeEnumRead */ "./src/cheap/ctypeEnumRead.ts");
+/* harmony import */ var cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! cheap/ctypeEnumWrite */ "./src/cheap/ctypeEnumWrite.ts");
+/* harmony import */ var cheap_std_memory__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! cheap/std/memory */ "./src/cheap/std/memory.ts");
+/* harmony import */ var _avpacket__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./avpacket */ "./src/avutil/util/avpacket.ts");
+/* harmony import */ var _mem__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./mem */ "./src/avutil/util/mem.ts");
+/* harmony import */ var _struct_avcodecparameters__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../struct/avcodecparameters */ "./src/avutil/struct/avcodecparameters.ts");
+
+
+
+
+
+
+function serializeAVPacket(avpacket) {
+    const serialize = {
+        pts: cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[17](avpacket + 8),
+        dts: cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[17](avpacket + 16),
+        data: (0,_avpacket__WEBPACK_IMPORTED_MODULE_3__.getAVPacketData)(avpacket).slice(),
+        streamIndex: cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](avpacket + 32),
+        flags: cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](avpacket + 36),
+        sideData: [],
+        duration: cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[17](avpacket + 48),
+        pos: cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[17](avpacket + 56),
+        timeBase: {
+            den: cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](avpacket + 76),
+            num: cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](avpacket + 72)
+        },
+        bitFormat: cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](avpacket + 80)
+    };
+    for (let i = 0; i < cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](avpacket + 44); i++) {
+        const ele = {
+            type: cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[20](avpacket + 40) + i * 12 + 8),
+            data: (0,cheap_std_memory__WEBPACK_IMPORTED_MODULE_2__.mapUint8Array)(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[20](cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[20](avpacket + 40) + i * 12), cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[20](avpacket + 40) + i * 12 + 4)).slice()
+        };
+        serialize.sideData.push(ele);
+    }
+    return serialize;
+}
+function unserializeAVPacket(serialize, avpacket = 0) {
+    if (!avpacket) {
+        avpacket = (0,_avpacket__WEBPACK_IMPORTED_MODULE_3__.createAVPacket)();
+    }
+    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumWrite[17](avpacket + 8, serialize.pts);
+    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumWrite[17](avpacket + 16, serialize.dts);
+    const data = (0,_mem__WEBPACK_IMPORTED_MODULE_4__.avMalloc)(serialize.data.length);
+    (0,cheap_std_memory__WEBPACK_IMPORTED_MODULE_2__.memcpyFromUint8Array)(data, serialize.data.length, serialize.data);
+    (0,_avpacket__WEBPACK_IMPORTED_MODULE_3__.addAVPacketData)(avpacket, data, serialize.data.length);
+    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumWrite[15](avpacket + 32, serialize.streamIndex);
+    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumWrite[15](avpacket + 36, serialize.flags);
+    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumWrite[17](avpacket + 48, serialize.duration);
+    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumWrite[17](avpacket + 56, serialize.pos);
+    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumWrite[15](avpacket + 76, serialize.timeBase.den);
+    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumWrite[15](avpacket + 72, serialize.timeBase.num);
+    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumWrite[15](avpacket + 80, serialize.bitFormat);
+    if (serialize.sideData.length) {
+        for (let i = 0; i < serialize.sideData.length; i++) {
+            const data = (0,_mem__WEBPACK_IMPORTED_MODULE_4__.avMalloc)(serialize.sideData[i].data.length);
+            (0,cheap_std_memory__WEBPACK_IMPORTED_MODULE_2__.memcpyFromUint8Array)(data, serialize.sideData[i].data.length, serialize.sideData[i].data);
+            (0,_avpacket__WEBPACK_IMPORTED_MODULE_3__.addAVPacketSideData)(avpacket, serialize.sideData[i].type, data, serialize.sideData[i].data.length);
+        }
+    }
+    else {
+        (0,_avpacket__WEBPACK_IMPORTED_MODULE_3__.freeAVPacketSideData)(avpacket + 40, avpacket + 44);
+    }
+    return avpacket;
+}
+function serializeAVCodecParameters(codecpar) {
+    const serialize = {
+        codecType: cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](codecpar),
+        codecId: cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](codecpar + 4),
+        codecTag: cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[8](codecpar + 8),
+        extradata: null,
+        codedSideData: [],
+        format: cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](codecpar + 28),
+        bitrate: cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[17](codecpar + 32),
+        bitsPerCodedSample: cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](codecpar + 40),
+        bitsPerRawSample: cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](codecpar + 44),
+        profile: cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](codecpar + 48),
+        level: cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](codecpar + 52),
+        width: cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](codecpar + 56),
+        height: cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](codecpar + 60),
+        sampleAspectRatio: {
+            den: cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](codecpar + 68),
+            num: cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](codecpar + 64)
+        },
+        framerate: {
+            den: cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](codecpar + 76),
+            num: cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](codecpar + 72)
+        },
+        fieldOrder: cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](codecpar + 80),
+        colorRange: cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](codecpar + 84),
+        colorPrimaries: cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](codecpar + 88),
+        colorTrc: cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](codecpar + 92),
+        colorSpace: cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](codecpar + 96),
+        chromaLocation: cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](codecpar + 100),
+        videoDelay: cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](codecpar + 104),
+        chLayout: {
+            order: cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](codecpar + 112),
+            nbChannels: cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](codecpar + 116),
+            u: cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[10](codecpar + 120)
+        },
+        sampleRate: cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](codecpar + 136),
+        blockAlign: cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](codecpar + 140),
+        frameSize: cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](codecpar + 144),
+        initialPadding: cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](codecpar + 148),
+        trailingPadding: cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](codecpar + 152),
+        seekPreroll: cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](codecpar + 156),
+        bitFormat: cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](codecpar + 160)
+    };
+    if (cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](codecpar + 16)) {
+        serialize.extradata = (0,cheap_std_memory__WEBPACK_IMPORTED_MODULE_2__.mapUint8Array)(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[20](codecpar + 12), cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](codecpar + 16)).slice();
+    }
+    for (let i = 0; i < cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](codecpar + 24); i++) {
+        const ele = {
+            type: cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[20](codecpar + 20) + i * 12 + 8),
+            data: (0,cheap_std_memory__WEBPACK_IMPORTED_MODULE_2__.mapUint8Array)(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[20](cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[20](codecpar + 20) + i * 12), cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[20](codecpar + 20) + i * 12 + 4)).slice()
+        };
+        serialize.codedSideData.push(ele);
+    }
+    return serialize;
+}
+function unserializeAVCodecParameters(serialize, codecpar = 0) {
+    if (!codecpar) {
+        codecpar = (0,_mem__WEBPACK_IMPORTED_MODULE_4__.avMalloc)(168);
+        (0,cheap_std_memory__WEBPACK_IMPORTED_MODULE_2__.memset)(codecpar, 0, 168);
+    }
+    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumWrite[15](codecpar, serialize.codecType);
+    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumWrite[15](codecpar + 4, serialize.codecId);
+    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumWrite[8](codecpar + 8, serialize.codecTag);
+    if (serialize.extradata) {
+        if (cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[20](codecpar + 12)) {
+            (0,_mem__WEBPACK_IMPORTED_MODULE_4__.avFree)(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[20](codecpar + 12));
+        }
+        cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumWrite[20](codecpar + 12, (0,_mem__WEBPACK_IMPORTED_MODULE_4__.avMalloc)(serialize.extradata.length));
+        (0,cheap_std_memory__WEBPACK_IMPORTED_MODULE_2__.memcpyFromUint8Array)(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[20](codecpar + 12), serialize.extradata.length, serialize.extradata);
+        cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumWrite[15](codecpar + 16, serialize.extradata.length);
+    }
+    if (serialize.codedSideData.length) {
+        for (let i = 0; i < serialize.codedSideData.length; i++) {
+            const data = (0,_mem__WEBPACK_IMPORTED_MODULE_4__.avMalloc)(serialize.codedSideData[i].data.length);
+            (0,cheap_std_memory__WEBPACK_IMPORTED_MODULE_2__.memcpyFromUint8Array)(data, serialize.codedSideData[i].data.length, serialize.codedSideData[i].data);
+            (0,_avpacket__WEBPACK_IMPORTED_MODULE_3__.addSideData)(codecpar + 20, codecpar + 24, serialize.codedSideData[i].type, data, serialize.codedSideData[i].data.length);
+        }
+    }
+    else {
+        (0,_avpacket__WEBPACK_IMPORTED_MODULE_3__.freeAVPacketSideData)(codecpar + 20, codecpar + 24);
+    }
+    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumWrite[15](codecpar + 28, serialize.format);
+    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumWrite[17](codecpar + 32, serialize.bitrate);
+    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumWrite[15](codecpar + 40, serialize.bitsPerCodedSample);
+    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumWrite[15](codecpar + 44, serialize.bitsPerRawSample);
+    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumWrite[15](codecpar + 48, serialize.profile);
+    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumWrite[15](codecpar + 52, serialize.level);
+    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumWrite[15](codecpar + 56, serialize.width);
+    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumWrite[15](codecpar + 60, serialize.height);
+    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumWrite[15](codecpar + 68, serialize.sampleAspectRatio.den);
+    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumWrite[15](codecpar + 64, serialize.sampleAspectRatio.num);
+    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumWrite[15](codecpar + 76, serialize.framerate.den);
+    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumWrite[15](codecpar + 72, serialize.framerate.num);
+    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumWrite[15](codecpar + 80, serialize.fieldOrder);
+    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumWrite[15](codecpar + 84, serialize.colorRange);
+    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumWrite[15](codecpar + 88, serialize.colorPrimaries);
+    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumWrite[15](codecpar + 92, serialize.colorTrc);
+    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumWrite[15](codecpar + 96, serialize.colorSpace);
+    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumWrite[15](codecpar + 100, serialize.chromaLocation);
+    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumWrite[15](codecpar + 104, serialize.videoDelay);
+    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumWrite[15](codecpar + 112, serialize.chLayout.order);
+    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumWrite[15](codecpar + 116, serialize.chLayout.nbChannels);
+    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumWrite[10](codecpar + 120, serialize.chLayout.u);
+    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumWrite[15](codecpar + 136, serialize.sampleRate);
+    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumWrite[15](codecpar + 140, serialize.blockAlign);
+    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumWrite[15](codecpar + 144, serialize.frameSize);
+    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumWrite[15](codecpar + 148, serialize.initialPadding);
+    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumWrite[15](codecpar + 152, serialize.trailingPadding);
+    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumWrite[15](codecpar + 156, serialize.seekPreroll);
+    cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumWrite[15](codecpar + 160, serialize.bitFormat);
+    return codecpar;
 }
 
 
@@ -21183,6 +22086,7 @@ async function init(memory) {
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
+__webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   HEAP_INITIAL: () => (/* binding */ HEAP_INITIAL),
 /* harmony export */   HEAP_MAXIMUM: () => (/* binding */ HEAP_MAXIMUM),
@@ -21193,6 +22097,10 @@ async function init(memory) {
 /* harmony export */ });
 /* harmony import */ var common_util_support__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! common/util/support */ "./src/common/util/support.ts");
 /* harmony import */ var common_util_constant__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! common/util/constant */ "./src/common/util/constant.ts");
+/* harmony import */ var common_util_browser__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! common/util/browser */ "./src/common/util/browser.ts");
+/* harmony import */ var common_util_os__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! common/util/os */ "./src/common/util/os.ts");
+
+
 
 
 /**
@@ -21218,8 +22126,9 @@ const HEAP_OFFSET = 1024;
 const HEAP_INITIAL = (common_util_constant__WEBPACK_IMPORTED_MODULE_1__.SELF.CHEAP_HEAP_INITIAL ?? 265);
 /**
  * 堆最大大小
+ * ios safari 16 以下 对最大值有限制，太大分配不出来
  */
-const HEAP_MAXIMUM = 65536;
+const HEAP_MAXIMUM = common_util_constant__WEBPACK_IMPORTED_MODULE_1__.SELF.CHEAP_HEAP_MAXIMUM ?? (USE_THREADS && (common_util_os__WEBPACK_IMPORTED_MODULE_3__["default"].ios && common_util_browser__WEBPACK_IMPORTED_MODULE_2__["default"].safari && !common_util_browser__WEBPACK_IMPORTED_MODULE_2__["default"].checkVersion(common_util_browser__WEBPACK_IMPORTED_MODULE_2__["default"].majorVersion, '17', true)) ? 8192 : 65536);
 
 
 /***/ }),
@@ -21633,7 +22542,7 @@ function getBitFieldValue(address, type, bitLen, offset) {
 }
 function setPointerValue(address) {
     return function (newValue) {
-        _ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_2__.CTypeEnumWrite[8 /* CTypeEnum.uint32 */](address(), newValue);
+        _ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_2__.CTypeEnumWrite[20 /* CTypeEnum.pointer */](address(), newValue);
     };
 }
 function setStruct(obj, key, address, struct) {
@@ -22160,6 +23069,7 @@ async function initThread(options) {
         ThreadId,
         ThreadName,
         Memory,
+        Config: _config__WEBPACK_IMPORTED_MODULE_5__,
         StackSize,
         StackTop,
         StackPointer,
@@ -22260,6 +23170,7 @@ function initMain() {
             ThreadId,
             ThreadName,
             Memory,
+            Config: _config__WEBPACK_IMPORTED_MODULE_5__,
             StackSize,
             StackTop,
             StackPointer,
@@ -22271,13 +23182,14 @@ function initMain() {
     isMainThread = true;
 }
 {
-    if (!(0,common_function_isWorker__WEBPACK_IMPORTED_MODULE_1__["default"])() && !(0,common_function_isAudioWorklet__WEBPACK_IMPORTED_MODULE_11__["default"])()) {
+    if (!(0,common_function_isWorker__WEBPACK_IMPORTED_MODULE_1__["default"])() && !(0,common_function_isAudioWorklet__WEBPACK_IMPORTED_MODULE_11__["default"])() || ((0,common_function_isWorker__WEBPACK_IMPORTED_MODULE_1__["default"])() && !_config__WEBPACK_IMPORTED_MODULE_5__.USE_THREADS)) {
         initMain();
     }
     else {
         common_util_constant__WEBPACK_IMPORTED_MODULE_4__.SELF.CHeap = {
             initThread,
-            isMainThread: false
+            isMainThread: false,
+            Config: _config__WEBPACK_IMPORTED_MODULE_5__
         };
         isMainThread = false;
     }
@@ -22978,7 +23890,11 @@ function isPointer(p) {
  * @param target
  * @returns
  */
-function make(struct, init) {
+function make(init, struct) {
+    if (!(0,common_function_isDef__WEBPACK_IMPORTED_MODULE_5__["default"])(struct)) {
+        struct = init;
+        init = null;
+    }
     const size = (0,cheap_std_sizeof__WEBPACK_IMPORTED_MODULE_0__["default"])(struct);
     const address = cheap_heap__WEBPACK_IMPORTED_MODULE_1__.Allocator.malloc(size);
     if (!address) {
@@ -23553,7 +24469,7 @@ async function init(memory) {
                 return instance.exports.wait(address, value);
             },
             waitTimeout: function (address, value, timeout) {
-                return instance.exports.waitTimeout(address, value, BigInt(timeout >>> 0));
+                return instance.exports.waitTimeout(address, value, BigInt(timeout >> 0));
             }
         });
     }
@@ -23753,8 +24669,8 @@ function override(funcs) {
 /* harmony import */ var common_function_nextTick__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! common/function/nextTick */ "./src/common/function/nextTick.ts");
 /* harmony import */ var _atomics__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./atomics */ "./src/cheap/thread/atomics.ts");
 /* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../config */ "./src/cheap/config.ts");
-/* harmony import */ var common_function_isWorker__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! common/function/isWorker */ "./src/common/function/isWorker.ts");
-/* harmony import */ var common_util_browser__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! common/util/browser */ "./src/common/util/browser.ts");
+/* harmony import */ var common_util_browser__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! common/util/browser */ "./src/common/util/browser.ts");
+/* harmony import */ var common_util_support__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! common/util/support */ "./src/common/util/support.ts");
 
 
 
@@ -23762,7 +24678,7 @@ function override(funcs) {
 
 
 let getAtomicsBuffer;
-const useAtomics = _config__WEBPACK_IMPORTED_MODULE_3__.USE_THREADS || (0,common_function_isWorker__WEBPACK_IMPORTED_MODULE_4__["default"])() || (!common_util_browser__WEBPACK_IMPORTED_MODULE_5__["default"].chrome || common_util_browser__WEBPACK_IMPORTED_MODULE_5__["default"].checkVersion(common_util_browser__WEBPACK_IMPORTED_MODULE_5__["default"].majorVersion, '94', true));
+const useAtomics = _config__WEBPACK_IMPORTED_MODULE_3__.USE_THREADS || (!common_util_browser__WEBPACK_IMPORTED_MODULE_4__["default"].chrome && common_util_support__WEBPACK_IMPORTED_MODULE_5__["default"].atomics || common_util_browser__WEBPACK_IMPORTED_MODULE_4__["default"].checkVersion(common_util_browser__WEBPACK_IMPORTED_MODULE_4__["default"].majorVersion, '94', true));
 /**
  * 给定的值加到指定位置上
  *
@@ -24234,7 +25150,7 @@ function init(run) {
         const data = origin.data;
         switch (type) {
             case 'init':
-                if (common_util_constant__WEBPACK_IMPORTED_MODULE_2__.SELF.CHeap && common_util_constant__WEBPACK_IMPORTED_MODULE_2__.SELF.CHeap.initThread) {
+                if (common_util_constant__WEBPACK_IMPORTED_MODULE_2__.SELF.CHeap && common_util_constant__WEBPACK_IMPORTED_MODULE_2__.SELF.CHeap.initThread && common_util_constant__WEBPACK_IMPORTED_MODULE_2__.SELF.CHeap.Config.USE_THREADS) {
                     common_util_constant__WEBPACK_IMPORTED_MODULE_2__.SELF.CHeap.initThread(data).then(() => {
                         parentPort.postMessage({
                             type: 'ready'
@@ -24256,6 +25172,11 @@ function init(run) {
             case 'stop':
                 if (ipc) {
                     ipc.destroy();
+                }
+                // @ts-ignore
+                if (common_util_constant__WEBPACK_IMPORTED_MODULE_2__.SELF.__freeSmartPtr__) {
+                    // @ts-ignore
+                    common_util_constant__WEBPACK_IMPORTED_MODULE_2__.SELF.__freeSmartPtr__();
                 }
                 parentPort.postMessage({
                     type: 'stopped'
@@ -24295,7 +25216,7 @@ function init(run) {
         const data = origin.data;
         switch (type) {
             case 'init':
-                if (common_util_constant__WEBPACK_IMPORTED_MODULE_0__.SELF.CHeap && common_util_constant__WEBPACK_IMPORTED_MODULE_0__.SELF.CHeap.initThread) {
+                if (common_util_constant__WEBPACK_IMPORTED_MODULE_0__.SELF.CHeap && common_util_constant__WEBPACK_IMPORTED_MODULE_0__.SELF.CHeap.initThread && common_util_constant__WEBPACK_IMPORTED_MODULE_0__.SELF.CHeap.Config.USE_THREADS) {
                     common_util_constant__WEBPACK_IMPORTED_MODULE_0__.SELF.CHeap.initThread(data).then(() => {
                         parentPort.postMessage({
                             type: 'ready'
@@ -24313,6 +25234,11 @@ function init(run) {
             case 'stop':
                 if (retval && retval.then) {
                     retval.then((res) => {
+                        // @ts-ignore
+                        if (common_util_constant__WEBPACK_IMPORTED_MODULE_0__.SELF.__freeSmartPtr__) {
+                            // @ts-ignore
+                            common_util_constant__WEBPACK_IMPORTED_MODULE_0__.SELF.__freeSmartPtr__();
+                        }
                         parentPort.postMessage({
                             type: 'stopped',
                             data: res
@@ -24320,6 +25246,11 @@ function init(run) {
                     });
                 }
                 else {
+                    // @ts-ignore
+                    if (common_util_constant__WEBPACK_IMPORTED_MODULE_0__.SELF.__freeSmartPtr__) {
+                        // @ts-ignore
+                        common_util_constant__WEBPACK_IMPORTED_MODULE_0__.SELF.__freeSmartPtr__();
+                    }
                     parentPort.postMessage({
                         type: 'stopped',
                         data: retval
@@ -24388,7 +25319,7 @@ function init(module) {
         const data = origin.data;
         switch (type) {
             case 'init':
-                if (common_util_constant__WEBPACK_IMPORTED_MODULE_2__.SELF.CHeap && common_util_constant__WEBPACK_IMPORTED_MODULE_2__.SELF.CHeap.initThread) {
+                if (common_util_constant__WEBPACK_IMPORTED_MODULE_2__.SELF.CHeap && common_util_constant__WEBPACK_IMPORTED_MODULE_2__.SELF.CHeap.initThread && common_util_constant__WEBPACK_IMPORTED_MODULE_2__.SELF.CHeap.Config.USE_THREADS) {
                     common_util_constant__WEBPACK_IMPORTED_MODULE_2__.SELF.CHeap.initThread(data).then(() => {
                         parentPort.postMessage({
                             type: 'ready'
@@ -24409,6 +25340,11 @@ function init(module) {
             case 'stop':
                 if (ipc) {
                     ipc.destroy();
+                }
+                // @ts-ignore
+                if (common_util_constant__WEBPACK_IMPORTED_MODULE_2__.SELF.__freeSmartPtr__) {
+                    // @ts-ignore
+                    common_util_constant__WEBPACK_IMPORTED_MODULE_2__.SELF.__freeSmartPtr__();
                 }
                 parentPort.postMessage({
                     type: 'stopped'
@@ -24812,6 +25748,9 @@ function createThreadFromClass(entity, options = {}, moduleId) {
                         exportIsClass: true
                     });
                     const source = `
+            self.CHEAP_DISABLE_THREAD = ${common_util_constant__WEBPACK_IMPORTED_MODULE_6__.SELF.CHEAP_DISABLE_THREAD}
+            self.CHEAP_HEAP_INITIAL = ${common_util_constant__WEBPACK_IMPORTED_MODULE_6__.SELF.CHEAP_HEAP_INITIAL}
+            self.CHEAP_HEAP_MAXIMUM = ${common_util_constant__WEBPACK_IMPORTED_MODULE_6__.SELF.CHEAP_HEAP_MAXIMUM}
             ${module}
             function run(params) {
               params.unshift(null)
@@ -24833,9 +25772,9 @@ function createThreadFromClass(entity, options = {}, moduleId) {
             }
             const channel = new MessageChannel();
             return new Promise((resolve, reject) => {
-                const stackPointer = cheap_heap__WEBPACK_IMPORTED_MODULE_0__.Allocator.alignedAlloc(_config__WEBPACK_IMPORTED_MODULE_4__.STACK_ALIGNMENT, options.stackSize
+                const stackPointer = _config__WEBPACK_IMPORTED_MODULE_4__.USE_THREADS ? cheap_heap__WEBPACK_IMPORTED_MODULE_0__.Allocator.alignedAlloc(_config__WEBPACK_IMPORTED_MODULE_4__.STACK_ALIGNMENT, options.stackSize
                     ? ((options.stackSize + _config__WEBPACK_IMPORTED_MODULE_4__.STACK_ALIGNMENT) & ~_config__WEBPACK_IMPORTED_MODULE_4__.STACK_ALIGNMENT)
-                    : _config__WEBPACK_IMPORTED_MODULE_4__.STACK_SIZE);
+                    : _config__WEBPACK_IMPORTED_MODULE_4__.STACK_SIZE) : 0;
                 function running() {
                     const ipc =  false ? 0 : new common_network_IPCPort__WEBPACK_IMPORTED_MODULE_1__["default"](channel.port1);
                     const obj = {
@@ -24902,7 +25841,7 @@ function createThreadFromClass(entity, options = {}, moduleId) {
                 worker.postMessage({
                     type: 'init',
                     data: {
-                        memory: cheap_heap__WEBPACK_IMPORTED_MODULE_0__.Memory,
+                        memory: _config__WEBPACK_IMPORTED_MODULE_4__.USE_THREADS ? cheap_heap__WEBPACK_IMPORTED_MODULE_0__.Memory : null,
                         name: options.name || entity.name,
                         stackPointer,
                         stackSize: options.stackSize ?? _config__WEBPACK_IMPORTED_MODULE_4__.STACK_SIZE
@@ -24951,11 +25890,11 @@ function createThreadFromClass(entity, options = {}, moduleId) {
     function transfer(...transfer) {
         transferData = transfer;
         return {
-            run:  true && (_config__WEBPACK_IMPORTED_MODULE_4__.USE_THREADS && !options.disableWorker) ? runInWorker : runInMain
+            run:  true && ((_config__WEBPACK_IMPORTED_MODULE_4__.USE_THREADS || options.dispatchToWorker) && !options.disableWorker) ? runInWorker : runInMain
         };
     }
     return {
-        run:  true && (_config__WEBPACK_IMPORTED_MODULE_4__.USE_THREADS && !options.disableWorker) ? runInWorker : runInMain,
+        run:  true && ((_config__WEBPACK_IMPORTED_MODULE_4__.USE_THREADS || options.dispatchToWorker) && !options.disableWorker) ? runInWorker : runInMain,
         transfer
     };
 }
@@ -24982,6 +25921,9 @@ function createThreadFromFunction(entity, options = {}, moduleId) {
                         pointName: entity.name
                     });
                     const source = `
+            self.CHEAP_DISABLE_THREAD = ${common_util_constant__WEBPACK_IMPORTED_MODULE_6__.SELF.CHEAP_DISABLE_THREAD}
+            self.CHEAP_HEAP_INITIAL = ${common_util_constant__WEBPACK_IMPORTED_MODULE_6__.SELF.CHEAP_HEAP_INITIAL}
+            self.CHEAP_HEAP_MAXIMUM = ${common_util_constant__WEBPACK_IMPORTED_MODULE_6__.SELF.CHEAP_HEAP_MAXIMUM}
             ${module}
             function run(params) {
               return __module_${entity.name}__.__${entity.name}__.apply(${ false ? 0 : 'self'}, params)
@@ -25001,9 +25943,9 @@ function createThreadFromFunction(entity, options = {}, moduleId) {
                 worker = new Worker(workerUrl);
             }
             return new Promise((resolve, reject) => {
-                const stackPointer = cheap_heap__WEBPACK_IMPORTED_MODULE_0__.Allocator.alignedAlloc(_config__WEBPACK_IMPORTED_MODULE_4__.STACK_ALIGNMENT, options.stackSize
+                const stackPointer = _config__WEBPACK_IMPORTED_MODULE_4__.USE_THREADS ? cheap_heap__WEBPACK_IMPORTED_MODULE_0__.Allocator.alignedAlloc(_config__WEBPACK_IMPORTED_MODULE_4__.STACK_ALIGNMENT, options.stackSize
                     ? ((options.stackSize + _config__WEBPACK_IMPORTED_MODULE_4__.STACK_ALIGNMENT) & ~_config__WEBPACK_IMPORTED_MODULE_4__.STACK_ALIGNMENT)
-                    : _config__WEBPACK_IMPORTED_MODULE_4__.STACK_SIZE);
+                    : _config__WEBPACK_IMPORTED_MODULE_4__.STACK_SIZE) : 0;
                 function running() {
                     const obj = {
                         $worker: worker,
@@ -25038,7 +25980,7 @@ function createThreadFromFunction(entity, options = {}, moduleId) {
                 worker.postMessage({
                     type: 'init',
                     data: {
-                        memory: cheap_heap__WEBPACK_IMPORTED_MODULE_0__.Memory,
+                        memory: _config__WEBPACK_IMPORTED_MODULE_4__.USE_THREADS ? cheap_heap__WEBPACK_IMPORTED_MODULE_0__.Memory : null,
                         name: options.name || entity.name,
                         stackPointer,
                         stackSize: options.stackSize ?? _config__WEBPACK_IMPORTED_MODULE_4__.STACK_SIZE
@@ -25064,11 +26006,11 @@ function createThreadFromFunction(entity, options = {}, moduleId) {
     function transfer(...transfer) {
         transferData = transfer;
         return {
-            run:  true && (_config__WEBPACK_IMPORTED_MODULE_4__.USE_THREADS && !options.disableWorker) ? runInWorker : runInMain
+            run:  true && ((_config__WEBPACK_IMPORTED_MODULE_4__.USE_THREADS || options.dispatchToWorker) && !options.disableWorker) ? runInWorker : runInMain
         };
     }
     return {
-        run:  true && (_config__WEBPACK_IMPORTED_MODULE_4__.USE_THREADS && !options.disableWorker) ? runInWorker : runInMain,
+        run:  true && ((_config__WEBPACK_IMPORTED_MODULE_4__.USE_THREADS || options.dispatchToWorker) && !options.disableWorker) ? runInWorker : runInMain,
         transfer
     };
 }
@@ -25093,6 +26035,9 @@ function createThreadFromModule(entity, options = {}, moduleId) {
                         varName: moduleName
                     });
                     const source = `
+            self.CHEAP_DISABLE_THREAD = ${common_util_constant__WEBPACK_IMPORTED_MODULE_6__.SELF.CHEAP_DISABLE_THREAD}
+            self.CHEAP_HEAP_INITIAL = ${common_util_constant__WEBPACK_IMPORTED_MODULE_6__.SELF.CHEAP_HEAP_INITIAL}
+            self.CHEAP_HEAP_MAXIMUM = ${common_util_constant__WEBPACK_IMPORTED_MODULE_6__.SELF.CHEAP_HEAP_MAXIMUM}
             ${module}
             ${initModule}
             init.default(${moduleName});
@@ -25110,9 +26055,9 @@ function createThreadFromModule(entity, options = {}, moduleId) {
             }
             const channel = new MessageChannel();
             return new Promise((resolve, reject) => {
-                const stackPointer = cheap_heap__WEBPACK_IMPORTED_MODULE_0__.Allocator.alignedAlloc(_config__WEBPACK_IMPORTED_MODULE_4__.STACK_ALIGNMENT, options.stackSize
+                const stackPointer = _config__WEBPACK_IMPORTED_MODULE_4__.USE_THREADS ? cheap_heap__WEBPACK_IMPORTED_MODULE_0__.Allocator.alignedAlloc(_config__WEBPACK_IMPORTED_MODULE_4__.STACK_ALIGNMENT, options.stackSize
                     ? ((options.stackSize + _config__WEBPACK_IMPORTED_MODULE_4__.STACK_ALIGNMENT) & ~_config__WEBPACK_IMPORTED_MODULE_4__.STACK_ALIGNMENT)
-                    : _config__WEBPACK_IMPORTED_MODULE_4__.STACK_SIZE);
+                    : _config__WEBPACK_IMPORTED_MODULE_4__.STACK_SIZE) : 0;
                 function running() {
                     const ipc =  false ? 0 : new common_network_IPCPort__WEBPACK_IMPORTED_MODULE_1__["default"](channel.port1);
                     const obj = {
@@ -25178,7 +26123,7 @@ function createThreadFromModule(entity, options = {}, moduleId) {
                 worker.postMessage({
                     type: 'init',
                     data: {
-                        memory: cheap_heap__WEBPACK_IMPORTED_MODULE_0__.Memory,
+                        memory: _config__WEBPACK_IMPORTED_MODULE_4__.USE_THREADS ? cheap_heap__WEBPACK_IMPORTED_MODULE_0__.Memory : null,
                         name: options.name || moduleName,
                         stackPointer,
                         stackSize: options.stackSize ?? _config__WEBPACK_IMPORTED_MODULE_4__.STACK_SIZE
@@ -25224,7 +26169,7 @@ function createThreadFromModule(entity, options = {}, moduleId) {
         });
     }
     return {
-        run:  true && (_config__WEBPACK_IMPORTED_MODULE_4__.USE_THREADS && !options.disableWorker) ? runInWorker : runInMain,
+        run:  true && ((_config__WEBPACK_IMPORTED_MODULE_4__.USE_THREADS || options.dispatchToWorker) && !options.disableWorker) ? runInWorker : runInMain,
     };
 }
 function closeThread(thread) {
@@ -25374,15 +26319,15 @@ const CTypeEnumPointerShiftMap = {
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ ThreadPool)
 /* harmony export */ });
-/* harmony import */ var cheap_heap__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! cheap/heap */ "./src/cheap/heap.ts");
+/* harmony import */ var cheap_heap__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../heap */ "./src/cheap/heap.ts");
 /* harmony import */ var cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! cheap/ctypeEnumRead */ "./src/cheap/ctypeEnumRead.ts");
 /* harmony import */ var cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! cheap/ctypeEnumWrite */ "./src/cheap/ctypeEnumWrite.ts");
-/* harmony import */ var _thread_mutex_ts__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! cheap/thread/mutex */ "./src/cheap/thread/mutex.ts");
+/* harmony import */ var _thread_mutex_ts__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../thread/mutex */ "./src/cheap/thread/mutex.ts");
 /* harmony import */ var cheap_std_structAccess__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! cheap/std/structAccess */ "./src/cheap/std/structAccess.ts");
-/* harmony import */ var _thread_cond_ts__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! cheap/thread/cond */ "./src/cheap/thread/cond.ts");
+/* harmony import */ var _thread_cond_ts__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../thread/cond */ "./src/cheap/thread/cond.ts");
 /* harmony import */ var _thread__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./thread */ "./src/cheap/webassembly/thread.ts");
 /* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../config */ "./src/cheap/config.ts");
-/* harmony import */ var cheap_std_memory__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! cheap/std/memory */ "./src/cheap/std/memory.ts");
+/* harmony import */ var _std_memory__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../std/memory */ "./src/cheap/std/memory.ts");
 /* harmony import */ var _thread_atomics__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../thread/atomics */ "./src/cheap/thread/atomics.ts");
 
 
@@ -25411,7 +26356,7 @@ class ThreadPool {
             const worker = new Worker(this.url);
             const stackPointer = cheap_heap__WEBPACK_IMPORTED_MODULE_0__.Allocator.alignedAlloc(_config__WEBPACK_IMPORTED_MODULE_7__.STACK_ALIGNMENT, _config__WEBPACK_IMPORTED_MODULE_7__.STACK_SIZE);
             const threadDescriptor = cheap_heap__WEBPACK_IMPORTED_MODULE_0__.Allocator.malloc(8);
-            (0,cheap_std_memory__WEBPACK_IMPORTED_MODULE_8__.memset)(threadDescriptor, 0, 8);
+            (0,_std_memory__WEBPACK_IMPORTED_MODULE_8__.memset)(threadDescriptor, 0, 8);
             cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_2__.CTypeEnumWrite[15](threadDescriptor + 4, 0 /* PthreadStatus.STOP */);
             cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_2__.CTypeEnumWrite[15](threadDescriptor, cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumRead[15](threadDescriptor) | 2 /* PthreadFlags.POOL */);
             const id = (0,cheap_heap__WEBPACK_IMPORTED_MODULE_0__.allocThreadId)();
@@ -25421,7 +26366,7 @@ class ThreadPool {
                 switch (type) {
                     case 'ready':
                         const wait = stackPointer;
-                        (0,cheap_std_memory__WEBPACK_IMPORTED_MODULE_8__.memset)(wait, 0, 20);
+                        (0,_std_memory__WEBPACK_IMPORTED_MODULE_8__.memset)(wait, 0, 20);
                         _thread_mutex_ts__WEBPACK_IMPORTED_MODULE_3__.init(wait + 16);
                         _thread_cond_ts__WEBPACK_IMPORTED_MODULE_5__.init(wait + 12);
                         worker.postMessage({
@@ -25586,8 +26531,8 @@ class ThreadPool {
 /* harmony import */ var common_function_isWorker__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! common/function/isWorker */ "./src/common/function/isWorker.ts");
 /* harmony import */ var _thread__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./thread */ "./src/cheap/webassembly/thread.ts");
 /* harmony import */ var _ThreadPool__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./ThreadPool */ "./src/cheap/webassembly/ThreadPool.ts");
-/* harmony import */ var cheap_thread_cond__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! cheap/thread/cond */ "./src/cheap/thread/cond.ts");
-/* harmony import */ var cheap_thread_mutex__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! cheap/thread/mutex */ "./src/cheap/thread/mutex.ts");
+/* harmony import */ var _thread_cond__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ../thread/cond */ "./src/cheap/thread/cond.ts");
+/* harmony import */ var _thread_mutex__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ../thread/mutex */ "./src/cheap/thread/mutex.ts");
 /* harmony import */ var common_util_support__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! common/util/support */ "./src/common/util/support.ts");
 var cheap__fileName__3 = "src\\cheap\\webassembly\\WebAssemblyRunner.ts";
 
@@ -25631,13 +26576,13 @@ class WebAssemblyRunner {
         return cheap_heap__WEBPACK_IMPORTED_MODULE_2__.Table;
     }
     static mutexLock(mux) {
-        cheap_thread_mutex__WEBPACK_IMPORTED_MODULE_22__.lock(mux);
+        _thread_mutex__WEBPACK_IMPORTED_MODULE_22__.lock(mux);
     }
     static mutexUnlock(mux) {
-        cheap_thread_mutex__WEBPACK_IMPORTED_MODULE_22__.unlock(mux);
+        _thread_mutex__WEBPACK_IMPORTED_MODULE_22__.unlock(mux);
     }
     static condWait(cnd, mux) {
-        cheap_thread_cond__WEBPACK_IMPORTED_MODULE_21__.wait(cnd, mux);
+        _thread_cond__WEBPACK_IMPORTED_MODULE_21__.wait(cnd, mux);
     }
     static readPointer(p) {
         return cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[20](p);
@@ -26236,6 +27181,10 @@ class WebAssemblyRunner {
 /* harmony import */ var common_function_concatTypeArray__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! common/function/concatTypeArray */ "./src/common/function/concatTypeArray.ts");
 /* harmony import */ var common_util_object__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! common/util/object */ "./src/common/util/object.ts");
 /* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../config */ "./src/cheap/config.ts");
+/* harmony import */ var common_util_browser__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! common/util/browser */ "./src/common/util/browser.ts");
+/* harmony import */ var common_util_os__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! common/util/os */ "./src/common/util/os.ts");
+
+
 
 
 
@@ -26351,11 +27300,17 @@ async function process(context) {
                             }
                             await (0,common_util_wasm__WEBPACK_IMPORTED_MODULE_3__.writeUleb128Async)(context.ioWriter, flags);
                             // initial
-                            await (0,common_util_wasm__WEBPACK_IMPORTED_MODULE_3__.writeUleb128Async)(context.ioWriter, await (0,common_util_wasm__WEBPACK_IMPORTED_MODULE_3__.readULeb128Async)(context.ioReader));
+                            const initial = await (0,common_util_wasm__WEBPACK_IMPORTED_MODULE_3__.readULeb128Async)(context.ioReader);
+                            await (0,common_util_wasm__WEBPACK_IMPORTED_MODULE_3__.writeUleb128Async)(context.ioWriter, _config__WEBPACK_IMPORTED_MODULE_6__.HEAP_INITIAL || initial);
                             if (flags & 0x01) {
-                                await (0,common_util_wasm__WEBPACK_IMPORTED_MODULE_3__.readULeb128Async)(context.ioReader);
+                                let max = await (0,common_util_wasm__WEBPACK_IMPORTED_MODULE_3__.readULeb128Async)(context.ioReader);
+                                if (!(common_util_browser__WEBPACK_IMPORTED_MODULE_7__["default"].safari && common_util_os__WEBPACK_IMPORTED_MODULE_8__["default"].ios && !common_util_browser__WEBPACK_IMPORTED_MODULE_7__["default"].checkVersion(common_util_browser__WEBPACK_IMPORTED_MODULE_7__["default"].majorVersion, '17', true)) || !context.options.enableThread) {
+                                    // ios safari 16 以下改更了会编译错误，但它也不会去检查 max 和导入的内存是否限制一致
+                                    // 所以这里不更改了
+                                    max = _config__WEBPACK_IMPORTED_MODULE_6__.HEAP_MAXIMUM;
+                                }
                                 // maximum
-                                await (0,common_util_wasm__WEBPACK_IMPORTED_MODULE_3__.writeUleb128Async)(context.ioWriter, _config__WEBPACK_IMPORTED_MODULE_6__.HEAP_MAXIMUM);
+                                await (0,common_util_wasm__WEBPACK_IMPORTED_MODULE_3__.writeUleb128Async)(context.ioWriter, max);
                             }
                             counter++;
                             break;
@@ -27071,7 +28026,7 @@ let atomics_wait = function (p, value) {
     return _thread_atomics__WEBPACK_IMPORTED_MODULE_0__.wait(p, value);
 };
 let atomics_wait_timeout = function (p, value, timeout) {
-    return _thread_atomics__WEBPACK_IMPORTED_MODULE_0__.waitTimeout(p, value, (Number(timeout & 0xffffffffn) >> 0));
+    return _thread_atomics__WEBPACK_IMPORTED_MODULE_0__.waitTimeout(p, value, Number(BigInt.asIntN(32, timeout)));
 };
 function override(data) {
     if (data.atomic_add_i8) {
@@ -29019,6 +29974,7 @@ class BitReader {
     bitsLeft;
     size;
     endPointer;
+    pos;
     error;
     onFlush;
     /**
@@ -29028,13 +29984,14 @@ class BitReader {
     constructor(size = 1048576) {
         this.pointer = 0;
         this.bitsLeft = 8;
+        this.pos = BigInt(0);
         this.size = size;
         this.endPointer = 0;
         this.error = 0;
         this.buffer = new Uint8Array(this.size);
     }
     /**
-     * 不影响原读取操作的情况下，读取 1 个比特
+     * 读取 1 个比特（不会移动读取指针）
      */
     peekU1() {
         let result = 0;
@@ -29063,6 +30020,7 @@ class BitReader {
         if (this.bitsLeft === 0) {
             this.pointer++;
             this.bitsLeft = 8;
+            this.pos++;
         }
         return result;
     }
@@ -29079,6 +30037,21 @@ class BitReader {
         return result;
     }
     /**
+     * 读取 n 个比特（不会移动读取指针）
+     *
+     * @param n
+     */
+    peekU(n) {
+        const pointer = this.pointer;
+        const bitsLeft = this.bitsLeft;
+        const pos = this.pos;
+        const result = this.readU(n);
+        this.pointer = pointer;
+        this.bitsLeft = bitsLeft;
+        this.pos = pos;
+        return result;
+    }
+    /**
      * 获取剩余可读字节数
      *
      * @returns
@@ -29086,21 +30059,60 @@ class BitReader {
     remainingLength() {
         return this.endPointer - this.pointer;
     }
-    getPos() {
+    /**
+     * 当前字节剩余的 bit 数
+     *
+     * @returns
+     */
+    getBitLeft() {
+        return this.bitsLeft;
+    }
+    /**
+     * 获取当前读取指针位置
+     *
+     * @returns
+     */
+    getPointer() {
         return this.pointer;
     }
+    /**
+     * 设置读取指针到指定位置
+     *
+     * @param pointer
+     */
+    setPointer(pointer) {
+        this.pointer = pointer;
+    }
+    /**
+     * 返回当前的绝对位置
+     *
+     * @returns
+     */
+    getPos() {
+        return this.pos;
+    }
+    /**
+     * 跳过指定 bit 数
+     *
+     * @param n
+     */
     skip(n) {
         const byte = (n - (n % 8)) / 8;
         this.pointer += byte;
+        this.pos += BigInt(byte);
         const bitsLeft = n % 8;
         if (this.bitsLeft <= bitsLeft) {
             this.pointer++;
+            this.pos++;
             this.bitsLeft = 8 - (bitsLeft - this.bitsLeft);
         }
         else {
             this.bitsLeft -= bitsLeft;
         }
     }
+    /**
+     * 填充剩余缓冲区
+     */
     flush() {
         if (!this.onFlush) {
             this.error = -1048574 /* IOError.INVALID_OPERATION */;
@@ -29108,6 +30120,7 @@ class BitReader {
         }
         if (this.bitsLeft === 0) {
             this.pointer++;
+            this.pos++;
         }
         if (this.size - this.remainingLength() <= 0) {
             return;
@@ -29133,6 +30146,11 @@ class BitReader {
             }
         }
     }
+    /**
+     * 获取缓冲区
+     *
+     * @returns
+     */
     getBuffer() {
         return this.buffer;
     }
@@ -29153,19 +30171,27 @@ class BitReader {
                 const len = Math.min(this.size - this.endPointer, buffer.length);
                 this.buffer.set(buffer.subarray(0, len), this.endPointer);
                 this.endPointer += len;
-                _util_logger__WEBPACK_IMPORTED_MODULE_0__.warn('BSReader, call appendBuffer but the buffer\'s size is lagger then the remaining size', cheap__fileName__0, 190);
+                _util_logger__WEBPACK_IMPORTED_MODULE_0__.warn('BSReader, call appendBuffer but the buffer\'s size is lagger then the remaining size', cheap__fileName__0, 257);
             }
         }
     }
-    clear() {
+    /**
+     * 重置缓冲区
+     */
+    reset() {
         this.pointer = this.endPointer = 0;
         this.bitsLeft = 8;
         this.error = 0;
+        this.pos = BigInt(0);
     }
+    /**
+     * 对齐字节，当处在当前字节的第一个 bit 时不动，否则移动到下一个字节
+     */
     skipPadding() {
         if (this.bitsLeft < 8) {
             this.bitsLeft = 8;
             this.pointer++;
+            this.pos++;
         }
     }
 }
@@ -29192,6 +30218,7 @@ class BitReader {
 class BitWriter {
     buffer;
     pointer;
+    pos;
     bitPointer;
     size;
     error;
@@ -29204,6 +30231,7 @@ class BitWriter {
         this.bitPointer = 0;
         this.size = size;
         this.error = 0;
+        this.pos = BigInt(0);
         this.buffer = new Uint8Array(this.size);
     }
     /**
@@ -29224,6 +30252,7 @@ class BitWriter {
         this.bitPointer++;
         if (this.bitPointer === 8) {
             this.pointer++;
+            this.pos++;
             this.bitPointer = 0;
         }
     }
@@ -29245,6 +30274,9 @@ class BitWriter {
     remainingLength() {
         return this.size - this.pointer;
     }
+    /**
+     * 写出缓冲区
+     */
     flush() {
         if (!this.onFlush) {
             this.error = -1048574 /* IOError.INVALID_OPERATION */;
@@ -29269,21 +30301,46 @@ class BitWriter {
         }
         this.pointer = 0;
     }
+    /**
+     * 对齐字节，当处在当前字节的第一个 bit 时不动，否则写入 0 直到下一个字节
+     */
     padding() {
         while (this.bitPointer !== 0) {
             this.writeU1(0);
         }
     }
-    clear() {
+    /**
+     * 重置缓冲区
+     */
+    reset() {
         this.pointer = 0;
         this.bitPointer = 0;
         this.error = 0;
+        this.pos = BigInt(0);
     }
+    /**
+     * 获取缓冲区
+     *
+     * @returns
+     */
     getBuffer() {
         return this.buffer;
     }
+    /**
+     * 获取当前写指针位置
+     *
+     * @returns
+     */
     getPointer() {
         return this.pointer;
+    }
+    /**
+     * 获取当前的绝对位置
+     *
+     * @returns
+     */
+    getPos() {
+        return this.pos;
     }
 }
 
@@ -29352,7 +30409,7 @@ class BufferReader {
     readUint24() {
         const high = this.readUint16();
         const low = this.readUint8();
-        return high << 8 | low;
+        return this.littleEndian ? (low << 16 | high) : (high << 8 | low);
     }
     /**
      * 读取 32 位无符号整数
@@ -29396,6 +30453,15 @@ class BufferReader {
         const value = this.data.getInt16(this.pos + this.byteStart, this.littleEndian);
         this.pos += 2;
         return value;
+    }
+    /**
+     * 读取 24 位有符号整数
+     *
+     * @returns
+     */
+    readInt24() {
+        const value = this.readUint24();
+        return (value & 0x800000) ? (value - 0x1000000) : value;
     }
     /**
      * 读取 32 位有符号整数
@@ -29569,6 +30635,12 @@ class BufferReader {
         this.size += buffer.byteLength;
         this.byteStart = 0;
     }
+    /**
+     * 重新装载数据
+     *
+     * @param data
+     * @param bigEndian
+     */
     resetBuffer(data, bigEndian = true) {
         this.buffer = data;
         this.data = data instanceof Uint8Array ? new DataView(data.buffer) : data.view;
@@ -29688,6 +30760,12 @@ class BufferWriter {
         this.pos += 2;
     }
     /**
+     * 写 24 位有符号整数
+     */
+    writeInt24(value) {
+        this.writeUint24(value < 0 ? (value + 0x1000000) : value);
+    }
+    /**
      * 写 32 位有符号整数
      */
     writeInt32(value) {
@@ -29778,7 +30856,7 @@ class BufferWriter {
         let length = buffer.length;
         if (this.remainingSize() < length) {
             length = this.remainingSize();
-            _util_logger__WEBPACK_IMPORTED_MODULE_0__.warn(`the remaining buffer size is smaller then the wrote buffer, hope set ${buffer.length}, but set ${length}`, cheap__fileName__0, 211);
+            _util_logger__WEBPACK_IMPORTED_MODULE_0__.warn(`the remaining buffer size is smaller then the wrote buffer, hope set ${buffer.length}, but set ${length}`, cheap__fileName__0, 218);
         }
         this.buffer.set(buffer, this.pos);
         this.pos += buffer.length;
@@ -29791,9 +30869,20 @@ class BufferWriter {
         this.writeBuffer(buffer);
         return buffer.length;
     }
+    /**
+     * 获取已写的数据
+     *
+     * @returns
+     */
     getWroteBuffer() {
         return this.buffer.subarray(0, this.pos);
     }
+    /**
+     * 重新装载数据
+     *
+     * @param data
+     * @param bigEndian
+     */
     resetBuffer(data, bigEndian = true) {
         this.buffer = data;
         this.data = data instanceof Uint8Array ? new DataView(data.buffer) : data.view;
@@ -29818,6 +30907,9 @@ class BufferWriter {
 /* harmony export */   "default": () => (/* binding */ FileIO)
 /* harmony export */ });
 const RESIZE_CHUNK_SIZE = 5242880;
+/**
+ * 文件 IO
+ */
 class FileIO {
     handler;
     file;
@@ -30028,6 +31120,11 @@ class IOReader {
         this.pos++;
         return value;
     }
+    /**
+     * 读取 8 位无符号整数（不会移动读取指针位置）
+     *
+     * @returns
+     */
     async peekUint8() {
         if (this.remainingLength() < 1) {
             await this.flush(1);
@@ -30048,6 +31145,11 @@ class IOReader {
         this.pos += BigInt(2);
         return value;
     }
+    /**
+     * 读取 16 位无符号整数（不会移动读取指针位置）
+     *
+     * @returns
+     */
     async peekUint16() {
         if (this.remainingLength() < 2) {
             await this.flush(2);
@@ -30065,8 +31167,13 @@ class IOReader {
         }
         const high = await this.readUint16();
         const low = await this.readUint8();
-        return high << 8 | low;
+        return this.littleEndian ? (low << 16 | high) : (high << 8 | low);
     }
+    /**
+     * 读取 24 位无符号整数（不会移动读取指针位置）
+     *
+     * @returns
+     */
     async peekUint24() {
         if (this.remainingLength() < 3) {
             await this.flush(3);
@@ -30075,7 +31182,7 @@ class IOReader {
         const pos = this.pos;
         const high = await this.readUint16();
         const low = await this.readUint8();
-        const value = high << 8 | low;
+        const value = this.littleEndian ? (low << 16 | high) : (high << 8 | low);
         this.pointer = pointer;
         this.pos = pos;
         return value;
@@ -30094,6 +31201,11 @@ class IOReader {
         this.pos += BigInt(4);
         return value;
     }
+    /**
+     * 读取 32 位无符号整数（不会移动读取指针位置）
+     *
+     * @returns
+     */
     async peekUint32() {
         if (this.remainingLength() < 4) {
             await this.flush(4);
@@ -30114,6 +31226,11 @@ class IOReader {
         this.pos += BigInt(8);
         return value;
     }
+    /**
+     * 读取 64 位无符号整数（不会移动读取指针位置）
+     *
+     * @returns
+     */
     async peekUint64() {
         if (this.remainingLength() < 8) {
             await this.flush(8);
@@ -30134,6 +31251,11 @@ class IOReader {
         this.pos++;
         return value;
     }
+    /**
+     * 读取 8 位有符号整数（不会移动读取指针位置）
+     *
+     * @returns
+     */
     async peekInt8() {
         if (this.remainingLength() < 1) {
             await this.flush(1);
@@ -30154,11 +31276,34 @@ class IOReader {
         this.pos += BigInt(2);
         return value;
     }
+    /**
+     * 读取 16 位有符号整数（不会移动读取指针位置）
+     *
+     * @returns
+     */
     async peekInt16() {
         if (this.remainingLength() < 2) {
             await this.flush(2);
         }
         return this.data.getInt16(this.pointer, this.littleEndian);
+    }
+    /**
+     * 读取 24 位有符号整数
+     *
+     * @returns
+     */
+    async readInt24() {
+        const value = await this.readUint24();
+        return (value & 0x800000) ? (value - 0x1000000) : value;
+    }
+    /**
+     * 读取 24 位有符号整数（不会移动读取指针位置）
+     *
+     * @returns
+     */
+    async peekInt24() {
+        const value = await this.peekUint24();
+        return (value & 0x800000) ? (value - 0x1000000) : value;
     }
     /**
      * 读取 32 位有符号整数
@@ -30174,6 +31319,11 @@ class IOReader {
         this.pos += BigInt(4);
         return value;
     }
+    /**
+     * 读取 32 位有符号整数（不会移动读取指针位置）
+     *
+     * @returns
+     */
     async peekInt32() {
         if (this.remainingLength() < 4) {
             await this.flush(4);
@@ -30194,6 +31344,11 @@ class IOReader {
         this.pos += BigInt(8);
         return value;
     }
+    /**
+     * 读取 64 位有符号整数（不会移动读取指针位置）
+     *
+     * @returns
+     */
     async peekInt64() {
         if (this.remainingLength() < 8) {
             await this.flush(8);
@@ -30214,6 +31369,11 @@ class IOReader {
         this.pos += BigInt(4);
         return value;
     }
+    /**
+     * 读取单精度浮点数（不会移动读取指针位置）
+     *
+     * @returns
+     */
     async peekFloat() {
         if (this.remainingLength() < 4) {
             await this.flush(4);
@@ -30234,6 +31394,11 @@ class IOReader {
         this.pos += BigInt(8);
         return value;
     }
+    /**
+     * 读取双精度浮点数（不会移动读取指针位置）
+     *
+     * @returns
+     */
     async peekDouble() {
         if (this.remainingLength() < 8) {
             await this.flush(8);
@@ -30254,10 +31419,16 @@ class IOReader {
         }
         return hexStr;
     }
+    /**
+     * 读取指定长度的字节，并以 16 进制字符串返回（不会移动读取指针位置）
+     *
+     * @param length 默认 1
+     * @returns
+     */
     async peekHex(length = 1) {
         if (length > this.size) {
             this.error = -1048574 /* IOError.INVALID_OPERATION */;
-            _util_logger__WEBPACK_IMPORTED_MODULE_0__.fatal('peekHex, length too large', cheap__fileName__0, 334);
+            _util_logger__WEBPACK_IMPORTED_MODULE_0__.fatal('peekHex, length too large', cheap__fileName__0, 414);
         }
         if (this.remainingLength() < length) {
             await this.flush(length);
@@ -30304,6 +31475,27 @@ class IOReader {
         }
         return buffer;
     }
+    async peekBuffer(length, buffer) {
+        if (length > this.size) {
+            this.error = -1048574 /* IOError.INVALID_OPERATION */;
+            _util_logger__WEBPACK_IMPORTED_MODULE_0__.fatal('peekBuffer, length too large', cheap__fileName__0, 499);
+        }
+        if (this.remainingLength() < length) {
+            await this.flush(length);
+        }
+        if (!buffer) {
+            buffer = new Uint8Array(length);
+        }
+        buffer.set(this.buffer.subarray(this.pointer, this.pointer + length), 0);
+        return buffer;
+    }
+    /**
+     * 读取最多 length 字节的数据到指定 buffer，返回已写入的字节长度
+     *
+     * @param length
+     * @param buffer
+     * @returns
+     */
     async readToBuffer(length, buffer) {
         if (this.remainingLength() < length) {
             let index = 0;
@@ -30343,20 +31535,6 @@ class IOReader {
             return length;
         }
     }
-    async peekBuffer(length, buffer) {
-        if (length > this.size) {
-            this.error = -1048574 /* IOError.INVALID_OPERATION */;
-            _util_logger__WEBPACK_IMPORTED_MODULE_0__.fatal('peekBuffer, length too large', cheap__fileName__0, 455);
-        }
-        if (this.remainingLength() < length) {
-            await this.flush(length);
-        }
-        if (!buffer) {
-            buffer = new Uint8Array(length);
-        }
-        buffer.set(this.buffer.subarray(this.pointer, this.pointer + length), 0);
-        return buffer;
-    }
     /**
      * 读取指定长度的字符串
      *
@@ -30367,6 +31545,12 @@ class IOReader {
         const buffer = await this.readBuffer(length);
         return _util_text__WEBPACK_IMPORTED_MODULE_1__.decode(buffer);
     }
+    /**
+     * 读取指定长度的字符串（不会移动读取指针位置）
+     *
+     * @param length 默认 1
+     * @returns
+     */
     async peekString(length = 1) {
         const buffer = await this.peekBuffer(length);
         return _util_text__WEBPACK_IMPORTED_MODULE_1__.decode(buffer);
@@ -30408,6 +31592,9 @@ class IOReader {
         }
         return str;
     }
+    /**
+     * 读取一行字符（不会移动读取指针位置）
+     */
     async peekLine() {
         if (this.remainingLength() < this.size) {
             try {
@@ -30430,7 +31617,7 @@ class IOReader {
         }
         if (!got) {
             this.error = -1048574 /* IOError.INVALID_OPERATION */;
-            _util_logger__WEBPACK_IMPORTED_MODULE_0__.fatal('peekLine, out of buffer', cheap__fileName__0, 552);
+            _util_logger__WEBPACK_IMPORTED_MODULE_0__.fatal('peekLine, out of buffer', cheap__fileName__0, 657);
         }
         return str;
     }
@@ -30484,10 +31671,16 @@ class IOReader {
             await new _timer_Sleep__WEBPACK_IMPORTED_MODULE_2__["default"](0);
         }
     }
+    /**
+     * 重新填充剩余缓冲区
+     *
+     * @param need
+     * @returns
+     */
     async flush(need = 0) {
         if (!this.onFlush) {
             this.error = -1048574 /* IOError.INVALID_OPERATION */;
-            _util_logger__WEBPACK_IMPORTED_MODULE_0__.fatal('IOReader error, flush failed because of no flush callback', cheap__fileName__0, 620);
+            _util_logger__WEBPACK_IMPORTED_MODULE_0__.fatal('IOReader error, flush failed because of no flush callback', cheap__fileName__0, 731);
         }
         if (this.size - this.remainingLength() <= 0) {
             return;
@@ -30519,7 +31712,17 @@ class IOReader {
             }
             this.endPointer += len;
         }
+        this.error = 0;
     }
+    /**
+     *
+     * seek 到指定位置
+     *
+     * @param pos
+     * @param force false 时可以在目前的缓冲区内 seek，否则丢弃缓冲区内容重新填充指定位置的数据，默认 false
+     * @param flush 指定 seek 之后是否马上填充数据，否则只 seek 到目标位置，默认 true
+     * @returns
+     */
     async seek(pos, force = false, flush = true) {
         if (!force) {
             const len = Number(pos - this.pos);
@@ -30541,22 +31744,30 @@ class IOReader {
         }
         if (!this.onSeek) {
             this.error = -1048574 /* IOError.INVALID_OPERATION */;
-            _util_logger__WEBPACK_IMPORTED_MODULE_0__.fatal('IOReader error, seek failed because of no seek callback', cheap__fileName__0, 681);
+            _util_logger__WEBPACK_IMPORTED_MODULE_0__.fatal('IOReader error, seek failed because of no seek callback', cheap__fileName__0, 802);
         }
         this.pointer = this.endPointer = 0;
         this.pos = pos;
         const ret = await this.onSeek(pos);
         if (ret !== 0) {
             this.error = ret;
-            _util_logger__WEBPACK_IMPORTED_MODULE_0__.fatal('IOReader error, seek failed', cheap__fileName__0, 690);
+            _util_logger__WEBPACK_IMPORTED_MODULE_0__.fatal('IOReader error, seek failed', cheap__fileName__0, 811);
         }
         if (flush) {
             await this.flush();
         }
     }
+    /**
+     * 获取缓冲区
+     */
     getBuffer() {
         return this.buffer;
     }
+    /**
+     * 写入数据到缓冲区
+     *
+     * @param buffer
+     */
     appendBuffer(buffer) {
         if (this.size - this.endPointer >= buffer.length) {
             this.buffer.set(buffer, this.endPointer);
@@ -30574,32 +31785,62 @@ class IOReader {
                 const len = Math.min(this.size - this.endPointer, buffer.length);
                 this.buffer.set(buffer.subarray(0, len), this.endPointer);
                 this.endPointer += len;
-                _util_logger__WEBPACK_IMPORTED_MODULE_0__.warn('IOReader, call appendBuffer but the buffer\'s size is lagger then the remaining size', cheap__fileName__0, 720);
+                _util_logger__WEBPACK_IMPORTED_MODULE_0__.warn('IOReader, call appendBuffer but the buffer\'s size is lagger then the remaining size', cheap__fileName__0, 849);
             }
         }
     }
+    /**
+     * 重置 reader
+     */
     reset() {
         this.pointer = this.endPointer = 0;
         this.pos = BigInt(0);
         this.error = 0;
     }
+    /**
+     * 设置读取是小端还是大端
+     *
+     * @param bigEndian
+     */
     setEndian(bigEndian) {
         this.littleEndian = !bigEndian;
     }
+    /**
+     * 获取源总字节长度
+     *
+     * @returns
+     */
     async fileSize() {
         if (this.fileSize_) {
             return this.fileSize_;
         }
         if (!this.onSize) {
-            this.error = -1048574 /* IOError.INVALID_OPERATION */;
-            _util_logger__WEBPACK_IMPORTED_MODULE_0__.fatal('IOReader error, fileSize failed because of no onSize callback', cheap__fileName__0, 741);
+            _util_logger__WEBPACK_IMPORTED_MODULE_0__.warn('IOReader error, fileSize failed because of no onSize callback', cheap__fileName__0, 882);
+            return BigInt(0);
         }
-        this.fileSize_ = await this.onSize();
+        try {
+            this.fileSize_ = await this.onSize();
+        }
+        catch (error) {
+            _util_logger__WEBPACK_IMPORTED_MODULE_0__.warn(`IOReader error, call fileSize failed: ${error}`, cheap__fileName__0, 889);
+            this.fileSize_ = BigInt(0);
+        }
         return this.fileSize_;
     }
+    /**
+     * 获取缓冲区长度
+     *
+     * @returns
+     */
     getBufferSize() {
         return this.size;
     }
+    /**
+     * 连接到 ioWriter
+     *
+     * @param ioWriter
+     * @param length
+     */
     async pipe(ioWriter, length) {
         if (length) {
             if (this.remainingLength() < length) {
@@ -30788,6 +32029,12 @@ class IOWriter {
         this.pos += BigInt(2);
     }
     /**
+     * 写 24 位有符号整数
+     */
+    async writeInt24(value) {
+        await this.writeUint24(value < 0 ? (value + 0x1000000) : value);
+    }
+    /**
      * 写 32 位有符号整数
      */
     async writeInt32(value) {
@@ -30889,9 +32136,9 @@ class IOWriter {
         await this.writeBuffer(buffer);
         return buffer.length;
     }
-    encodeString(str) {
-        return _util_text__WEBPACK_IMPORTED_MODULE_0__.encode(str);
-    }
+    /**
+     * 将缓冲区中数据写出
+     */
     async flush() {
         if (!this.onFlush) {
             this.error = -1048574 /* IOError.INVALID_OPERATION */;
@@ -30906,6 +32153,11 @@ class IOWriter {
         }
         this.pointer = 0;
     }
+    /**
+     * 将缓冲区中数据写出到指定位置
+     *
+     * @param pos
+     */
     async flushToPos(pos) {
         if (!this.onFlush) {
             this.error = -1048574 /* IOError.INVALID_OPERATION */;
@@ -30920,6 +32172,11 @@ class IOWriter {
         }
         this.pointer = 0;
     }
+    /**
+     * seek 到指定位置
+     *
+     * @param pos
+     */
     async seek(pos) {
         if (!this.onSeek) {
             this.error = -1048574 /* IOError.INVALID_OPERATION */;
@@ -30933,32 +32190,65 @@ class IOWriter {
         }
         this.pos = pos;
     }
+    /**
+     * 在当前缓冲区映射区间内 seek
+     *
+     * @param pos
+     */
     seekInline(pos) {
         const pointer = this.pointer;
         this.pointer = Math.max(0, Math.min(this.size, pos));
         this.pos += BigInt(this.pointer - pointer);
     }
+    /**
+     * 跳过指定长度
+     *
+     * @param length
+     */
     skip(length) {
         const pointer = this.pointer;
         this.pointer = Math.min(this.size, this.pointer + length);
         this.pos += BigInt(this.pointer - pointer);
     }
+    /**
+     * 回退指定长度，不能大于 pointer 大小
+     *
+     * @param length
+     */
     back(length) {
         const pointer = this.pointer;
         this.pointer = Math.max(0, this.pointer - length);
         this.pos += BigInt(this.pointer - pointer);
     }
+    /**
+     * 获取缓冲区
+     *
+     * @returns
+     */
     getBuffer() {
         return this.buffer.subarray(0, this.pointer);
     }
+    /**
+     * 设置读取是小端还是大端
+     *
+     * @param bigEndian
+     */
     setEndian(bigEndian) {
         this.littleEndian = !bigEndian;
     }
+    /**
+     * 重置 writer
+     */
     reset() {
         this.pointer = 0;
         this.pos = BigInt(0);
         this.error = 0;
     }
+    /**
+     * 获取缓冲区长度
+     *
+     * @returns
+     */
     getBufferSize() {
         return this.size;
     }
@@ -31110,6 +32400,12 @@ class IOWriterSync {
         this.pos += BigInt(2);
     }
     /**
+     * 写 24 位有符号整数
+     */
+    writeInt24(value) {
+        this.writeUint24(value < 0 ? (value + 0x1000000) : value);
+    }
+    /**
      * 写 32 位有符号整数
      */
     writeInt32(value) {
@@ -31211,9 +32507,9 @@ class IOWriterSync {
         this.writeBuffer(buffer);
         return buffer.length;
     }
-    encodeString(str) {
-        return _util_text__WEBPACK_IMPORTED_MODULE_0__.encode(str);
-    }
+    /**
+     * 将缓冲区中数据写出
+     */
     flush() {
         if (!this.onFlush) {
             this.error = -1048574 /* IOError.INVALID_OPERATION */;
@@ -31228,6 +32524,11 @@ class IOWriterSync {
         }
         this.pointer = 0;
     }
+    /**
+     * 将缓冲区中数据写出到指定位置
+     *
+     * @param pos
+     */
     flushToPos(pos) {
         if (!this.onFlush) {
             this.error = -1048574 /* IOError.INVALID_OPERATION */;
@@ -31242,6 +32543,11 @@ class IOWriterSync {
         }
         this.pointer = 0;
     }
+    /**
+     * seek 到指定位置
+     *
+     * @param pos
+     */
     seek(pos) {
         if (!this.onSeek) {
             this.error = -1048574 /* IOError.INVALID_OPERATION */;
@@ -31255,32 +32561,65 @@ class IOWriterSync {
         }
         this.pos = pos;
     }
+    /**
+     * 在当前缓冲区映射区间内 seek
+     *
+     * @param pos
+     */
     seekInline(pos) {
         const pointer = this.pointer;
         this.pointer = Math.max(0, Math.min(this.size, pos));
         this.pos += BigInt(this.pointer - pointer);
     }
+    /**
+     * 跳过指定长度
+     *
+     * @param length
+     */
     skip(length) {
         const pointer = this.pointer;
         this.pointer = Math.min(this.size, this.pointer + length);
         this.pos += BigInt(this.pointer - pointer);
     }
+    /**
+     * 回退指定长度，不能大于 pointer 大小
+     *
+     * @param length
+     */
     back(length) {
         const pointer = this.pointer;
         this.pointer = Math.max(0, this.pointer - length);
         this.pos += BigInt(this.pointer - pointer);
     }
+    /**
+     * 获取缓冲区
+     *
+     * @returns
+     */
     getBuffer() {
         return this.buffer.subarray(0, this.pointer);
     }
+    /**
+     * 设置读取是小端还是大端
+     *
+     * @param bigEndian
+     */
     setEndian(bigEndian) {
         this.littleEndian = !bigEndian;
     }
+    /**
+     * 重置 writer
+     */
     reset() {
         this.pointer = 0;
         this.pos = BigInt(0);
         this.error = 0;
     }
+    /**
+     * 获取缓冲区长度
+     *
+     * @returns
+     */
     getBufferSize() {
         return this.size;
     }
@@ -31303,6 +32642,9 @@ class IOWriterSync {
 /* harmony import */ var _helper_CommandQueue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../helper/CommandQueue */ "./src/common/helper/CommandQueue.ts");
 
 
+/**
+ * 安全的文件 IO 操作
+ */
 class SafeFileIO extends _FileIO__WEBPACK_IMPORTED_MODULE_0__["default"] {
     commandQueue;
     constructor(handler, append = false) {
@@ -31352,6 +32694,23 @@ class SafeFileIO extends _FileIO__WEBPACK_IMPORTED_MODULE_0__["default"] {
     get writeQueueSize() {
         return this.commandQueue?.length ?? 0;
     }
+}
+
+
+/***/ }),
+
+/***/ "./src/common/math/align.ts":
+/*!**********************************!*\
+  !*** ./src/common/math/align.ts ***!
+  \**********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ align)
+/* harmony export */ });
+function align(value, alignment) {
+    return (value + (alignment - 1)) & ~(alignment - 1);
 }
 
 
@@ -33686,6 +35045,90 @@ function reverse(obj) {
 
 /***/ }),
 
+/***/ "./src/common/util/os.ts":
+/*!*******************************!*\
+  !*** ./src/common/util/os.ts ***!
+  \*******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _util_array__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../util/array */ "./src/common/util/array.ts");
+/**
+ * UA 检测操作系统
+ *
+ * 返回结果如下：
+ *
+ * {
+ *    name: 'mac',     // 判断多个浏览器时，便于用 name 去 switch
+ *    mac: true,       // 判断某一个浏览器时，便于 if (mac) { ... }
+ *    version: '8.0'   // 版本号，string 类型
+ * }
+ *
+ */
+
+/**
+ * linux 发行版太多了，很多是没有版本信息的，只匹配 Linux 标识
+ */
+// 优先判断移动版，因为移动版通常会带着 PC 的标识，反过来则不会
+const list = [
+    ['harmony', /harmonyos ([\d_.]+)/],
+    ['harmony', /openharmony ([\d_.]+)/],
+    ['iphone', /iphone os ([\d_.]+)/],
+    ['ipad', /ipad; cpu os ([\d_.]+)/],
+    ['itouch', /itouch; cpu os ([\d_.]+)/],
+    ['android', /android ([\d_.]+)/],
+    ['wp', /windows phone ([\d_.]+)/],
+    ['windows', /windows nt ([\d_.]+)/],
+    ['linux', /linux/],
+    ['mac', /mac os x ([\d_.]+)/]
+];
+const iosMap = {
+    iphone: 1,
+    ipad: 1,
+    itouch: 1
+};
+/**
+ * 获取 UA 的结构化信息
+ *
+ * @inner
+ * @param {string} ua
+ * @return {Object}
+ */
+function parseUA(ua) {
+    let name;
+    let version;
+    (0,_util_array__WEBPACK_IMPORTED_MODULE_0__.each)(list, (item) => {
+        let match = item[1].exec(ua);
+        if (match) {
+            name = item[0];
+            version = match[1];
+            if (version) {
+                version = version.replace(/_/g, '.');
+            }
+            return false;
+        }
+    });
+    return {
+        name: name || '',
+        version: version || '',
+        mobile: ua.indexOf('mobile') > -1
+    };
+}
+const os = parseUA((typeof navigator === 'object' && navigator.userAgent || '').toLowerCase());
+if (os.name) {
+    os[os.name] = true;
+    if (iosMap[os.name]) {
+        os.ios = true;
+    }
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (os);
+
+
+/***/ }),
+
 /***/ "./src/common/util/string.ts":
 /*!***********************************!*\
   !*** ./src/common/util/string.ts ***!
@@ -33888,7 +35331,9 @@ function format(string, ...args) {
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _browser__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./browser */ "./src/common/util/browser.ts");
+/* harmony import */ var _function_isWorker__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../function/isWorker */ "./src/common/function/isWorker.ts");
+/* harmony import */ var _browser__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./browser */ "./src/common/util/browser.ts");
+
 
 function supportedFeatures() {
     let blob = typeof Blob === 'function';
@@ -33900,7 +35345,7 @@ function supportedFeatures() {
     let offscreenCanvas = typeof OffscreenCanvas === 'function';
     let worker = typeof Worker === 'function';
     let arrayBuffer = typeof ArrayBuffer === 'function';
-    let atomics = typeof Atomics === 'object';
+    let atomics = typeof Atomics === 'object' && Atomics[Symbol.toStringTag] === 'Atomics';
     let audioContext = typeof AudioContext === 'function' || typeof webkitAudioContext === 'function';
     let audioWorklet = typeof AudioWorklet === 'function';
     let videoDecoder = typeof VideoDecoder === 'function';
@@ -33910,26 +35355,26 @@ function supportedFeatures() {
     let shareArrayBuffer = typeof SharedArrayBuffer === 'function';
     let mse = typeof MediaSource == 'function' || typeof ManagedMediaSource === 'function';
     let proxy = typeof Proxy === 'function';
-    let thread = worker && shareArrayBuffer && atomics && proxy;
+    let thread = (worker || (0,_function_isWorker__WEBPACK_IMPORTED_MODULE_0__["default"])()) && shareArrayBuffer && atomics && proxy;
     let jspi = typeof WebAssembly.Suspending === 'function' && typeof WebAssembly.promising === 'function';
     // safari 低于 11 不支持
-    if (_browser__WEBPACK_IMPORTED_MODULE_0__["default"].safari && !_browser__WEBPACK_IMPORTED_MODULE_0__["default"].checkVersion(_browser__WEBPACK_IMPORTED_MODULE_0__["default"].majorVersion, '11', true)) {
+    if (_browser__WEBPACK_IMPORTED_MODULE_1__["default"].safari && !_browser__WEBPACK_IMPORTED_MODULE_1__["default"].checkVersion(_browser__WEBPACK_IMPORTED_MODULE_1__["default"].majorVersion, '11', true)) {
         wasm = false;
     }
     // chrome 94 以上才支持 webcodec
-    if (_browser__WEBPACK_IMPORTED_MODULE_0__["default"].chrome && !_browser__WEBPACK_IMPORTED_MODULE_0__["default"].checkVersion(_browser__WEBPACK_IMPORTED_MODULE_0__["default"].majorVersion, '94', true)) {
+    if (_browser__WEBPACK_IMPORTED_MODULE_1__["default"].chrome && !_browser__WEBPACK_IMPORTED_MODULE_1__["default"].checkVersion(_browser__WEBPACK_IMPORTED_MODULE_1__["default"].majorVersion, '94', true)) {
         videoDecoder = false;
         audioDecoder = false;
     }
     // safari 17 之前渲染 VideoFrame 有问题
-    if (_browser__WEBPACK_IMPORTED_MODULE_0__["default"].safari && !_browser__WEBPACK_IMPORTED_MODULE_0__["default"].checkVersion(_browser__WEBPACK_IMPORTED_MODULE_0__["default"].majorVersion, '17', true)) {
+    if (_browser__WEBPACK_IMPORTED_MODULE_1__["default"].safari && !_browser__WEBPACK_IMPORTED_MODULE_1__["default"].checkVersion(_browser__WEBPACK_IMPORTED_MODULE_1__["default"].majorVersion, '17', true)) {
         videoDecoder = false;
     }
     let webgpu = typeof navigator === 'object' && typeof navigator.gpu === 'object';
     let workerMSE = typeof MediaSourceHandle === 'function';
     let webAssemblyGlobal = wasm && typeof WebAssembly.Global === 'function';
     return {
-        browser: _browser__WEBPACK_IMPORTED_MODULE_0__["default"],
+        browser: _browser__WEBPACK_IMPORTED_MODULE_1__["default"],
         blob,
         wasm,
         fetch: fetchSupported,
@@ -33952,9 +35397,9 @@ function supportedFeatures() {
         webAssemblyGlobal,
         jspi,
         proxy,
-        simd: (_browser__WEBPACK_IMPORTED_MODULE_0__["default"].chrome || _browser__WEBPACK_IMPORTED_MODULE_0__["default"].newEdge) && _browser__WEBPACK_IMPORTED_MODULE_0__["default"].checkVersion(_browser__WEBPACK_IMPORTED_MODULE_0__["default"].majorVersion, '91', true)
-            || _browser__WEBPACK_IMPORTED_MODULE_0__["default"].firefox && _browser__WEBPACK_IMPORTED_MODULE_0__["default"].checkVersion(_browser__WEBPACK_IMPORTED_MODULE_0__["default"].majorVersion, '89', true)
-            || _browser__WEBPACK_IMPORTED_MODULE_0__["default"].safari && _browser__WEBPACK_IMPORTED_MODULE_0__["default"].checkVersion(_browser__WEBPACK_IMPORTED_MODULE_0__["default"].version, '16.4', true),
+        simd: (_browser__WEBPACK_IMPORTED_MODULE_1__["default"].chrome || _browser__WEBPACK_IMPORTED_MODULE_1__["default"].newEdge) && _browser__WEBPACK_IMPORTED_MODULE_1__["default"].checkVersion(_browser__WEBPACK_IMPORTED_MODULE_1__["default"].majorVersion, '91', true)
+            || _browser__WEBPACK_IMPORTED_MODULE_1__["default"].firefox && _browser__WEBPACK_IMPORTED_MODULE_1__["default"].checkVersion(_browser__WEBPACK_IMPORTED_MODULE_1__["default"].majorVersion, '89', true)
+            || _browser__WEBPACK_IMPORTED_MODULE_1__["default"].safari && _browser__WEBPACK_IMPORTED_MODULE_1__["default"].checkVersion(_browser__WEBPACK_IMPORTED_MODULE_1__["default"].version, '16.4', true),
         wasmBaseSupported: fetchSupported && wasm && webgl && audioContext && arrayBuffer && webAssemblyGlobal
     };
 }
@@ -34010,10 +35455,7 @@ function encode(data) {
     }
     return new Uint8Array(array);
 }
-function decode(data) {
-    if (data instanceof Uint8Array && decoder && !(typeof SharedArrayBuffer === 'function' && data.buffer instanceof SharedArrayBuffer)) {
-        return decoder.decode(data);
-    }
+function decodeJS(data) {
     let result = '';
     for (let i = 0; i < data.length;) {
         let u0 = data[i++ >>> 0];
@@ -34042,6 +35484,18 @@ function decode(data) {
         }
     }
     return result;
+}
+function decode(data) {
+    if (data instanceof Uint8Array && decoder && !(typeof SharedArrayBuffer === 'function' && data.buffer instanceof SharedArrayBuffer)) {
+        try {
+            // chrome 偶现 data.buffer instanceof SharedArrayBuffer 返回 false 但其实是 SharedArrayBuffer 的情况
+            return decoder.decode(data);
+        }
+        catch (error) {
+            return decodeJS(data);
+        }
+    }
+    return decodeJS(data);
 }
 
 

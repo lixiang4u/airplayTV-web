@@ -3,7 +3,7 @@ import AVFrame from 'avutil/struct/avframe';
 import { WebAssemblyResource } from 'cheap/webassembly/compiler';
 import { ScaleParameters } from 'videoscale/VideoScaler';
 export interface ScaleFilterNodeOptions extends AVFilterNodeOptions {
-    resource: WebAssemblyResource;
+    resource: WebAssemblyResource | ArrayBuffer;
     output: ScaleParameters;
 }
 export default class ScaleFilterNode extends AVFilterNode {

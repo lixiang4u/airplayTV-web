@@ -135,6 +135,9 @@ class Annexb2AvccFilter extends _AVBSFilter__WEBPACK_IMPORTED_MODULE_2__["defaul
             return avutil_error__WEBPACK_IMPORTED_MODULE_8__.DATA_INVALID;
         }
     }
+    reset() {
+        return 0;
+    }
 }
 
 
@@ -150,8 +153,7 @@ class Annexb2AvccFilter extends _AVBSFilter__WEBPACK_IMPORTED_MODULE_2__["defaul
 /* harmony export */   AC3ChannelLayout: () => (/* binding */ AC3ChannelLayout),
 /* harmony export */   parseHeader: () => (/* binding */ parseHeader)
 /* harmony export */ });
-/* harmony import */ var cheap_std_memory__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! cheap/std/memory */ "./src/cheap/std/memory.ts");
-/* harmony import */ var common_io_BitReader__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! common/io/BitReader */ "./src/common/io/BitReader.ts");
+/* harmony import */ var common_io_BitReader__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! common/io/BitReader */ "./src/common/io/BitReader.ts");
 /*
  * libmedia ac3 util
  *
@@ -176,7 +178,6 @@ class Annexb2AvccFilter extends _AVBSFilter__WEBPACK_IMPORTED_MODULE_2__["defaul
  * Lesser General Public License for more details.
  *
  */
-
 
 const AC3ChannelLayout = [
     3 /* AV_CH_LAYOUT.AV_CH_LAYOUT_STEREO */,
@@ -242,9 +243,9 @@ const EAC3Blocks = [
     1, 2, 3, 6
 ];
 const AC3_HEADER_SIZE = 7;
-function parseHeader(buf, size) {
-    const bitReader = new common_io_BitReader__WEBPACK_IMPORTED_MODULE_1__["default"](size);
-    bitReader.appendBuffer((0,cheap_std_memory__WEBPACK_IMPORTED_MODULE_0__.mapUint8Array)(buf, size));
+function parseHeader(buf) {
+    const bitReader = new common_io_BitReader__WEBPACK_IMPORTED_MODULE_0__["default"](buf.length);
+    bitReader.appendBuffer(buf);
     const info = {
         syncWord: 0,
         crc1: 0,
@@ -262,7 +263,7 @@ function parseHeader(buf, size) {
         dolbySurroundMode: 0,
         srShift: 0,
         sampleRate: 0,
-        bitRate: 0,
+        bitrate: 0,
         channels: 0,
         frameSize: 0,
         channelLayout: BigInt(0),
@@ -272,7 +273,7 @@ function parseHeader(buf, size) {
     if (info.syncWord !== 0x0B77) {
         return -1;
     }
-    info.bitstreamId = bitReader.readU(29) & 0x1f;
+    info.bitstreamId = bitReader.peekU(29) & 0x1f;
     if (info.bitstreamId > 16) {
         return -2;
     }
@@ -309,7 +310,7 @@ function parseHeader(buf, size) {
         info.lfeOn = bitReader.readU(1);
         info.srShift = Math.max(info.bitstreamId, 8) - 8;
         info.sampleRate = AC3SampleRateTab[info.srCode] >> info.srShift;
-        info.bitRate = (AC3BitrateTab[info.ac3BitrateCode] * 1000) >> info.srShift;
+        info.bitrate = (AC3BitrateTab[info.ac3BitrateCode] * 1000) >> info.srShift;
         info.channels = AC3ChannelsTab[info.channelMode] + info.lfeOn;
         info.frameSize = AC3FrameSizeTab[frameSizeCode][info.srCode] * 2;
         info.frameType = 2 /* EAC3FrameType.EAC3_FRAME_TYPE_AC3_CONVERT */;
@@ -343,10 +344,10 @@ function parseHeader(buf, size) {
         }
         info.channelMode = bitReader.readU(3);
         info.lfeOn = bitReader.readU(1);
-        info.bitRate = 8 * info.frameSize * info.sampleRate / (info.numBlocks * 256);
+        info.bitrate = 8 * info.frameSize * info.sampleRate / (info.numBlocks * 256);
         info.channels = AC3ChannelsTab[info.channelMode] + info.lfeOn;
     }
-    info.channelLayout = BigInt.asUintN(64, AC3ChannelLayout[info.channelMode]);
+    info.channelLayout = BigInt(AC3ChannelLayout[info.channelMode]);
     if (info.lfeOn) {
         info.channelLayout |= BigInt(8 /* AV_CH_LAYOUT.AV_CH_LOW_FREQUENCY */);
     }
@@ -364,7 +365,9 @@ function parseHeader(buf, size) {
 
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   annexb2Avcc: () => (/* binding */ annexb2Avcc),
+/* harmony export */   annexbExtradata2AvccExtradata: () => (/* binding */ annexbExtradata2AvccExtradata),
 /* harmony export */   avcc2Annexb: () => (/* binding */ avcc2Annexb),
+/* harmony export */   isIDR: () => (/* binding */ isIDR),
 /* harmony export */   parseAVCodecParameters: () => (/* binding */ parseAVCodecParameters),
 /* harmony export */   parseAVCodecParametersBySps: () => (/* binding */ parseAVCodecParametersBySps),
 /* harmony export */   parseAnnexbExtraData: () => (/* binding */ parseAnnexbExtraData),
@@ -372,7 +375,7 @@ function parseHeader(buf, size) {
 /* harmony export */   parseExtraData: () => (/* binding */ parseExtraData),
 /* harmony export */   parseSPS: () => (/* binding */ parseSPS)
 /* harmony export */ });
-/* unused harmony exports extradata2VpsSpsPps, vpsSpsPps2Extradata, annexbExtradata2AvccExtradata, isIDR */
+/* unused harmony exports extradata2VpsSpsPps, vpsSpsPps2Extradata */
 /* harmony import */ var cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! cheap/ctypeEnumRead */ "./src/cheap/ctypeEnumRead.ts");
 /* harmony import */ var cheap_ctypeEnumWrite__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! cheap/ctypeEnumWrite */ "./src/cheap/ctypeEnumWrite.ts");
 /* harmony import */ var common_util_array__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! common/util/array */ "./src/common/util/array.ts");
@@ -424,6 +427,7 @@ function parseHeader(buf, size) {
 
 
 const NALULengthSizeMinusOne = 3;
+/* eslint-disable camelcase */
 function parsePTL(bitReader) {
     const olsIdx = bitReader.readU(9);
     const numSublayers = bitReader.readU(3);
@@ -494,6 +498,7 @@ function parsePTL(bitReader) {
         avgFramerate
     };
 }
+/* eslint-enable camelcase */
 /**
  *
  * vvcc 格式的 extradata 转 annexb vps sps pps
@@ -557,7 +562,7 @@ function extradata2VpsSpsPps(extradata) {
         const bitReader = new common_io_BitReader__WEBPACK_IMPORTED_MODULE_5__["default"]();
         bitReader.appendBuffer(extradata.subarray(1));
         parsePTL(bitReader);
-        bufferReader.skip(bitReader.getPos());
+        bufferReader.skip(bitReader.getPointer());
     }
     let vpss = [];
     let spss = [];
@@ -623,11 +628,11 @@ function vpsSpsPps2Extradata(vpss, spss, ppss) {
             biWriter.writeU(6, 0b111111);
         }
         if (spsParams.spsMaxSublayersMinus1 + 1 > 1) {
-            let ptl_sublayer_level_present_flags = 0;
+            let ptlSubLayerLevelPresentFlags = 0;
             for (let i = spsParams.spsMaxSublayersMinus1 - 1; i >= 0; i--) {
-                ptl_sublayer_level_present_flags = (ptl_sublayer_level_present_flags << 1 | spsParams.ptlSublayerLevelPresentFlag[i]);
+                ptlSubLayerLevelPresentFlags = (ptlSubLayerLevelPresentFlags << 1 | spsParams.ptlSublayerLevelPresentFlag[i]);
             }
-            biWriter.writeU(spsParams.spsMaxSublayersMinus1, ptl_sublayer_level_present_flags);
+            biWriter.writeU(spsParams.spsMaxSublayersMinus1, ptlSubLayerLevelPresentFlags);
             for (let j = spsParams.spsMaxSublayersMinus1 + 1; j <= 8 && spsParams.spsMaxSublayersMinus1 > 0; ++j) {
                 biWriter.writeU1(0);
             }
@@ -941,7 +946,7 @@ function parseAvccExtraData(avpacket, stream) {
         else {
             length = bufferReader.readUint8();
         }
-        const nalu = data.subarray((Number(bufferReader.getPos() & 0xffffffffn) >> 0), (Number(bufferReader.getPos() & 0xffffffffn) >> 0) + length);
+        const nalu = data.subarray(Number(BigInt.asIntN(32, bufferReader.getPos())), Number(BigInt.asIntN(32, bufferReader.getPos())) + length);
         bufferReader.skip(length);
         const naluType = (nalu[1] >>> 3) & 0x1f;
         if (naluType === 15 /* VVCNaluType.kSPS_NUT */) {
@@ -1015,9 +1020,6 @@ function parseAVCodecParameters(stream, extradata) {
     }
 }
 function isIDR(avpacket, naluLengthSize = 4) {
-    if (!(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](avpacket + 36) & 1 /* AVPacketFlags.AV_PKT_FLAG_KEY */)) {
-        return false;
-    }
     if (cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](avpacket + 80) === 2 /* BitFormat.ANNEXB */) {
         let nalus = (0,avutil_util_nalu__WEBPACK_IMPORTED_MODULE_7__.splitNaluByStartCode)((0,cheap_std_memory__WEBPACK_IMPORTED_MODULE_6__.mapUint8Array)(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[20](avpacket + 24), cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_0__.CTypeEnumRead[15](avpacket + 28)));
         return nalus.some((nalu) => {
@@ -1282,6 +1284,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _bsf_h2645_Annexb2AvccFilter__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ../bsf/h2645/Annexb2AvccFilter */ "./src/avformat/bsf/h2645/Annexb2AvccFilter.ts");
 /* harmony import */ var common_util_is__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! common/util/is */ "./src/common/util/is.ts");
 /* harmony import */ var _codecs_ac3__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ../codecs/ac3 */ "./src/avformat/codecs/ac3.ts");
+/* harmony import */ var cheap_std_memory__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! cheap/std/memory */ "./src/cheap/std/memory.ts");
 var cheap__fileName__2 = "src\\avformat\\formats\\OMovFormat.ts";
 
 
@@ -1311,6 +1314,7 @@ var cheap__fileName__2 = "src\\avformat\\formats\\OMovFormat.ts";
  * Lesser General Public License for more details.
  *
  */
+
 
 
 
@@ -1531,7 +1535,7 @@ class OMovFormat extends _OFormat__WEBPACK_IMPORTED_MODULE_4__["default"] {
     checkMdat(formatContext, len) {
         const mdat = this.context.boxsPositionInfo[this.context.boxsPositionInfo.length - 1];
         if (mdat.type !== "mdat" /* BoxType.MDAT */) {
-            common_util_logger__WEBPACK_IMPORTED_MODULE_12__.error('last box is not mdat', cheap__fileName__2, 301);
+            common_util_logger__WEBPACK_IMPORTED_MODULE_12__.error('last box is not mdat', cheap__fileName__2, 302);
             return;
         }
         const pos = formatContext.ioWriter.getPos();
@@ -1668,12 +1672,12 @@ class OMovFormat extends _OFormat__WEBPACK_IMPORTED_MODULE_4__["default"] {
             };
         }
         const ac3Info = this.context.ac3Info;
-        const info = _codecs_ac3__WEBPACK_IMPORTED_MODULE_23__.parseHeader(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumRead[20](avpacket + 24), cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumRead[15](avpacket + 28));
+        const info = _codecs_ac3__WEBPACK_IMPORTED_MODULE_23__.parseHeader((0,cheap_std_memory__WEBPACK_IMPORTED_MODULE_24__.mapUint8Array)(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumRead[20](avpacket + 24), cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumRead[15](avpacket + 28)));
         if (common_util_is__WEBPACK_IMPORTED_MODULE_22__.number(info)) {
             ac3Info.done = true;
             return;
         }
-        ac3Info.dataRate = Math.max(ac3Info.dataRate, info.bitRate / 1000);
+        ac3Info.dataRate = Math.max(ac3Info.dataRate, info.bitrate / 1000);
         ac3Info.ac3BitrateCode = Math.max(ac3Info.ac3BitrateCode, info.ac3BitrateCode);
         if (!ac3Info.done) {
             if (info.bitstreamId <= 10 && info.substreamId != 0) {
@@ -1723,12 +1727,12 @@ class OMovFormat extends _OFormat__WEBPACK_IMPORTED_MODULE_4__["default"] {
     }
     writeAVPacket(formatContext, avpacket) {
         if (!cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumRead[15](avpacket + 28)) {
-            common_util_logger__WEBPACK_IMPORTED_MODULE_12__.warn(`packet\'s size is 0: ${cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumRead[15](avpacket + 32)}, ignore it`, cheap__fileName__2, 542);
+            common_util_logger__WEBPACK_IMPORTED_MODULE_12__.warn(`packet\'s size is 0: ${cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumRead[15](avpacket + 32)}, ignore it`, cheap__fileName__2, 543);
             return 0;
         }
         const stream = formatContext.getStreamByIndex(cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumRead[15](avpacket + 32));
         if (!stream) {
-            common_util_logger__WEBPACK_IMPORTED_MODULE_12__.warn(`can not found the stream width the avpacket\'s streamIndex: ${cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumRead[15](avpacket + 32)}, ignore it`, cheap__fileName__2, 549);
+            common_util_logger__WEBPACK_IMPORTED_MODULE_12__.warn(`can not found the stream width the avpacket\'s streamIndex: ${cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumRead[15](avpacket + 32)}, ignore it`, cheap__fileName__2, 550);
             return;
         }
         const streamContext = stream.privData;
@@ -1792,7 +1796,7 @@ class OMovFormat extends _OFormat__WEBPACK_IMPORTED_MODULE_4__["default"] {
                 this.context.currentFragment.firstWrote = true;
             }
             else {
-                common_util_logger__WEBPACK_IMPORTED_MODULE_12__.warn(`can not found track width streamIndex ${cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumRead[15](avpacket + 32)}, ignore it`, cheap__fileName__2, 635);
+                common_util_logger__WEBPACK_IMPORTED_MODULE_12__.warn(`can not found track width streamIndex ${cheap_ctypeEnumRead__WEBPACK_IMPORTED_MODULE_1__.CTypeEnumRead[15](avpacket + 32)}, ignore it`, cheap__fileName__2, 636);
             }
         }
         else {
@@ -1890,7 +1894,7 @@ class OMovFormat extends _OFormat__WEBPACK_IMPORTED_MODULE_4__["default"] {
             }
             const mdat = this.context.boxsPositionInfo[this.context.boxsPositionInfo.length - 1];
             if (mdat.type !== "mdat" /* BoxType.MDAT */) {
-                common_util_logger__WEBPACK_IMPORTED_MODULE_12__.error('last box is not mdat', cheap__fileName__2, 751);
+                common_util_logger__WEBPACK_IMPORTED_MODULE_12__.error('last box is not mdat', cheap__fileName__2, 752);
             }
             mdat.size = Number(formatContext.ioWriter.getPos() - mdat.pos);
             (0,_mov_function_updatePositionSize__WEBPACK_IMPORTED_MODULE_14__["default"])(formatContext.ioWriter, this.context);

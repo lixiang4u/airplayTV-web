@@ -18,4 +18,5 @@ export default class Raw2LATMFilter extends AVBSFilter {
     private copyBytes;
     sendAVPacket(avpacket: pointer<AVPacket>): number;
     receiveAVPacket(avpacket: pointer<AVPacket>): number;
+    reset(): number;
 }

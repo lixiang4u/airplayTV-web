@@ -26,10 +26,10 @@ export default class HlsIOLoader extends IOLoader {
     private initLoaded;
     private fetchMasterPlayList;
     private fetchMediaPlayList;
-    open(info: FetchInfo, range: Range): Promise<void>;
+    open(info: FetchInfo, range: Range): Promise<number>;
     private checkNeedDecrypt;
     read(buffer: Uint8ArrayInterface): Promise<number>;
-    seek(timestamp: int64): Promise<void>;
+    seek(timestamp: int64): Promise<number>;
     size(): Promise<bigint>;
     abort(): Promise<void>;
     stop(): Promise<void>;

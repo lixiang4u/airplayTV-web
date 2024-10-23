@@ -21,5 +21,6 @@ export declare const HEAP_OFFSET = 1024;
 export declare const HEAP_INITIAL: any;
 /**
  * 堆最大大小
+ * ios safari 16 以下 对最大值有限制，太大分配不出来
  */
-export declare const HEAP_MAXIMUM = 65536;
+export declare const HEAP_MAXIMUM: any;

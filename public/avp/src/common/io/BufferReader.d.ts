@@ -57,6 +57,12 @@ export default class BufferReader implements BytesReaderSync {
      */
     readInt16(): number;
     /**
+     * 读取 24 位有符号整数
+     *
+     * @returns
+     */
+    readInt24(): number;
+    /**
      * 读取 32 位有符号整数
      *
      * @returns
@@ -141,5 +147,11 @@ export default class BufferReader implements BytesReaderSync {
      * @param buffer
      */
     appendBuffer(buffer: Uint8ArrayInterface): void;
+    /**
+     * 重新装载数据
+     *
+     * @param data
+     * @param bigEndian
+     */
     resetBuffer(data: Uint8ArrayInterface, bigEndian?: boolean): void;
 }

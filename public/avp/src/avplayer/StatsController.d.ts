@@ -1,4 +1,7 @@
 import Stats from 'avpipeline/struct/stats';
+export interface StatsControllerObserver {
+    onVideoStutter: () => void;
+}
 export default class StatsController {
     private stats;
     private timer;
@@ -9,7 +12,9 @@ export default class StatsController {
     private videoPacketBytes;
     private audioPacketBytes;
     private bufferReceiveBytes;
-    constructor(stats: pointer<Stats>);
+    private observer;
+    private isWorkerMain;
+    constructor(stats: pointer<Stats>, isWorkerMain: boolean, observer: StatsControllerObserver);
     private reset;
     start(): void;
     stop(): void;

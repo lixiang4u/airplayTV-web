@@ -9,4 +9,5 @@ export default class Annexb2AvccFilter extends AVBSFilter {
     destroy(): void;
     sendAVPacket(avpacket: pointer<AVPacket>): number;
     receiveAVPacket(avpacket: pointer<AVPacket>): number;
+    reset(): number;
 }

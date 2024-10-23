@@ -10,16 +10,13 @@ import Track from 'avrender/track/Track';
 import { AVPacketPool, AVPacketRef } from 'avutil/struct/avpacket';
 import List from 'cheap/std/collection/List';
 import { Mutex } from 'cheap/thread/mutex';
-import SeekableWriteBufferQueue from 'common/io/SeekableWriteBufferQueue';
-import { AVFormat } from 'avformat/avformat';
-import { JitterBuffer } from 'avpipeline/struct/jitter';
+import SeekableWriteBuffer from 'common/io/SeekableWriteBuffer';
+import { AVCodecParametersSerialize } from 'avutil/util/serialize';
 export interface MSETaskOptions extends TaskOptions {
-    format: AVFormat;
     isLive: boolean;
     avpacketList: pointer<List<pointer<AVPacketRef>>>;
     avpacketListMutex: pointer<Mutex>;
     enableJitterBuffer: boolean;
-    jitterBuffer: pointer<JitterBuffer>;
 }
 interface PullQueue {
     queue: pointer<AVPacketRef>[];
@@ -37,7 +34,7 @@ interface MSEResource {
     oformatContext: AVOFormatContext;
     oformat: OFormat;
     ioWriter: IOWriter;
-    bufferQueue: SeekableWriteBufferQueue;
+    bufferQueue: SeekableWriteBuffer;
     track: Track;
     streamIndex: int32;
     pullIPC: IPCPort;
@@ -77,14 +74,15 @@ export default class MSEPipeline extends Pipeline {
     private getMimeType;
     private createSourceBuffer;
     private mixExtradata;
+    private pullAVPacketInternal;
     private pullAVPacket;
     private writeAVPacket;
     private swap;
     private createLoop;
     private startMux;
     private resetResource;
-    addStream(taskId: string, streamIndex: int32, codecpar: pointer<AVCodecParameters>, timeBase: pointer<Rational>, startPTS: int64, pullIPCPort: MessagePort): Promise<void>;
-    reAddStream(taskId: string, streamIndex: int32, codecpar: pointer<AVCodecParameters>, timeBase: pointer<Rational>, startPTS: int64): Promise<void>;
+    addStream(taskId: string, streamIndex: int32, parameters: pointer<AVCodecParameters> | AVCodecParametersSerialize, timeBase: Rational, startPTS: int64, pullIPCPort: MessagePort): Promise<void>;
+    reAddStream(taskId: string, streamIndex: int32, parameters: pointer<AVCodecParameters> | AVCodecParametersSerialize, timeBase: Rational, startPTS: int64): Promise<void>;
     pause(taskId: string): Promise<void>;
     unpause(taskId: string): Promise<void>;
     beforeSeek(taskId: string): Promise<void>;

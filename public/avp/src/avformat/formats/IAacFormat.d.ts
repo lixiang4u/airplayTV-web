@@ -8,8 +8,10 @@ export default class IAacFormat extends IFormat {
     private frameType;
     private fileSize;
     private currentPts;
+    private latmFilter;
     constructor();
     init(formatContext: AVIFormatContext): void;
+    destroy(formatContext: AVIFormatContext): void;
     private estimateTotalBlock;
     readHeader(formatContext: AVIFormatContext): Promise<number>;
     readAVPacket(formatContext: AVIFormatContext, avpacket: pointer<AVPacket>): Promise<number>;

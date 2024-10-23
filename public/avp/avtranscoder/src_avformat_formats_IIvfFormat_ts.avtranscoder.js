@@ -106,7 +106,7 @@ class IVFHeader {
     }
 }
 class IIVFFormat extends _IFormat__WEBPACK_IMPORTED_MODULE_4__["default"] {
-    type = 4 /* AVFormat.IVF */;
+    type = 5 /* AVFormat.IVF */;
     header;
     constructor() {
         super();
@@ -178,7 +178,8 @@ class IIVFFormat extends _IFormat__WEBPACK_IMPORTED_MODULE_4__["default"] {
         }
         catch (error) {
             if (formatContext.ioReader.error !== -1048576 /* IOError.END */) {
-                common_util_logger__WEBPACK_IMPORTED_MODULE_2__.error(error.message, cheap__fileName__0, 173);
+                common_util_logger__WEBPACK_IMPORTED_MODULE_2__.error(`read packet error, ${error}`, cheap__fileName__0, 173);
+                return avutil_error__WEBPACK_IMPORTED_MODULE_3__.DATA_INVALID;
             }
             return formatContext.ioReader.error;
         }

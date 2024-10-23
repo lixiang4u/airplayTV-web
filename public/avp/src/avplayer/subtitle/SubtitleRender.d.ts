@@ -44,4 +44,5 @@ export default class SubtitleRender {
     setDemuxTask(taskId: string): void;
     destroy(): void;
     setDelay(d: int64): void;
+    getDelay(): int64;
 }
