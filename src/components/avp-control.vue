@@ -1,7 +1,7 @@
 <template>
   <div id="avplayer" ref="avplayer" class="avp-control" :style="{width:'1200px', height: '575px'}">
 
-    <div class="avp-control-wrap">
+    <div class="avp-control-wrap" @mouseover="setTimeoutControlDismiss">
 
       <!-- 播放器中间区域 -->
       <div class="avp-play-area" @click="onTogglePlay">
@@ -27,16 +27,16 @@
       <div class="avp-controller" v-show="control.show">
         <div class="avp-icons avp-icons-left">
           <div class="avp-icon avp-play-icon" v-if="control.playerStatus===AVPlayerStatus.PLAYED" @click="onTogglePlay">
-            <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 17 32">
+            <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 16 32">
               <path
-                  d="M14.080 4.8q2.88 0 2.88 2.048v18.24q0 2.112-2.88 2.112t-2.88-2.112v-18.24q0-2.048 2.88-2.048zM2.88 4.8q2.88 0 2.88 2.048v18.24q0 2.112-2.88 2.112t-2.88-2.112v-18.24q0-2.048 2.88-2.048z"></path>
+                  d="M15.552 15.168q0.448 0.32 0.448 0.832 0 0.448-0.448 0.768l-13.696 8.512q-0.768 0.512-1.312 0.192t-0.544-1.28v-16.448q0-0.96 0.544-1.28t1.312 0.192z"></path>
             </svg>
           </div>
 
           <div class="avp-icon avp-play-icon" v-else @click="onTogglePlay">
-            <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 16 32">
+            <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 17 32">
               <path
-                  d="M15.552 15.168q0.448 0.32 0.448 0.832 0 0.448-0.448 0.768l-13.696 8.512q-0.768 0.512-1.312 0.192t-0.544-1.28v-16.448q0-0.96 0.544-1.28t1.312 0.192z"></path>
+                  d="M14.080 4.8q2.88 0 2.88 2.048v18.24q0 2.112-2.88 2.112t-2.88-2.112v-18.24q0-2.048 2.88-2.048zM2.88 4.8q2.88 0 2.88 2.048v18.24q0 2.112-2.88 2.112t-2.88-2.112v-18.24q0-2.048 2.88-2.048z"></path>
             </svg>
           </div>
 
@@ -299,6 +299,10 @@ export default {
         }
       }, 1000)
 
+      setTimeout(() => {
+        this.control.show = false
+      }, 8000)
+
     },
     onTogglePlay() {
       console.log('[onTogglePlay]', this.avp)
@@ -494,6 +498,15 @@ export default {
         console.log('[未就绪]', status)
         return false
       }
+    },
+    setTimeoutControlDismiss() {
+      if (this.control.show) {
+        return
+      }
+      this.control.show = true
+      setTimeout(() => {
+        this.control.show = false
+      }, 8000)
     },
 
 
