@@ -196,6 +196,7 @@ export default {
         show: true,
         forwardLeftOffset: 0,
         forwardSeconds: 0,
+        fullScreen: false,
       },
 
     }
@@ -411,7 +412,7 @@ export default {
         })
       }
 
-      this.avp.setRenderMode(this.RenderMode.FILL)
+      this.avp.setRenderMode(this.RenderMode.FIT)
 
       this.addEventListener()
 
@@ -467,7 +468,13 @@ export default {
       return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`
     },
     onEnterFullScreen() {
-      this.avp.enterFullscreen()
+      if (!this.control.fullScreen) {
+        this.control.fullScreen = true
+        this.avp.enterFullscreen()
+      } else {
+        this.control.fullScreen = false
+        this.avp.exitFullscreen()
+      }
     },
     onSeeking(seconds) {
       console.log('[onSeeking]', seconds)
