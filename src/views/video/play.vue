@@ -13,7 +13,7 @@
       <div class="text-red-7 xxxx" @click="onSwitchPlayer()">
         <span style="background-color: bisque; padding: 5px 8px; border-radius: 4px; cursor: pointer;">
           调试-切换播放器，
-          <span v-if="libmediaPlayer">libmedia-avp</span>
+          <span v-if="libmediaPlayer">libmedia-avp【该播放器暂不支持mp4大文件代理/不持支m3u8代理/不支持m3u8文件为attachment】</span>
           <span v-else>dplayer</span>
         </span>
       </div>
